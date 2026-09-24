@@ -11,11 +11,15 @@ Promotion des photos de Karl Forterre publiées sur Pexels
 avant le 5 novembre 2026, quatre outils qui tournent ensuite seuls et gratuitement sur
 GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 
-1. Vitrine reliée à Pexels (`vitrine/`) : site statique sur GitHub Pages, reconstruit
-   chaque nuit à partir des collections Pexels, flux RSS, mesure d'audience GoatCounter.
-2. Fabrique d'épingles Pinterest (`pinterest/`) : visuels verticaux et fichier d'import.
-3. Atelier titres et mots-clés (`atelier/`) : photos déposées dans `atelier/a-traiter/`,
-   tableaux de titres et mots-clés rendus dans `atelier/resultats/`.
+1. Site de photographe (`vitrine/`) : site statique bilingue sur GitHub Pages, pensé
+   pour le référencement, avec une page par photo et des galeries par thème et par
+   lieu. `vitrine/build.py` (Python sans dépendance) lit `vitrine/photos.txt`, complète
+   le cache `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
+   `.github/workflows/site.yml` le relance chaque nuit. Mode d'emploi : `vitrine/README.md`.
+2. Pinterest (`pinterest/`) : épingles créées automatiquement par Pinterest à partir
+   des flux RSS du site, et fichiers d'import par tableur pour les photos existantes.
+3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
+   déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
    statistiques Pinterest, vues Pexels relevées à la main.
 
@@ -35,28 +39,48 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
   l'historique. En session : variable d'environnement `PEXELS_API_KEY` ; dans GitHub
   Actions : secret du dépôt `PEXELS_API_KEY`. Le dépôt est public : tout ce qui est
   poussé est visible de tous.
-- **API Pexels** : lire les photos par les points d'accès « My Collections »
-  (`GET https://api.pexels.com/v1/collections`) et « Collection media »
-  (`GET https://api.pexels.com/v1/collections/:id`), en n'affichant que les
-  collections publiques. Respecter les limites de débit, afficher « Photos provided
+- **API Pexels** : lire la fiche de chaque photo par le point d'accès « Photo »
+  (`GET https://api.pexels.com/v1/photos/:id`), à partir de la liste
+  `vitrine/photos.txt`. Respecter les limites de débit, afficher « Photos provided
   by Pexels » avec un lien, et vérifier la documentation officielle avant d'implémenter.
 - **Conditions Pexels** : chaque photo renvoie vers sa page Pexels, sans téléchargement
   direct ; ne pas reproduire les fonctions de base de Pexels ; aucune collecte
   automatique sur les pages de pexels.com. Les vues, que l'API ne fournit pas, sont
   notées à la main dans `releves/vues-pexels.csv`.
+- **Vues Pexels** : Pexels compte une vue quand la photo apparaît dans ses résultats
+  de recherche ou chez ses partenaires de l'API. Le site et Pinterest renvoient donc
+  chaque photo vers sa page Pexels. Aucun procédé artificiel : ni appels répétés à
+  l'API, ni ouverture automatique de pages.
 - **Filigranes** : aucune signature ni filigrane sur un fichier destiné à Pexels ; ils
   sont permis sur les visuels Pinterest.
 
 ## Repères techniques
 
-- Adresse par défaut du site : https://willwonderc.github.io/PexelsWillwonder/. Le site
-  vit dans un sous-chemin : liens relatifs ou chemin de base configurable (un domaine
-  personnalisé reste possible).
+- Adresse du site : https://photos.karlforterre.fr (enregistrement CNAME chez OVH vers
+  willwonderc.github.io, domaine personnalisé déclaré dans Settings → Pages). Le
+  réglage `adresse` de `vitrine/site.ini` fixe les liens ; zone DNS de karlforterre.fr
+  chez OVH, site principal hébergé par Adobe Portfolio.
 - Publication : GitHub Pages, source « GitHub Actions », depuis `main`.
 - Tâches planifiées : cron en UTC ; éviter la minute 0, souvent retardée. GitHub
   désactive les tâches planifiées d'un dépôt public après 60 jours sans activité ; les
   relevés hebdomadaires de `releves/` suffisent à l'éviter s'ils sont tenus.
-- Titres Pexels peu fiables : les photos récentes portent des titres automatiques
-  (trois premiers mots-clés par ordre alphabétique, par exemple « architecture
-  photography, asturias, bell tower » pour quatre photos différentes des Asturies).
-  Ne pas les reprendre tels quels comme titres ou textes alternatifs.
+- Identifiant de photographe Pexels : `28489473` (champ `photographer_id` de l'API).
+- Limites constatées de l'API : environ 200 appels par heure (erreur 429 au-delà) et
+  20 000 par mois. Garder les fiches des photos en cache et n'interroger que les
+  nouvelles.
+- Collections (constat du 24 septembre 2026) : les collections existantes sont des
+  planches d'inspiration faites de photos d'autres photographes, et l'API n'y a
+  renvoyé aucune photo du propriétaire. Le site s'appuie donc sur la liste des photos,
+  pas sur les collections.
+- Titres et mots-clés : Pexels ne permet guère de les modifier après publication.
+  L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
+- Photos sans titre : leur adresse Pexels ne contient que le numéro
+  (`https://www.pexels.com/photo/<numéro>/`) et leur texte alternatif vaut « Free
+  stock photo of » suivi des trois premiers mots-clés par ordre alphabétique. Ne pas
+  le reprendre tel quel. Les photos titrées ont, elles, un texte alternatif soigné.
+  Inventaire des 919 photos : `atelier/inventaire.csv` ; titres rédigés :
+  `atelier/resultats/`.
+- Envoi de photos par SwissTransfer : la page du lien contient un JSON
+  (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
+  `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
+  adresse de téléchargement valable une heure.

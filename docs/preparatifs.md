@@ -5,22 +5,22 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 ## Pexels
 
-- [ ] Créer les collections **publiques** par thème : Asturies, jardins des châteaux de
-      la Loire, ciel et astrophotographie, fonds abstraits, noir et blanc, mariage.
-- [ ] Demander une clé API sur https://www.pexels.com/api/ (délivrée immédiatement à
+- Les collections par thème ne sont plus nécessaires : le site compose lui-même ses
+  galeries (voir [plan.md](plan.md)).
+- [x] Demander une clé API sur https://www.pexels.com/api/ (délivrée immédiatement à
       tout titulaire d'un compte).
 
 ## GitHub (dépôt Willwonderc/PexelsWillwonder)
 
 - [x] Créer le dépôt et sa branche principale `main`.
-- [ ] Passer le dépôt en **public**, condition de l'hébergement gratuit du site :
-      Settings → General → Danger Zone → Change repository visibility.
-      Il est encore privé.
-- [ ] Ranger la clé dans les secrets du dépôt : Settings → Secrets and variables →
+- [x] Passer le dépôt en **public**, condition de l'hébergement gratuit du site.
+- [x] Ranger la clé dans les secrets du dépôt : Settings → Secrets and variables →
       Actions → New repository secret, nom `PEXELS_API_KEY`. Jamais dans le code.
-- [ ] Une fois le dépôt public, choisir la publication par GitHub Actions :
+- [x] Une fois le dépôt public, choisir la publication par GitHub Actions :
       Settings → Pages → Build and deployment → Source : « GitHub Actions ».
 - [ ] Facultatif : corriger la description du dépôt, qui indique « Promotion de Pixels ».
+- [x] Adresse du site : photos.karlforterre.fr (CNAME chez OVH). Reste à la déclarer
+      dans Settings → Pages → Custom domain, puis à cocher Enforce HTTPS.
 
 ## claude.ai/code (environnement cloud)
 
@@ -46,4 +46,4 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 ## Après la session 1
 
-- [ ] Faire pointer le lien du profil Pexels vers la vitrine.
+- [ ] Faire pointer le lien du profil Pexels vers le site.

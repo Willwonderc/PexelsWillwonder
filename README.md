@@ -12,16 +12,16 @@ Plan détaillé : [docs/plan.md](docs/plan.md).
 
 |   | Chantier | Dossier | Lancement | État |
 |---|----------|---------|-----------|------|
-| 1 | Vitrine photo reliée à Pexels | [vitrine/](vitrine/) | dès les préparatifs faits | [consigne prête](consignes/session-1-vitrine.md) |
-| 2 | Fabrique d'épingles Pinterest | [pinterest/](pinterest/) | une fois le site en ligne | consigne à rédiger |
-| 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | consigne à rédiger |
+| 1 | Site de photographe, pensé pour le référencement | [vitrine/](vitrine/) | construit le 24 septembre | [mode d'emploi](vitrine/README.md) |
+| 2 | Pinterest automatique | [pinterest/](pinterest/) | une fois le site en ligne | consigne à rédiger |
+| 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | [premier lot rédigé](atelier/resultats/ppex-photos-sans-titre.csv) |
 | 4 | Tableau de bord de campagne | [releves/](releves/) | fin octobre | relevés ouverts |
 
 ## Par où commencer
 
 1. Faire les [préparatifs](docs/preparatifs.md), environ une heure.
-2. Sur claude.ai/code, ouvrir une session sur ce dépôt, dans l'environnement qui
-   contient la clé Pexels, et coller la [consigne de la session 1](consignes/session-1-vitrine.md).
+2. Fusionner la pull request qui contient le site : il est publié quelques minutes
+   plus tard. Mode d'emploi : [vitrine/README.md](vitrine/README.md).
 3. Noter chaque semaine le total de vues Pexels dans
    [releves/vues-pexels.csv](releves/vues-pexels.csv).
 
@@ -36,7 +36,7 @@ cliquer sur « Merge pull request » : le travail rejoint `main`, la branche pub
     CLAUDE.md     contexte et règles lus automatiquement par chaque session Claude
     docs/         plan du projet et liste des préparatifs
     consignes/    consignes de lancement des sessions, prêtes à coller
-    vitrine/      site vitrine (chantier 1) et page du tableau de bord (chantier 4)
+    vitrine/      site de photographe (chantier 1) et page du tableau de bord (chantier 4)
     pinterest/    visuels verticaux et fichiers d'import (chantier 2)
     atelier/      photos à décrire et tableaux de titres (chantier 3)
     releves/      relevés hebdomadaires des vues Pexels (chantier 4)

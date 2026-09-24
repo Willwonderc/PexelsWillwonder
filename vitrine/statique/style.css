@@ -1,0 +1,228 @@
+/* Site de Karl Forterre — feuille de style unique. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("archivo.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+:root {
+  --fond: #ffffff;
+  --encre: #121212;
+  --doux: #6b6b70;
+  --trait: #e6e6e6;
+  --bouton: #121212;
+  --bouton-texte: #ffffff;
+  --marge: clamp(16px, 3.2vw, 44px);
+  --rangee: 270px;
+  --espace: 6px;
+  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #101010;
+    --encre: #efefef;
+    --doux: #9c9ca3;
+    --trait: #2a2a2a;
+    --bouton: #efefef;
+    --bouton-texte: #101010;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+a:focus-visible, .bouton:focus-visible {
+  outline: 2px solid var(--encre);
+  outline-offset: 3px;
+}
+
+.evitement {
+  position: absolute;
+  left: -9999px;
+}
+.evitement:focus { left: var(--marge); top: 8px; background: var(--fond); padding: 6px 10px; z-index: 5; }
+
+/* En-tête */
+
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px var(--marge);
+}
+
+.marque {
+  font-size: 15px;
+  font-weight: 650;
+  font-stretch: 125%;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.menu { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; font-size: 14px; }
+.menu a { text-decoration: none; color: var(--doux); }
+.menu a:hover { color: var(--encre); }
+.menu .suivre {
+  color: var(--encre);
+  border: 1px solid var(--encre);
+  border-radius: 999px;
+  padding: 5px 13px;
+}
+.menu .suivre:hover { background: var(--encre); color: var(--fond); }
+
+main { padding: 0 var(--marge) 56px; max-width: 1560px; margin: 0 auto; }
+
+/* Titres et textes */
+
+.ouverture { padding-block: clamp(24px, 6vw, 72px) clamp(20px, 3vw, 36px); max-width: 60rem; }
+
+h1 {
+  margin: 0;
+  font-size: clamp(28px, 4.2vw, 52px);
+  line-height: 1.08;
+  font-weight: 560;
+  font-stretch: 108%;
+  letter-spacing: -.012em;
+  text-wrap: balance;
+}
+
+.accroche { margin: 14px 0 0; font-size: clamp(16px, 1.6vw, 19px); color: var(--doux); max-width: 44rem; }
+.nombre { white-space: nowrap; }
+.nombre::before { content: "· "; }
+
+.surtitre {
+  margin: 0 0 16px;
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: 125%;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--doux);
+}
+.surtitre a { color: inherit; }
+
+.ouverture .surtitre { margin-bottom: 12px; }
+
+.bloc { margin-top: clamp(36px, 5vw, 64px); }
+
+.texte p { max-width: 38rem; font-size: 18px; }
+.liens { list-style: none; padding: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* Galeries : cartes */
+
+.galeries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 28px 20px;
+}
+
+.galerie { text-decoration: none; display: grid; gap: 4px; }
+.galerie-image { display: block; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 8px; }
+.galerie-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.galerie:hover .galerie-image img { transform: scale(1.03); }
+.galerie-titre { font-size: 17px; font-weight: 600; font-stretch: 104%; line-height: 1.25; }
+.galerie-nombre { font-size: 13px; color: var(--doux); }
+
+/* Grille de photos justifiée : chaque vignette garde ses proportions. */
+
+.grille { display: flex; flex-wrap: wrap; gap: var(--espace); }
+.grille::after { content: ""; flex-grow: 1e4; }
+.carreau {
+  flex: calc(var(--r) * 100) 1 calc(var(--r) * var(--rangee));
+  aspect-ratio: var(--r);
+  max-width: 100%;
+  overflow: hidden;
+}
+.carreau img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s ease; }
+.carreau:hover img { opacity: .88; }
+
+.flux-lien { margin-top: 28px; font-size: 14px; color: var(--doux); }
+
+/* Page d'une photo */
+
+.cliche { margin: 8px 0 0; display: flex; justify-content: center; }
+.cliche a { display: block; max-width: 100%; }
+.cliche img { width: auto; max-width: 100%; max-height: 84vh; }
+
+.legende { max-width: 46rem; margin: 28px auto 0; text-align: center; display: grid; gap: 14px; justify-items: center; }
+.legende h1 { font-size: clamp(24px, 3vw, 36px); }
+.legende p { margin: 0; }
+
+.bouton {
+  display: inline-block;
+  background: var(--bouton);
+  color: var(--bouton-texte);
+  text-decoration: none;
+  font-weight: 600;
+  font-stretch: 108%;
+  padding: 13px 24px;
+  border-radius: 999px;
+}
+.bouton:hover { opacity: .85; }
+
+.credit { font-size: 14px; color: var(--doux); }
+.numero { white-space: nowrap; }
+
+.mots { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.mots li { font-size: 13px; color: var(--doux); border: 1px solid var(--trait); border-radius: 999px; padding: 2px 10px; }
+
+.dans { font-size: 14px; color: var(--doux); }
+.dans a { color: var(--encre); }
+
+.suite {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--trait);
+  font-size: 14px;
+}
+.suite a { text-decoration: none; color: var(--doux); }
+.suite a:hover { color: var(--encre); }
+.suite a[rel="next"] { margin-left: auto; }
+
+/* Pied de page */
+
+.pied {
+  border-top: 1px solid var(--trait);
+  padding: 24px var(--marge) 40px;
+  font-size: 13px;
+  color: var(--doux);
+  display: grid;
+  gap: 4px;
+}
+.pied p { margin: 0; }
+
+@media (max-width: 640px) {
+  :root { --rangee: 110px; --espace: 4px; }
+  .entete { padding-block: 16px; }
+  .menu { gap: 6px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie-image img, .carreau img { transition: none; }
+}

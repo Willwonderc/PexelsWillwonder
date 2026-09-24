@@ -1,33 +1,53 @@
-# Session 1 — Vitrine photo reliée à Pexels
+# Session 1 — Site de photographe
 
-À lancer sur claude.ai/code, sur ce dépôt et dans l'environnement qui contient la clé
-`PEXELS_API_KEY`, dès que les [préparatifs](../docs/preparatifs.md) sont faits. Peut
-tourner en même temps que la session 3. Consigne à coller telle quelle :
+> Réalisée le 24 septembre 2026, dans la session de mise en place : le site est dans
+> `vitrine/`. Cette consigne reste comme référence.
+
+À lancer dans une nouvelle session sur claude.ai/code, sur ce dépôt et dans
+l'environnement qui contient la clé `PEXELS_API_KEY`. Le but est le référencement :
+chaque photo doit avoir sa propre page, bien décrite, qui mène vers Pexels pour le
+téléchargement. Consigne à coller telle quelle :
 
 ```text
-Crée un site vitrine statique pour mes photos Pexels
+Crée mon site de photographe, statique et bilingue (français et anglais),
+pensé pour le référencement de mes photos Pexels
 (profil : https://www.pexels.com/@karl-forterre-28489473).
 
-Source : mes collections Pexels, lues avec l'API Pexels (clé dans la
-variable d'environnement PEXELS_API_KEY, points d'accès « My Collections »
-et « Collection media »). Respecte les limites de l'API et affiche la
-mention « Photos provided by Pexels ».
+Source : la liste de mes photos dans atelier/inventaire.csv (numéros Pexels).
+Lis la fiche de chaque photo avec l'API Pexels, point d'accès « Photo »
+(clé dans la variable d'environnement PEXELS_API_KEY), et garde les fiches
+en cache dans le dépôt : l'API limite à environ 200 appels par heure, le
+premier remplissage prendra donc plusieurs heures. Titres et mots-clés :
+ceux de atelier/resultats/*.csv quand ils existent, sinon le titre et le
+texte alternatif de Pexels ; jamais les textes « Free stock photo of … ».
+Traduis titres et descriptions en français.
 
 Contenu :
-- une page d'accueil et une page par collection, textes en français et
-  en anglais, soignés pour le référencement (titres, descriptions,
-  textes alternatifs) ;
-- chaque photo renvoie vers sa page Pexels : aucun téléchargement
-  direct depuis le site ;
-- un flux RSS des dernières photos ajoutées ;
+- une page par photo : titre, description, mots-clés, lieu, texte
+  alternatif, et un bouton « Télécharger gratuitement sur Pexels » vers sa
+  page Pexels (aucun téléchargement direct depuis le site) ;
+- des galeries par thème et par lieu, composées d'après les titres et
+  mots-clés, dans un fichier facile à modifier ;
+- une page d'accueil avec une sélection, et une page « À propos » avec un
+  emplacement pour mon texte ;
+- référencement : title et description uniques par page, données
+  structurées schema.org ImageObject (auteur, licence Pexels, page
+  d'obtention de la licence), plan du site XML avec les images, balises
+  Open Graph, versions française et anglaise liées (hreflang) ;
+- un flux RSS par galerie, pour Pinterest ;
 - une mesure d'audience sans cookies (GoatCounter) qui compte les clics
-  vers Pexels, avec un emplacement pour mon identifiant.
+  vers Pexels, avec un emplacement pour mon identifiant ;
+- la mention « Photos provided by Pexels ».
 
-Automatisation : une GitHub Action reconstruit le site chaque nuit et le
-publie sur GitHub Pages. La clé API passe par les secrets du dépôt,
-jamais dans le code.
+Images : servies depuis Pexels (adresses fournies par l'API), dans des
+tailles adaptées à chaque écran.
 
-Style : sobre, grille régulière, rapide sur mobile.
-Termine par un fichier LISEZMOI expliquant simplement comment ajouter
-une photo et changer l'ordre des pages.
+Automatisation : une GitHub Action reconstruit le site chaque nuit, ne lit
+que les photos nouvelles, et le publie sur GitHub Pages. La clé passe par
+les secrets du dépôt, jamais dans le code. Prévois un domaine personnalisé,
+par exemple un sous-domaine de karlforterre.fr, à activer plus tard.
+
+Style : sobre, la photo d'abord, rapide sur mobile.
+Termine par un mode d'emploi simple (README.md) : ajouter une photo,
+modifier une galerie, changer l'ordre des pages.
 ```
