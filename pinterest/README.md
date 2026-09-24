@@ -18,7 +18,7 @@ les photos Pexels.
    Gestion du compte → Convertir en compte professionnel (gratuit).
 2. **Site en ligne** : fusionner la pull request du site, puis vérifier dans l'onglet
    Actions du dépôt que la tâche « Site » est verte.
-3. **Revendiquer le site** : Paramètres → Comptes revendiqués → Sites web →
+3. **Revendiquer le site** : Paramètres → Lien vers Pinterest → Sites web →
    Revendiquer → « Ajouter une balise HTML ». Recopier la valeur entre les guillemets
    de `content="…"`, la coller dans `vitrine/site.ini` après
    `pinterest_verification =`, puis enregistrer (Commit changes). Trois minutes plus
@@ -27,12 +27,12 @@ les photos Pexels.
    vérification.
 4. **Créer les tableaux** : un tableau par galerie, avec les noms de la liste
    ci-dessous.
-5. **Relier les flux** : Paramètres → Créer des épingles en masse → Publication
-   automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
+5. **Relier les flux** : Paramètres → Importer du contenu (anciennement « Créer des
+   épingles en masse ») → Publication automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
    Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour.
 6. **Importer le fonds** : une session prépare les fichiers d'import. Pour qu'ils
    correspondent exactement au modèle de Pinterest, télécharger l'exemple de fichier
-   proposé dans « Créer des épingles en masse » et le transmettre à la session. Les
+   proposé dans « Importer du contenu » et le transmettre à la session. Les
    importer ensuite au même endroit, un fichier à la fois.
 
 Les intitulés de Pinterest peuvent varier légèrement selon les versions.
