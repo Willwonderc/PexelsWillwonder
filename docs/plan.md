@@ -4,6 +4,18 @@ Plan de départ, septembre 2026. Les préparatifs sont détaillés dans
 [preparatifs.md](preparatifs.md) ; les consignes des sessions sont dans
 [consignes/](../consignes/).
 
+## Mise à jour du 24 septembre 2026
+
+- **Titres Pexels** : 155 des 206 photos les plus récentes ont été publiées sans titre,
+  et Pexels ne permet guère de modifier titres et mots-clés après publication.
+  L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
+- **Le site devient un site de photographe**, pensé pour le référencement : une page
+  par photo, bien décrite, avec un lien vers Pexels pour le téléchargement. Comme
+  l'API ne renvoie pas les photos du propriétaire depuis ses collections, le site
+  s'appuie sur la liste des 919 photos (`atelier/inventaire.csv`).
+- **Pinterest devient automatique** : Pinterest crée les épingles à partir des flux
+  RSS du site, et des fichiers d'import par tableur couvrent les photos existantes.
+
 ## État des lieux
 
 Le profil Pexels a déjà une vraie audience : 919 photos et environ 878 500 vues au

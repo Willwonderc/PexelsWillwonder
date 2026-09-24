@@ -5,8 +5,8 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 ## Pexels
 
-- [ ] Créer les collections **publiques** par thème : Asturies, jardins des châteaux de
-      la Loire, ciel et astrophotographie, fonds abstraits, noir et blanc, mariage.
+- Les collections par thème ne sont plus nécessaires : le site compose lui-même ses
+  galeries (voir [plan.md](plan.md)).
 - [x] Demander une clé API sur https://www.pexels.com/api/ (délivrée immédiatement à
       tout titulaire d'un compte).
 
@@ -19,6 +19,8 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 - [ ] Une fois le dépôt public, choisir la publication par GitHub Actions :
       Settings → Pages → Build and deployment → Source : « GitHub Actions ».
 - [ ] Facultatif : corriger la description du dépôt, qui indique « Promotion de Pixels ».
+- [ ] Conseillé pour le référencement : prévoir un sous-domaine, par exemple
+      photos.karlforterre.fr, pour le site. La session 1 indiquera le réglage DNS.
 
 ## claude.ai/code (environnement cloud)
 
@@ -44,4 +46,4 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 ## Après la session 1
 
-- [ ] Faire pointer le lien du profil Pexels vers la vitrine.
+- [ ] Faire pointer le lien du profil Pexels vers le site.

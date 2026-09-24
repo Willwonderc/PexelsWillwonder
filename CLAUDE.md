@@ -11,9 +11,12 @@ Promotion des photos de Karl Forterre publiées sur Pexels
 avant le 5 novembre 2026, quatre outils qui tournent ensuite seuls et gratuitement sur
 GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 
-1. Vitrine reliée à Pexels (`vitrine/`) : site statique sur GitHub Pages, reconstruit
-   chaque nuit à partir des collections Pexels, flux RSS, mesure d'audience GoatCounter.
-2. Fabrique d'épingles Pinterest (`pinterest/`) : visuels verticaux et fichier d'import.
+1. Site de photographe (`vitrine/`) : site statique sur GitHub Pages, pensé pour le
+   référencement, avec une page par photo et des galeries par thème et par lieu.
+   Reconstruit chaque nuit à partir de la liste des photos et de l'API Pexels ; flux
+   RSS par galerie, mesure d'audience GoatCounter.
+2. Pinterest (`pinterest/`) : épingles créées automatiquement par Pinterest à partir
+   des flux RSS du site, et fichiers d'import par tableur pour les photos existantes.
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
    déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
@@ -35,10 +38,9 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
   l'historique. En session : variable d'environnement `PEXELS_API_KEY` ; dans GitHub
   Actions : secret du dépôt `PEXELS_API_KEY`. Le dépôt est public : tout ce qui est
   poussé est visible de tous.
-- **API Pexels** : lire les photos par les points d'accès « My Collections »
-  (`GET https://api.pexels.com/v1/collections`) et « Collection media »
-  (`GET https://api.pexels.com/v1/collections/:id`), en n'affichant que les
-  collections publiques. Respecter les limites de débit, afficher « Photos provided
+- **API Pexels** : lire la fiche de chaque photo par le point d'accès « Photo »
+  (`GET https://api.pexels.com/v1/photos/:id`), à partir de la liste
+  `atelier/inventaire.csv`. Respecter les limites de débit, afficher « Photos provided
   by Pexels » avec un lien, et vérifier la documentation officielle avant d'implémenter.
 - **Conditions Pexels** : chaque photo renvoie vers sa page Pexels, sans téléchargement
   direct ; ne pas reproduire les fonctions de base de Pexels ; aucune collecte
@@ -62,9 +64,10 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
   nouvelles.
 - Collections (constat du 24 septembre 2026) : les collections existantes sont des
   planches d'inspiration faites de photos d'autres photographes, et l'API n'y a
-  renvoyé aucune photo du propriétaire. Ne garder que les photos de l'identifiant
-  ci-dessus, et vérifier qu'une collection de ses propres photos est bien lue avant
-  de bâtir la vitrine dessus.
+  renvoyé aucune photo du propriétaire. Le site s'appuie donc sur la liste des photos,
+  pas sur les collections.
+- Titres et mots-clés : Pexels ne permet guère de les modifier après publication.
+  L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
 - Photos sans titre : leur adresse Pexels ne contient que le numéro
   (`https://www.pexels.com/photo/<numéro>/`) et leur texte alternatif vaut « Free
   stock photo of » suivi des trois premiers mots-clés par ordre alphabétique. Ne pas

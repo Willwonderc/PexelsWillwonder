@@ -1,15 +1,22 @@
-# 2 — Fabrique d'épingles Pinterest
+# 2 — Pinterest
 
-À lancer une fois la vitrine en ligne. Pour chaque collection : des visuels verticaux
-avec un titre court et le lien vers la page Pexels de la photo, plus le fichier d'import
-par tableur de Pinterest (jusqu'à 200 épingles d'un coup, avec titre, description, lien,
-tableau de destination et date de publication différée).
+Objectif : que les épingles se créent sans intervention.
 
-## Points à retenir
+- **En continu** : le site publie un flux RSS par galerie. Un compte Pinterest
+  professionnel qui a revendiqué le site peut relier chaque flux à un tableau :
+  Pinterest crée alors une épingle pour chaque nouvelle photo, sans session ni crédit.
+- **Pour les photos déjà publiées** : une session prépare des fichiers d'import par
+  tableur, jusqu'à 200 épingles par fichier, avec titre, description, lien, tableau de
+  destination et dates de publication échelonnées. Il ne reste qu'à les importer.
+- **Visuels** : des visuels verticaux avec un titre court, générés et hébergés par le
+  site, car l'import va chercher chaque image à une adresse publique.
+- **Lien des épingles** : la page de la photo sur le site, qui mène à Pexels pour le
+  téléchargement (à confirmer).
 
-- L'import par tableur va chercher chaque visuel à une adresse publique : les visuels
-  seront donc publiés avec la vitrine.
-- Une signature sur ces visuels est permise ; jamais sur les fichiers importés chez
-  Pexels.
-- Complément automatique : un compte professionnel qui a revendiqué son site peut relier
-  le flux RSS de la vitrine, et les épingles se créent alors seules en 24 à 48 heures.
+La publication directe par l'API Pinterest est possible, mais elle suppose de faire
+valider une application par Pinterest ; les flux RSS rendent cette étape inutile.
+
+Une signature sur les visuels Pinterest est permise ; jamais sur les fichiers importés
+chez Pexels.
+
+Prérequis : compte Pinterest professionnel (gratuit), site en ligne et revendiqué.

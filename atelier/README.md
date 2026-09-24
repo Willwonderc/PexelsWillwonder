@@ -1,9 +1,10 @@
 # 3 — Atelier titres et mots-clés
 
-Une session Claude regarde les photos, avant ou après leur import sur Pexels, et rend
-un tableau prêt à copier : un titre descriptif propre à chaque cliché et jusqu'à 25
-mots-clés en anglais. Idéal pour traiter d'un coup les photos d'un voyage, en
-commençant par les photos publiées sans titre.
+Une session Claude regarde les photos et rend un tableau prêt à copier : un titre
+descriptif propre à chaque cliché et jusqu'à 25 mots-clés en anglais. Pexels ne
+permettant guère de modifier titres et mots-clés après publication, l'atelier sert
+avant chaque import. Pour les photos déjà publiées, ses tableaux alimentent le site
+de photographe.
 
 ## Mode d'emploi
 
