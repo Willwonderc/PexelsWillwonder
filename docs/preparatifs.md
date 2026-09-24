@@ -7,15 +7,13 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 - [ ] Créer les collections **publiques** par thème : Asturies, jardins des châteaux de
       la Loire, ciel et astrophotographie, fonds abstraits, noir et blanc, mariage.
-- [ ] Demander une clé API sur https://www.pexels.com/api/ (délivrée immédiatement à
+- [x] Demander une clé API sur https://www.pexels.com/api/ (délivrée immédiatement à
       tout titulaire d'un compte).
 
 ## GitHub (dépôt Willwonderc/PexelsWillwonder)
 
 - [x] Créer le dépôt et sa branche principale `main`.
-- [ ] Passer le dépôt en **public**, condition de l'hébergement gratuit du site :
-      Settings → General → Danger Zone → Change repository visibility.
-      Il est encore privé.
+- [x] Passer le dépôt en **public**, condition de l'hébergement gratuit du site.
 - [ ] Ranger la clé dans les secrets du dépôt : Settings → Secrets and variables →
       Actions → New repository secret, nom `PEXELS_API_KEY`. Jamais dans le code.
 - [ ] Une fois le dépôt public, choisir la publication par GitHub Actions :

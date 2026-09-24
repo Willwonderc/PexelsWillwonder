@@ -14,7 +14,7 @@ Plan détaillé : [docs/plan.md](docs/plan.md).
 |---|----------|---------|-----------|------|
 | 1 | Vitrine photo reliée à Pexels | [vitrine/](vitrine/) | dès les préparatifs faits | [consigne prête](consignes/session-1-vitrine.md) |
 | 2 | Fabrique d'épingles Pinterest | [pinterest/](pinterest/) | une fois le site en ligne | consigne à rédiger |
-| 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | consigne à rédiger |
+| 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | [premier lot rédigé](atelier/resultats/ppex-photos-sans-titre.csv) |
 | 4 | Tableau de bord de campagne | [releves/](releves/) | fin octobre | relevés ouverts |
 
 ## Par où commencer

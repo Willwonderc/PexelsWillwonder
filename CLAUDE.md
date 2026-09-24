@@ -14,8 +14,8 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 1. Vitrine reliée à Pexels (`vitrine/`) : site statique sur GitHub Pages, reconstruit
    chaque nuit à partir des collections Pexels, flux RSS, mesure d'audience GoatCounter.
 2. Fabrique d'épingles Pinterest (`pinterest/`) : visuels verticaux et fichier d'import.
-3. Atelier titres et mots-clés (`atelier/`) : photos déposées dans `atelier/a-traiter/`,
-   tableaux de titres et mots-clés rendus dans `atelier/resultats/`.
+3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
+   déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
    statistiques Pinterest, vues Pexels relevées à la main.
 
@@ -56,7 +56,22 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 - Tâches planifiées : cron en UTC ; éviter la minute 0, souvent retardée. GitHub
   désactive les tâches planifiées d'un dépôt public après 60 jours sans activité ; les
   relevés hebdomadaires de `releves/` suffisent à l'éviter s'ils sont tenus.
-- Titres Pexels peu fiables : les photos récentes portent des titres automatiques
-  (trois premiers mots-clés par ordre alphabétique, par exemple « architecture
-  photography, asturias, bell tower » pour quatre photos différentes des Asturies).
-  Ne pas les reprendre tels quels comme titres ou textes alternatifs.
+- Identifiant de photographe Pexels : `28489473` (champ `photographer_id` de l'API).
+- Limites constatées de l'API : environ 200 appels par heure (erreur 429 au-delà) et
+  20 000 par mois. Garder les fiches des photos en cache et n'interroger que les
+  nouvelles.
+- Collections (constat du 24 septembre 2026) : les collections existantes sont des
+  planches d'inspiration faites de photos d'autres photographes, et l'API n'y a
+  renvoyé aucune photo du propriétaire. Ne garder que les photos de l'identifiant
+  ci-dessus, et vérifier qu'une collection de ses propres photos est bien lue avant
+  de bâtir la vitrine dessus.
+- Photos sans titre : leur adresse Pexels ne contient que le numéro
+  (`https://www.pexels.com/photo/<numéro>/`) et leur texte alternatif vaut « Free
+  stock photo of » suivi des trois premiers mots-clés par ordre alphabétique. Ne pas
+  le reprendre tel quel. Les photos titrées ont, elles, un texte alternatif soigné.
+  Inventaire des 919 photos : `atelier/inventaire.csv` ; titres rédigés :
+  `atelier/resultats/`.
+- Envoi de photos par SwissTransfer : la page du lien contient un JSON
+  (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
+  `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
+  adresse de téléchargement valable une heure.
