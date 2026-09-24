@@ -651,10 +651,10 @@ def date_rss(jour):
     return email.utils.format_datetime(moment)
 
 
-def ecrire_flux(adr, langue, titre, description, page, chemin_flux, photos):
+def ecrire_flux(adr, langue, titre, description, page, chemin_flux, photos, nombre=30):
     t = TEXTES[langue]
     articles = []
-    for p in photos[:30]:
+    for p in photos[:nombre]:
         lien = adr.absolue(adr.chemin(langue, "photo", p["id"]))
         titre_photo = p["titre"][langue]
         image = url_image(p, 1200)
@@ -730,6 +730,7 @@ def main():
     minimum = int(reglages["site"].get("galerie_min", "4") or 4)
     galeries = composer_galeries(lire_ini("galeries.ini"), photos, minimum)
     adr = Adresses(reglages["site"]["adresse"])
+    flux_max = int(reglages["site"].get("flux_max", "12") or 12)
 
     if SORTIE.exists():
         shutil.rmtree(SORTIE)
@@ -744,7 +745,7 @@ def main():
             page_galerie(g, gal, langue)
             ecrire_flux(adr, langue, f'{gal["titre"][langue]} — {g.site.get("nom", "")}',
                         gal["description"][langue], adr.chemin(langue, "galerie", gal["cle"]),
-                        adr.chemin(langue, "flux_galerie", gal["cle"]), gal["photos"])
+                        adr.chemin(langue, "flux_galerie", gal["cle"]), gal["photos"], flux_max)
         for rang, p in enumerate(photos):
             precedente = photos[rang - 1] if rang > 0 else None
             suivante = photos[rang + 1] if rang + 1 < len(photos) else None
