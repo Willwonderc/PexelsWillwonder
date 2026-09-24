@@ -1,0 +1,16 @@
+# Secrets locaux
+.env
+.env.*
+!.env.example
+
+# Dépendances et fichiers générés
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+_site/
+dist/
+
+# Fichiers système
+.DS_Store
+Thumbs.db

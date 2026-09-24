@@ -1,0 +1,51 @@
+# Photos Pexels de Karl Forterre — espace de travail
+
+Dépôt du projet de promotion des photos publiées sur Pexels
+(profil : [@karl-forterre-28489473](https://www.pexels.com/@karl-forterre-28489473)).
+
+Point de départ, septembre 2026 : 919 photos, environ 878 500 vues et 19 abonnés.
+Des sessions Claude Code menées avant le 5 novembre 2026 construisent quatre outils
+qui tournent ensuite seuls et gratuitement sur GitHub.
+Plan détaillé : [docs/plan.md](docs/plan.md).
+
+## Les quatre chantiers
+
+|   | Chantier | Dossier | Lancement | État |
+|---|----------|---------|-----------|------|
+| 1 | Vitrine photo reliée à Pexels | [vitrine/](vitrine/) | dès les préparatifs faits | [consigne prête](consignes/session-1-vitrine.md) |
+| 2 | Fabrique d'épingles Pinterest | [pinterest/](pinterest/) | une fois le site en ligne | consigne à rédiger |
+| 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | consigne à rédiger |
+| 4 | Tableau de bord de campagne | [releves/](releves/) | fin octobre | relevés ouverts |
+
+## Par où commencer
+
+1. Faire les [préparatifs](docs/preparatifs.md), environ une heure.
+2. Sur claude.ai/code, ouvrir une session sur ce dépôt, dans l'environnement qui
+   contient la clé Pexels, et coller la [consigne de la session 1](consignes/session-1-vitrine.md).
+3. Noter chaque semaine le total de vues Pexels dans
+   [releves/vues-pexels.csv](releves/vues-pexels.csv).
+
+## Intégrer le travail d'une session
+
+Chaque session Claude travaille sur sa propre branche. En fin de session, lui demander
+« ouvre une pull request vers main », puis, sur GitHub, ouvrir cette pull request et
+cliquer sur « Merge pull request » : le travail rejoint `main`, la branche publiée.
+
+## Organisation
+
+    CLAUDE.md     contexte et règles lus automatiquement par chaque session Claude
+    docs/         plan du projet et liste des préparatifs
+    consignes/    consignes de lancement des sessions, prêtes à coller
+    vitrine/      site vitrine (chantier 1) et page du tableau de bord (chantier 4)
+    pinterest/    visuels verticaux et fichiers d'import (chantier 2)
+    atelier/      photos à décrire et tableaux de titres (chantier 3)
+    releves/      relevés hebdomadaires des vues Pexels (chantier 4)
+
+## À savoir
+
+- Le dépôt doit être public pour que le site soit hébergé gratuitement : tout ce qui
+  y est déposé devient visible de tous.
+- La clé API Pexels ne figure jamais dans le dépôt : elle est rangée dans les secrets
+  GitHub et dans l'environnement cloud.
+- Grâce à `CLAUDE.md`, inutile de réexpliquer le projet à chaque session : la consigne
+  suffit.
