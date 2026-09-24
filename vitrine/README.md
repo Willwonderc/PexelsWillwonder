@@ -5,7 +5,7 @@ anglais, avec une page par photo et des galeries par thème et par lieu. Chaque 
 mène à sa page Pexels, où elle se télécharge gratuitement : les visites du site
 profitent ainsi au profil Pexels.
 
-Adresse : https://willwonderc.github.io/PexelsWillwonder/
+Adresse : https://photos.karlforterre.fr/ (l'adresse GitHub y redirige)
 
 Le site se reconstruit tout seul :
 - chaque nuit, entre 4 h et 5 h du matin (heure de Paris) ;
@@ -56,17 +56,16 @@ Créez un compte gratuit sur https://www.goatcounter.com, puis inscrivez son cod
 
 - **Google** : ajoutez le site dans Google Search Console, recopiez le code de la
   balise de validation dans `site.ini` (`google_verification`), puis déclarez le plan
-  du site : `https://willwonderc.github.io/PexelsWillwonder/sitemap.xml`.
+  du site : `https://photos.karlforterre.fr/sitemap.xml`.
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).
 
-## Domaine personnel (conseillé)
+## Domaine personnel
 
-1. Chez l'hébergeur de karlforterre.fr, créez un enregistrement DNS de type CNAME :
-   `photos` → `willwonderc.github.io`.
-2. Sur GitHub : **Settings** → **Pages** → **Custom domain**, saisissez
-   `photos.karlforterre.fr`, puis cochez **Enforce HTTPS** quand la case s'active.
-3. Dans `site.ini`, remplacez `adresse` par `https://photos.karlforterre.fr`.
+Le site est servi à l'adresse photos.karlforterre.fr : un enregistrement CNAME
+`photos` → `willwonderc.github.io.` dans la zone DNS de karlforterre.fr chez OVH, et le
+domaine déclaré sur GitHub dans **Settings** → **Pages** → **Custom domain**, avec
+**Enforce HTTPS** coché. Le réglage `adresse` de `site.ini` doit correspondre.
 
 ## Flux RSS, pour Pinterest
 

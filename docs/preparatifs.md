@@ -14,13 +14,13 @@ modifier ce fichier sur GitHub (icône crayon) et remplacer `[ ]` par `[x]`.
 
 - [x] Créer le dépôt et sa branche principale `main`.
 - [x] Passer le dépôt en **public**, condition de l'hébergement gratuit du site.
-- [ ] Ranger la clé dans les secrets du dépôt : Settings → Secrets and variables →
+- [x] Ranger la clé dans les secrets du dépôt : Settings → Secrets and variables →
       Actions → New repository secret, nom `PEXELS_API_KEY`. Jamais dans le code.
-- [ ] Une fois le dépôt public, choisir la publication par GitHub Actions :
+- [x] Une fois le dépôt public, choisir la publication par GitHub Actions :
       Settings → Pages → Build and deployment → Source : « GitHub Actions ».
 - [ ] Facultatif : corriger la description du dépôt, qui indique « Promotion de Pixels ».
-- [ ] Conseillé pour le référencement : prévoir un sous-domaine, par exemple
-      photos.karlforterre.fr, pour le site. La session 1 indiquera le réglage DNS.
+- [x] Adresse du site : photos.karlforterre.fr (CNAME chez OVH). Reste à la déclarer
+      dans Settings → Pages → Custom domain, puis à cocher Enforce HTTPS.
 
 ## claude.ai/code (environnement cloud)
 

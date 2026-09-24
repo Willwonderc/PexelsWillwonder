@@ -23,7 +23,7 @@ les photos Pexels.
    de `content="…"`, la coller dans `vitrine/site.ini` après
    `pinterest_verification =`, puis enregistrer (Commit changes). Trois minutes plus
    tard, le site est reconstruit : saisir l'adresse
-   `https://willwonderc.github.io/PexelsWillwonder` dans Pinterest et lancer la
+   `https://photos.karlforterre.fr` dans Pinterest et lancer la
    vérification.
 4. **Créer les tableaux** : un tableau par galerie, avec les noms de la liste
    ci-dessous.
@@ -46,20 +46,20 @@ galeries.
 
 | Tableau (en anglais) | Flux à coller |
 |---|---|
-| Loire Valley château gardens | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/jardins-chateaux-loire/feed.xml` |
-| Sky and astrophotography | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/ciel-astrophotographie/feed.xml` |
-| Black and white | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/noir-et-blanc/feed.xml` |
-| Flowers and macro | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/fleurs-et-macro/feed.xml` |
-| Portraits | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/portraits/feed.xml` |
-| Abstract backgrounds | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/fonds-abstraits/feed.xml` |
-| Wedding | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/mariage/feed.xml` |
-| Basque Country | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/pays-basque/feed.xml` |
-| Asturias | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/asturies/feed.xml` |
-| Galicia | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/galice/feed.xml` |
-| Camino de Santiago | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/chemin-saint-jacques/feed.xml` |
-| Pyrenees | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/pyrenees/feed.xml` |
-| Bordeaux | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/bordeaux/feed.xml` |
-| Niort and Poitou | `https://willwonderc.github.io/PexelsWillwonder/en/galleries/niort-poitou/feed.xml` |
+| Loire Valley château gardens | `https://photos.karlforterre.fr/en/galleries/jardins-chateaux-loire/feed.xml` |
+| Sky and astrophotography | `https://photos.karlforterre.fr/en/galleries/ciel-astrophotographie/feed.xml` |
+| Black and white | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` |
+| Flowers and macro | `https://photos.karlforterre.fr/en/galleries/fleurs-et-macro/feed.xml` |
+| Portraits | `https://photos.karlforterre.fr/en/galleries/portraits/feed.xml` |
+| Abstract backgrounds | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` |
+| Wedding | `https://photos.karlforterre.fr/en/galleries/mariage/feed.xml` |
+| Basque Country | `https://photos.karlforterre.fr/en/galleries/pays-basque/feed.xml` |
+| Asturias | `https://photos.karlforterre.fr/en/galleries/asturies/feed.xml` |
+| Galicia | `https://photos.karlforterre.fr/en/galleries/galice/feed.xml` |
+| Camino de Santiago | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` |
+| Pyrenees | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` |
+| Bordeaux | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` |
+| Niort and Poitou | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` |
 Une galerie qui dépassera 4 photos, comme Toulouse, aura son flux à la même adresse.
 
 ## Précautions

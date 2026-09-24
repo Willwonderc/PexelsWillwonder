@@ -56,9 +56,10 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 
 ## Repères techniques
 
-- Adresse par défaut du site : https://willwonderc.github.io/PexelsWillwonder/. Le site
-  vit dans un sous-chemin : liens relatifs ou chemin de base configurable (un domaine
-  personnalisé reste possible).
+- Adresse du site : https://photos.karlforterre.fr (enregistrement CNAME chez OVH vers
+  willwonderc.github.io, domaine personnalisé déclaré dans Settings → Pages). Le
+  réglage `adresse` de `vitrine/site.ini` fixe les liens ; zone DNS de karlforterre.fr
+  chez OVH, site principal hébergé par Adobe Portfolio.
 - Publication : GitHub Pages, source « GitHub Actions », depuis `main`.
 - Tâches planifiées : cron en UTC ; éviter la minute 0, souvent retardée. GitHub
   désactive les tâches planifiées d'un dépôt public après 60 jours sans activité ; les
