@@ -10,8 +10,10 @@ Objectif : que les épingles se créent sans intervention.
   destination et dates de publication échelonnées. Il ne reste qu'à les importer.
 - **Visuels** : des visuels verticaux avec un titre court, générés et hébergés par le
   site, car l'import va chercher chaque image à une adresse publique.
-- **Lien des épingles** : la page de la photo sur le site, qui mène à Pexels pour le
-  téléchargement (à confirmer).
+- **Lien des épingles** : les épingles importées mènent directement à la page Pexels
+  de la photo, pour que chaque clic profite à Pexels. Celles des flux RSS mènent à la
+  page du site, qui renvoie elle-même vers Pexels ; un lien direct vers Pexels sera
+  essayé lors de la session Pinterest.
 
 La publication directe par l'API Pinterest est possible, mais elle suppose de faire
 valider une application par Pinterest ; les flux RSS rendent cette étape inutile.

@@ -1,5 +1,8 @@
 # Session 1 — Site de photographe
 
+> Réalisée le 24 septembre 2026, dans la session de mise en place : le site est dans
+> `vitrine/`. Cette consigne reste comme référence.
+
 À lancer dans une nouvelle session sur claude.ai/code, sur ce dépôt et dans
 l'environnement qui contient la clé `PEXELS_API_KEY`. Le but est le référencement :
 chaque photo doit avoir sa propre page, bien décrite, qui mène vers Pexels pour le

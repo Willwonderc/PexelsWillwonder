@@ -11,10 +11,11 @@ Promotion des photos de Karl Forterre publiées sur Pexels
 avant le 5 novembre 2026, quatre outils qui tournent ensuite seuls et gratuitement sur
 GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
 
-1. Site de photographe (`vitrine/`) : site statique sur GitHub Pages, pensé pour le
-   référencement, avec une page par photo et des galeries par thème et par lieu.
-   Reconstruit chaque nuit à partir de la liste des photos et de l'API Pexels ; flux
-   RSS par galerie, mesure d'audience GoatCounter.
+1. Site de photographe (`vitrine/`) : site statique bilingue sur GitHub Pages, pensé
+   pour le référencement, avec une page par photo et des galeries par thème et par
+   lieu. `vitrine/build.py` (Python sans dépendance) lit `vitrine/photos.txt`, complète
+   le cache `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
+   `.github/workflows/site.yml` le relance chaque nuit. Mode d'emploi : `vitrine/README.md`.
 2. Pinterest (`pinterest/`) : épingles créées automatiquement par Pinterest à partir
    des flux RSS du site, et fichiers d'import par tableur pour les photos existantes.
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
@@ -40,12 +41,16 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
   poussé est visible de tous.
 - **API Pexels** : lire la fiche de chaque photo par le point d'accès « Photo »
   (`GET https://api.pexels.com/v1/photos/:id`), à partir de la liste
-  `atelier/inventaire.csv`. Respecter les limites de débit, afficher « Photos provided
+  `vitrine/photos.txt`. Respecter les limites de débit, afficher « Photos provided
   by Pexels » avec un lien, et vérifier la documentation officielle avant d'implémenter.
 - **Conditions Pexels** : chaque photo renvoie vers sa page Pexels, sans téléchargement
   direct ; ne pas reproduire les fonctions de base de Pexels ; aucune collecte
   automatique sur les pages de pexels.com. Les vues, que l'API ne fournit pas, sont
   notées à la main dans `releves/vues-pexels.csv`.
+- **Vues Pexels** : Pexels compte une vue quand la photo apparaît dans ses résultats
+  de recherche ou chez ses partenaires de l'API. Le site et Pinterest renvoient donc
+  chaque photo vers sa page Pexels. Aucun procédé artificiel : ni appels répétés à
+  l'API, ni ouverture automatique de pages.
 - **Filigranes** : aucune signature ni filigrane sur un fichier destiné à Pexels ; ils
   sont permis sur les visuels Pinterest.
 
