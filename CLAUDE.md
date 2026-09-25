@@ -12,9 +12,10 @@ avant le 5 novembre 2026, quatre outils qui tournent ensuite seuls et gratuiteme
 GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promotion :
 `docs/plan-site-pro.md` ; consignes des sessions : `consignes/`.
 
-1. Site de photographe (`vitrine/`) : site statique bilingue sur GitHub Pages, pensé
-   pour le référencement, avec une page par photo, des galeries par thème et par lieu
-   (chaque photo publiée dans au moins une) et des pages par couleur. `vitrine/build.py`
+1. Site de photographe (`vitrine/`) : site statique en français, anglais et chinois
+   (`/zh/`) sur GitHub Pages, pensé pour le référencement, avec une page par photo,
+   des galeries par thème et par lieu (chaque photo publiée dans au moins une) et des
+   pages par couleur. `vitrine/build.py`
    (Python sans dépendance) lit `vitrine/photos.txt`, complète le cache
    `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
    `.github/workflows/site.yml` le relance chaque nuit. Mode d'emploi : `vitrine/README.md`.

@@ -47,6 +47,16 @@ body {
   line-height: 1.55;
 }
 
+/* Pages chinoises : Archivo pour les lettres latines, puis les polices chinoises du système.
+   Interligne plus ample, capitales espacées sans objet pour les idéogrammes. */
+:root:lang(zh) {
+  --police: "Archivo", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    "Source Han Sans SC", "Noto Sans SC", sans-serif;
+}
+:lang(zh) body { line-height: 1.75; }
+:lang(zh) h1 { line-height: 1.25; letter-spacing: .02em; }
+:lang(zh) .surtitre { letter-spacing: .1em; font-size: 13px; }
+
 img { max-width: 100%; height: auto; display: block; }
 
 a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
