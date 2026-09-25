@@ -4,20 +4,26 @@
 1. Lit la liste des photos : vitrine/photos.txt.
 2. Complète les fiches Pexels (vitrine/donnees/fiches.json) grâce à l'API, si la
    variable d'environnement PEXELS_API_KEY est définie.
-3. Écrit le site statique dans le dossier _site/.
+3. Ajoute les parutions du jour au journal des flux Pinterest
+   (vitrine/donnees/parutions.json).
+4. Écrit le site statique dans le dossier _site/.
 
 Options :
-  --fiches-seulement   ne fait que l'étape 2
-  --max-appels N       nombre maximum d'appels à l'API (180 par défaut)
+  --fiches-seulement       ne fait que l'étape 2
+  --max-appels N           nombre maximum d'appels à l'API (180 par défaut)
+  --enregistrer-parutions  enregistre le journal (tâche de nuit) ; sans cette option,
+                           les parutions du jour servent aux flux sans être enregistrées
 """
 
 import argparse
+import colorsys
 import configparser
 import csv
 import email.utils
 import hashlib
 import html
 import json
+import math
 import os
 import re
 import shutil
@@ -33,6 +39,8 @@ ICI = Path(__file__).resolve().parent
 RACINE = ICI.parent
 SORTIE = RACINE / "_site"
 FICHES = ICI / "donnees" / "fiches.json"
+PARUTIONS = ICI / "donnees" / "parutions.json"
+AUTRES = "autres-photos"  # flux des photos rangées dans aucune galerie
 PHOTOGRAPHE = 28489473
 LICENCE = "https://www.pexels.com/license/"
 AUJOURDHUI = datetime.now(timezone.utc).date().isoformat()
@@ -63,7 +71,14 @@ TEXTES = {
         "mots": "Mots-clés",
         "dans": "Dans les galeries :",
         "dans_serie": "Dans la série :",
-        "meme_galerie": "Dans la même galerie",
+        "proches": "Photos proches",
+        "a_propos_galerie": "À propos de cette galerie",
+        "couleurs": "Couleurs",
+        "couleurs_photo": "Couleurs :",
+        "couleur_description": "{titre} de Karl Forterre, rangées d'après leur couleur dominante : "
+                               "libres de droits, à télécharger gratuitement sur Pexels.",
+        "accueil_court": "Accueil",
+        "ariane": "Fil d'Ariane",
         "precedente": "Photo précédente",
         "suivante": "Photo suivante",
         "flux": "Flux RSS",
@@ -117,7 +132,14 @@ TEXTES = {
         "mots": "Keywords",
         "dans": "In the galleries:",
         "dans_serie": "In the series:",
-        "meme_galerie": "From the same gallery",
+        "proches": "Similar photos",
+        "a_propos_galerie": "About this gallery",
+        "couleurs": "Colors",
+        "couleurs_photo": "Colors:",
+        "couleur_description": "{titre} by Karl Forterre, sorted by their dominant color: "
+                               "royalty-free, free to download on Pexels.",
+        "accueil_court": "Home",
+        "ariane": "Breadcrumb",
         "precedente": "Previous photo",
         "suivante": "Next photo",
         "flux": "RSS feed",
@@ -246,6 +268,31 @@ def lire_textes():
     return anglais, francais
 
 
+# Mots-clés mal encodés dans l'export de la fiche de suivi (« apÃ ro » pour « apéro »).
+ILLISIBLE = re.compile("[ÃÂ]|â€|\ufffd")
+
+
+def lire_suivi():
+    """Fiches de suivi (releves/suivi-*.csv) : vues et mots-clés Pexels de chaque photo.
+
+    Vues : le plus haut relevé. Mots-clés : ceux de la fiche la plus récente, c'est-à-dire
+    celle qui totalise le plus de vues, sans les mots mal encodés.
+    """
+    fichiers = [lire_csv(chemin) for chemin in (RACINE / "releves").glob("suivi-*.csv")]
+    suivi = {}
+    for lignes in sorted(fichiers, key=lambda lignes: sum(entier(l.get("vues")) for l in lignes)):
+        for ligne in lignes:
+            cle = (ligne.get("photo") or "").strip()
+            if not cle.isdigit():
+                continue
+            fiche = suivi.setdefault(int(cle), {"vues": 0, "mots": []})
+            fiche["vues"] = max(fiche["vues"], entier(ligne.get("vues")))
+            mots = [m for m in liste_mots(ligne.get("mots_cles")) if not ILLISIBLE.search(m)]
+            if mots:
+                fiche["mots"] = mots
+    return suivi
+
+
 def lire_releves():
     """Derniers chiffres des relevés (dossier releves/) : vues et téléchargements Pexels.
 
@@ -333,7 +380,44 @@ def titre_pexels(texte):
     return texte
 
 
-def assembler_photos(ids, fiches, anglais, francais):
+def cle_mot(mot):
+    """Forme de comparaison d'un mot-clé : sans accents, sans majuscules ni pluriel."""
+    mot = " ".join(plier(mot).split())
+    return mot[:-1] if len(mot) > 3 and mot.endswith("s") and not mot.endswith("ss") else mot
+
+
+# Mots d'ambiance, affichés après les mots plus concrets quand il faut choisir.
+MOTS_VAGUES = frozenset(map(cle_mot, (
+    "beautiful, beauty, beautiful wallpaper, breathtaking, bright, calm, charming, cute, dazzling, "
+    "elegant, gentle, handsome, harmonious design, harmony, idyllic, impressive, inspiration, lovely, "
+    "lush, majestic, mood, moody, natural beauty, peace, peaceful, picturesque, pretty, quiet moment, "
+    "relaxation, relaxing, scenic, serene, serenity, simple, soothing, stunning, tranquil, tranquility, "
+    "vastness, vivid colors, wonderful").split(", ")))
+
+
+def choisir_mots(mots, titre, frequence, nombre=12):
+    """Mots-clés Pexels affichés sur la page d'une photo : ceux du titre d'abord, puis les
+    plus répandus dans l'ensemble des photos, les mots d'ambiance en dernier."""
+    titre = plier(titre)
+    uniques = {}
+    for mot in mots:
+        uniques.setdefault(cle_mot(mot), mot)
+
+    def rang(cle):
+        return (not re.search(r"\b" + re.escape(cle), titre), cle in MOTS_VAGUES, -frequence[cle], cle)
+
+    return [uniques[cle] for cle in sorted(uniques, key=rang)][:nombre]
+
+
+def assembler_photos(ids, fiches, anglais, francais, suivi=None):
+    """Photos publiées : fiche Pexels, titres et mots-clés de l'atelier, et, d'après la fiche
+    de suivi, vues et mots-clés Pexels. Ces derniers servent à composer les galeries et à
+    trouver les photos proches ; une douzaine s'affiche quand l'atelier n'en a pas donné."""
+    suivi = suivi or {}
+    frequence = {}
+    for pid in ids:
+        for cle in {cle_mot(m) for m in suivi.get(pid, {}).get("mots", [])}:
+            frequence[cle] = frequence.get(cle, 0) + 1
     photos, sans_titre = [], 0
     for pid in ids:
         fiche = fiches.get(str(pid))
@@ -345,6 +429,10 @@ def assembler_photos(ids, fiches, anglais, francais):
         if not titre_en:
             sans_titre += 1
             continue
+        mots_pexels = suivi.get(pid, {}).get("mots", [])
+        mots_en = liste_mots(en.get("mots"))
+        mots_fr = liste_mots(fr.get("mots"))
+        affiches = mots_en or choisir_mots(mots_pexels, titre_en, frequence)
         photos.append({
             "id": pid,
             "largeur": fiche["largeur"],
@@ -353,9 +441,13 @@ def assembler_photos(ids, fiches, anglais, francais):
             "image": fiche["image"],
             "couleur": fiche.get("couleur") or "#8a8a8a",
             "vue_le": fiche.get("vue_le") or AUJOURDHUI,
+            "vues": suivi.get(pid, {}).get("vues", 0),
             "titre": {"en": titre_en, "fr": fr.get("titre") or titre_en},
-            "mots": {"en": liste_mots(en.get("mots")), "fr": liste_mots(fr.get("mots"))},
-            "recherche": plier(" ".join([titre_en, en.get("mots", ""), fiche.get("texte", "")])),
+            # Sans mots-clés français, la page française affiche les mots anglais.
+            "mots": {"en": affiches, "fr": mots_fr or affiches},
+            "langue_mots": {"en": "en", "fr": "fr" if mots_fr else "en"},
+            "cles": {cle_mot(m) for m in mots_en + mots_pexels},
+            "recherche": plier(" ".join([titre_en, en.get("mots", ""), fiche.get("texte", ""), ", ".join(mots_pexels)])),
         })
     photos.sort(key=lambda p: -p["id"])
     return photos, sans_titre
@@ -390,11 +482,13 @@ def composer_galeries(conf, photos, minimum):
         couverture = next((p for p in membres if p["id"] in nombres(reglage.get("couverture"))), membres[0])
         titre_fr = reglage.get("titre_fr", cle)
         description_fr = reglage.get("description_fr", "")
+        texte_fr = paragraphes(reglage.get("texte_fr"))
         galeries.append({
             "cle": cle,
             "type": reglage.get("type", "theme").strip(),
             "titre": {"fr": titre_fr, "en": reglage.get("titre_en", titre_fr)},
             "description": {"fr": description_fr, "en": reglage.get("description_en", description_fr)},
+            "texte": {"fr": texte_fr, "en": paragraphes(reglage.get("texte_en")) or texte_fr},
             "photos": membres,
             "couverture": couverture,
             "bandeau": photo_bandeau(reglage, membres, couverture),
@@ -431,6 +525,83 @@ def composer_series(conf, photos, minimum):
     return series
 
 
+# Pages par couleur, d'après la couleur moyenne que Pexels donne pour chaque photo.
+COULEURS = (
+    {"cle": {"fr": "bleu", "en": "blue"}, "nom": {"fr": "Bleu", "en": "Blue"},
+     "titre": {"fr": "Photos bleues", "en": "Blue photos"}, "pastille": "#3d6ea6"},
+    {"cle": {"fr": "vert", "en": "green"}, "nom": {"fr": "Vert", "en": "Green"},
+     "titre": {"fr": "Photos vertes", "en": "Green photos"}, "pastille": "#4c7a3b"},
+    {"cle": {"fr": "jaune-orange", "en": "yellow-orange"}, "nom": {"fr": "Jaune et orange", "en": "Yellow and orange"},
+     "titre": {"fr": "Photos jaunes et orange", "en": "Yellow and orange photos"}, "pastille": "#d99130"},
+    {"cle": {"fr": "rouge-rose", "en": "red-pink"}, "nom": {"fr": "Rouge et rose", "en": "Red and pink"},
+     "titre": {"fr": "Photos rouges et roses", "en": "Red and pink photos"}, "pastille": "#b84552"},
+    {"cle": {"fr": "tons-sombres", "en": "dark-tones"}, "nom": {"fr": "Tons sombres", "en": "Dark tones"},
+     "titre": {"fr": "Photos aux tons sombres", "en": "Dark-toned photos"}, "pastille": "#1c1c21"},
+    {"cle": {"fr": "tons-clairs", "en": "light-tones"}, "nom": {"fr": "Tons clairs", "en": "Light tones"},
+     "titre": {"fr": "Photos aux tons clairs", "en": "Light-toned photos"}, "pastille": "#ebe6dc"},
+)
+
+
+def teintes(couleur):
+    """Pages de couleur d'une photo, d'après sa couleur moyenne (#rrvvbb) : une teinte si
+    elle est assez marquée, et un ton si elle est assez foncée ou assez pâle."""
+    try:
+        r, v, b = (int(couleur[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    except ValueError:
+        return []
+    teinte, clarte, _ = colorsys.rgb_to_hls(r, v, b)
+    choix = []
+    if max(r, v, b) - min(r, v, b) >= 0.08:
+        degres = teinte * 360
+        choix.append("jaune-orange" if 15 <= degres < 70 else "vert" if degres < 165
+                     else "bleu" if degres < 260 else "rouge-rose")
+    if clarte < 0.25:
+        choix.append("tons-sombres")
+    elif clarte > 0.7:
+        choix.append("tons-clairs")
+    return choix
+
+
+def composer_couleurs(photos, minimum):
+    couleurs = []
+    for c in COULEURS:
+        membres = [p for p in photos if c["cle"]["fr"] in teintes(p["couleur"])]
+        if len(membres) >= minimum:
+            couleurs.append({**c, "photos": membres, "couverture": membres[0]})
+    return couleurs
+
+
+def photos_proches(photos, par_photo, nombre=8):
+    """Pour chaque photo, celles qui partagent le plus de mots-clés avec elle. Un mot compte
+    d'autant plus qu'il est rare (log du nombre de photos sur le nombre de photos qui le
+    portent) ; les mots portés par plus d'une photo sur quatre sont ignorés. Chaque galerie
+    en commun ajoute 2."""
+    n = len(photos)
+    index = {}
+    for p in photos:
+        for cle in p["cles"]:
+            index.setdefault(cle, []).append(p["id"])
+    poids = {cle: math.log(n / len(ids)) for cle, ids in index.items() if len(ids) <= n / 4}
+    membres = {}
+    for p in photos:
+        for gal in par_photo[p["id"]]:
+            membres.setdefault(gal["cle"], []).append(p["id"])
+    par_id = {p["id"]: p for p in photos}
+    proches = {}
+    for p in photos:
+        score = {}
+        for cle in p["cles"]:
+            for autre in index[cle] if cle in poids else ():
+                score[autre] = score.get(autre, 0) + poids[cle]
+        for gal in par_photo[p["id"]]:
+            for autre in membres[gal["cle"]]:
+                score[autre] = score.get(autre, 0) + 2
+        score.pop(p["id"], None)
+        meilleures = sorted(score, key=lambda i: (-score[i], -par_id[i]["vues"], -i))[:nombre]
+        proches[p["id"]] = [par_id[i] for i in meilleures]
+    return proches
+
+
 def photos_ouverture(reglages, par_id, selection):
     """Photos qui défilent sur l'accueil : réglage « ouverture », sinon les premières
     photos en format paysage de la sélection."""
@@ -456,6 +627,7 @@ class Adresses:
             "accueil": "/",
             "galeries": "/galleries/" if en else "/galeries/",
             "galerie": f"/galleries/{cle}/" if en else f"/galeries/{cle}/",
+            "couleur": f"/colors/{cle}/" if en else f"/couleurs/{cle}/",
             "series": "/series/",
             "serie": f"/series/{cle}/",
             "photo": f"/photo/{cle}/",
@@ -584,6 +756,50 @@ def rappel(g, langue):
 def jsonld(donnees):
     texte = json.dumps(donnees, ensure_ascii=False).replace("</", "<\\/")
     return f'<script type="application/ld+json">{texte}</script>'
+
+
+def fil_ariane(adr, langue, parents, courante):
+    """Fil d'Ariane : liens vers l'accueil et les pages parentes (« parents » : liste de
+    (nom, chemin)), et données structurées BreadcrumbList, page courante comprise."""
+    t = TEXTES[langue]
+    etapes = [(t["accueil_court"], adr.chemin(langue, "accueil"))] + parents
+    visible = (
+        f'<nav class="ariane" aria-label="{t["ariane"]}"><ol>'
+        + "".join(f'<li><a href="{chemin}">{e(nom)}</a></li>' for nom, chemin in etapes)
+        + "</ol></nav>"
+    )
+    donnees = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": rang, "name": nom, "item": adr.absolue(chemin)}
+            for rang, (nom, chemin) in enumerate(etapes + [courante], 1)
+        ],
+    }
+    return visible, donnees
+
+
+def pastilles(couleurs, galeries, langue, adr, courante=None):
+    """Liens vers les pages de couleur, chacun avec sa pastille ; le noir et blanc mène à
+    sa galerie."""
+    t = TEXTES[langue]
+    liens = [(adr.chemin(langue, "couleur", c["cle"][langue]), c["nom"][langue], f'background:{c["pastille"]}',
+              len(c["photos"]), c is courante) for c in couleurs]
+    noir_et_blanc = next((gal for gal in galeries if gal["cle"] == "noir-et-blanc"), None)
+    if noir_et_blanc:
+        liens.append((adr.chemin(langue, "galerie", noir_et_blanc["cle"]), noir_et_blanc["titre"][langue],
+                      "background:linear-gradient(135deg,#161616 50%,#f2f2f2 50%)", len(noir_et_blanc["photos"]), False))
+    if not liens:
+        return ""
+    return (
+        f'<section class="bloc"><h2 class="surtitre">{t["couleurs"]}</h2><ul class="couleurs">'
+        + "".join(
+            f'<li><a href="{lien}"' + (' aria-current="page"' if actuelle else "") + '>'
+            f'<span class="pastille" style="{style}"></span>{e(nom)} <span class="compte">{n}</span></a></li>'
+            for lien, nom, style, n, actuelle in liens
+        )
+        + "</ul></section>"
+    )
 
 
 ICONES = {
@@ -755,7 +971,7 @@ def diapo(photo, langue, adr, premiere, bandeau=False):
 
 def bandeau(g, photo, langue, titre, accroche="", surtitre=""):
     """En-tête d'une série ou d'une galerie : une grande photo derrière le titre.
-    « accroche » et « surtitre » sont du HTML déjà échappé."""
+    « accroche » et « surtitre » (le fil d'Ariane) sont du HTML déjà échappé."""
     return (
         f'<section class="plein bandeau"><div class="defile">{diapo(photo, langue, g.adr, True, bandeau=True)}</div>'
         f'<div class="plein-texte">{surtitre}<h1>{e(titre)}</h1>'
@@ -825,20 +1041,22 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_galeries(g, galeries, series, langue):
+def page_galeries(g, galeries, series, couleurs, langue):
     adr = g.adr
     t = TEXTES[langue]
-    cartes_galeries = cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
-    if galeries:
-        contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]))
-                   + f'<div class="enveloppe">{cartes_galeries}</div>')
-    else:
-        contenu = f'<section class="ouverture"><h1>{t["galeries"]}</h1></section>'
     chemins = {l: adr.chemin(l, "galeries") for l in ("fr", "en")}
+    ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
+    suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
+             + pastilles(couleurs, galeries, langue, adr))
+    if galeries:
+        contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)
+                   + f'<div class="enveloppe">{suite}</div>')
+    else:
+        contenu = f'<section class="ouverture">{ariane}<h1>{t["galeries"]}</h1></section>' + suite
     description = " · ".join(gal["titre"][langue] for gal in galeries)
     texte = g.page(langue, titre=t["galeries"], description=description, chemins=chemins, contenu=contenu,
-                   image=galeries[0]["couverture"] if galeries else None, series=bool(series),
-                   classe="sur-photo" if galeries else "")
+                   image=galeries[0]["couverture"] if galeries else None, donnees=[donnees_ariane],
+                   series=bool(series), classe="sur-photo" if galeries else "")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -848,12 +1066,16 @@ def page_galerie(g, galerie, series, langue):
     chemins = {l: adr.chemin(l, "galerie", galerie["cle"]) for l in ("fr", "en")}
     flux = adr.chemin(langue, "flux_galerie", galerie["cle"])
     description = galerie["description"][langue] or galerie["titre"][langue]
-    surtitre = f'<p class="surtitre"><a href="{adr.chemin(langue, "galeries")}">{t["galeries"]}</a></p>'
+    ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
+                                        (galerie["titre"][langue], chemins[langue]))
+    texte_galerie = galerie["texte"][langue]
     accroche = f'{e(description)} <span class="nombre">{nombre_photos(len(galerie["photos"]), langue)}</span>'
     contenu = (
-        bandeau(g, galerie["bandeau"], langue, galerie["titre"][langue], accroche, surtitre)
+        bandeau(g, galerie["bandeau"], langue, galerie["titre"][langue], accroche, ariane)
         + '<div class="enveloppe">'
         + grille(galerie["photos"], langue, adr)
+        + (f'<section class="texte galerie-texte"><h2 class="surtitre">{t["a_propos_galerie"]}</h2>'
+           + "".join(f"<p>{e(para)}</p>" for para in texte_galerie) + "</section>" if texte_galerie else "")
         + f'<p class="flux-lien"><a href="{flux}">{t["flux_galerie"]}</a></p>'
         + rappel(g, langue)
         + "</div>"
@@ -865,10 +1087,39 @@ def page_galerie(g, galerie, series, langue):
         "description": description,
         "url": adr.absolue(chemins[langue]),
         "inLanguage": langue,
-    }]
+    }, donnees_ariane]
     texte = g.page(langue, titre=galerie["titre"][langue], description=description, chemins=chemins,
                    contenu=contenu, image=galerie["couverture"], donnees=donnees, flux=flux, series=bool(series),
                    classe="sur-photo")
+    ecrire(adr.fichier(chemins[langue]), texte)
+
+
+def page_couleur(g, couleur, couleurs, galeries, series, langue):
+    adr = g.adr
+    t = TEXTES[langue]
+    chemins = {l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in ("fr", "en")}
+    titre = couleur["titre"][langue]
+    description = t["couleur_description"].format(titre=titre)
+    ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
+                                        (titre, chemins[langue]))
+    contenu = (
+        f'<header class="ouverture">{ariane}<h1>{e(titre)}</h1>'
+        f'<p class="accroche">{e(description)} <span class="nombre">{nombre_photos(len(couleur["photos"]), langue)}</span></p>'
+        f"</header>"
+        + grille(couleur["photos"], langue, adr)
+        + pastilles(couleurs, galeries, langue, adr, courante=couleur)
+        + rappel(g, langue)
+    )
+    donnees = [{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": titre,
+        "description": description,
+        "url": adr.absolue(chemins[langue]),
+        "inLanguage": langue,
+    }, donnees_ariane]
+    texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
+                   image=couleur["couverture"], donnees=donnees, series=bool(series))
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -876,13 +1127,14 @@ def page_series(g, series, langue):
     adr = g.adr
     t = TEXTES[langue]
     chemins = {l: adr.chemin(l, "series") for l in ("fr", "en")}
+    ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["series"], chemins[langue]))
     contenu = (
-        bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]))
+        bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]), ariane)
         + '<div class="enveloppe"><div class="galeries">' + "".join(carte_serie(s, langue, adr) for s in series)
         + "</div>" + rappel(g, langue) + "</div>"
     )
     texte = g.page(langue, titre=t["series"], description=t["series_intro"], chemins=chemins, contenu=contenu,
-                   image=series[0]["couverture"], classe="sur-photo")
+                   image=series[0]["couverture"], donnees=[donnees_ariane], classe="sur-photo")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -893,9 +1145,9 @@ def page_serie(g, serie, series, langue):
     titre = serie["titre"][langue]
     texte_serie = serie["texte"][langue]
     description = texte_serie[0] if texte_serie else titre
-    surtitre = f'<p class="surtitre"><a href="{adr.chemin(langue, "series")}">{t["series"]}</a></p>'
+    ariane, donnees_ariane = fil_ariane(adr, langue, [(t["series"], adr.chemin(langue, "series"))], (titre, chemins[langue]))
     contenu = (
-        bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), surtitre)
+        bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), ariane)
         + '<div class="enveloppe">'
         + (f'<div class="texte serie-texte">' + "".join(f"<p>{e(p)}</p>" for p in texte_serie) + "</div>"
            if texte_serie else "")
@@ -915,13 +1167,14 @@ def page_serie(g, serie, series, langue):
         "image": url_image(serie["couverture"], 1200),
         "author": {"@type": "Person", "name": nom, "url": g.site.get("profil_pexels", "")},
         **({"contentLocation": {"@type": "Place", "name": serie["lieu"][langue]}} if serie["lieu"][langue] else {}),
-    }]
+    }, donnees_ariane]
     texte = g.page(langue, titre=t["titre_serie"].format(titre=titre), description=description, chemins=chemins,
                    contenu=contenu, image=serie["couverture"], donnees=donnees, classe="sur-photo")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_photo, avec_series):
+def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_photo, avec_series, proches,
+               couleurs_photo):
     adr = g.adr
     t = TEXTES[langue]
     titre = photo["titre"][langue]
@@ -929,8 +1182,10 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     chemins = {l: adr.chemin(l, "photo", photo["id"]) for l in ("fr", "en")}
     ratio = photo["largeur"] / photo["hauteur"]
     mots = photo["mots"][langue]
+    langue_mots = photo["langue_mots"][langue]
     liste = (
-        f'<ul class="mots" aria-label="{t["mots"]}">' + "".join(f"<li>{e(m)}</li>" for m in mots) + "</ul>"
+        f'<ul class="mots" aria-label="{t["mots"]}"' + (f' lang="{langue_mots}"' if langue_mots != langue else "")
+        + ">" + "".join(f"<li>{e(m)}</li>" for m in mots) + "</ul>"
         if mots else ""
     )
     dans = ""
@@ -944,24 +1199,26 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
             f'<a href="{adr.chemin(langue, "galerie", gal["cle"])}">{e(gal["titre"][langue])}</a>' for gal in galeries_photo
         )
         dans += f'<p class="dans">{t["dans"]} {liens}</p>'
+    if couleurs_photo:
+        liens = ", ".join(
+            f'<a href="{adr.chemin(langue, "couleur", c["cle"][langue])}">{e(c["nom"][langue])}</a>' for c in couleurs_photo
+        )
+        dans += f'<p class="dans">{t["couleurs_photo"]} {liens}</p>'
     suite = '<nav class="suite">'
     if precedente:
         suite += f'<a rel="prev" href="{adr.chemin(langue, "photo", precedente["id"])}">← {t["precedente"]}</a>'
     if suivante:
         suite += f'<a rel="next" href="{adr.chemin(langue, "photo", suivante["id"])}">{t["suivante"]} →</a>'
     suite += "</nav>"
-    voisines = ""
-    if galeries_photo:
-        gal = next((g for g in galeries_photo if g["type"] == "lieu"), galeries_photo[0])
-        autres = [p for p in gal["photos"] if p["id"] != photo["id"]]
-        rang = next((i for i, p in enumerate(gal["photos"]) if p["id"] == photo["id"]), 0)
-        choix = (autres[rang:] + autres[:rang])[:8]
-        if choix:
-            voisines = (
-                f'<section class="bloc"><h2 class="surtitre">{t["meme_galerie"]} · '
-                f'<a href="{adr.chemin(langue, "galerie", gal["cle"])}">{e(gal["titre"][langue])}</a></h2>'
-                f"{grille(choix, langue, adr)}</section>"
-            )
+    voisines = (
+        f'<section class="bloc"><h2 class="surtitre">{t["proches"]}</h2>{grille(proches, langue, adr)}</section>'
+        if proches else ""
+    )
+    # Fil d'Ariane : la galerie de lieu de la photo, sinon sa première galerie.
+    parente = next((gal for gal in galeries_photo if gal["type"] == "lieu"), (galeries_photo or [None])[0])
+    parents = [(t["galeries"], adr.chemin(langue, "galeries")),
+               (parente["titre"][langue], adr.chemin(langue, "galerie", parente["cle"]))] if parente else []
+    ariane, donnees_ariane = fil_ariane(adr, langue, parents, (titre, chemins[langue]))
     licence = f'<a href="{adr.chemin(langue, "utiliser")}">{t["licence"]}</a>'
     contenu = (
         f'<article class="photo"><figure class="cliche" style="--r:{ratio:.3f}">'
@@ -969,7 +1226,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         f'<img src="{url_image(photo, 1600)}" srcset="{srcset(photo, (800, 1200, 1600, 2200, 3000))}" '
         f'sizes="(max-width: 1440px) 100vw, 1440px" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
         f'alt="{e(titre)}" fetchpriority="high" style="background-color:{e(photo["couleur"])}"></a></figure>'
-        f'<div class="legende"><h1>{e(titre)}</h1>'
+        f'<div class="legende">{ariane}<h1>{e(titre)}</h1>'
         f'<p><a class="bouton" href="{e(photo["page"])}" data-goatcounter-click="pexels-{photo["id"]}" '
         f'data-goatcounter-title="{e(titre)}">{t["telecharger"]}</a></p>'
         f'<p class="credit">{t["credit"].format(licence=licence)} '
@@ -995,7 +1252,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         "license": LICENCE,
         "acquireLicensePage": photo["page"],
         **({"keywords": ", ".join(mots)} if mots else {}),
-    }]
+    }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=photo, donnees=donnees, classe="page-photo", series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
@@ -1005,9 +1262,10 @@ def page_texte(g, langue, genre, titre, description, corps, avec_series, image=N
     """Page de texte simple (À propos, Utiliser mes photos, pages légales)."""
     adr = g.adr
     chemins = {l: adr.chemin(l, genre) for l in ("fr", "en")}
-    contenu = f'<section class="ouverture texte"><h1>{e(titre)}</h1>{corps}</section>'
+    ariane, donnees_ariane = fil_ariane(adr, langue, [], (titre, chemins[langue]))
+    contenu = f'<section class="ouverture texte">{ariane}<h1>{e(titre)}</h1>{corps}</section>'
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
-                   image=image, series=avec_series)
+                   image=image, donnees=[donnees_ariane], series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1270,23 +1528,94 @@ def date_rss(jour):
     return email.utils.format_datetime(moment)
 
 
-def selection_flux(photos, taille, par_jour, depuis):
-    """Photos d'un flux, avec leur date de parution.
+def charger_parutions(jour=None):
+    """Journal des parutions Pinterest (donnees/parutions.json) : pour chaque flux, les
+    photos parues et leur date, dans l'ordre de parution. Une date postérieure au jour
+    (aujourd'hui par défaut) n'est pas une parution : elle est oubliée."""
+    jour = jour or AUJOURDHUI
+    if not PARUTIONS.exists():
+        return {}
+    journal = json.loads(PARUTIONS.read_text(encoding="utf-8"))
+    return {flux: {pid: date_parution for pid, date_parution in parues.items() if date_parution <= jour}
+            for flux, parues in journal.items()}
 
-    Les photos vues après la date « depuis » y entrent aussitôt. Les autres, le fonds,
-    y entrent peu à peu : les « taille » premières le jour même, puis « par_jour »
-    de plus chaque jour. Le flux garde les « taille » dernières parues.
+
+def enregistrer_parutions(journal):
+    PARUTIONS.write_text(json.dumps(journal, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+def completer_parutions(journal, flux, jour, depuis, par_flux, plafond):
+    """Ajoute au journal les parutions du jour et renvoie leur nombre.
+
+    « flux » : liste de (clé, photos, rythme), par ordre de priorité. Une photo ne paraît
+    qu'une fois dans un flux : une photo ajoutée à une galerie ou reclassée entre dans sa
+    file, sans jamais être sautée ni republiée. Les nouvelles photos (vues après « depuis »)
+    passent en tête ; le fonds suit, des photos les plus vues aux moins vues, au rythme du
+    flux. Un flux qui démarre reçoit d'abord « par_flux » photos, et jamais plus par jour ;
+    tous les flux ensemble, pas plus de « plafond » par jour.
     """
-    aujourdhui = date.fromisoformat(AUJOURDHUI)
-    debut = date.fromisoformat(depuis)
-    nouvelles = sorted((p for p in photos if p["vue_le"] > depuis), key=lambda p: (p["vue_le"], p["id"]), reverse=True)
-    parues = []
-    for rang, p in enumerate(p for p in photos if p["vue_le"] <= depuis):
-        jour = debut + timedelta(days=0 if rang < taille else (rang - taille) // par_jour + 1)
-        if jour > aujourdhui:
-            break
-        parues.append((p, jour.isoformat()))
-    return [(p, p["vue_le"]) for p in nouvelles][:taille] + parues[::-1][:taille]
+    total = sum(1 for parues in journal.values() for d in parues.values() if d == jour)
+    recentes = {str(p["id"]) for _, photos, _ in flux for p in photos if p["vue_le"] > depuis}
+    files = []
+    for cle, photos, rythme in flux:
+        parues = journal.get(cle, {})
+        attente = [p for p in photos if str(p["id"]) not in parues]
+        files.append({
+            "cle": cle,
+            "rythme": rythme,
+            "avant": sum(1 for d in parues.values() if d < jour),
+            "du_jour": sum(1 for d in parues.values() if d == jour),
+            "fonds_du_jour": sum(1 for pid, d in parues.items() if d == jour and pid not in recentes),
+            "nouvelles": sorted((p for p in attente if p["vue_le"] > depuis), key=lambda p: (p["vue_le"], p["id"])),
+            "fonds": sorted((p for p in attente if p["vue_le"] <= depuis), key=lambda p: (-p["vues"], -p["id"])),
+        })
+    ajoutees = 0
+
+    def publier(f, p):
+        nonlocal total, ajoutees
+        journal.setdefault(f["cle"], {})[str(p["id"])] = jour
+        f["du_jour"] += 1
+        total += 1
+        ajoutees += 1
+
+    for f in files:
+        while f["nouvelles"] and f["du_jour"] < par_flux and total < plafond:
+            publier(f, f["nouvelles"].pop(0))
+    for f in files:
+        quota = max(f["rythme"], par_flux - f["avant"]) - f["fonds_du_jour"]
+        while quota > 0 and f["fonds"] and f["du_jour"] < par_flux and total < plafond:
+            publier(f, f["fonds"].pop(0))
+            quota -= 1
+    return ajoutees
+
+
+def reglages_pinterest(reglages):
+    """Réglages des flux Pinterest (rubrique [site] de site.ini)."""
+    site = reglages["site"]
+    flux_max = int(site.get("flux_max", "12") or 12)
+    return {
+        "flux_max": flux_max,
+        "par_flux": max(1, flux_max // 2),
+        "depuis": site.get("fonds_date", AUJOURDHUI).strip() or AUJOURDHUI,
+        "par_jour": int(site.get("epingles_par_jour", "1") or 1),
+        "par_jour_autres": int(site.get("epingles_par_jour_autres", "3") or 3),
+        "plafond": int(site.get("epingles_max_par_jour", "200") or 200),
+    }
+
+
+def flux_pinterest(galeries, photos, r):
+    """Flux reliés à Pinterest, par ordre de priorité : un par galerie, puis celui des
+    photos rangées dans aucune galerie."""
+    rangees = {p["id"] for gal in galeries for p in gal["photos"]}
+    return ([(gal["cle"], gal["photos"], r["par_jour"]) for gal in galeries]
+            + [(AUTRES, [p for p in photos if p["id"] not in rangees], r["par_jour_autres"])])
+
+
+def parutions_flux(parues, par_id, taille):
+    """Les « taille » dernières parutions d'un flux, de la plus récente à la plus ancienne.
+    Une photo retirée du site en disparaît, sans qu'une plus ancienne reparaisse."""
+    dernieres = list(parues.items())[-taille:]
+    return [(par_id[int(pid)], d) for pid, d in reversed(dernieres) if int(pid) in par_id]
 
 
 def ecrire_flux(adr, langue, titre, description, page, chemin_flux, selection):
@@ -1315,7 +1644,7 @@ def ecrire_flux(adr, langue, titre, description, page, chemin_flux, selection):
     ecrire(SORTIE / chemin_flux[len(adr.base):].lstrip("/"), texte)
 
 
-def ecrire_plan(adr, photos, galeries, series):
+def ecrire_plan(adr, photos, galeries, series, couleurs):
     entrees = []
 
     def ajouter(chemins, image=None):
@@ -1334,6 +1663,8 @@ def ecrire_plan(adr, photos, galeries, series):
         ajouter({l: adr.chemin(l, "serie", serie["cle"]) for l in ("fr", "en")})
     for gal in galeries:
         ajouter({l: adr.chemin(l, "galerie", gal["cle"]) for l in ("fr", "en")})
+    for couleur in couleurs:
+        ajouter({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in ("fr", "en")})
     for p in photos:
         ajouter({l: adr.chemin(l, "photo", p["id"]) for l in ("fr", "en")}, image=p["image"])
     texte = (
@@ -1355,6 +1686,7 @@ def main():
     options = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     options.add_argument("--fiches-seulement", action="store_true")
     options.add_argument("--max-appels", type=int, default=180)
+    options.add_argument("--enregistrer-parutions", action="store_true")
     args = options.parse_args()
 
     ids = lire_photos()
@@ -1367,20 +1699,23 @@ def main():
 
     reglages = lire_ini("site.ini")
     anglais, francais = lire_textes()
-    photos, sans_titre = assembler_photos(ids, fiches, anglais, francais)
+    photos, sans_titre = assembler_photos(ids, fiches, anglais, francais, lire_suivi())
     minimum = int(reglages["site"].get("galerie_min", "4") or 4)
     galeries = composer_galeries(lire_ini("galeries.ini"), photos, minimum)
     series = composer_series(lire_ini("series.ini"), photos, minimum)
+    couleurs = composer_couleurs(photos, minimum)
     par_id = {p["id"]: p for p in photos}
     choix = lire_liste("selection.txt")
     selection = [par_id[i] for i in choix if i in par_id]
     ouverture = photos_ouverture(reglages, par_id, selection or photos)
     preuve = lire_releves()
     adr = Adresses(reglages["site"]["adresse"])
-    flux_max = int(reglages["site"].get("flux_max", "12") or 12)
-    depuis = reglages["site"].get("fonds_date", AUJOURDHUI).strip() or AUJOURDHUI
-    par_jour = int(reglages["site"].get("epingles_par_jour", "1") or 1)
-    par_jour_autres = int(reglages["site"].get("epingles_par_jour_autres", "3") or 3)
+    r = reglages_pinterest(reglages)
+    journal = charger_parutions()
+    flux = flux_pinterest(galeries, photos, r)
+    du_jour = completer_parutions(journal, flux, AUJOURDHUI, r["depuis"], r["par_flux"], r["plafond"])
+    if args.enregistrer_parutions:
+        enregistrer_parutions(journal)
 
     if SORTIE.exists():
         shutil.rmtree(SORTIE)
@@ -1388,10 +1723,14 @@ def main():
     g = Gabarit(reglages, adr, preuve)
     par_photo = {p["id"]: [gal for gal in galeries if p in gal["photos"]] for p in photos}
     par_serie = {p["id"]: [s for s in series if p in s["photos"]] for p in photos}
+    par_couleur = {p["id"]: [c for c in couleurs if p in c["photos"]] for p in photos}
+    proches = photos_proches(photos, par_photo)
     avec_series = bool(series)
     for langue in ("fr", "en"):
         page_accueil(g, photos, galeries, series, selection, ouverture, langue)
-        page_galeries(g, galeries, series, langue)
+        page_galeries(g, galeries, series, couleurs, langue)
+        for couleur in couleurs:
+            page_couleur(g, couleur, couleurs, galeries, series, langue)
         if series:
             page_series(g, series, langue)
         for serie in series:
@@ -1405,22 +1744,26 @@ def main():
             ecrire_flux(adr, langue, f'{gal["titre"][langue]} — {g.site.get("nom", "")}',
                         gal["description"][langue], adr.chemin(langue, "galerie", gal["cle"]),
                         adr.chemin(langue, "flux_galerie", gal["cle"]),
-                        selection_flux(gal["photos"], flux_max, par_jour, depuis))
+                        parutions_flux(journal.get(gal["cle"], {}), par_id, r["flux_max"]))
         for rang, p in enumerate(photos):
             precedente = photos[rang - 1] if rang > 0 else None
             suivante = photos[rang + 1] if rang + 1 < len(photos) else None
-            page_photo(g, p, langue, precedente, suivante, par_photo[p["id"]], par_serie[p["id"]], avec_series)
+            page_photo(g, p, langue, precedente, suivante, par_photo[p["id"]], par_serie[p["id"]], avec_series,
+                       proches[p["id"]], par_couleur[p["id"]])
         ecrire_flux(adr, langue, TEXTES[langue]["accueil"], reglages["accueil"].get(f"accroche_{langue}", ""),
                     adr.chemin(langue, "accueil"), adr.chemin(langue, "flux"), [(p, p["vue_le"]) for p in photos[:30]])
-        autres = [p for p in photos if not par_photo[p["id"]]]
         ecrire_flux(adr, langue, TEXTES[langue]["autres_photos"], TEXTES[langue]["suffixe"],
                     adr.chemin(langue, "accueil"), adr.chemin(langue, "flux_autres"),
-                    selection_flux(autres, flux_max, par_jour_autres, depuis))
+                    parutions_flux(journal.get(AUTRES, {}), par_id, r["flux_max"]))
     page_introuvable(g, series)
-    ecrire_plan(adr, photos, galeries, series)
+    ecrire_plan(adr, photos, galeries, series, couleurs)
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
     for gal in galeries:
         print(f"  {gal['cle']} : {len(gal['photos'])} photos")
+    hors = [p["id"] for p in photos if not par_photo[p["id"]]]
+    if hors:
+        print(f"Dans aucune galerie ({len(hors)}, flux « More photos ») : {', '.join(map(str, hors))}.")
+    print(f"{len(couleurs)} pages de couleur : " + ", ".join(f'{c["cle"]["fr"]} ({len(c["photos"])})' for c in couleurs) + ".")
     print(f"{len(series)} séries :")
     for serie in series:
         print(f"  {serie['cle']} : {len(serie['photos'])} photos")
@@ -1428,6 +1771,9 @@ def main():
     print(f"Sélection : {len(selection)} photos" + (f" (non publiées : {', '.join(map(str, absentes))})" if absentes else "")
           + f", {len(ouverture)} à l'ouverture de l'accueil.")
     print(f"Relevés : {preuve['vues']} vues et {preuve['telechargements']} téléchargements sur Pexels.")
+    attente = sum(1 for cle, membres, _ in flux for p in membres if str(p["id"]) not in journal.get(cle, {}))
+    print(f"Pinterest : {du_jour} parutions ajoutées aujourd'hui, {attente} en attente dans les files"
+          + ("." if args.enregistrer_parutions else " (journal non enregistré)."))
 
 
 if __name__ == "__main__":
