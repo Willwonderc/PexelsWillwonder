@@ -25,7 +25,7 @@ import time
 import unicodedata
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -58,6 +58,7 @@ TEXTES = {
         "suivante": "Photo suivante",
         "flux": "Flux RSS",
         "flux_galerie": "Flux RSS de la galerie",
+        "autres_photos": "Autres photos de Karl Forterre",
         "suffixe": "Photo de Karl Forterre, libre de droits, à télécharger gratuitement sur Pexels.",
         "introuvable": "Page introuvable",
         "introuvable_texte": "Cette page n'existe pas ou plus.",
@@ -89,6 +90,7 @@ TEXTES = {
         "suivante": "Next photo",
         "flux": "RSS feed",
         "flux_galerie": "Gallery RSS feed",
+        "autres_photos": "More photos by Karl Forterre",
         "suffixe": "Photo by Karl Forterre, royalty-free, free to download on Pexels.",
         "introuvable": "Page not found",
         "introuvable_texte": "This page does not exist, or no longer does.",
@@ -310,6 +312,7 @@ class Adresses:
             "apropos": "/about/" if en else "/a-propos/",
             "flux": "/feed.xml" if en else "/flux.xml",
             "flux_galerie": f"/galleries/{cle}/feed.xml" if en else f"/galeries/{cle}/flux.xml",
+            "flux_autres": "/more-photos/feed.xml" if en else "/autres-photos/flux.xml",
         }
         return debut + chemins[genre]
 
@@ -651,17 +654,36 @@ def date_rss(jour):
     return email.utils.format_datetime(moment)
 
 
-def ecrire_flux(adr, langue, titre, description, page, chemin_flux, photos, nombre=30):
+def selection_flux(photos, taille, par_jour, depuis):
+    """Photos d'un flux, avec leur date de parution.
+
+    Les photos vues après la date « depuis » y entrent aussitôt. Les autres, le fonds,
+    y entrent peu à peu : les « taille » premières le jour même, puis « par_jour »
+    de plus chaque jour. Le flux garde les « taille » dernières parues.
+    """
+    aujourdhui = date.fromisoformat(AUJOURDHUI)
+    debut = date.fromisoformat(depuis)
+    nouvelles = sorted((p for p in photos if p["vue_le"] > depuis), key=lambda p: (p["vue_le"], p["id"]), reverse=True)
+    parues = []
+    for rang, p in enumerate(p for p in photos if p["vue_le"] <= depuis):
+        jour = debut + timedelta(days=0 if rang < taille else (rang - taille) // par_jour + 1)
+        if jour > aujourdhui:
+            break
+        parues.append((p, jour.isoformat()))
+    return [(p, p["vue_le"]) for p in nouvelles][:taille] + parues[::-1][:taille]
+
+
+def ecrire_flux(adr, langue, titre, description, page, chemin_flux, selection):
     t = TEXTES[langue]
     articles = []
-    for p in photos[:nombre]:
+    for p, jour in selection:
         lien = adr.absolue(adr.chemin(langue, "photo", p["id"]))
         titre_photo = p["titre"][langue]
         image = url_image(p, 1200)
         corps = f'<p><img src="{e(image)}" alt="{e(titre_photo)}"></p><p>{e(titre_photo)}. {e(t["suffixe"])}</p>'
         articles.append(
             f"<item><title>{e(titre_photo)}</title><link>{lien}</link>"
-            f'<guid isPermaLink="true">{lien}</guid><pubDate>{date_rss(p["vue_le"])}</pubDate>'
+            f'<guid isPermaLink="true">{lien}</guid><pubDate>{date_rss(jour)}</pubDate>'
             f"<description>{e(corps)}</description>"
             f'<enclosure url="{e(image)}" type="image/jpeg" length="0"/>'
             f'<media:content url="{e(image)}" medium="image" type="image/jpeg"/></item>'
@@ -731,6 +753,9 @@ def main():
     galeries = composer_galeries(lire_ini("galeries.ini"), photos, minimum)
     adr = Adresses(reglages["site"]["adresse"])
     flux_max = int(reglages["site"].get("flux_max", "12") or 12)
+    depuis = reglages["site"].get("fonds_date", AUJOURDHUI).strip() or AUJOURDHUI
+    par_jour = int(reglages["site"].get("epingles_par_jour", "1") or 1)
+    par_jour_autres = int(reglages["site"].get("epingles_par_jour_autres", "3") or 3)
 
     if SORTIE.exists():
         shutil.rmtree(SORTIE)
@@ -745,13 +770,18 @@ def main():
             page_galerie(g, gal, langue)
             ecrire_flux(adr, langue, f'{gal["titre"][langue]} — {g.site.get("nom", "")}',
                         gal["description"][langue], adr.chemin(langue, "galerie", gal["cle"]),
-                        adr.chemin(langue, "flux_galerie", gal["cle"]), gal["photos"], flux_max)
+                        adr.chemin(langue, "flux_galerie", gal["cle"]),
+                        selection_flux(gal["photos"], flux_max, par_jour, depuis))
         for rang, p in enumerate(photos):
             precedente = photos[rang - 1] if rang > 0 else None
             suivante = photos[rang + 1] if rang + 1 < len(photos) else None
             page_photo(g, p, langue, precedente, suivante, par_photo[p["id"]])
         ecrire_flux(adr, langue, TEXTES[langue]["accueil"], reglages["accueil"].get(f"accroche_{langue}", ""),
-                    adr.chemin(langue, "accueil"), adr.chemin(langue, "flux"), photos)
+                    adr.chemin(langue, "accueil"), adr.chemin(langue, "flux"), [(p, p["vue_le"]) for p in photos[:30]])
+        autres = [p for p in photos if not par_photo[p["id"]]]
+        ecrire_flux(adr, langue, TEXTES[langue]["autres_photos"], TEXTES[langue]["suffixe"],
+                    adr.chemin(langue, "accueil"), adr.chemin(langue, "flux_autres"),
+                    selection_flux(autres, flux_max, par_jour_autres, depuis))
     page_introuvable(g)
     ecrire_plan(adr, photos, galeries)
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
