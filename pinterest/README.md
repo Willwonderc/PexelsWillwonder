@@ -112,7 +112,7 @@ galeries.
 | Camino de Santiago | 15 | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` | oui |
 | Pyrenees | 47 | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` | oui |
 | Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
-| Niort and Poitou | 38 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
+| Niort and Poitou | 45 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
 | Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | **à relier** |
 | Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | **à relier** |
 | Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | **à relier** |

@@ -144,7 +144,7 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
 ### Durée du compte-gouttes Pinterest
 Depuis la session B, le journal `vitrine/donnees/parutions.json` fixe le jour de chaque
 épingle (règles dans `pinterest/README.md`). Les 723 photos publiées, rangées dans
-33 galeries, donnent 1 176 épingles (dont 164 parues le premier jour), une photo pouvant
+33 galeries, donnent 1 183 épingles (dont 164 parues le premier jour), une photo pouvant
 figurer dans plusieurs galeries.
 Prévision du 25 septembre 2026, sans nouvelle photo et avec les réglages actuels (une
 épingle par galerie et par nuit, 6 le premier jour d'un nouveau flux) :
