@@ -25,8 +25,11 @@ les photos Pexels.
    tard, le site est reconstruit : saisir l'adresse
    `https://photos.karlforterre.fr` dans Pinterest et lancer la
    vérification.
-4. **Créer les tableaux** : un tableau par galerie, avec les noms de la liste
-   ci-dessous.
+4. **Créer les tableaux** : importer le fichier d'essai
+   `pinterest/imports/essai-une-epingle-par-galerie.csv` (Paramètres → Importer du
+   contenu → Importer un fichier). Il publie une épingle par galerie, et Pinterest
+   crée au passage les tableaux qui n'existent pas. Pour le régénérer :
+   `python3 pinterest/epingles.py --essai`.
 5. **Relier les flux** : Paramètres → Importer du contenu (anciennement « Créer des
    épingles en masse ») → Publication automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
    Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour.
