@@ -38,13 +38,26 @@ Dans `vitrine/photos.txt`, placez un `#` au début de sa ligne.
   fournit directement l'image recadrée en hauteur.
 - **Sélection** : les 24 photos présentées sous l'ouverture, dans l'ordre de
   `vitrine/selection.txt`. Une photo par ligne (lien Pexels ou numéro, suivi au besoin
-  d'un commentaire) ; un `#` en début de ligne la retire.
+  d'un commentaire) ; un `#` en début de ligne la retire. Le début du commentaire,
+  jusqu'au tiret long (« Voie lactée — 74 188 vues »), sert de titre court en français
+  dans le carrousel de karlforterre.fr : pensez à l'écrire pour chaque photo ajoutée.
 - **Preuve sociale** : « 878 500 vues et 3 950 téléchargements sur Pexels » s'affiche
   près des boutons « Suivre sur Pexels ». Les chiffres viennent des relevés de
   `releves/` : la dernière ligne de `vues-pexels.csv` pour les vues, le total de la
   fiche de suivi (`suivi-pexels.csv`, ou toute autre `suivi-….csv` déposée au même
   format) pour les téléchargements. Rien à faire de plus : un nouveau relevé met la
   phrase à jour.
+
+## Aperçu pour le site d'auteur
+
+Chaque nuit, le site publie aussi `https://photos.karlforterre.fr/apercu.json`, que le
+site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit à chaque visite
+pour sa section Photographie : les photos de la sélection (titre court, page du site,
+page Pexels, image), les séries et les galeries avec leur couverture, les dernières
+photos et les chiffres Pexels. Modifier `selection.txt`, `series.ini` ou
+`galeries.ini` suffit donc à mettre à jour les deux sites. La page « À propos » présente
+de son côté l'auteur et ses livres (réglages `auteur_fr` et `auteur_en` de `site.ini`),
+avec un lien vers karlforterre.fr.
 
 ## Séries
 
@@ -186,7 +199,8 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
 - `build.py` : le programme qui construit le site (Python, sans bibliothèque à installer).
   Pour l'essayer : `python3 vitrine/build.py`, puis ouvrir `_site/index.html`.
 - `photos.txt`, `galeries.ini`, `site.ini` : la liste des photos et les réglages.
-- `selection.txt`, `series.ini` : la sélection de l'accueil et les séries.
+- `selection.txt`, `series.ini` : la sélection de l'accueil et les séries. Avec les
+  galeries, elles alimentent `apercu.json`, lu par karlforterre.fr.
 - `donnees/fiches.json` : les fiches lues sur Pexels, tenues à jour automatiquement.
 - `donnees/parutions.json` : le journal des parutions Pinterest, tenu par la tâche de nuit
   (`build.py --enregistrer-parutions`). Un essai de `build.py` sans cette option ne le

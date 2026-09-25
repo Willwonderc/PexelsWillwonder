@@ -109,6 +109,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Lieux photographiés",
         "materiel": "Matériel",
+        "auteur": "Aussi auteur",
         "visionneuse": "Visionneuse",
         "fermer": "Fermer",
         "locale": "fr_FR",
@@ -170,6 +171,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Places photographed",
         "materiel": "Equipment",
+        "auteur": "Also a writer",
         "visionneuse": "Photo viewer",
         "fermer": "Close",
         "locale": "en_US",
@@ -240,6 +242,25 @@ def lire_liste(nom):
         if trouves and trouves[-1] not in ids:
             ids.append(trouves[-1])
     return ids
+
+
+def lire_libelles(nom):
+    """Libellés d'une liste : le commentaire qui suit le numéro, jusqu'au tiret long.
+    Ceux de selection.txt servent de titres courts, en français, dans le carrousel du
+    site d'auteur (apercu.json)."""
+    chemin = ICI / nom
+    libelles = {}
+    if not chemin.exists():
+        return libelles
+    for ligne in chemin.read_text(encoding="utf-8").splitlines():
+        mots = ligne.split(maxsplit=1)
+        if len(mots) < 2 or mots[0].startswith("#"):
+            continue
+        trouves = nombres(mots[0])
+        libelle = mots[1].split(" — ")[0].strip()
+        if trouves and libelle and trouves[-1] not in libelles:
+            libelles[trouves[-1]] = libelle
+    return libelles
 
 
 def lire_photos():
@@ -1292,6 +1313,11 @@ def page_a_propos(g, par_id, galeries, series, langue):
     materiel = paragraphes(reglage.get(f"materiel_{langue}", ""))
     if materiel:
         corps += f'<h2>{t["materiel"]}</h2>' + "".join(f"<p>{e(p)}</p>" for p in materiel)
+    auteur = paragraphes(reglage.get(f"auteur_{langue}", ""))
+    site_auteur = g.site.get("site_personnel", "")
+    if auteur:
+        corps += (f'<h2>{t["auteur"]}</h2>' + "".join(f"<p>{e(p)}</p>" for p in auteur)
+                  + (f'<p><a href="{e(site_auteur)}">{e(urlparse(site_auteur).netloc)}</a></p>' if site_auteur else ""))
     liens_series = [f'<a href="{adr.chemin(langue, "serie", s["cle"])}">{e(s["titre"][langue])}</a>' for s in series]
     if liens_series:
         corps += f'<h2>{t["series"]}</h2><p>' + " · ".join(liens_series) + "</p>"
@@ -1652,6 +1678,64 @@ def ecrire_flux(adr, langue, titre, description, page, chemin_flux, selection):
     ecrire(SORTIE / chemin_flux[len(adr.base):].lstrip("/"), texte)
 
 
+def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, par_serie):
+    """Aperçu du site photo (apercu.json), lu par le site d'auteur karlforterre.fr pour sa
+    section Photographie : sélection, séries, galeries, dernières photos et chiffres
+    Pexels, en français. Le site d'auteur dépend de ce format : le garder."""
+    adr = g.adr
+
+    def lien(genre, cle, titre):
+        return {"titre": titre, "page": adr.absolue(adr.chemin("fr", genre, cle))}
+
+    def fiche(p, avec_liens=False):
+        donnees = {
+            "id": p["id"],
+            "titre": libelles.get(p["id"]) or p["titre"]["fr"],
+            "page": adr.absolue(adr.chemin("fr", "photo", p["id"])),
+            "pexels": p["page"],
+            "image": p["image"],
+            "largeur": p["largeur"],
+            "hauteur": p["hauteur"],
+            "couleur": p["couleur"],
+        }
+        if avec_liens:
+            serie = next(iter(par_serie.get(p["id"], [])), None)
+            galeries_photo = par_photo.get(p["id"], [])
+            galerie = next((gal for gal in galeries_photo if gal["type"] == "lieu"), None) or next(iter(galeries_photo), None)
+            if serie:
+                donnees["serie"] = lien("serie", serie["cle"], serie["titre"]["fr"])
+            if galerie:
+                donnees["galerie"] = lien("galerie", galerie["cle"], galerie["titre"]["fr"])
+        return donnees
+
+    apercu = {
+        "site": adr.absolue(adr.chemin("fr", "accueil")),
+        "mis_a_jour": AUJOURDHUI,
+        "chiffres": {
+            "photos": len(photos),
+            "galeries": len(galeries),
+            "series": len(series),
+            "vues_pexels": g.preuve["vues"],
+            "telechargements_pexels": g.preuve["telechargements"],
+        },
+        "pages": {
+            "galeries": adr.absolue(adr.chemin("fr", "galeries")),
+            "series": adr.absolue(adr.chemin("fr", "series")),
+            "profil_pexels": g.site.get("profil_pexels", ""),
+        },
+        "selection": [fiche(p, avec_liens=True) for p in selection],
+        "series": [{**lien("serie", s["cle"], s["titre"]["fr"]), "cle": s["cle"], "lieu": s["lieu"]["fr"],
+                    "date": s["date"]["fr"], "photos": len(s["photos"]), "couverture": fiche(s["bandeau"])}
+                   for s in series],
+        "galeries": [{**lien("galerie", gal["cle"], gal["titre"]["fr"]), "cle": gal["cle"], "type": gal["type"],
+                      "description": gal["description"]["fr"], "photos": len(gal["photos"]),
+                      "couverture": fiche(gal["bandeau"])}
+                     for gal in galeries],
+        "recentes": [fiche(p) for p in photos[:12]],
+    }
+    ecrire(adr.fichier(f"{adr.base}/apercu.json"), json.dumps(apercu, ensure_ascii=False, indent=1) + "\n")
+
+
 def ecrire_plan(adr, photos, galeries, series, couleurs):
     entrees = []
 
@@ -1765,6 +1849,7 @@ def main():
                     parutions_flux(journal.get(AUTRES, {}), par_id, r["flux_max"]))
     page_introuvable(g, series)
     ecrire_plan(adr, photos, galeries, series, couleurs)
+    ecrire_apercu(g, photos, galeries, series, selection, lire_libelles("selection.txt"), par_photo, par_serie)
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
     for gal in galeries:
         print(f"  {gal['cle']} : {len(gal['photos'])} photos")
@@ -1779,6 +1864,8 @@ def main():
     print(f"Sélection : {len(selection)} photos" + (f" (non publiées : {', '.join(map(str, absentes))})" if absentes else "")
           + f", {len(ouverture)} à l'ouverture de l'accueil.")
     print(f"Relevés : {preuve['vues']} vues et {preuve['telechargements']} téléchargements sur Pexels.")
+    print(f"Aperçu pour karlforterre.fr (apercu.json) : {len(selection)} photos de la sélection, "
+          f"{len(series)} séries, {len(galeries)} galeries.")
     attente = sum(1 for cle, membres, _ in flux for p in membres if str(p["id"]) not in journal.get(cle, {}))
     print(f"Pinterest : {du_jour} parutions ajoutées aujourd'hui, {attente} en attente dans les files"
           + ("." if args.enregistrer_parutions else " (journal non enregistré)."))

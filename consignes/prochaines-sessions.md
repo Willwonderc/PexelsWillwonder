@@ -26,6 +26,10 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
 | F | Tableau de bord | fin octobre | GoatCounter créé, quelques relevés notés |
 
+Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
+`https://photos.karlforterre.fr/apercu.json`, écrit par `vitrine/build.py` : une session
+qui modifie `build.py` garde ce fichier et son format.
+
 Si le crédit baisse plus vite que prévu : A, B et D d'abord. Après le 5 novembre,
 les sessions restent possibles dans les limites de l'abonnement.
 
