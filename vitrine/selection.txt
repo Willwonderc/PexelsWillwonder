@@ -1,0 +1,35 @@
+# Sélection de la page d'accueil : 24 photos, dans l'ordre d'affichage.
+#
+# Une photo par ligne : son lien Pexels ou son numéro, suivi si besoin d'un
+# commentaire. Pour retirer une photo, placez un # au début de sa ligne ; pour en
+# ajouter une, collez son lien sur une nouvelle ligne. Seules les photos publiées
+# sur le site (avec un titre) apparaissent.
+#
+# Proposition du 25 septembre 2026, d'après la fiche de suivi
+# (releves/suivi-pexels.csv) : les photos les plus vues et les plus téléchargées,
+# en variant sujets et lieux. Chiffres du relevé du 24 septembre.
+
+27116682   Voie lactée — 74 188 vues, 424 téléchargements
+34500384   Hôtel de ville de Cognac — 19 667 vues, 128 téléchargements
+13087478   Chemin sous les arbres, Moyemont — 69 821 vues, 94 téléchargements
+38536479   Portrait en lumière naturelle — 13 690 vues, 125 téléchargements
+34894953   Phare du Loup dans la brume — 28 248 vues, 15 téléchargements
+31514838   Rose en gros plan — 22 030 vues, 66 téléchargements
+19047681   Gare vue d'en haut, noir et blanc — 32 674 vues, 68 téléchargements
+38694047   Jardins de Villandry — 2 929 vues, 43 téléchargements
+13102252   Croissant de lune au crépuscule — 88 205 vues, 290 téléchargements
+34793919   Moineau sur une pierre — 12 625 vues, 73 téléchargements
+23414381   Notre-Dame de Niort — 15 090 vues, 121 téléchargements
+34930396   Vagues bleues — 16 938 vues, 47 téléchargements
+34849705   Abbaye du Mont-Saint-Michel — 12 612 vues, 37 téléchargements
+35086239   Prairie fleurie — 10 037 vues, 47 téléchargements
+12076681   Façade à Angoulême — 17 180 vues, 36 téléchargements
+34828680   Goéland sur un muret — 12 891 vues, 30 téléchargements
+33035642   Tour de bureaux à Paris — 6 675 vues, 15 téléchargements
+23414383   Banc en automne — 11 177 vues, 31 téléchargements
+34894970   Phare de Granville — 7 898 vues, 32 téléchargements
+38781489   Alliances de mariage — 2 567 vues, 14 téléchargements
+19047688   Rue de Poitiers — 13 812 vues, 78 téléchargements
+34342149   Barque et feuilles mortes, noir et blanc — 7 844 vues, 11 téléchargements
+35024039   Chaos de rochers sur la côte — 6 808 vues, 24 téléchargements
+39228273   Église de Buzy, Pyrénées — 460 vues, retenue par Pexels
