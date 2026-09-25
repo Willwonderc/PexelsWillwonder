@@ -49,10 +49,20 @@ Dans `vitrine/photos.txt`, placez un `#` au début de sa ligne.
 ## Séries
 
 Les séries racontent un lieu ou un moment : un titre, un lieu, une date, un texte de
-150 à 300 mots en français et en anglais, puis les photos. Tout se règle dans
+150 à 300 mots en français et en anglais, puis les photos. Leur mise en page de récit
+les distingue des galeries : ouverture sur tout l'écran avec le titre au centre, premier
+paragraphe en grand (le chapeau), photos plus grandes et plus espacées. Tout se règle dans
 `vitrine/series.ini`, dont l'en-tête explique chaque réglage ; l'ordre des blocs est
 celui de l'affichage. Adresses : `/series/<identifiant>/` et
 `/en/series/<identifiant>/`.
+
+## Photo en bandeau
+
+Chaque série et chaque galerie s'ouvre sur une grande photo, derrière son titre, comme
+l'accueil ; les pages « Séries » et « Galeries » aussi. Par défaut, c'est la photo de
+couverture si elle est en largeur, sinon la première photo en largeur. Pour en choisir
+une autre, ajoutez au bloc de la série (`series.ini`) ou de la galerie
+(`galeries.ini`) une ligne `bandeau = <numéro Pexels>`, d'une photo qui en fait partie.
 
 ## Visionneuse
 

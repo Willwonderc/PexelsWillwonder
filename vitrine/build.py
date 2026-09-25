@@ -62,8 +62,8 @@ TEXTES = {
         "themes": "Thèmes",
         "lieux": "Lieux",
         "recentes": "Dernières photos",
-        "une_photo": "1 photo",
-        "n_photos": "{n} photos",
+        "une_photo": "1\u00a0photo",
+        "n_photos": "{n}\u00a0photos",
         "telecharger": "Télécharger gratuitement sur Pexels",
         "credit": "Photo de Karl Forterre, sous {licence} : utilisation libre et gratuite.",
         "licence": "licence Pexels",
@@ -100,6 +100,7 @@ TEXTES = {
                   "Suivez-y Karl Forterre pour découvrir les nouvelles en premier.",
         "series_intro": "Chaque série raconte un lieu ou un moment : quelques lignes d'histoire, "
                         "puis les photos, toutes à télécharger gratuitement sur Pexels.",
+        "galeries_intro": "Les photos rangées par thème et par lieu, toutes à télécharger gratuitement sur Pexels.",
         "titre_serie": "{titre} : photos libres de droits",
         "autres_series": "Autres séries",
         "utiliser": "Utiliser mes photos",
@@ -122,8 +123,8 @@ TEXTES = {
         "themes": "Themes",
         "lieux": "Places",
         "recentes": "Latest photos",
-        "une_photo": "1 photo",
-        "n_photos": "{n} photos",
+        "une_photo": "1\u00a0photo",
+        "n_photos": "{n}\u00a0photos",
         "telecharger": "Free download on Pexels",
         "credit": "Photo by Karl Forterre, under the {licence}: free to use.",
         "licence": "Pexels license",
@@ -160,6 +161,7 @@ TEXTES = {
                   "Follow Karl Forterre there to see new ones first.",
         "series_intro": "Each series tells the story of a place or a moment: a few lines of background, "
                         "then the photos, all free to download on Pexels.",
+        "galeries_intro": "Photos arranged by theme and by place, all free to download on Pexels.",
         "titre_serie": "{titre}: royalty-free photos",
         "autres_series": "More series",
         "utiliser": "Use my photos",
@@ -451,6 +453,18 @@ def assembler_photos(ids, fiches, anglais, francais, suivi=None):
     return photos, sans_titre
 
 
+def en_largeur(photo):
+    return photo["largeur"] > photo["hauteur"]
+
+
+def photo_bandeau(reglage, membres, couverture):
+    """Photo affichée en bandeau derrière le titre : réglage « bandeau », sinon la
+    couverture si elle est en largeur, sinon la première photo en largeur."""
+    choix = nombres(reglage.get("bandeau"))
+    return (next((p for p in membres if p["id"] in choix), None)
+            or (couverture if en_largeur(couverture) else next((p for p in membres if en_largeur(p)), couverture)))
+
+
 def composer_galeries(conf, photos, minimum):
     galeries = []
     for cle in conf.sections():
@@ -477,6 +491,7 @@ def composer_galeries(conf, photos, minimum):
             "texte": {"fr": texte_fr, "en": paragraphes(reglage.get("texte_en")) or texte_fr},
             "photos": membres,
             "couverture": couverture,
+            "bandeau": photo_bandeau(reglage, membres, couverture),
         })
     return galeries
 
@@ -505,6 +520,7 @@ def composer_series(conf, photos, minimum):
             "texte": {"fr": texte_fr, "en": paragraphes(reglage.get("texte_en")) or texte_fr},
             "photos": membres,
             "couverture": couverture,
+            "bandeau": photo_bandeau(reglage, membres, couverture),
         })
     return series
 
@@ -591,7 +607,7 @@ def photos_ouverture(reglages, par_id, selection):
     photos en format paysage de la sélection."""
     choisies = [par_id[i] for i in nombres(reglages["accueil"].get("ouverture")) if i in par_id]
     if not choisies:
-        choisies = [p for p in selection if p["largeur"] > p["hauteur"]][:6]
+        choisies = [p for p in selection if en_largeur(p)][:6]
     return choisies[:8] or selection[:1]
 
 
@@ -648,19 +664,24 @@ def nombre_photos(n, langue):
     return TEXTES[langue]["une_photo"] if n == 1 else TEXTES[langue]["n_photos"].format(n=n)
 
 
-def carreau(photo, langue, adr):
+def carreau(photo, langue, adr, grand=False):
     ratio = photo["largeur"] / photo["hauteur"]
+    largeurs, tailles = (((600, 900, 1300, 1800), "(max-width: 640px) 100vw, 50vw") if grand
+                         else ((300, 600, 900, 1300), "(max-width: 640px) 60vw, 30vw"))
     return (
         f'<a class="carreau" href="{adr.chemin(langue, "photo", photo["id"])}" data-pexels="{e(photo["page"])}" '
         f'style="--r:{ratio:.3f};background-color:{e(photo["couleur"])}">'
-        f'<img src="{url_image(photo, 600)}" srcset="{srcset(photo, (300, 600, 900, 1300))}" '
-        f'sizes="(max-width: 640px) 60vw, 30vw" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
+        f'<img src="{url_image(photo, 900 if grand else 600)}" srcset="{srcset(photo, largeurs)}" '
+        f'sizes="{tailles}" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
         f'alt="{e(photo["titre"][langue])}" loading="lazy" decoding="async"></a>'
     )
 
 
-def grille(photos, langue, adr):
-    return '<div class="grille">' + "".join(carreau(p, langue, adr) for p in photos) + "</div>"
+def grille(photos, langue, adr, grand=False):
+    """Grille justifiée de vignettes ; « grand » : photos plus grandes et plus espacées
+    (séries)."""
+    return (f'<div class="grille{" grandes" if grand else ""}">'
+            + "".join(carreau(p, langue, adr, grand) for p in photos) + "</div>")
 
 
 def carte(lien, photo, titre, infos):
@@ -911,7 +932,7 @@ class Gabarit:
             f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a></p>'
             "</footer>"
         )
-        visionneuse = self.visionneuse(langue) if 'class="grille"' in contenu else ""
+        visionneuse = self.visionneuse(langue) if 'class="grille' in contenu else ""
         return (
             f'<!doctype html>\n<html lang="{langue}"><head>' + "".join(tete) + "</head>"
             f'<body class="{classe}">{entete}<main id="contenu">{contenu}</main>{pied}{visionneuse}</body></html>\n'
@@ -930,22 +951,46 @@ def url_recadree(photo, largeur, hauteur):
     return f"{photo['image']}?auto=compress&cs=tinysrgb&fit=crop&w={largeur}&h={hauteur}"
 
 
-def diapo(photo, langue, adr, premiere):
-    """Une photo de l'accueil plein écran. Sur un écran en hauteur, Pexels fournit
-    directement l'image recadrée, bien plus légère que l'image entière."""
-    portrait = ", ".join(f"{url_recadree(photo, l, round(l * 1.75))} {l}w" for l in (600, 900, 1200))
+def diapo(photo, langue, adr, premiere, bandeau=False):
+    """Une photo de l'accueil plein écran, ou du bandeau d'une série ou d'une galerie.
+    Sur un écran en hauteur, Pexels fournit directement l'image recadrée, bien plus
+    légère que l'image entière."""
+    hauteur = 4 / 3 if bandeau else 1.75
+    portrait = ", ".join(f"{url_recadree(photo, l, round(l * hauteur))} {l}w" for l in (600, 900, 1200))
     ratio = photo["largeur"] / photo["hauteur"]
     priorite = ' fetchpriority="high"' if premiere else ""
+    tailles = ("100vw", "100vw") if bandeau else (
+        "(max-aspect-ratio: 4/7) 57vh, 100vw",
+        f'(max-aspect-ratio: {photo["largeur"]}/{photo["hauteur"]}) {ratio * 100:.0f}vh, 100vw',
+    )
     return (
         f'<figure class="diapo{" visible" if premiere else ""}" style="background-color:{e(photo["couleur"])}">'
-        f'<picture><source media="(max-aspect-ratio: 4/5)" srcset="{portrait}" '
-        f'sizes="(max-aspect-ratio: 4/7) 57vh, 100vw">'
+        f'<picture><source media="(max-aspect-ratio: 4/5)" srcset="{portrait}" sizes="{tailles[0]}">'
         f'<img src="{url_image(photo, 1600)}" srcset="{srcset(photo, (1200, 1600, 2200, 3000))}" '
-        f'sizes="(max-aspect-ratio: {photo["largeur"]}/{photo["hauteur"]}) {ratio * 100:.0f}vh, 100vw" '
-        f'width="{photo["largeur"]}" height="{photo["hauteur"]}" alt="{e(photo["titre"][langue])}"{priorite}>'
+        f'sizes="{tailles[1]}" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
+        f'alt="{e(photo["titre"][langue])}"{priorite}>'
         f'</picture><figcaption><a href="{adr.chemin(langue, "photo", photo["id"])}">'
         f'{e(photo["titre"][langue])}</a></figcaption></figure>'
     )
+
+
+def bandeau(g, photo, langue, titre, accroche="", surtitre="", plein_ecran=False, centre=False):
+    """En-tête d'une série ou d'une galerie : une grande photo derrière le titre.
+    « accroche » et « surtitre » (le fil d'Ariane) sont du HTML déjà échappé.
+    « plein_ecran » : ouverture sur tout l'écran, titre au centre (séries)."""
+    classes = "plein centre" if plein_ecran else "plein bandeau" + (" centre" if centre else "")
+    return (
+        f'<section class="{classes}"><div class="defile">'
+        f'{diapo(photo, langue, g.adr, True, bandeau=not plein_ecran)}</div>'
+        f'<div class="plein-texte">{surtitre}<h1>{e(titre)}</h1>'
+        + (f'<p class="accroche">{accroche}</p>' if accroche else "")
+        + "</div></section>"
+    )
+
+
+def bandeau_index(elements):
+    """Photo du bandeau d'une page d'index : le premier bandeau en largeur."""
+    return next((x["bandeau"] for x in elements if en_largeur(x["bandeau"])), elements[0]["bandeau"])
 
 
 def ouverture_accueil(g, photos, langue):
@@ -998,7 +1043,8 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     }]
     chemins = {l: adr.chemin(l, "accueil") for l in ("fr", "en")}
     texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
-                   image=(ouverture or photos or [None])[0], donnees=donnees, classe="accueil",
+                   image=(ouverture or photos or [None])[0], donnees=donnees,
+                   classe="accueil sur-photo" if ouverture else "accueil",
                    titre_complet=True, series=bool(series))
     ecrire(adr.fichier(chemins[langue]), texte)
 
@@ -1008,16 +1054,17 @@ def page_galeries(g, galeries, series, couleurs, langue):
     t = TEXTES[langue]
     chemins = {l: adr.chemin(l, "galeries") for l in ("fr", "en")}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
-    contenu = (
-        f'<section class="ouverture">{ariane}<h1>{t["galeries"]}</h1></section>'
-        + cartes(galeries, langue, adr, "theme")
-        + cartes(galeries, langue, adr, "lieu")
-        + pastilles(couleurs, galeries, langue, adr)
-    )
+    suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
+             + pastilles(couleurs, galeries, langue, adr))
+    if galeries:
+        contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)
+                   + f'<div class="enveloppe">{suite}</div>')
+    else:
+        contenu = f'<section class="ouverture">{ariane}<h1>{t["galeries"]}</h1></section>' + suite
     description = " · ".join(gal["titre"][langue] for gal in galeries)
     texte = g.page(langue, titre=t["galeries"], description=description, chemins=chemins, contenu=contenu,
                    image=galeries[0]["couverture"] if galeries else None, donnees=[donnees_ariane],
-                   series=bool(series))
+                   series=bool(series), classe="sur-photo" if galeries else "")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1030,16 +1077,16 @@ def page_galerie(g, galerie, series, langue):
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
                                         (galerie["titre"][langue], chemins[langue]))
     texte_galerie = galerie["texte"][langue]
+    accroche = f'{e(description)} <span class="nombre">{nombre_photos(len(galerie["photos"]), langue)}</span>'
     contenu = (
-        f'<header class="ouverture">{ariane}'
-        f'<h1>{e(galerie["titre"][langue])}</h1>'
-        f'<p class="accroche">{e(description)} <span class="nombre">{nombre_photos(len(galerie["photos"]), langue)}</span></p>'
-        f"</header>"
+        bandeau(g, galerie["bandeau"], langue, galerie["titre"][langue], accroche, ariane)
+        + '<div class="enveloppe">'
         + grille(galerie["photos"], langue, adr)
         + (f'<section class="texte galerie-texte"><h2 class="surtitre">{t["a_propos_galerie"]}</h2>'
            + "".join(f"<p>{e(para)}</p>" for para in texte_galerie) + "</section>" if texte_galerie else "")
         + f'<p class="flux-lien"><a href="{flux}">{t["flux_galerie"]}</a></p>'
         + rappel(g, langue)
+        + "</div>"
     )
     donnees = [{
         "@context": "https://schema.org",
@@ -1050,7 +1097,8 @@ def page_galerie(g, galerie, series, langue):
         "inLanguage": langue,
     }, donnees_ariane]
     texte = g.page(langue, titre=galerie["titre"][langue], description=description, chemins=chemins,
-                   contenu=contenu, image=galerie["couverture"], donnees=donnees, flux=flux, series=bool(series))
+                   contenu=contenu, image=galerie["couverture"], donnees=donnees, flux=flux, series=bool(series),
+                   classe="sur-photo")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1089,12 +1137,12 @@ def page_series(g, series, langue):
     chemins = {l: adr.chemin(l, "series") for l in ("fr", "en")}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["series"], chemins[langue]))
     contenu = (
-        f'<section class="ouverture">{ariane}<h1>{t["series"]}</h1><p class="accroche">{t["series_intro"]}</p></section>'
-        '<div class="galeries">' + "".join(carte_serie(s, langue, adr) for s in series) + "</div>"
-        + rappel(g, langue)
+        bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]), ariane, centre=True)
+        + '<div class="enveloppe"><div class="galeries">' + "".join(carte_serie(s, langue, adr) for s in series)
+        + "</div>" + rappel(g, langue) + "</div>"
     )
     texte = g.page(langue, titre=t["series"], description=t["series_intro"], chemins=chemins, contenu=contenu,
-                   image=series[0]["couverture"], donnees=[donnees_ariane])
+                   image=series[0]["couverture"], donnees=[donnees_ariane], classe="sur-photo")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1107,13 +1155,14 @@ def page_serie(g, serie, series, langue):
     description = texte_serie[0] if texte_serie else titre
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["series"], adr.chemin(langue, "series"))], (titre, chemins[langue]))
     contenu = (
-        f'<header class="ouverture">{ariane}'
-        f'<h1>{e(titre)}</h1><p class="accroche">{e(infos_serie(serie, langue))}</p></header>'
-        + (f'<div class="texte serie-texte">' + "".join(f"<p>{e(p)}</p>" for p in texte_serie) + "</div>"
-           if texte_serie else "")
-        + grille(serie["photos"], langue, adr)
+        bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), ariane, plein_ecran=True)
+        + '<div class="enveloppe">'
+        + (f'<div class="texte serie-texte"><p class="chapeau">{e(texte_serie[0])}</p>'
+           + "".join(f"<p>{e(p)}</p>" for p in texte_serie[1:]) + "</div>" if texte_serie else "")
+        + grille(serie["photos"], langue, adr, grand=True)
         + rappel(g, langue)
         + cartes_series(series, langue, adr, titre=t["autres_series"], sauf=serie)
+        + "</div>"
     )
     nom = g.site.get("nom", "Karl Forterre")
     donnees = [{
@@ -1128,7 +1177,7 @@ def page_serie(g, serie, series, langue):
         **({"contentLocation": {"@type": "Place", "name": serie["lieu"][langue]}} if serie["lieu"][langue] else {}),
     }, donnees_ariane]
     texte = g.page(langue, titre=t["titre_serie"].format(titre=titre), description=description, chemins=chemins,
-                   contenu=contenu, image=serie["couverture"], donnees=donnees)
+                   contenu=contenu, image=serie["couverture"], donnees=donnees, classe="sur-photo recit")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
