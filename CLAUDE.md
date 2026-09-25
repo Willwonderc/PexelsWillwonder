@@ -9,7 +9,8 @@ Promotion des photos de Karl Forterre publiées sur Pexels
 (https://www.pexels.com/@karl-forterre-28489473). Point de départ, septembre 2026 :
 919 photos, environ 878 500 vues, 19 abonnés. Des sessions Claude Code construisent,
 avant le 5 novembre 2026, quatre outils qui tournent ensuite seuls et gratuitement sur
-GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
+GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promotion :
+`docs/plan-site-pro.md` ; consignes des sessions : `consignes/`.
 
 1. Site de photographe (`vitrine/`) : site statique bilingue sur GitHub Pages, pensé
    pour le référencement, avec une page par photo et des galeries par thème et par
@@ -86,3 +87,6 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
   (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
   `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
   adresse de téléchargement valable une heure.
+- Captures d'écran en session : Chromium ne charge pas les images de
+  images.pexels.com à travers le proxy. Intercepter ces requêtes (Playwright,
+  `page.route`) et y répondre avec les fichiers téléchargés par curl, qui passe.
