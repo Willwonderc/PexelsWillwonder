@@ -3,14 +3,17 @@
 Objectif : que les épingles se créent sans intervention et ramènent les visiteurs vers
 les photos Pexels.
 
-- **Flux RSS, pour les nouvelles photos** : chaque galerie du site publie un flux de ses
-  12 photos les plus récentes. Relié à un tableau Pinterest, il crée une épingle pour
-  chaque nouvelle photo, dans les 24 heures, sans session ni crédit. Pinterest exige que
-  ces épingles mènent au site revendiqué : elles ouvrent donc la page de la photo sur le
-  site, qui renvoie vers Pexels.
-- **Fichiers d'import, pour les photos déjà publiées** : une session prépare des
-  fichiers de 200 épingles au plus, avec des dates de publication étalées. Ces
-  épingles-là mènent directement à la page Pexels de chaque photo.
+- **Flux RSS, pour toutes les photos** : chaque galerie du site publie un flux relié à
+  un tableau Pinterest. Les nouvelles photos y entrent aussitôt ; le fonds y entre au
+  compte-gouttes, une photo de plus par galerie et par nuit (réglage
+  `epingles_par_jour` de `vitrine/site.ini`). Le flux « More photos » fait de même,
+  trois photos par nuit, pour les photos rangées dans aucune galerie. Pinterest crée
+  les épingles dans les 24 heures, sans session ni crédit. Il exige qu'elles mènent au
+  site revendiqué : elles ouvrent donc la page de la photo, qui renvoie vers Pexels.
+- **Fichiers d'import, en complément** : ils mènent directement à la page Pexels de
+  chaque photo, mais Pinterest ne garde que 10 épingles programmées à la fois, à
+  30 jours au plus. Ils servent donc aux petits lots ponctuels, comme le fichier d'essai
+  qui a créé les tableaux.
 
 ## Démarche, étape par étape
 
@@ -63,6 +66,7 @@ galeries.
 | Pyrenees | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` |
 | Bordeaux | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` |
 | Niort and Poitou | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` |
+| Photos by Karl Forterre | `https://photos.karlforterre.fr/en/more-photos/feed.xml` |
 Une galerie qui dépassera 4 photos, comme Toulouse, aura son flux à la même adresse.
 
 ## Précautions

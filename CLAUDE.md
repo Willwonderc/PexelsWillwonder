@@ -16,8 +16,10 @@ GitHub. Plan complet : `docs/plan.md` ; consignes des sessions : `consignes/`.
    lieu. `vitrine/build.py` (Python sans dépendance) lit `vitrine/photos.txt`, complète
    le cache `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
    `.github/workflows/site.yml` le relance chaque nuit. Mode d'emploi : `vitrine/README.md`.
-2. Pinterest (`pinterest/`) : épingles créées automatiquement par Pinterest à partir
-   des flux RSS du site, et fichiers d'import par tableur pour les photos existantes.
+2. Pinterest (`pinterest/`) : 15 flux RSS du site reliés à 15 tableaux (14 galeries et
+   « Photos by Karl Forterre » pour les photos hors galeries). Les nouvelles photos y
+   entrent aussitôt, le fonds au compte-gouttes (`fonds_date`, `epingles_par_jour` dans
+   `vitrine/site.ini`). Fichiers d'import : `pinterest/epingles.py`.
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
    déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
