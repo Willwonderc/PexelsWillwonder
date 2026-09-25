@@ -1719,6 +1719,9 @@ def main():
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
     for gal in galeries:
         print(f"  {gal['cle']} : {len(gal['photos'])} photos")
+    hors = [p["id"] for p in photos if not par_photo[p["id"]]]
+    if hors:
+        print(f"Dans aucune galerie ({len(hors)}, flux « More photos ») : {', '.join(map(str, hors))}.")
     print(f"{len(couleurs)} pages de couleur : " + ", ".join(f'{c["cle"]["fr"]} ({len(c["photos"])})' for c in couleurs) + ".")
     print(f"{len(series)} séries :")
     for serie in series:

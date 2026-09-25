@@ -59,29 +59,34 @@ def ecrire(nom, lignes):
 
 
 def calendrier(photos, galeries):
-    """Simule le journal des parutions nuit après nuit, sans nouvelle photo : nombre de
-    photos de chaque flux, déjà parues, et date prévue de la dernière épingle."""
+    """Simule le journal des parutions nuit après nuit, sans nouvelle photo : pour chaque
+    flux, épingles déjà parues, photos qui attendent leur tour et date de la dernière."""
     r = build.reglages_pinterest(build.lire_ini("site.ini"))
     flux = build.flux_pinterest(galeries, photos, r)
     journal = build.charger_parutions()
-    parues = {cle: sum(1 for p in membres if str(p["id"]) in journal.get(cle, {})) for cle, membres, _ in flux}
+    parues = {cle: len(journal.get(cle, {})) for cle, _, _ in flux}
+    attente = {cle: sum(1 for p in membres if str(p["id"]) not in journal.get(cle, {})) for cle, membres, _ in flux}
     jour = date.fromisoformat(build.AUJOURDHUI)
     par_jour = {}
     while True:
-        par_jour[jour] = build.completer_parutions(journal, flux, jour.isoformat(), r["depuis"], r["par_flux"], r["plafond"])
+        j = jour.isoformat()
+        build.completer_parutions(journal, flux, j, r["depuis"], r["par_flux"], r["plafond"])
+        par_jour[j] = sum(1 for dates in journal.values() for d in dates.values() if d == j)
         if all(str(p["id"]) in journal.get(cle, {}) for cle, membres, _ in flux for p in membres):
             break
         jour += timedelta(days=1)
     titres = {g["cle"]: g["titre"]["en"] for g in galeries}
     titres[build.AUTRES] = "Photos by Karl Forterre"
-    print("| Tableau | Photos | Déjà parues | Dernière épingle |")
+    print(f"Prévision du {build.AUJOURDHUI}, sans nouvelle photo :\n")
+    print("| Tableau | Déjà parues | En attente | Dernière épingle |")
     print("|---|---|---|---|")
     for cle, membres, _ in flux:
         dates = [journal[cle][str(p["id"])] for p in membres]
-        print(f"| {titres[cle]} | {len(membres)} | {parues[cle]} | {max(dates) if dates else '—'} |")
-    premiers = ", ".join(f"{j.isoformat()} : {n}" for j, n in list(par_jour.items())[:5])
-    print(f"\nÉpingles ajoutées les premiers jours : {premiers}.")
-    print(f"Plus haut : {max(par_jour.values())} en un jour ; dernière épingle du fonds : {jour.isoformat()}.")
+        derniere = max(dates) if attente[cle] else "—"
+        print(f"| {titres[cle]} | {parues[cle]} | {attente[cle]} | {derniere} |")
+    premiers = ", ".join(f"{j} : {n}" for j, n in list(par_jour.items())[:4])
+    print(f"\nÉpingles par jour : {premiers}… ; au plus {max(par_jour.values())}.")
+    print(f"Dernière épingle du fonds : {jour.isoformat()}.")
 
 
 def main():

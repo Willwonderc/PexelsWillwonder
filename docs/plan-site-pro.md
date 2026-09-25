@@ -81,6 +81,9 @@ léger, sans bibliothèque, avec l'adresse de la page de la photo mise à jour p
 partage.
 
 ### 4. Toutes les photos rangées
+Fait en session B (25 septembre 2026) : journal des parutions, 19 nouvelles galeries
+(33 en tout), chaque photo publiée rangée dans au moins une, pages par couleur et photos
+proches.
 - **Journal des parutions**, avant tout reclassement. Aujourd'hui, le compte-gouttes
   calcule la date de chaque épingle d'après le rang de la photo dans son flux. Une
   photo ajoutée à une galerie, ou une photo sans titre qui en reçoit un, change ces
@@ -113,8 +116,9 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
   enregistrement TXT chez OVH, puis déclaration du plan du site. Bing Webmaster Tools
   peut ensuite importer cette configuration.
 - Traduire en français les titres encore en anglais.
-- Un texte unique de 150 à 300 mots par galerie.
-- Fil d'Ariane (données structurées BreadcrumbList) et liens internes entre photos proches.
+- Un texte unique de 150 à 300 mots par galerie (fait en session B).
+- Fil d'Ariane (données structurées BreadcrumbList) et liens internes entre photos proches
+  (faits en session B).
 
 ### 8. Qualité et obligations
 - **Mentions légales**, obligatoires en France pour un site professionnel :
@@ -126,7 +130,8 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
 ## Promotion
 
 ### Automatique, sans crédit
-- **Pinterest** : fait. 15 flux, une photo de plus par galerie et par nuit. Plus tard,
+- **Pinterest** : fait. Un flux par galerie (34 avec « More photos »), une photo de plus
+  par galerie et par nuit, d'après le journal des parutions. Plus tard,
   des visuels verticaux (format 2:3) avec un titre, qui attirent davantage de clics.
 - **Bluesky et Mastodon, ou Pixelfed** (réseau de photographes compatible avec
   Mastodon) : une « photo du jour » publiée chaque matin par la tâche GitHub, avec un
@@ -137,35 +142,28 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
   paramètres (son emplacement varie selon les versions).
 
 ### Durée du compte-gouttes Pinterest
-Sans nouvelle photo et avec les réglages actuels (12 épingles par flux le premier jour,
-puis chaque nuit une par galerie et trois pour « More photos »), les 723 photos
-publiées donnent 799 épingles, une photo pouvant figurer dans plusieurs galeries :
+Depuis la session B, le journal `vitrine/donnees/parutions.json` fixe le jour de chaque
+épingle (règles dans `pinterest/README.md`). Les 723 photos publiées, rangées dans
+33 galeries, donnent 1 176 épingles (dont 164 parues le premier jour), une photo pouvant
+figurer dans plusieurs galeries.
+Prévision du 25 septembre 2026, sans nouvelle photo et avec les réglages actuels (une
+épingle par galerie et par nuit, 6 le premier jour d'un nouveau flux) :
 
 | Flux | Photos | Dernière épingle |
 |---|---|---|
-| Pays basque, Asturies, Mariage, Bordeaux | 10, 9, 7, 6 | 25 septembre 2026 (premier jour) |
-| Chemin de Saint-Jacques | 16 | 29 septembre |
-| Ciel et astrophotographie | 18 | 1er octobre |
-| Niort et Poitou | 20 | 3 octobre |
-| Portraits | 22 | 5 octobre |
-| Fonds abstraits | 24 | 7 octobre |
-| Noir et blanc | 26 | 9 octobre |
-| Galice | 27 | 10 octobre |
-| Jardins des châteaux de la Loire | 30 | 13 octobre |
-| Pyrénées | 35 | 18 octobre |
-| Fleurs et macro | 42 | 25 octobre |
-| More photos (photos rangées dans aucune galerie) | 507 | 9 mars 2027 |
+| Mariage, Bordeaux | 7, 6 | déjà toutes parues le 25 septembre |
+| Asturies, Pays basque, Chemin de Saint-Jacques, Transports | 11, 13, 15, 11 | 27 septembre au 1er octobre |
+| Paris, Normandie et Bretagne, Vosges, Ciel et astrophotographie | 12, 13, 15, 21 | 2 au 5 octobre |
+| Jardins de la Loire, Charente, Cuisine, Galice, Mer et littoral | 24, 17, 20, 29, 25 | 7 au 14 octobre |
+| Nuages, Objets, Niort et Poitou, Val de Loire, Paysages, Pyrénées | 28 à 47 | 17 au 30 octobre |
+| Portraits, Églises, Fonds abstraits, Scènes de vie, Rivières | 43 à 55 | 1er au 13 novembre |
+| Villes, Animaux, Noir et blanc, Fleurs et macro | 62 à 71 | 21 au 28 novembre |
+| Arbres et forêts, Architecture et patrimoine | 79, 96 | 7 et 24 décembre |
 
-Le premier jour compte 164 épingles, sous le plafond de 200. Les galeries sont épuisées
-le 25 octobre 2026 ; les photos hors galerie continuent, trois par nuit, jusqu'au
-9 mars 2027. Ensuite, seules les nouvelles photos alimentent Pinterest. Ce calendrier
-change si :
-- de nouvelles photos arrivent : elles entrent aussitôt, sans décaler les autres ;
-- les galeries sont réorganisées (session B) ou les photos sans titre titrées
-  (session D) : d'où le journal des parutions du chantier 4, à installer d'abord ;
-- le rythme change (`epingles_par_jour_autres` dans `vitrine/site.ini`), ce qu'il vaut
-  mieux faire une fois le journal en place. À une photo par nuit, « More photos »
-  durerait jusqu'en février 2028.
+Environ 30 épingles par jour, 96 le lendemain de la bascule, jamais plus de 200. Les
+nouvelles photos entrent aussitôt dans leurs flux ; les photos titrées par la session D
+entrent dans les files sans décaler les parutions passées. Calendrier à jour :
+`python3 pinterest/epingles.py --calendrier`.
 
 ### Réseaux avec connecteur : X, Threads, LinkedIn, Instagram
 Des connecteurs claude.ai permettent de programmer des publications : **Typefully**

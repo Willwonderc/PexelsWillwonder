@@ -82,24 +82,49 @@ des épingles en français, remplacer `/en/galleries/<galerie>/feed.xml` par
 `/galeries/<galerie>/flux.xml` et donner aux tableaux les titres français des
 galeries.
 
-| Tableau (en anglais) | Flux à coller |
-|---|---|
-| Loire Valley château gardens | `https://photos.karlforterre.fr/en/galleries/jardins-chateaux-loire/feed.xml` |
-| Sky and astrophotography | `https://photos.karlforterre.fr/en/galleries/ciel-astrophotographie/feed.xml` |
-| Black and white | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` |
-| Flowers and macro | `https://photos.karlforterre.fr/en/galleries/fleurs-et-macro/feed.xml` |
-| Portraits | `https://photos.karlforterre.fr/en/galleries/portraits/feed.xml` |
-| Abstract backgrounds | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` |
-| Wedding | `https://photos.karlforterre.fr/en/galleries/mariage/feed.xml` |
-| Basque Country | `https://photos.karlforterre.fr/en/galleries/pays-basque/feed.xml` |
-| Asturias | `https://photos.karlforterre.fr/en/galleries/asturies/feed.xml` |
-| Galicia | `https://photos.karlforterre.fr/en/galleries/galice/feed.xml` |
-| Camino de Santiago | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` |
-| Pyrenees | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` |
-| Bordeaux | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` |
-| Niort and Poitou | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` |
-| Photos by Karl Forterre | `https://photos.karlforterre.fr/en/more-photos/feed.xml` |
-Une galerie qui dépassera 4 photos, comme Toulouse, aura son flux à la même adresse.
+| Tableau (en anglais) | Photos | Flux à coller | Relié |
+|---|---|---|---|
+| Loire Valley château gardens | 24 | `https://photos.karlforterre.fr/en/galleries/jardins-chateaux-loire/feed.xml` | oui |
+| Sky and astrophotography | 21 | `https://photos.karlforterre.fr/en/galleries/ciel-astrophotographie/feed.xml` | oui |
+| Clouds and sunsets | 28 | `https://photos.karlforterre.fr/en/galleries/nuages-couchers-de-soleil/feed.xml` | **à relier** |
+| Landscapes and countryside | 39 | `https://photos.karlforterre.fr/en/galleries/paysages-campagne/feed.xml` | **à relier** |
+| Trees and forests | 79 | `https://photos.karlforterre.fr/en/galleries/arbres-et-forets/feed.xml` | **à relier** |
+| Flowers and macro | 71 | `https://photos.karlforterre.fr/en/galleries/fleurs-et-macro/feed.xml` | oui |
+| Sea and coast | 25 | `https://photos.karlforterre.fr/en/galleries/mer-et-littoral/feed.xml` | **à relier** |
+| Rivers, lakes and canals | 55 | `https://photos.karlforterre.fr/en/galleries/rivieres-et-lacs/feed.xml` | **à relier** |
+| Architecture and heritage | 96 | `https://photos.karlforterre.fr/en/galleries/architecture-patrimoine/feed.xml` | **à relier** |
+| Churches and cathedrals | 44 | `https://photos.karlforterre.fr/en/galleries/eglises-cathedrales/feed.xml` | **à relier** |
+| Cities and street scenes | 62 | `https://photos.karlforterre.fr/en/galleries/villes-et-rues/feed.xml` | **à relier** |
+| Transport | 11 | `https://photos.karlforterre.fr/en/galleries/transports/feed.xml` | **à relier** |
+| Portraits | 48 | `https://photos.karlforterre.fr/en/galleries/portraits/feed.xml` | oui |
+| Everyday life | 51 | `https://photos.karlforterre.fr/en/galleries/scenes-de-vie/feed.xml` | **à relier** |
+| Wedding | 7 | `https://photos.karlforterre.fr/en/galleries/mariage/feed.xml` | oui |
+| Protests and activism | 10 | `https://photos.karlforterre.fr/en/galleries/manifestations/feed.xml` | **à relier** |
+| Animals | 62 | `https://photos.karlforterre.fr/en/galleries/animaux/feed.xml` | **à relier** |
+| Food and drink | 20 | `https://photos.karlforterre.fr/en/galleries/cuisine-et-boissons/feed.xml` | **à relier** |
+| Objects and still life | 31 | `https://photos.karlforterre.fr/en/galleries/objets-natures-mortes/feed.xml` | **à relier** |
+| Black and white | 68 | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` | oui |
+| Abstract backgrounds | 43 | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` | oui |
+| Basque Country | 13 | `https://photos.karlforterre.fr/en/galleries/pays-basque/feed.xml` | oui |
+| Asturias | 11 | `https://photos.karlforterre.fr/en/galleries/asturies/feed.xml` | oui |
+| Galicia | 29 | `https://photos.karlforterre.fr/en/galleries/galice/feed.xml` | oui |
+| Camino de Santiago | 15 | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` | oui |
+| Pyrenees | 47 | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` | oui |
+| Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
+| Niort and Poitou | 38 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
+| Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | **à relier** |
+| Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | **à relier** |
+| Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | **à relier** |
+| Normandy and Brittany | 13 | `https://photos.karlforterre.fr/en/galleries/normandie-bretagne/feed.xml` | **à relier** |
+| Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | **à relier** |
+| Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
+
+Les 19 flux marqués « à relier » sont ceux des galeries créées par la session B (septembre 2026) :
+créer chaque tableau avec le titre anglais de la galerie, puis y relier son flux (étape 5).
+Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
+reçoit plus rien ; il reste relié pour les photos à venir qui n'entreraient dans aucune.
+Une galerie qui compte moins de 4 photos, comme Toulouse aujourd'hui, n'a pas encore de
+flux : il apparaîtra à la même adresse.
 
 ## Précautions
 
