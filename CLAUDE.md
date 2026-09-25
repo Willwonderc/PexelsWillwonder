@@ -13,14 +13,16 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 `docs/plan-site-pro.md` ; consignes des sessions : `consignes/`.
 
 1. Site de photographe (`vitrine/`) : site statique bilingue sur GitHub Pages, pensé
-   pour le référencement, avec une page par photo et des galeries par thème et par
-   lieu. `vitrine/build.py` (Python sans dépendance) lit `vitrine/photos.txt`, complète
-   le cache `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
+   pour le référencement, avec une page par photo, des galeries par thème et par lieu
+   (chaque photo publiée dans au moins une) et des pages par couleur. `vitrine/build.py`
+   (Python sans dépendance) lit `vitrine/photos.txt`, complète le cache
+   `vitrine/donnees/fiches.json` par l'API et écrit `_site/` ; la tâche
    `.github/workflows/site.yml` le relance chaque nuit. Mode d'emploi : `vitrine/README.md`.
-2. Pinterest (`pinterest/`) : 15 flux RSS du site reliés à 15 tableaux (14 galeries et
-   « Photos by Karl Forterre » pour les photos hors galeries). Les nouvelles photos y
-   entrent aussitôt, le fonds au compte-gouttes (`fonds_date`, `epingles_par_jour` dans
-   `vitrine/site.ini`). Fichiers d'import : `pinterest/epingles.py`.
+2. Pinterest (`pinterest/`) : un flux RSS par galerie, relié à son tableau, et « Photos by
+   Karl Forterre » pour les photos hors galeries. Le journal `vitrine/donnees/parutions.json`,
+   tenu par la tâche de nuit, fixe le jour de chaque épingle : nouvelles photos en tête,
+   fonds par vues décroissantes, une seule parution par tableau, 200 par jour au plus
+   (réglages dans `vitrine/site.ini`). Calendrier et fichiers d'import : `pinterest/epingles.py`.
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
    déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
@@ -75,6 +77,12 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   planches d'inspiration faites de photos d'autres photographes, et l'API n'y a
   renvoyé aucune photo du propriétaire. Le site s'appuie donc sur la liste des photos,
   pas sur les collections.
+- Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
+  --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
+- Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
+  `vitrine/galeries.ini`, qui les emploient souvent à tort (« portrait » pour un format
+  vertical, « pau » ajouté par lots) ; les lignes `ajouter` et `retirer` gardent le
+  classement photo par photo fait en session B.
 - Titres et mots-clés : Pexels ne permet guère de les modifier après publication.
   L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
 - Photos sans titre : leur adresse Pexels ne contient que le numéro

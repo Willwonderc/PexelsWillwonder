@@ -4,12 +4,11 @@ Objectif : que les épingles se créent sans intervention et ramènent les visit
 les photos Pexels.
 
 - **Flux RSS, pour toutes les photos** : chaque galerie du site publie un flux relié à
-  un tableau Pinterest. Les nouvelles photos y entrent aussitôt ; le fonds y entre au
-  compte-gouttes, une photo de plus par galerie et par nuit (réglage
-  `epingles_par_jour` de `vitrine/site.ini`). Le flux « More photos » fait de même,
-  trois photos par nuit, pour les photos rangées dans aucune galerie. Pinterest crée
-  les épingles dans les 24 heures, sans session ni crédit. Il exige qu'elles mènent au
-  site revendiqué : elles ouvrent donc la page de la photo, qui renvoie vers Pexels.
+  un tableau Pinterest ; le flux « More photos » regroupe les photos rangées dans aucune
+  galerie. Les nouvelles photos y entrent aussitôt, le fonds au compte-gouttes, d'après
+  le journal des parutions (ci-dessous). Pinterest crée les épingles dans les 24 heures,
+  sans session ni crédit. Il exige qu'elles mènent au site revendiqué : elles ouvrent
+  donc la page de la photo, qui renvoie vers Pexels.
 - **Fichiers d'import, en complément** : ils mènent directement à la page Pexels de
   chaque photo, mais Pinterest ne garde que 10 épingles programmées à la fois, à
   30 jours au plus. Ils servent donc aux petits lots ponctuels, comme le fichier d'essai
@@ -35,13 +34,46 @@ les photos Pexels.
    `python3 pinterest/epingles.py --essai`.
 5. **Relier les flux** : Paramètres → Importer du contenu (anciennement « Créer des
    épingles en masse ») → Publication automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
-   Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour.
+   Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour. Pour
+   une nouvelle galerie, créer d'abord son tableau (bouton « + » → Tableau, avec le titre
+   anglais de la galerie), puis relier son flux dans la semaine qui suit sa mise en
+   ligne : un flux ne présente que ses 12 dernières parutions.
 6. **Importer le fonds** : une session prépare les fichiers d'import. Pour qu'ils
    correspondent exactement au modèle de Pinterest, télécharger l'exemple de fichier
    proposé dans « Importer du contenu » et le transmettre à la session. Les
    importer ensuite au même endroit, un fichier à la fois.
 
 Les intitulés de Pinterest peuvent varier légèrement selon les versions.
+
+## Journal des parutions
+
+`vitrine/donnees/parutions.json` note, pour chaque flux, le jour où chaque photo y a paru.
+La tâche de nuit le complète puis l'enregistre sur `main`, comme les fiches Pexels.
+Chaque flux présente ses 12 dernières parutions (`flux_max` dans `vitrine/site.ini`).
+Chaque nuit :
+
+1. les nouvelles photos (lues sur Pexels après `fonds_date`) entrent aussitôt dans les
+   flux de leurs galeries ;
+2. le fonds suit, des photos les plus vues sur Pexels aux moins vues (fiche de suivi de
+   `releves/`) : une photo par galerie et par nuit (`epingles_par_jour`), trois pour
+   « More photos » (`epingles_par_jour_autres`) ;
+3. un flux qui démarre, celui d'une nouvelle galerie, reçoit d'abord 6 photos (la moitié
+   de `flux_max`), puis le même rythme. Aucun flux ne reçoit plus de 6 photos en une
+   nuit : chacune y reste au moins deux jours, le temps que Pinterest la lise ;
+4. jamais plus de 200 épingles par jour, tous flux confondus (`epingles_max_par_jour`).
+
+Une photo ne paraît qu'une fois dans un flux : une photo ajoutée à une galerie, reclassée
+ou nouvellement titrée prend sa place dans la file, sans être sautée ni republiée dans le
+même tableau. Elle peut en revanche paraître dans plusieurs tableaux, un par galerie.
+
+Le journal reprend les parutions de l'ancien compte-gouttes, commencé le 25 septembre
+2026, jusqu'à sa mise en service ; les parutions que ce dernier avait prévues pour les
+jours suivants sont oubliées au premier passage de la tâche de nuit. Un essai de
+`vitrine/build.py` en session ne modifie pas le journal : seule la tâche GitHub
+l'enregistre (option `--enregistrer-parutions`).
+
+Calendrier prévu, sans nouvelle photo (photos par flux, date de la dernière épingle) :
+`python3 pinterest/epingles.py --calendrier`.
 
 ## Flux des galeries
 
