@@ -53,6 +53,14 @@ Les séries racontent un lieu ou un moment : un titre, un lieu, une date, un tex
 celui de l'affichage. Adresses : `/series/<identifiant>/` et
 `/en/series/<identifiant>/`.
 
+## Photo en bandeau
+
+Chaque série et chaque galerie s'ouvre sur une grande photo, derrière son titre, comme
+l'accueil ; les pages « Séries » et « Galeries » aussi. Par défaut, c'est la photo de
+couverture si elle est en largeur, sinon la première photo en largeur. Pour en choisir
+une autre, ajoutez au bloc de la série (`series.ini`) ou de la galerie
+(`galeries.ini`) une ligne `bandeau = <numéro Pexels>`, d'une photo qui en fait partie.
+
 ## Visionneuse
 
 Un clic sur une vignette ouvre la photo en plein écran, avec son titre et le bouton
