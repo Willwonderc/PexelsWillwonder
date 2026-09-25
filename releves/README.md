@@ -4,6 +4,27 @@
 une fois par semaine : l'API Pexels ne fournit pas ce chiffre, et les conditions de
 Pexels interdisent la collecte automatique sur leurs pages.
 
+## Fiche de suivi, photo par photo
+
+[suivi-pexels.csv](suivi-pexels.csv) reprend la fiche de suivi de Karl (classeur
+« Suivi des photos Pexels », relevé du 24 septembre 2026 à 12 h 42), une ligne par
+photo, de la plus vue à la moins vue :
+
+- `photo` : numéro Pexels ;
+- `moderation` : `retenue` si la modération de Pexels a mis la photo en avant (statut
+  « approved »), `refusée` sinon (statut « rejected ») : la photo reste alors visible
+  dans la galerie du profil ;
+- `import` : date d'import sur Pexels ;
+- `vues`, `telechargements`, `jaime` : statistiques affichées par Pexels au moment du
+  relevé ;
+- `evenement` : `oui` si la photo figure dans l'onglet « Événements marquants » du profil ;
+- `titre` : titre sur Pexels, vide pour une photo sans titre ;
+- `mots_cles` : mots-clés saisis à l'import.
+
+Pour un nouveau relevé, déposer le nouveau classeur, ou un fichier au même format, dans
+ce dossier (Add file → Upload files). La session du tableau de bord en prévoit la
+lecture.
+
 ## Ajouter un relevé
 
 Sur GitHub, ouvrir `vues-pexels.csv`, cliquer sur le crayon, ajouter une ligne à la fin,

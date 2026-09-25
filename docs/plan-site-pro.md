@@ -4,6 +4,8 @@ Feuille de route rédigée le 25 septembre 2026. Point de départ :
 - site en ligne sur https://photos.karlforterre.fr, avec 723 photos et 14 galeries, en français et en anglais ;
 - 15 flux Pinterest reliés à leurs tableaux ;
 - profil Pexels : 878 500 vues et 19 abonnés au 24 septembre ;
+- fiche de suivi du 24 septembre (`releves/suivi-pexels.csv`) : 3 950 téléchargements et
+  89 photos retenues par la modération de Pexels, sur 919 ;
 - 185 $ de crédit de sessions cloud, jusqu'au 5 novembre.
 
 ## Objectif et mesures
@@ -20,6 +22,26 @@ Chaque semaine, on relève cinq chiffres :
 | Apparitions et clics dans Google | Google Search Console |
 | Impressions et clics sortants | statistiques Pinterest |
 | Pages les plus vues | GoatCounter |
+| Téléchargements, photos retenues, photos les plus vues | fiche de suivi, déposée dans `releves/` |
+
+## Ce que montre la fiche de suivi
+
+Relevé du 24 septembre 2026, photo par photo :
+- **La modération fait les vues.** Les 89 photos retenues (10 %) totalisent 81 % des vues :
+  7 962 vues en moyenne, contre 204 pour les 830 refusées, qui restent visibles dans la
+  galerie du profil sans être mises en avant.
+- **Sans titre, aucune chance.** Aucune des 351 photos importées sans vrai titre
+  (« Free stock photo of… » ou rien) n'a été retenue, contre 89 des 568 photos titrées (16 %).
+- **Ça progresse.** Part des photos retenues par année d'import : aucune en 2021, 2 à 3 %
+  de 2022 à 2024, 9 % en 2025, 23 % en 2026.
+- **Quelques photos portent le compte.** Les 10 plus vues font 44 % des vues.
+
+D'où trois conséquences :
+1. Le premier levier des vues Pexels est la modération : ne rien importer sans titre ni
+   mots-clés préparés par l'atelier, et choisir les photos d'après ce qui est retenu
+   (analyse confiée à la session D).
+2. Pour les 830 photos refusées, le site et Pinterest sont la seule vitrine.
+3. La sélection, l'ordre des épingles et la photo du jour partent des photos les plus vues.
 
 ## Ce que font les meilleurs sites de photographes
 
@@ -40,10 +62,10 @@ Chaque semaine, on relève cinq chiffres :
 ### 1. Ouverture et sélection
 - Accueil en plein écran : une photo phare (ou un fondu lent entre 6 à 8 photos), le
   nom, l'accroche et le bouton « Voir les galeries ».
-- Une rubrique « Sélection » de 24 photos choisies à la main, réglée dans un fichier
-  `vitrine/selection.txt`.
-- Preuve sociale : « 878 500 vues sur Pexels », tiré du dernier relevé de
-  `releves/vues-pexels.csv`, à côté du bouton « Suivre sur Pexels ».
+- Une rubrique « Sélection » de 24 photos, choisies parmi les plus vues et les plus
+  téléchargées de la fiche de suivi, réglée dans un fichier `vitrine/selection.txt`.
+- Preuve sociale : « 878 500 vues et 3 950 téléchargements sur Pexels », tirés des
+  derniers relevés de `releves/`, à côté du bouton « Suivre sur Pexels ».
 
 ### 2. Séries racontées
 Six à huit pages de séries, chacune avec 150 à 300 mots en français et en anglais :
@@ -64,8 +86,10 @@ partage.
   photo ajoutée à une galerie, ou une photo sans titre qui en reçoit un, change ces
   rangs : elle peut être sautée, et en décaler d'autres. Un fichier
   `vitrine/donnees/parutions.json`, tenu par la tâche de nuit comme `fiches.json`,
-  fixera la date de chaque épingle une fois pour toutes.
-- 507 photos ne sont dans aucune galerie. Il faut les classer d'après leurs titres et
+  fixera la date de chaque épingle une fois pour toutes. La file passera alors les
+  nouvelles photos en tête, puis le fonds par vues décroissantes.
+- 507 photos ne sont dans aucune galerie ; 506 d'entre elles ont des mots-clés Pexels
+  dans la fiche de suivi, qui serviront à les classer. Il faut les classer d'après leurs titres et
   textes, et créer les galeries qui manquent : villes, nature, portraits, intérieurs,
   cuisine, animaux, etc. Objectif : chaque photo dans au moins une galerie.
 - Pages « par couleur » (bleu, vert, noir et blanc, tons chauds…), calculées à partir
@@ -79,7 +103,9 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
 - Rappel « Suivre sur Pexels » en fin de galerie et en fin de série.
 
 ### 6. Identité et page auteur
-- Reprendre le logo KF’ du site karlforterre.fr (en-tête et icône), à fournir en SVG.
+- Logo KF’ : `vitrine/statique/logo.svg`, vectorisé d'après l'original (couleur du texte,
+  `currentColor`), pour l'en-tête et l'icône du site ; version texturée d'origine :
+  `vitrine/statique/logo-kf.webp`.
 - Page « À propos » : portrait, courte biographie, matériel, lieux favoris, contact.
 
 ### 7. Référencement
@@ -195,7 +221,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 
 | Quand | Qui | Quoi |
 |---|---|---|
-| Cette semaine | Vous | Relier le flux « More photos », créer GoatCounter et Search Console, lien du profil Pexels vers le site, lien depuis karlforterre.fr |
+| Cette semaine | Vous | Créer GoatCounter et Search Console, lien du profil Pexels vers le site, lien depuis karlforterre.fr |
 | Semaine du 29 sept. | Session A | Site pro : ouverture, sélection, visionneuse, séries, pages légales, preuve sociale |
 | Début octobre | Session B | Journal des parutions, classement des 507 photos, nouvelles galeries, pages par couleur, textes des galeries |
 | Mi-octobre | Session C | Traduction française d'environ 517 titres |

@@ -87,6 +87,12 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
   `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
   adresse de téléchargement valable une heure.
+- Fiche de suivi : `releves/suivi-pexels.csv` (relevé du 24 septembre 2026) donne pour
+  chaque photo vues, téléchargements, J'aime, statut de modération et mots-clés Pexels.
+  Les 89 photos retenues par la modération font 81 % des vues ; aucune photo importée
+  sans titre n'a été retenue.
+- Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
+  `vitrine/statique/logo-kf.webp` (original texturé).
 - Captures d'écran en session : Chromium ne charge pas les images de
   images.pexels.com à travers le proxy. Intercepter ces requêtes (Playwright,
   `page.route`) et y répondre avec les fichiers téléchargés par curl, qui passe.
