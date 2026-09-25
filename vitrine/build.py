@@ -197,7 +197,7 @@ TEXTES = {
         "une_photo": "1\u00a0张照片",
         "n_photos": "{n}\u00a0张照片",
         "telecharger": "在 Pexels 免费下载",
-        "credit": "摄影：Karl Forterre，采用{licence}：可免费自由使用。",
+        "credit": "摄影：Karl Forterre，采用 {licence}：可免费自由使用。",
         "licence": "Pexels 许可协议",
         "numero": "Pexels 编号 {id}",
         "mots": "关键词",
