@@ -36,8 +36,9 @@ les photos Pexels.
    épingles en masse ») → Publication automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
    Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour. Pour
    une nouvelle galerie, créer d'abord son tableau (bouton « + » → Tableau, avec le titre
-   anglais de la galerie), puis relier son flux dans la semaine qui suit sa mise en
-   ligne : un flux ne présente que ses 12 dernières parutions.
+   anglais de la galerie), puis relier son flux de préférence le jour de sa mise en
+   ligne, au plus tard dans la semaine : un flux ne présente que ses 12 dernières
+   parutions, et Pinterest lit tout le flux d'un coup quand on le relie.
 6. **Importer le fonds** : une session prépare les fichiers d'import. Pour qu'ils
    correspondent exactement au modèle de Pinterest, télécharger l'exemple de fichier
    proposé dans « Importer du contenu » et le transmettre à la session. Les

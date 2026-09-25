@@ -97,7 +97,8 @@ Chaque photo publiée est rangée dans au moins une galerie. Le programme signal
 qui n'en ont aucune : elles paraissent alors dans le flux Pinterest « More photos ».
 
 Une nouvelle galerie a aussi son flux Pinterest : le relier à un tableau (voir
-`pinterest/README.md`) dans la semaine qui suit sa mise en ligne.
+`pinterest/README.md`) de préférence le jour de sa mise en ligne, au plus tard dans la
+semaine.
 
 ## Pages par couleur
 
