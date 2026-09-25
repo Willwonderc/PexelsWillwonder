@@ -157,7 +157,9 @@ la plus récente à la plus ancienne.
   (`materiel_fr`, `materiel_en`).
 - Textes des séries : `vitrine/series.ini` ; textes des galeries : `vitrine/galeries.ini`.
 - Titres et mots-clés anglais : `atelier/resultats/*.csv`.
-- Titres et mots-clés français : `vitrine/donnees/textes-fr.csv`.
+- Titres et mots-clés français : `vitrine/donnees/textes-fr.csv`. Pour traduire les
+  mots-clés d'une nouvelle photo, reprendre ceux du glossaire
+  `vitrine/donnees/glossaire-mots-cles.csv` (anglais → français).
 
 ## Mesure d'audience
 
@@ -206,6 +208,8 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
   (`build.py --enregistrer-parutions`). Un essai de `build.py` sans cette option ne le
   modifie pas.
 - `donnees/textes-fr.csv` : les titres et mots-clés français.
+- `donnees/glossaire-mots-cles.csv` : la traduction des mots-clés Pexels, faite une fois
+  pour toutes et à reprendre pour les suivants (le site ne le lit pas).
 - `statique/` : feuille de style, visionneuse et fondu de l'accueil (`site.js`), police
   Archivo, logo KF’ (`logo.svg`, vectoriel ; `logo-kf.webp`, original texturé) et
   icônes du site (`favicon.svg`, `icone-180.png` pour l'écran d'accueil des
