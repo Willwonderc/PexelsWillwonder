@@ -6,14 +6,16 @@ Dépôt du projet de promotion des photos publiées sur Pexels
 Point de départ, septembre 2026 : 919 photos, environ 878 500 vues et 19 abonnés.
 Des sessions Claude Code menées avant le 5 novembre 2026 construisent quatre outils
 qui tournent ensuite seuls et gratuitement sur GitHub.
-Plan détaillé : [docs/plan.md](docs/plan.md).
+Plan détaillé : [docs/plan.md](docs/plan.md). Feuille de route du site et de la promotion :
+[docs/plan-site-pro.md](docs/plan-site-pro.md) ; consignes des prochaines sessions :
+[consignes/prochaines-sessions.md](consignes/prochaines-sessions.md).
 
 ## Les quatre chantiers
 
 |   | Chantier | Dossier | Lancement | État |
 |---|----------|---------|-----------|------|
 | 1 | Site de photographe, pensé pour le référencement | [vitrine/](vitrine/) | construit le 24 septembre | [mode d'emploi](vitrine/README.md) |
-| 2 | Pinterest automatique | [pinterest/](pinterest/) | une fois le site en ligne | consigne à rédiger |
+| 2 | Pinterest automatique | [pinterest/](pinterest/) | 25 septembre | flux RSS en place, [démarche](pinterest/README.md) |
 | 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | [premier lot rédigé](atelier/resultats/ppex-photos-sans-titre.csv) |
 | 4 | Tableau de bord de campagne | [releves/](releves/) | fin octobre | relevés ouverts |
 
