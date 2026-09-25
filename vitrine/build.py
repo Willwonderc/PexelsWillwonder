@@ -664,19 +664,24 @@ def nombre_photos(n, langue):
     return TEXTES[langue]["une_photo"] if n == 1 else TEXTES[langue]["n_photos"].format(n=n)
 
 
-def carreau(photo, langue, adr):
+def carreau(photo, langue, adr, grand=False):
     ratio = photo["largeur"] / photo["hauteur"]
+    largeurs, tailles = (((600, 900, 1300, 1800), "(max-width: 640px) 100vw, 50vw") if grand
+                         else ((300, 600, 900, 1300), "(max-width: 640px) 60vw, 30vw"))
     return (
         f'<a class="carreau" href="{adr.chemin(langue, "photo", photo["id"])}" data-pexels="{e(photo["page"])}" '
         f'style="--r:{ratio:.3f};background-color:{e(photo["couleur"])}">'
-        f'<img src="{url_image(photo, 600)}" srcset="{srcset(photo, (300, 600, 900, 1300))}" '
-        f'sizes="(max-width: 640px) 60vw, 30vw" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
+        f'<img src="{url_image(photo, 900 if grand else 600)}" srcset="{srcset(photo, largeurs)}" '
+        f'sizes="{tailles}" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
         f'alt="{e(photo["titre"][langue])}" loading="lazy" decoding="async"></a>'
     )
 
 
-def grille(photos, langue, adr):
-    return '<div class="grille">' + "".join(carreau(p, langue, adr) for p in photos) + "</div>"
+def grille(photos, langue, adr, grand=False):
+    """Grille justifiée de vignettes ; « grand » : photos plus grandes et plus espacées
+    (séries)."""
+    return (f'<div class="grille{" grandes" if grand else ""}">'
+            + "".join(carreau(p, langue, adr, grand) for p in photos) + "</div>")
 
 
 def carte(lien, photo, titre, infos):
@@ -927,7 +932,7 @@ class Gabarit:
             f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a></p>'
             "</footer>"
         )
-        visionneuse = self.visionneuse(langue) if 'class="grille"' in contenu else ""
+        visionneuse = self.visionneuse(langue) if 'class="grille' in contenu else ""
         return (
             f'<!doctype html>\n<html lang="{langue}"><head>' + "".join(tete) + "</head>"
             f'<body class="{classe}">{entete}<main id="contenu">{contenu}</main>{pied}{visionneuse}</body></html>\n'
@@ -969,11 +974,14 @@ def diapo(photo, langue, adr, premiere, bandeau=False):
     )
 
 
-def bandeau(g, photo, langue, titre, accroche="", surtitre=""):
+def bandeau(g, photo, langue, titre, accroche="", surtitre="", plein_ecran=False, centre=False):
     """En-tête d'une série ou d'une galerie : une grande photo derrière le titre.
-    « accroche » et « surtitre » (le fil d'Ariane) sont du HTML déjà échappé."""
+    « accroche » et « surtitre » (le fil d'Ariane) sont du HTML déjà échappé.
+    « plein_ecran » : ouverture sur tout l'écran, titre au centre (séries)."""
+    classes = "plein centre" if plein_ecran else "plein bandeau" + (" centre" if centre else "")
     return (
-        f'<section class="plein bandeau"><div class="defile">{diapo(photo, langue, g.adr, True, bandeau=True)}</div>'
+        f'<section class="{classes}"><div class="defile">'
+        f'{diapo(photo, langue, g.adr, True, bandeau=not plein_ecran)}</div>'
         f'<div class="plein-texte">{surtitre}<h1>{e(titre)}</h1>'
         + (f'<p class="accroche">{accroche}</p>' if accroche else "")
         + "</div></section>"
@@ -1129,7 +1137,7 @@ def page_series(g, series, langue):
     chemins = {l: adr.chemin(l, "series") for l in ("fr", "en")}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["series"], chemins[langue]))
     contenu = (
-        bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]), ariane)
+        bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]), ariane, centre=True)
         + '<div class="enveloppe"><div class="galeries">' + "".join(carte_serie(s, langue, adr) for s in series)
         + "</div>" + rappel(g, langue) + "</div>"
     )
@@ -1147,11 +1155,11 @@ def page_serie(g, serie, series, langue):
     description = texte_serie[0] if texte_serie else titre
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["series"], adr.chemin(langue, "series"))], (titre, chemins[langue]))
     contenu = (
-        bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), ariane)
+        bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), ariane, plein_ecran=True)
         + '<div class="enveloppe">'
-        + (f'<div class="texte serie-texte">' + "".join(f"<p>{e(p)}</p>" for p in texte_serie) + "</div>"
-           if texte_serie else "")
-        + grille(serie["photos"], langue, adr)
+        + (f'<div class="texte serie-texte"><p class="chapeau">{e(texte_serie[0])}</p>'
+           + "".join(f"<p>{e(p)}</p>" for p in texte_serie[1:]) + "</div>" if texte_serie else "")
+        + grille(serie["photos"], langue, adr, grand=True)
         + rappel(g, langue)
         + cartes_series(series, langue, adr, titre=t["autres_series"], sauf=serie)
         + "</div>"
@@ -1169,7 +1177,7 @@ def page_serie(g, serie, series, langue):
         **({"contentLocation": {"@type": "Place", "name": serie["lieu"][langue]}} if serie["lieu"][langue] else {}),
     }, donnees_ariane]
     texte = g.page(langue, titre=t["titre_serie"].format(titre=titre), description=description, chemins=chemins,
-                   contenu=contenu, image=serie["couverture"], donnees=donnees, classe="sur-photo")
+                   contenu=contenu, image=serie["couverture"], donnees=donnees, classe="sur-photo recit")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 

@@ -367,7 +367,34 @@ h1 {
 .plein .surtitre a { color: inherit; }
 .plein .ariane { color: rgba(255, 255, 255, .86); text-shadow: 0 1px 10px rgba(0, 0, 0, .4); }
 .plein .ariane a:hover { color: #fff; }
-.bandeau + .enveloppe { padding-top: clamp(32px, 4.5vw, 56px); }
+.bandeau + .enveloppe, .centre + .enveloppe { padding-top: clamp(32px, 4.5vw, 56px); }
+
+/* Séries : mise en page de récit, pour se distinguer des galeries. Ouverture sur tout
+   l'écran, titre au centre, chapeau en grand, photos plus grandes et plus espacées. */
+
+.plein.centre { align-items: center; justify-content: center; text-align: center; }
+.plein.centre .plein-texte { margin: 0 auto; padding: 0 var(--marge); max-width: 62rem; }
+.plein.centre .accroche { margin-left: auto; margin-right: auto; }
+.plein.centre .ariane ol { justify-content: center; }
+.plein.centre .diapo::after {
+  background:
+    linear-gradient(rgba(0, 0, 0, .58), rgba(0, 0, 0, 0) 220px),
+    linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4));
+}
+.plein.centre h1, .plein.centre .accroche { text-shadow: 0 1px 18px rgba(0, 0, 0, .5); }
+.plein.centre .diapo figcaption { left: var(--marge); max-width: none; text-align: center; }
+.recit .plein h1 { font-size: clamp(36px, 6vw, 84px); }
+
+.recit .serie-texte { max-width: 42rem; margin: clamp(16px, 3vw, 40px) auto clamp(48px, 7vw, 96px); }
+.recit .serie-texte p { max-width: none; margin: 0 0 18px; font-size: 19px; line-height: 1.7; }
+.recit .serie-texte .chapeau {
+  margin-bottom: clamp(28px, 4vw, 44px);
+  font-size: clamp(21px, 2.2vw, 27px);
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+}
+.grandes { --rangee: 460px; --espace: 16px; }
 .bandeau + .enveloppe > .galeries:first-child, .bandeau + .enveloppe > .bloc:first-child { margin-top: 0; }
 
 /* Visionneuse plein écran */
@@ -468,6 +495,8 @@ html.v-ouverte { overflow: hidden; }
   }
   .plein-texte, .bandeau .plein-texte { padding-bottom: 52px; }
   .bandeau { height: 64svh; min-height: 420px; }
+  .grandes { --rangee: 250px; --espace: 8px; }
+  .recit .serie-texte p { font-size: 18px; }
   .v-cadre { margin: 52px 0 0; }
   .v-titre {
     display: -webkit-box;
