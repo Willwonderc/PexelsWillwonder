@@ -1,7 +1,7 @@
 # Site de photographe — mode d'emploi
 
-Le site présente les photos de Karl Forterre publiées sur Pexels, en français et en
-anglais : un accueil en plein écran, une sélection de 24 photos, des séries racontées,
+Le site présente les photos de Karl Forterre publiées sur Pexels, en français, en
+anglais et en chinois simplifié : un accueil en plein écran, une sélection de 24 photos, des séries racontées,
 des galeries par thème et par lieu, des pages par couleur et une page par photo. Chaque
 photo mène à sa page Pexels, où elle se télécharge gratuitement : les visites du site
 profitent ainsi au profil Pexels.
@@ -59,15 +59,37 @@ photos et les chiffres Pexels. Modifier `selection.txt`, `series.ini` ou
 de son côté l'auteur et ses livres (réglages `auteur_fr` et `auteur_en` de `site.ini`),
 avec un lien vers karlforterre.fr.
 
+## Trois langues
+
+Pages françaises à la racine du site, anglaises sous `/en/`, chinoises sous `/zh/`
+(mêmes adresses qu'en anglais : `/zh/galleries/pyrenees/`, `/zh/photo/<numéro>/`). Le
+bouton de langue de l'en-tête passe du français à l'anglais, puis au chinois, puis
+revient au français.
+
+- Textes chinois des galeries, des séries, de l'accueil et de la page « À propos » :
+  champs `_zh` de `galeries.ini`, `series.ini` et `site.ini` (`titre_zh`,
+  `description_zh`, `texte_zh`, `lieu_zh`, `date_zh`, `accroche_zh`, `auteur_zh`…).
+- Titres et mots-clés chinois des photos : `donnees/textes-zh.csv` (colonnes `photo`,
+  `titre_zh`, `mots_cles_zh`). Pour une nouvelle photo, reprendre les mots-clés du
+  glossaire `donnees/glossaire-mots-cles-zh.csv` (anglais → chinois), dans l'ordre des
+  mots anglais.
+- Sans traduction chinoise, la page chinoise affiche l'anglais.
+- Sur les pages chinoises, les liens vers Pexels mènent à son interface chinoise
+  (`https://www.pexels.com/zh-cn/…`).
+- Pinterest étant bloqué en Chine, les pages chinoises n'ont pas de flux RSS.
+
+Pour faire connaître le site en Chine (Huaban, Xiaohongshu, Zhihu, Zcool, Bing) :
+[docs/promotion-chine.md](../docs/promotion-chine.md).
+
 ## Séries
 
 Les séries racontent un lieu ou un moment : un titre, un lieu, une date, un texte de
-150 à 300 mots en français et en anglais, puis les photos. Leur mise en page de récit
+150 à 300 mots en français et en anglais (et en chinois), puis les photos. Leur mise en page de récit
 les distingue des galeries : ouverture sur tout l'écran avec le titre au centre, premier
 paragraphe en grand (le chapeau), photos plus grandes et plus espacées. Tout se règle dans
 `vitrine/series.ini`, dont l'en-tête explique chaque réglage ; l'ordre des blocs est
 celui de l'affichage. Adresses : `/series/<identifiant>/` et
-`/en/series/<identifiant>/`.
+`/en/series/<identifiant>/` et `/zh/series/<identifiant>/`.
 
 ## Photo en bandeau
 
@@ -175,6 +197,10 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
 - **Google** : ajoutez le site dans Google Search Console, recopiez le code de la
   balise de validation dans `site.ini` (`google_verification`), puis déclarez le plan
   du site : `https://photos.karlforterre.fr/sitemap.xml`.
+- **Bing** (seul grand moteur utilisable en Chine) : même démarche dans Bing Webmaster
+  Tools, code dans `bing_verification` ; pas à pas dans
+  [docs/promotion-chine.md](../docs/promotion-chine.md). Le plan du site relie chaque
+  page à ses deux traductions (`hreflang` fr, en et zh-Hans).
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).
 
@@ -207,7 +233,10 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
 - `donnees/parutions.json` : le journal des parutions Pinterest, tenu par la tâche de nuit
   (`build.py --enregistrer-parutions`). Un essai de `build.py` sans cette option ne le
   modifie pas.
-- `donnees/textes-fr.csv` : les titres et mots-clés français.
+- `donnees/textes-fr.csv` et `donnees/textes-zh.csv` : les titres et mots-clés français
+  et chinois.
+- `donnees/glossaire-mots-cles-zh.csv` : les mots-clés anglais du site traduits en
+  chinois (le site ne le lit pas non plus).
 - `donnees/glossaire-mots-cles.csv` : la traduction des mots-clés Pexels, faite une fois
   pour toutes et à reprendre pour les suivants (le site ne le lit pas).
 - `statique/` : feuille de style, visionneuse et fondu de l'accueil (`site.js`), police

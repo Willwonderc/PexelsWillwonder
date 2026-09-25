@@ -48,8 +48,16 @@ HEBERGEUR = "GitHub, Inc."
 HEBERGEUR_ADRESSE = {
     "fr": "88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis",
     "en": "88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States",
+    "zh": "88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, 美国",
 }
 HEBERGEUR_TELEPHONE = "+1 877 448 4820"
+# Langues du site : le bouton de l'en-tête passe de l'une à la suivante, et la dernière
+# ramène à la première. Sans traduction, les pages chinoises reprennent l'anglais.
+LANGUES = ("fr", "en", "zh")
+SUIVANTE = {"fr": "en", "en": "zh", "zh": "fr"}
+HREFLANG = {"fr": "fr", "en": "en", "zh": "zh-Hans"}
+# Langues qui ont leurs flux RSS (Pinterest, bloqué en Chine, n'en lit pas d'autres).
+LANGUES_FLUX = ("fr", "en")
 
 TEXTES = {
     "fr": {
@@ -120,7 +128,7 @@ TEXTES = {
         "series": "Series",
         "selection": "Selection",
         "a_propos": "About",
-        "autre_langue": "Français",
+        "autre_langue": "中文",
         "themes": "Themes",
         "lieux": "Places",
         "recentes": "Latest photos",
@@ -176,6 +184,66 @@ TEXTES = {
         "fermer": "Close",
         "locale": "en_US",
     },
+    "zh": {
+        "accueil": "Karl Forterre 摄影作品",
+        "galeries": "图库",
+        "series": "专题",
+        "selection": "精选",
+        "a_propos": "关于",
+        "autre_langue": "Français",
+        "themes": "主题",
+        "lieux": "地点",
+        "recentes": "最新照片",
+        "une_photo": "1\u00a0张照片",
+        "n_photos": "{n}\u00a0张照片",
+        "telecharger": "在 Pexels 免费下载",
+        "credit": "摄影：Karl Forterre，采用{licence}：可免费自由使用。",
+        "licence": "Pexels 许可协议",
+        "numero": "Pexels 编号 {id}",
+        "mots": "关键词",
+        "dans": "所属图库：",
+        "dans_serie": "所属专题：",
+        "proches": "相似照片",
+        "a_propos_galerie": "关于本图库",
+        "couleurs": "颜色",
+        "couleurs_photo": "颜色：",
+        "couleur_description": "Karl Forterre 的{titre}，按主色调排列：免版税，可在 Pexels 免费下载。",
+        "accueil_court": "首页",
+        "ariane": "导航路径",
+        "precedente": "上一张",
+        "suivante": "下一张",
+        "flux": "RSS 订阅",
+        "flux_galerie": "图库 RSS 订阅",
+        "autres_photos": "Karl Forterre 的更多照片",
+        "suffixe": "摄影：Karl Forterre，免版税，可在 Pexels 免费下载。",
+        "introuvable": "页面不存在",
+        "introuvable_texte": "该页面不存在或已被删除。",
+        "retour": "返回首页",
+        "profil": "Pexels 主页",
+        "evitement": "跳到正文",
+        "menu": "主导航",
+        "suivre": "在 Pexels 关注",
+        "voir_pexels": "在 Pexels 查看这张照片",
+        "voir_galeries": "浏览图库",
+        "preuve": "在 Pexels 上已获 {vues} 次浏览、{telechargements} 次下载",
+        "preuve_vues": "在 Pexels 上已获 {vues} 次浏览",
+        "rappel": "这里的所有照片都可以在 Pexels 免费下载。"
+                  "在 Pexels 关注 Karl Forterre，第一时间看到新作品。",
+        "series_intro": "每个专题讲述一个地方或一个时刻：先是几段背景故事，再是照片，全部可在 Pexels 免费下载。",
+        "galeries_intro": "按主题和地点整理的照片，全部可在 Pexels 免费下载。",
+        "titre_serie": "{titre}：免版税照片",
+        "autres_series": "更多专题",
+        "utiliser": "使用我的照片",
+        "mentions": "法律声明",
+        "confidentialite": "隐私政策",
+        "contact": "联系方式",
+        "lieux_photographies": "拍摄地点",
+        "materiel": "器材",
+        "auteur": "作家身份",
+        "visionneuse": "照片浏览器",
+        "fermer": "关闭",
+        "locale": "zh_CN",
+    },
 }
 
 
@@ -210,6 +278,25 @@ def liste_mots(texte):
 def paragraphes(texte):
     """Paragraphes d'un texte de réglage, séparés par une ligne vide."""
     return [" ".join(p.split()) for p in re.split(r"\n\s*\n", texte or "") if p.strip()]
+
+
+def pexels(adresse, langue):
+    """Lien vers Pexels dans la langue de la page : Pexels sert son interface en chinois
+    simplifié sous www.pexels.com/zh-cn/ (pages de photo, profil, licence)."""
+    debut = "https://www.pexels.com/"
+    if langue == "zh" and adresse.startswith(debut) and not adresse.startswith(debut + "zh-cn/"):
+        return debut + "zh-cn/" + adresse[len(debut):]
+    return adresse
+
+
+def traduit(reglage, champ, langue, defaut=""):
+    """Champ « champ_langue » d'un réglage ; sans traduction chinoise, l'anglais, et sans
+    anglais, le français."""
+    for l in dict.fromkeys((langue, "en", "fr")):
+        valeur = (reglage.get(f"{champ}_{l}") or "").strip()
+        if valeur:
+            return valeur
+    return defaut
 
 
 def chiffre(n, langue):
@@ -270,6 +357,20 @@ def lire_photos():
 def lire_csv(chemin):
     with open(chemin, encoding="utf-8", newline="") as f:
         return list(csv.DictReader(f))
+
+
+def lire_traductions(langue):
+    """Titres et mots-clés traduits d'une langue : donnees/textes-<langue>.csv, colonnes
+    photo, titre_<langue>, mots_cles_<langue>."""
+    traductions = {}
+    chemin = ICI / "donnees" / f"textes-{langue}.csv"
+    if chemin.exists():
+        for ligne in lire_csv(chemin):
+            cle = (ligne.get("photo") or "").strip()
+            if cle.isdigit():
+                traductions[int(cle)] = {"titre": (ligne.get(f"titre_{langue}") or "").strip(),
+                                         "mots": ligne.get(f"mots_cles_{langue}", "")}
+    return traductions
 
 
 def lire_textes():
@@ -430,11 +531,12 @@ def choisir_mots(mots, titre, frequence, nombre=12):
     return [uniques[cle] for cle in sorted(uniques, key=rang)][:nombre]
 
 
-def assembler_photos(ids, fiches, anglais, francais, suivi=None):
+def assembler_photos(ids, fiches, anglais, francais, suivi=None, chinois=None):
     """Photos publiées : fiche Pexels, titres et mots-clés de l'atelier, et, d'après la fiche
     de suivi, vues et mots-clés Pexels. Ces derniers servent à composer les galeries et à
     trouver les photos proches ; une douzaine s'affiche quand l'atelier n'en a pas donné."""
     suivi = suivi or {}
+    chinois = chinois or {}
     frequence = {}
     for pid in ids:
         for cle in {cle_mot(m) for m in suivi.get(pid, {}).get("mots", [])}:
@@ -446,6 +548,7 @@ def assembler_photos(ids, fiches, anglais, francais, suivi=None):
             continue
         en = anglais.get(pid, {})
         fr = francais.get(pid, {})
+        zh = chinois.get(pid, {})
         titre_en = en.get("titre") or titre_pexels(fiche.get("texte"))
         if not titre_en:
             sans_titre += 1
@@ -453,6 +556,7 @@ def assembler_photos(ids, fiches, anglais, francais, suivi=None):
         mots_pexels = suivi.get(pid, {}).get("mots", [])
         mots_en = liste_mots(en.get("mots"))
         mots_fr = liste_mots(fr.get("mots"))
+        mots_zh = liste_mots(zh.get("mots"))
         affiches = mots_en or choisir_mots(mots_pexels, titre_en, frequence)
         photos.append({
             "id": pid,
@@ -463,10 +567,10 @@ def assembler_photos(ids, fiches, anglais, francais, suivi=None):
             "couleur": fiche.get("couleur") or "#8a8a8a",
             "vue_le": fiche.get("vue_le") or AUJOURDHUI,
             "vues": suivi.get(pid, {}).get("vues", 0),
-            "titre": {"en": titre_en, "fr": fr.get("titre") or titre_en},
-            # Sans mots-clés français, la page française affiche les mots anglais.
-            "mots": {"en": affiches, "fr": mots_fr or affiches},
-            "langue_mots": {"en": "en", "fr": "fr" if mots_fr else "en"},
+            "titre": {"en": titre_en, "fr": fr.get("titre") or titre_en, "zh": zh.get("titre") or titre_en},
+            # Sans mots-clés traduits, les pages française et chinoise affichent les mots anglais.
+            "mots": {"en": affiches, "fr": mots_fr or affiches, "zh": mots_zh or affiches},
+            "langue_mots": {"en": "en", "fr": "fr" if mots_fr else "en", "zh": "zh" if mots_zh else "en"},
             "cles": {cle_mot(m) for m in mots_en + mots_pexels},
             "recherche": plier(" ".join([titre_en, en.get("mots", ""), fiche.get("texte", ""), ", ".join(mots_pexels)])),
         })
@@ -501,15 +605,12 @@ def composer_galeries(conf, photos, minimum):
         if len(membres) < minimum:
             continue
         couverture = next((p for p in membres if p["id"] in nombres(reglage.get("couverture"))), membres[0])
-        titre_fr = reglage.get("titre_fr", cle)
-        description_fr = reglage.get("description_fr", "")
-        texte_fr = paragraphes(reglage.get("texte_fr"))
         galeries.append({
             "cle": cle,
             "type": reglage.get("type", "theme").strip(),
-            "titre": {"fr": titre_fr, "en": reglage.get("titre_en", titre_fr)},
-            "description": {"fr": description_fr, "en": reglage.get("description_en", description_fr)},
-            "texte": {"fr": texte_fr, "en": paragraphes(reglage.get("texte_en")) or texte_fr},
+            "titre": {l: traduit(reglage, "titre", l, cle) for l in LANGUES},
+            "description": {l: traduit(reglage, "description", l) for l in LANGUES},
+            "texte": {l: paragraphes(traduit(reglage, "texte", l)) for l in LANGUES},
             "photos": membres,
             "couverture": couverture,
             "bandeau": photo_bandeau(reglage, membres, couverture),
@@ -518,7 +619,7 @@ def composer_galeries(conf, photos, minimum):
 
 
 def composer_series(conf, photos, minimum):
-    """Séries racontées de series.ini : photos dans l'ordre donné, textes bilingues."""
+    """Séries racontées de series.ini : photos dans l'ordre donné, textes en trois langues."""
     par_id = {p["id"]: p for p in photos}
     series = []
     for cle in conf.sections():
@@ -530,15 +631,12 @@ def composer_series(conf, photos, minimum):
         if len(membres) < minimum:
             continue
         couverture = next((p for p in membres if p["id"] in nombres(reglage.get("couverture"))), membres[0])
-        champs = {}
-        for champ in ("titre", "lieu", "date"):
-            fr = reglage.get(f"{champ}_fr", cle if champ == "titre" else "").strip()
-            champs[champ] = {"fr": fr, "en": reglage.get(f"{champ}_en", "").strip() or fr}
-        texte_fr = paragraphes(reglage.get("texte_fr"))
+        champs = {champ: {l: traduit(reglage, champ, l, cle if champ == "titre" else "") for l in LANGUES}
+                  for champ in ("titre", "lieu", "date")}
         series.append({
             "cle": cle,
             **champs,
-            "texte": {"fr": texte_fr, "en": paragraphes(reglage.get("texte_en")) or texte_fr},
+            "texte": {l: paragraphes(traduit(reglage, "texte", l)) for l in LANGUES},
             "photos": membres,
             "couverture": couverture,
             "bandeau": photo_bandeau(reglage, membres, couverture),
@@ -548,18 +646,23 @@ def composer_series(conf, photos, minimum):
 
 # Pages par couleur, d'après la couleur moyenne que Pexels donne pour chaque photo.
 COULEURS = (
-    {"cle": {"fr": "bleu", "en": "blue"}, "nom": {"fr": "Bleu", "en": "Blue"},
-     "titre": {"fr": "Photos bleues", "en": "Blue photos"}, "pastille": "#3d6ea6"},
-    {"cle": {"fr": "vert", "en": "green"}, "nom": {"fr": "Vert", "en": "Green"},
-     "titre": {"fr": "Photos vertes", "en": "Green photos"}, "pastille": "#4c7a3b"},
-    {"cle": {"fr": "jaune-orange", "en": "yellow-orange"}, "nom": {"fr": "Jaune et orange", "en": "Yellow and orange"},
-     "titre": {"fr": "Photos jaunes et orange", "en": "Yellow and orange photos"}, "pastille": "#d99130"},
-    {"cle": {"fr": "rouge-rose", "en": "red-pink"}, "nom": {"fr": "Rouge et rose", "en": "Red and pink"},
-     "titre": {"fr": "Photos rouges et roses", "en": "Red and pink photos"}, "pastille": "#b84552"},
-    {"cle": {"fr": "tons-sombres", "en": "dark-tones"}, "nom": {"fr": "Tons sombres", "en": "Dark tones"},
-     "titre": {"fr": "Photos aux tons sombres", "en": "Dark-toned photos"}, "pastille": "#1c1c21"},
-    {"cle": {"fr": "tons-clairs", "en": "light-tones"}, "nom": {"fr": "Tons clairs", "en": "Light tones"},
-     "titre": {"fr": "Photos aux tons clairs", "en": "Light-toned photos"}, "pastille": "#ebe6dc"},
+    {"cle": {"fr": "bleu", "en": "blue", "zh": "blue"}, "nom": {"fr": "Bleu", "en": "Blue", "zh": "蓝色"},
+     "titre": {"fr": "Photos bleues", "en": "Blue photos", "zh": "蓝色调照片"}, "pastille": "#3d6ea6"},
+    {"cle": {"fr": "vert", "en": "green", "zh": "green"}, "nom": {"fr": "Vert", "en": "Green", "zh": "绿色"},
+     "titre": {"fr": "Photos vertes", "en": "Green photos", "zh": "绿色调照片"}, "pastille": "#4c7a3b"},
+    {"cle": {"fr": "jaune-orange", "en": "yellow-orange", "zh": "yellow-orange"},
+     "nom": {"fr": "Jaune et orange", "en": "Yellow and orange", "zh": "黄色与橙色"},
+     "titre": {"fr": "Photos jaunes et orange", "en": "Yellow and orange photos", "zh": "黄橙色调照片"},
+     "pastille": "#d99130"},
+    {"cle": {"fr": "rouge-rose", "en": "red-pink", "zh": "red-pink"},
+     "nom": {"fr": "Rouge et rose", "en": "Red and pink", "zh": "红色与粉色"},
+     "titre": {"fr": "Photos rouges et roses", "en": "Red and pink photos", "zh": "红粉色调照片"}, "pastille": "#b84552"},
+    {"cle": {"fr": "tons-sombres", "en": "dark-tones", "zh": "dark-tones"},
+     "nom": {"fr": "Tons sombres", "en": "Dark tones", "zh": "暗色调"},
+     "titre": {"fr": "Photos aux tons sombres", "en": "Dark-toned photos", "zh": "暗色调照片"}, "pastille": "#1c1c21"},
+    {"cle": {"fr": "tons-clairs", "en": "light-tones", "zh": "light-tones"},
+     "nom": {"fr": "Tons clairs", "en": "Light tones", "zh": "亮色调"},
+     "titre": {"fr": "Photos aux tons clairs", "en": "Light-toned photos", "zh": "亮色调照片"}, "pastille": "#ebe6dc"},
 )
 
 
@@ -642,8 +745,9 @@ class Adresses:
         self.base = u.path.rstrip("/")
 
     def chemin(self, langue, genre, cle=None):
-        en = langue == "en"
-        debut = self.base + ("/en" if en else "")
+        # Pages anglaises sous /en/, chinoises sous /zh/ (mêmes adresses qu'en anglais).
+        en = langue != "fr"
+        debut = self.base + ("" if langue == "fr" else f"/{langue}")
         chemins = {
             "accueil": "/",
             "galeries": "/galleries/" if en else "/galeries/",
@@ -690,7 +794,7 @@ def carreau(photo, langue, adr, grand=False):
     largeurs, tailles = (((600, 900, 1300, 1800), "(max-width: 640px) 100vw, 50vw") if grand
                          else ((300, 600, 900, 1300), "(max-width: 640px) 60vw, 30vw"))
     return (
-        f'<a class="carreau" href="{adr.chemin(langue, "photo", photo["id"])}" data-pexels="{e(photo["page"])}" '
+        f'<a class="carreau" href="{adr.chemin(langue, "photo", photo["id"])}" data-pexels="{e(pexels(photo["page"], langue))}" '
         f'style="--r:{ratio:.3f};background-color:{e(photo["couleur"])}">'
         f'<img src="{url_image(photo, 900 if grand else 600)}" srcset="{srcset(photo, largeurs)}" '
         f'sizes="{tailles}" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
@@ -772,7 +876,7 @@ def rappel(g, langue):
     preuve = preuve_sociale(g.preuve, langue)
     return (
         f'<aside class="rappel"><p>{t["rappel"]}</p>'
-        f'<p><a class="bouton" href="{e(g.site.get("profil_pexels", ""))}" '
+        f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
         + "</aside>"
@@ -861,13 +965,14 @@ class Gabarit:
     def visionneuse(self, langue):
         """Visionneuse plein écran, remplie par statique/site.js au clic sur une vignette."""
         t = TEXTES[langue]
+        profil = e(pexels(self.site.get("profil_pexels", ""), langue))
         return (
             f'<dialog class="visionneuse" aria-label="{t["visionneuse"]}">'
-            f'<div class="v-cadre"><a class="v-image" href="{e(self.site.get("profil_pexels", ""))}" '
+            f'<div class="v-cadre"><a class="v-image" href="{profil}" '
             f'title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image">'
             '<img class="v-apercu" alt=""><img class="v-grande" alt=""></a></div>'
             '<div class="v-barre"><p class="v-titre"><a href=""></a></p>'
-            f'<p><a class="bouton v-pexels" href="{e(self.site.get("profil_pexels", ""))}" '
+            f'<p><a class="bouton v-pexels" href="{profil}" '
             f'data-goatcounter-click="pexels">{t["telecharger"]}</a></p></div>'
             '<p class="v-rang" aria-live="polite"></p>'
             f'<button type="button" class="v-bouton v-precedente" aria-label="{t["precedente"]}">{icone("precedente")}</button>'
@@ -879,21 +984,21 @@ class Gabarit:
     def page(self, langue, *, titre, description, chemins, contenu, image=None, donnees=None,
              flux=None, classe="", titre_complet=False, series=True):
         t = TEXTES[langue]
-        autre = "en" if langue == "fr" else "fr"
+        autre = SUIVANTE[langue]
         adr = self.adr
         nom = self.site.get("nom", "Karl Forterre")
         titre_page = titre if titre_complet else f"{titre} — {nom}"
         url = adr.absolue(chemins[langue])
-        profil = e(self.site.get("profil_pexels", ""))
+        profil = e(pexels(self.site.get("profil_pexels", ""), langue))
         tete = [
             f'<meta charset="utf-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
             f"<title>{e(titre_page)}</title>",
             f'<meta name="description" content="{e(tronquer(description))}">',
             f'<link rel="canonical" href="{url}">',
-            f'<link rel="alternate" hreflang="fr" href="{adr.absolue(chemins["fr"])}">',
-            f'<link rel="alternate" hreflang="en" href="{adr.absolue(chemins["en"])}">',
+            *(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{adr.absolue(chemins[l])}">' for l in LANGUES),
             f'<link rel="alternate" hreflang="x-default" href="{adr.absolue(chemins["fr"])}">',
+            f'<meta http-equiv="content-language" content="{HREFLANG[langue]}">',
             f'<meta property="og:site_name" content="{e(nom)}">',
             f'<meta property="og:type" content="website">',
             f'<meta property="og:locale" content="{t["locale"]}">',
@@ -906,9 +1011,10 @@ class Gabarit:
             f'<script src="{self.statique("site.js")}?v={self.version}" defer></script>',
             f'<link rel="icon" href="{self.statique("favicon.svg")}" type="image/svg+xml">',
             f'<link rel="apple-touch-icon" href="{self.statique("icone-180.png")}">',
-            f'<link rel="alternate" type="application/rss+xml" title="{e(t["flux"])}" '
-            f'href="{flux or adr.chemin(langue, "flux")}">',
         ]
+        if langue in LANGUES_FLUX:
+            tete.append(f'<link rel="alternate" type="application/rss+xml" title="{e(t["flux"])}" '
+                        f'href="{flux or adr.chemin(langue, "flux")}">')
         if image:
             tete += [
                 f'<meta property="og:image" content="{url_image(image, 1200)}">',
@@ -916,6 +1022,8 @@ class Gabarit:
             ]
         if self.site.get("google_verification", "").strip():
             tete.append(f'<meta name="google-site-verification" content="{e(self.site["google_verification"].strip())}">')
+        if self.site.get("bing_verification", "").strip():
+            tete.append(f'<meta name="msvalidate.01" content="{e(self.site["bing_verification"].strip())}">')
         if self.site.get("pinterest_verification", "").strip():
             tete.append(f'<meta name="p:domain_verify" content="{e(self.site["pinterest_verification"].strip())}">')
         code = self.site.get("goatcounter", "").strip()
@@ -937,25 +1045,26 @@ class Gabarit:
             + (lien_menu("series", t["series"]) if series else "")
             + lien_menu("galeries", t["galeries"])
             + lien_menu("apropos", t["a_propos"])
-            + f'<a href="{chemins[autre]}" hreflang="{autre}" lang="{autre}">{TEXTES[langue]["autre_langue"]}</a>'
+            + f'<a class="langue" href="{chemins[autre]}" hreflang="{HREFLANG[autre]}" lang="{HREFLANG[autre]}">'
+            f'{t["autre_langue"]}</a>'
             f'<a class="suivre" href="{profil}" data-goatcounter-click="suivre-pexels">{t["suivre"]}</a>'
             f"</nav></header>"
         )
         annee = datetime.now(timezone.utc).year
         pied = (
             '<footer class="pied">'
-            '<p><a href="https://www.pexels.com">Photos provided by Pexels</a></p>'
+            f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
             f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
             f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
             f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
             f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
             f' · <a href="{e(self.site.get("site_personnel", ""))}">{e(urlparse(self.site.get("site_personnel", "")).netloc)}</a>'
-            f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a></p>'
-            "</footer>"
+            + (f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a>' if langue in LANGUES_FLUX else "")
+            + "</p></footer>"
         )
         visionneuse = self.visionneuse(langue) if 'class="grille' in contenu else ""
         return (
-            f'<!doctype html>\n<html lang="{langue}"><head>' + "".join(tete) + "</head>"
+            f'<!doctype html>\n<html lang="{HREFLANG[langue]}"><head>' + "".join(tete) + "</head>"
             f'<body class="{classe}">{entete}<main id="contenu">{contenu}</main>{pied}{visionneuse}</body></html>\n'
         )
 
@@ -1019,7 +1128,7 @@ def ouverture_accueil(g, photos, langue):
     bouton « Voir les galeries » et « Suivre sur Pexels » avec la preuve sociale."""
     adr = g.adr
     t = TEXTES[langue]
-    accroche = g.reglages["accueil"].get(f"accroche_{langue}", "")
+    accroche = traduit(g.reglages["accueil"], "accroche", langue)
     if not photos:
         return f'<section class="ouverture"><h1>{t["accueil"]}</h1><p class="accroche">{e(accroche)}</p></section>'
     preuve = preuve_sociale(g.preuve, langue)
@@ -1030,7 +1139,7 @@ def ouverture_accueil(g, photos, langue):
         f'<section class="plein"><div class="defile">{diapos}</div>'
         f'<div class="plein-texte"><h1>{t["accueil"]}</h1><p class="accroche">{e(accroche)}</p>'
         f'<p class="actions"><a class="bouton" href="{adr.chemin(langue, "galeries")}">{t["voir_galeries"]}</a>'
-        f'<a class="bouton bouton-contour" href="{e(g.site.get("profil_pexels", ""))}" '
+        f'<a class="bouton bouton-contour" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-accueil">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
         + "</div></section>"
@@ -1040,7 +1149,7 @@ def ouverture_accueil(g, photos, langue):
 def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     adr = g.adr
     t = TEXTES[langue]
-    accroche = g.reglages["accueil"].get(f"accroche_{langue}", "")
+    accroche = traduit(g.reglages["accueil"], "accroche", langue)
     contenu = (
         ouverture_accueil(g, ouverture, langue)
         + '<div class="enveloppe">'
@@ -1058,11 +1167,11 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
         "@type": "WebSite",
         "name": nom,
         "url": adr.absolue(adr.chemin(langue, "accueil")),
-        "inLanguage": langue,
+        "inLanguage": HREFLANG[langue],
         "author": {"@type": "Person", "name": nom,
                    "sameAs": [g.site.get("profil_pexels", ""), g.site.get("site_personnel", "")]},
     }]
-    chemins = {l: adr.chemin(l, "accueil") for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
     texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
                    image=(ouverture or photos or [None])[0], donnees=donnees,
                    classe="accueil sur-photo" if ouverture else "accueil",
@@ -1073,7 +1182,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
 def page_galeries(g, galeries, series, couleurs, langue):
     adr = g.adr
     t = TEXTES[langue]
-    chemins = {l: adr.chemin(l, "galeries") for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "galeries") for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
     suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
              + pastilles(couleurs, galeries, langue, adr))
@@ -1092,7 +1201,7 @@ def page_galeries(g, galeries, series, couleurs, langue):
 def page_galerie(g, galerie, series, langue):
     adr = g.adr
     t = TEXTES[langue]
-    chemins = {l: adr.chemin(l, "galerie", galerie["cle"]) for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "galerie", galerie["cle"]) for l in LANGUES}
     flux = adr.chemin(langue, "flux_galerie", galerie["cle"])
     description = galerie["description"][langue] or galerie["titre"][langue]
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
@@ -1105,7 +1214,7 @@ def page_galerie(g, galerie, series, langue):
         + grille(galerie["photos"], langue, adr)
         + (f'<section class="texte galerie-texte"><h2 class="surtitre">{t["a_propos_galerie"]}</h2>'
            + "".join(f"<p>{e(para)}</p>" for para in texte_galerie) + "</section>" if texte_galerie else "")
-        + f'<p class="flux-lien"><a href="{flux}">{t["flux_galerie"]}</a></p>'
+        + (f'<p class="flux-lien"><a href="{flux}">{t["flux_galerie"]}</a></p>' if langue in LANGUES_FLUX else "")
         + rappel(g, langue)
         + "</div>"
     )
@@ -1115,7 +1224,7 @@ def page_galerie(g, galerie, series, langue):
         "name": galerie["titre"][langue],
         "description": description,
         "url": adr.absolue(chemins[langue]),
-        "inLanguage": langue,
+        "inLanguage": HREFLANG[langue],
     }, donnees_ariane]
     texte = g.page(langue, titre=galerie["titre"][langue], description=description, chemins=chemins,
                    contenu=contenu, image=galerie["couverture"], donnees=donnees, flux=flux, series=bool(series),
@@ -1126,7 +1235,7 @@ def page_galerie(g, galerie, series, langue):
 def page_couleur(g, couleur, couleurs, galeries, series, langue):
     adr = g.adr
     t = TEXTES[langue]
-    chemins = {l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in LANGUES}
     titre = couleur["titre"][langue]
     description = t["couleur_description"].format(titre=titre)
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
@@ -1145,7 +1254,7 @@ def page_couleur(g, couleur, couleurs, galeries, series, langue):
         "name": titre,
         "description": description,
         "url": adr.absolue(chemins[langue]),
-        "inLanguage": langue,
+        "inLanguage": HREFLANG[langue],
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=couleur["couverture"], donnees=donnees, series=bool(series))
@@ -1155,7 +1264,7 @@ def page_couleur(g, couleur, couleurs, galeries, series, langue):
 def page_series(g, series, langue):
     adr = g.adr
     t = TEXTES[langue]
-    chemins = {l: adr.chemin(l, "series") for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "series") for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["series"], chemins[langue]))
     contenu = (
         bandeau(g, bandeau_index(series), langue, t["series"], e(t["series_intro"]), ariane, centre=True)
@@ -1170,7 +1279,7 @@ def page_series(g, series, langue):
 def page_serie(g, serie, series, langue):
     adr = g.adr
     t = TEXTES[langue]
-    chemins = {l: adr.chemin(l, "serie", serie["cle"]) for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES}
     titre = serie["titre"][langue]
     texte_serie = serie["texte"][langue]
     description = texte_serie[0] if texte_serie else titre
@@ -1192,7 +1301,7 @@ def page_serie(g, serie, series, langue):
         "name": titre,
         "description": tronquer(description, 300),
         "url": adr.absolue(chemins[langue]),
-        "inLanguage": langue,
+        "inLanguage": HREFLANG[langue],
         "image": url_image(serie["couverture"], 1200),
         "author": {"@type": "Person", "name": nom, "url": g.site.get("profil_pexels", "")},
         **({"contentLocation": {"@type": "Place", "name": serie["lieu"][langue]}} if serie["lieu"][langue] else {}),
@@ -1208,8 +1317,9 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     t = TEXTES[langue]
     titre = photo["titre"][langue]
     description = f"{titre}. {t['suffixe']}"
-    chemins = {l: adr.chemin(l, "photo", photo["id"]) for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "photo", photo["id"]) for l in LANGUES}
     ratio = photo["largeur"] / photo["hauteur"]
+    page_pexels = pexels(photo["page"], langue)
     mots = photo["mots"][langue]
     langue_mots = photo["langue_mots"][langue]
     liste = (
@@ -1251,12 +1361,12 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     licence = f'<a href="{adr.chemin(langue, "utiliser")}">{t["licence"]}</a>'
     contenu = (
         f'<article class="photo"><figure class="cliche" style="--r:{ratio:.3f}">'
-        f'<a href="{e(photo["page"])}" title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image-{photo["id"]}">'
+        f'<a href="{e(page_pexels)}" title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image-{photo["id"]}">'
         f'<img src="{url_image(photo, 1600)}" srcset="{srcset(photo, (800, 1200, 1600, 2200, 3000))}" '
         f'sizes="(max-width: 1440px) 100vw, 1440px" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
         f'alt="{e(titre)}" fetchpriority="high" style="background-color:{e(photo["couleur"])}"></a></figure>'
         f'<div class="legende">{ariane}<h1>{e(titre)}</h1>'
-        f'<p><a class="bouton" href="{e(photo["page"])}" data-goatcounter-click="pexels-{photo["id"]}" '
+        f'<p><a class="bouton" href="{e(page_pexels)}" data-goatcounter-click="pexels-{photo["id"]}" '
         f'data-goatcounter-title="{e(titre)}">{t["telecharger"]}</a></p>'
         f'<p class="credit">{t["credit"].format(licence=licence)} '
         f'<span class="numero">{t["numero"].format(id=photo["id"])}</span></p>'
@@ -1274,12 +1384,12 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         "width": photo["largeur"],
         "height": photo["hauteur"],
         "encodingFormat": "image/jpeg",
-        "inLanguage": langue,
+        "inLanguage": HREFLANG[langue],
         "creator": {"@type": "Person", "name": nom, "url": g.site.get("profil_pexels", "")},
         "creditText": f"{nom} / Pexels",
         "copyrightNotice": nom,
         "license": LICENCE,
-        "acquireLicensePage": photo["page"],
+        "acquireLicensePage": page_pexels,
         **({"keywords": ", ".join(mots)} if mots else {}),
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
@@ -1290,7 +1400,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
 def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None):
     """Page de texte simple (À propos, Utiliser mes photos, pages légales)."""
     adr = g.adr
-    chemins = {l: adr.chemin(l, genre) for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, genre) for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (titre, chemins[langue]))
     contenu = f'<section class="ouverture texte">{ariane}<h1>{e(titre)}</h1>{corps}</section>'
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
@@ -1307,13 +1417,13 @@ def page_a_propos(g, par_id, galeries, series, langue):
     adr = g.adr
     t = TEXTES[langue]
     reglage = g.reglages["a-propos"]
-    textes = paragraphes(reglage.get(f"texte_{langue}", ""))
+    textes = paragraphes(traduit(reglage, "texte", langue))
     corps = "".join(f"<p>{e(p)}</p>" for p in textes)
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
-    materiel = paragraphes(reglage.get(f"materiel_{langue}", ""))
+    materiel = paragraphes(traduit(reglage, "materiel", langue))
     if materiel:
         corps += f'<h2>{t["materiel"]}</h2>' + "".join(f"<p>{e(p)}</p>" for p in materiel)
-    auteur = paragraphes(reglage.get(f"auteur_{langue}", ""))
+    auteur = paragraphes(traduit(reglage, "auteur", langue))
     site_auteur = g.site.get("site_personnel", "")
     if auteur:
         corps += (f'<h2>{t["auteur"]}</h2>' + "".join(f"<p>{e(p)}</p>" for p in auteur)
@@ -1329,7 +1439,7 @@ def page_a_propos(g, par_id, galeries, series, langue):
     corps += (
         f'<h2>{t["contact"]}</h2><ul class="liens">'
         + (f"<li>{contact}</li>" if contact else "")
-        + f'<li><a href="{e(g.site.get("profil_pexels", ""))}">{t["profil"]}</a></li>'
+        + f'<li><a href="{e(pexels(g.site.get("profil_pexels", ""), langue))}">{t["profil"]}</a></li>'
         f'<li><a href="{e(g.site.get("site_personnel", ""))}">{e(urlparse(g.site.get("site_personnel", "")).netloc)}</a></li></ul>'
     )
     if portrait:
@@ -1411,6 +1521,37 @@ LICENCE_PEXELS = {
         "officiel_lien": "official text of the Pexels license",
         "contact": "For a print, a commission or any other use, write to {courriel}.",
     },
+    "zh": {
+        "intro": "本站所有照片都发布在 Pexels 上。无需注册即可免费下载，并可自由使用，包括商业用途。",
+        "etapes_titre": "如何下载照片",
+        "etapes": [
+            "在本站打开照片页面。",
+            "点击「在 Pexels 免费下载」。",
+            "在 Pexels 页面点击免费下载按钮，并按需选择尺寸：全分辨率原图或较小的版本。",
+        ],
+        "permis_titre": "Pexels 许可协议允许",
+        "permis": [
+            "免费使用照片，无论个人用途还是商业用途。",
+            "修改照片：裁剪、修图、添加文字。",
+            "将照片用于网站、博客、应用、网店、电子报或演示文稿。",
+            "将照片用于广告或营销活动。",
+            "将照片印在传单、明信片、书籍或杂志上。",
+            "在社交媒体上分享照片。",
+        ],
+        "interdit_titre": "Pexels 许可协议不允许",
+        "interdit": [
+            "以贬损或冒犯的方式展示照片中可辨认的人物。",
+            "未经修改直接出售照片，例如制成海报、印刷品或印在商品上出售。",
+            "暗示照片中的人物或品牌为您的产品背书。",
+            "在其他图片素材网站或壁纸网站上传播或转售这些照片。",
+            "将照片用作商标、标志或商号。",
+        ],
+        "credit_titre": "注明作者",
+        "credit": "这不是必须的，但我们非常感谢您注明：「摄影：Karl Forterre / Pexels」，最好附上照片页面的链接。",
+        "officiel": "一切以{lien}为准。",
+        "officiel_lien": "Pexels 许可协议官方文本",
+        "contact": "如需印刷、委托拍摄或其他用途，请写信至 {courriel}。",
+    },
 }
 
 
@@ -1422,7 +1563,7 @@ def page_utiliser(g, series, langue):
         return f"<{balise}>" + "".join(f"<li>{e(el)}</li>" for el in elements) + f"</{balise}>"
 
     contact = courriel(g)
-    officiel = x["officiel"].format(lien=f'<a href="{LICENCE}">{x["officiel_lien"]}</a>')
+    officiel = x["officiel"].format(lien=f'<a href="{pexels(LICENCE, langue)}">{x["officiel_lien"]}</a>')
     corps = (
         f'<p class="accroche">{e(x["intro"])}</p>'
         f'<h2>{x["etapes_titre"]}</h2>{puces(x["etapes"], "ol")}'
@@ -1446,13 +1587,13 @@ def page_mentions(g, series, langue):
         if (m.get(champ) or "").strip():
             lignes.append(e(m[champ].strip()))
     if (m.get("siret") or "").strip():
-        lignes.append(f"SIRET : {e(m['siret'].strip())}" if langue == "fr" else f"SIRET number: {e(m['siret'].strip())}")
+        lignes.append({"fr": "SIRET : ", "en": "SIRET number: ", "zh": "SIRET 编号："}[langue] + e(m["siret"].strip()))
     contact = courriel(g)
     if contact:
-        lignes.append(f"{t['contact']} : {contact}" if langue == "fr" else f"{t['contact']}: {contact}")
+        lignes.append(t["contact"] + {"fr": " : ", "en": ": ", "zh": "："}[langue] + contact)
     utiliser = f'<a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
     confidentialite = f'<a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a>'
-    telephone = f"Téléphone : {HEBERGEUR_TELEPHONE}" if langue == "fr" else f"Phone: {HEBERGEUR_TELEPHONE}"
+    telephone = {"fr": "Téléphone : ", "en": "Phone: ", "zh": "电话："}[langue] + HEBERGEUR_TELEPHONE
     hebergeur = (
         f"<p>{HEBERGEUR} (GitHub Pages)<br>{HEBERGEUR_ADRESSE[langue]}<br>{telephone}<br>"
         '<a href="https://github.com">github.com</a></p>'
@@ -1468,6 +1609,16 @@ def page_mentions(g, series, langue):
             f"restent la propriété de {e(editeur)}.</p>"
             f"<h2>Données personnelles</h2><p>Voir la page {confidentialite}.</p>"
         )
+    elif langue == "zh":
+        corps = (
+            f"<h2>网站发布者</h2><p>{'<br>'.join(lignes)}</p>"
+            f"<p>发布负责人：{e(editeur)}。</p>"
+            f"<h2>网站托管</h2>{hebergeur}"
+            "<h2>照片与内容</h2>"
+            f"<p>所有照片均为 {e(editeur)} 的作品，发布在 Pexels 上，本站图片也由 Pexels 提供，"
+            f"可依照 Pexels 许可协议使用，详见{utiliser}。KF’ 标志和本站文字的版权归 {e(editeur)} 所有。</p>"
+            f"<h2>个人数据</h2><p>请参阅{confidentialite}。</p>"
+        )
     else:
         corps = (
             f"<h2>Publisher</h2><p>{'<br>'.join(lignes)}</p>"
@@ -1479,8 +1630,9 @@ def page_mentions(g, series, langue):
             f"site remain the property of {e(editeur)}.</p>"
             f"<h2>Personal data</h2><p>See the {confidentialite} page.</p>"
         )
-    description = (f"Mentions légales du site de {editeur} : éditeur et hébergeur." if langue == "fr"
-                   else f"Legal notice for {editeur}'s website: publisher and host.")
+    description = {"fr": f"Mentions légales du site de {editeur} : éditeur et hébergeur.",
+                   "en": f"Legal notice for {editeur}'s website: publisher and host.",
+                   "zh": f"{editeur} 网站的法律声明：发布者与托管方。"}[langue]
     page_texte(g, langue, "mentions", t["mentions"], description, corps, bool(series))
 
 
@@ -1514,6 +1666,28 @@ def page_confidentialite(g, series, langue):
             + (f"<h2>Vos droits</h2><p>Pour toute question sur vos données, écrivez à {contact}.</p>" if contact else "")
         )
         description = "Confidentialité : ni cookies publicitaires ni données personnelles, mesure d'audience sans cookies."
+    elif langue == "zh":
+        audience = (
+            "<p>本站使用 GoatCounter 统计访问量，这是一款不使用 Cookie 的网站统计工具。GoatCounter 只保存汇总数据："
+            "浏览的页面、来源网站、浏览器、操作系统、屏幕尺寸和国家或地区。您的 IP 地址从不被记录，"
+            "它只会与浏览器信息一起，在内存中用于几小时内识别同一次访问。前往 Pexels 的点击也以同样方式统计。"
+            '<a href="https://www.goatcounter.com/help/privacy">GoatCounter 隐私政策</a>（英文）。</p>'
+            if goatcounter else "<p>本站不统计访问量。</p>"
+        )
+        corps = (
+            '<p class="accroche">本站不设置任何统计或广告 Cookie，也不收集任何个人数据，因此没有 Cookie 同意横幅。</p>'
+            f"<h2>访问统计</h2>{audience}"
+            "<h2>网站托管</h2><p>本站由 GitHub Pages 托管。和所有托管服务一样，GitHub 出于服务安全的需要，"
+            "会在日志中记录访客的 IP 地址："
+            '<a href="https://docs.github.com/zh/site-policy/privacy-policies/github-general-privacy-statement">'
+            "GitHub 隐私声明</a>。</p>"
+            "<h2>照片</h2><p>图片直接从 Pexels 的服务器加载，因此 Pexels 会收到您浏览器的 IP 地址。为 Pexels 分发图片的 "
+            "Cloudflare 可能会设置用于服务安全的技术性 Cookie："
+            '<a href="https://www.pexels.com/zh-cn/privacy-policy/">Pexels 隐私政策</a>。'
+            "指向 Pexels 和其他网站的链接会带您进入各自有其规则的服务。</p>"
+            + (f"<h2>您的权利</h2><p>如对您的数据有任何疑问，请写信至 {contact}。</p>" if contact else "")
+        )
+        description = "隐私政策：无广告 Cookie，不收集个人数据，访问统计不使用 Cookie。"
     else:
         audience = (
             "<p>The site counts its visits with GoatCounter, a cookie-free web analytics tool. GoatCounter only "
@@ -1544,11 +1718,11 @@ def page_confidentialite(g, series, langue):
 def page_introuvable(g, series):
     adr = g.adr
     contenu = "".join(
-        f'<section class="ouverture texte" lang="{l}"><h1>{TEXTES[l]["introuvable"]}</h1>'
+        f'<section class="ouverture texte" lang="{HREFLANG[l]}"><h1>{TEXTES[l]["introuvable"]}</h1>'
         f'<p>{TEXTES[l]["introuvable_texte"]} <a href="{adr.chemin(l, "accueil")}">{TEXTES[l]["retour"]}</a></p></section>'
-        for l in ("fr", "en")
+        for l in LANGUES
     )
-    chemins = {l: adr.chemin(l, "accueil") for l in ("fr", "en")}
+    chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
     texte = g.page("fr", titre=TEXTES["fr"]["introuvable"], description=TEXTES["fr"]["introuvable_texte"],
                    chemins=chemins, contenu=contenu, series=bool(series))
     ecrire(SORTIE / "404.html", texte.replace("<head>", '<head><meta name="robots" content="noindex">', 1))
@@ -1740,25 +1914,25 @@ def ecrire_plan(adr, photos, galeries, series, couleurs):
     entrees = []
 
     def ajouter(chemins, image=None):
-        for langue in ("fr", "en"):
+        for langue in LANGUES:
             bloc = f"<url><loc>{adr.absolue(chemins[langue])}</loc>"
-            for autre in ("fr", "en"):
-                bloc += f'<xhtml:link rel="alternate" hreflang="{autre}" href="{adr.absolue(chemins[autre])}"/>'
+            for autre in LANGUES:
+                bloc += f'<xhtml:link rel="alternate" hreflang="{HREFLANG[autre]}" href="{adr.absolue(chemins[autre])}"/>'
             if image:
                 bloc += f"<image:image><image:loc>{e(image)}</image:loc></image:image>"
             entrees.append(bloc + "</url>")
 
     genres = ["accueil", "galeries"] + (["series"] if series else []) + ["apropos", "utiliser", "mentions", "confidentialite"]
     for genre in genres:
-        ajouter({l: adr.chemin(l, genre) for l in ("fr", "en")})
+        ajouter({l: adr.chemin(l, genre) for l in LANGUES})
     for serie in series:
-        ajouter({l: adr.chemin(l, "serie", serie["cle"]) for l in ("fr", "en")})
+        ajouter({l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES})
     for gal in galeries:
-        ajouter({l: adr.chemin(l, "galerie", gal["cle"]) for l in ("fr", "en")})
+        ajouter({l: adr.chemin(l, "galerie", gal["cle"]) for l in LANGUES})
     for couleur in couleurs:
-        ajouter({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in ("fr", "en")})
+        ajouter({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in LANGUES})
     for p in photos:
-        ajouter({l: adr.chemin(l, "photo", p["id"]) for l in ("fr", "en")}, image=p["image"])
+        ajouter({l: adr.chemin(l, "photo", p["id"]) for l in LANGUES}, image=p["image"])
     texte = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
@@ -1791,7 +1965,7 @@ def main():
 
     reglages = lire_ini("site.ini")
     anglais, francais = lire_textes()
-    photos, sans_titre = assembler_photos(ids, fiches, anglais, francais, lire_suivi())
+    photos, sans_titre = assembler_photos(ids, fiches, anglais, francais, lire_suivi(), lire_traductions("zh"))
     minimum = int(reglages["site"].get("galerie_min", "4") or 4)
     galeries = composer_galeries(lire_ini("galeries.ini"), photos, minimum)
     series = composer_series(lire_ini("series.ini"), photos, minimum)
@@ -1818,7 +1992,7 @@ def main():
     par_couleur = {p["id"]: [c for c in couleurs if p in c["photos"]] for p in photos}
     proches = photos_proches(photos, par_photo)
     avec_series = bool(series)
-    for langue in ("fr", "en"):
+    for langue in LANGUES:
         page_accueil(g, photos, galeries, series, selection, ouverture, langue)
         page_galeries(g, galeries, series, couleurs, langue)
         for couleur in couleurs:
@@ -1833,15 +2007,18 @@ def main():
         page_confidentialite(g, series, langue)
         for gal in galeries:
             page_galerie(g, gal, series, langue)
-            ecrire_flux(adr, langue, f'{gal["titre"][langue]} — {g.site.get("nom", "")}',
-                        gal["description"][langue], adr.chemin(langue, "galerie", gal["cle"]),
-                        adr.chemin(langue, "flux_galerie", gal["cle"]),
-                        parutions_flux(journal.get(gal["cle"], {}), par_id, r["flux_max"]))
         for rang, p in enumerate(photos):
             precedente = photos[rang - 1] if rang > 0 else None
             suivante = photos[rang + 1] if rang + 1 < len(photos) else None
             page_photo(g, p, langue, precedente, suivante, par_photo[p["id"]], par_serie[p["id"]], avec_series,
                        proches[p["id"]], par_couleur[p["id"]])
+    # Flux RSS en français et en anglais seulement : Pinterest, qui les lit, est bloqué en Chine.
+    for langue in LANGUES_FLUX:
+        for gal in galeries:
+            ecrire_flux(adr, langue, f'{gal["titre"][langue]} — {g.site.get("nom", "")}',
+                        gal["description"][langue], adr.chemin(langue, "galerie", gal["cle"]),
+                        adr.chemin(langue, "flux_galerie", gal["cle"]),
+                        parutions_flux(journal.get(gal["cle"], {}), par_id, r["flux_max"]))
         ecrire_flux(adr, langue, TEXTES[langue]["accueil"], reglages["accueil"].get(f"accroche_{langue}", ""),
                     adr.chemin(langue, "accueil"), adr.chemin(langue, "flux"), [(p, p["vue_le"]) for p in photos[:30]])
         ecrire_flux(adr, langue, TEXTES[langue]["autres_photos"], TEXTES[langue]["suffixe"],
