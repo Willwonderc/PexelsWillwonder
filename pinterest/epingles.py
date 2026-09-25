@@ -3,7 +3,8 @@
 
   python3 pinterest/epingles.py --essai   une épingle par galerie : crée les tableaux
 
-Chaque épingle mène à la page Pexels de sa photo. Les fichiers sont écrits dans
+Chaque épingle mène à la page Pexels de sa photo ; l'image est donnée par son adresse
+directe, terminée par .jpeg, comme le demande l'aide de Pinterest. Les fichiers sont écrits dans
 pinterest/imports/, au format du modèle d'import de Pinterest.
 """
 
@@ -35,7 +36,7 @@ def epingle(photo, tableau, quand=""):
         description += " " + ", ".join(mots) + "."
     return {
         "Title": titre,
-        "Media URL": build.url_image(photo, 1200),
+        "Media URL": photo["image"],
         "Pinterest board": tableau,
         "Thumbnail": "",
         "Description": description[:500],
@@ -61,7 +62,7 @@ def main():
     args = options.parse_args()
     photos, galeries = charger()
     if args.essai:
-        ecrire("essai-une-epingle-par-galerie.csv", [epingle(g["couverture"], g["titre"]["en"]) for g in galeries])
+        ecrire("essai-2-une-epingle-par-galerie.csv", [epingle(g["couverture"], g["titre"]["en"]) for g in galeries])
     else:
         options.print_help()
 

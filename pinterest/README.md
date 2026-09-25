@@ -26,7 +26,7 @@ les photos Pexels.
    `https://photos.karlforterre.fr` dans Pinterest et lancer la
    vérification.
 4. **Créer les tableaux** : importer le fichier d'essai
-   `pinterest/imports/essai-une-epingle-par-galerie.csv` (Paramètres → Importer du
+   `pinterest/imports/essai-2-une-epingle-par-galerie.csv` (Paramètres → Importer du
    contenu → Importer un fichier). Il publie une épingle par galerie, et Pinterest
    crée au passage les tableaux qui n'existent pas. Pour le régénérer :
    `python3 pinterest/epingles.py --essai`.
