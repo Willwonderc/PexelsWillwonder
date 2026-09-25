@@ -201,7 +201,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 
 | Plateforme | Intérêt | Comment |
 |---|---|---|
-| karlforterre.fr (Adobe Portfolio) | le lien le plus utile : le site principal recommande le site photo | un lien « Photos libres de droits » dans son menu |
+| karlforterre.fr (site d'auteur) | le lien le plus utile : le site principal recommande le site photo | fait : sa section Photographie montre la sélection, les séries et les galeries du site photo (apercu.json), chaque photo ouvrant sa page |
 | Flickr | communauté photo, groupes par lieu et par thème | compte gratuit (nombre de photos limité) : les meilleures, avec le lien vers leur page Pexels |
 | 500px | communauté de photographes, paysages | compte gratuit, quelques photos par semaine |
 | Behance | relié à Adobe Portfolio | une série par projet, avec le lien vers le site |

@@ -64,7 +64,13 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Adresse du site : https://photos.karlforterre.fr (enregistrement CNAME chez OVH vers
   willwonderc.github.io, domaine personnalisé déclaré dans Settings → Pages). Le
   réglage `adresse` de `vitrine/site.ini` fixe les liens ; zone DNS de karlforterre.fr
-  chez OVH, site principal hébergé par Adobe Portfolio.
+  chez OVH.
+- Site d'auteur : https://karlforterre.fr, dépôt Willwonderc/karlforterre.fr (site
+  statique sur GitHub Pages, qui remplace Adobe Portfolio ; mode d'emploi et bascule du
+  domaine dans son README). Sa section Photographie lit chaque visite
+  `https://photos.karlforterre.fr/apercu.json`, écrit par `build.py` (sélection avec ses
+  titres courts de `selection.txt`, séries, galeries, chiffres) : garder ce fichier et
+  son format.
 - Publication : GitHub Pages, source « GitHub Actions », depuis `main`.
 - Tâches planifiées : cron en UTC ; éviter la minute 0, souvent retardée. GitHub
   désactive les tâches planifiées d'un dépôt public après 60 jours sans activité ; les
