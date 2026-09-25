@@ -1,5 +1,7 @@
 # Construit le site de photographe et le publie sur GitHub Pages :
 # chaque nuit, après chaque modification de main, ou à la demande (Run workflow).
+# Chaque passage enregistre sur main les nouvelles fiches Pexels et le journal des
+# parutions Pinterest (vitrine/donnees/).
 name: Site
 
 on:
@@ -22,20 +24,23 @@ jobs:
   construire:
     runs-on: ubuntu-latest
     steps:
+      # Toujours la dernière version de main, qui contient le journal du passage précédent.
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Lire les nouvelles photos et construire le site
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-        run: python3 vitrine/build.py
+        run: python3 vitrine/build.py --enregistrer-parutions
 
-      - name: Enregistrer les nouvelles fiches Pexels
+      - name: Enregistrer les fiches Pexels et le journal des parutions
         run: |
-          if [ -n "$(git status --porcelain vitrine/donnees/fiches.json)" ]; then
+          if [ -n "$(git status --porcelain vitrine/donnees)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add vitrine/donnees/fiches.json
-            git commit -m "Fiches Pexels mises à jour"
+            git add vitrine/donnees/fiches.json vitrine/donnees/parutions.json
+            git commit -m "Fiches Pexels et parutions Pinterest mises à jour"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
