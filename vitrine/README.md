@@ -203,8 +203,10 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
   page à ses deux traductions (`hreflang` fr, en et zh-Hans).
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).
-- **Mastodon** : l'adresse du profil dans `site.ini` (`mastodon`) ajoute à chaque page
-  un lien `rel="me"`, qui vaut au lien du site une coche verte dans le profil Mastodon.
+- **Réseaux** : la rubrique `[reseaux]` de `site.ini` liste vos profils (Mastodon,
+  Bluesky…), une ligne par réseau : `Nom = adresse`. Ils s'affichent en pied de page de
+  chaque page, avec un lien `rel="me"` qui vaut au lien du site une coche verte dans le
+  profil Mastodon. Pour ajouter un réseau, il suffit d'écrire une ligne.
 - **Fautes de frappe des mots-clés Pexels** : corrigées à la lecture de la fiche de
   suivi, d'après la liste `CORRECTIONS_MOTS` de `build.py` (« backgroud » →
   « background », etc.). Ajouter une ligne à cette liste pour en corriger une autre.
