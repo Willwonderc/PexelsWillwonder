@@ -1,0 +1,48 @@
+# Publie chaque matin la « photo du jour » sur Bluesky et sur Mastodon (ou Pixelfed),
+# puis enregistre sur main le journal des publications (reseaux/photo-du-jour.json).
+# Sans les secrets d'un réseau, ce réseau est laissé de côté, sans erreur.
+# Mode d'emploi : reseaux/README.md.
+name: Photo du jour
+
+on:
+  schedule:
+    # 6 h 47 UTC : 8 h 47 à Paris en été, 7 h 47 en hiver.
+    - cron: "47 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: photo-du-jour
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      # Toujours la dernière version de main, qui contient le journal du passage précédent.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Publier la photo du jour
+        env:
+          BLUESKY_IDENTIFIANT: ${{ secrets.BLUESKY_IDENTIFIANT }}
+          BLUESKY_MOT_DE_PASSE_APPLI: ${{ secrets.BLUESKY_MOT_DE_PASSE_APPLI }}
+          MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
+          MASTODON_JETON: ${{ secrets.MASTODON_JETON }}
+        run: python3 reseaux/photo_du_jour.py
+
+      # Même si un réseau a échoué, garder la trace de ce que l'autre a publié.
+      - name: Enregistrer le journal des publications
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain reseaux/photo-du-jour.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add reseaux/photo-du-jour.json
+            git commit -m "Photo du jour publiée"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

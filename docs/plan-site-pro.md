@@ -134,8 +134,8 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
   par galerie et par nuit, d'après le journal des parutions. Plus tard,
   des visuels verticaux (format 2:3) avec un titre, qui attirent davantage de clics.
 - **Bluesky et Mastodon, ou Pixelfed** (réseau de photographes compatible avec
-  Mastodon) : une « photo du jour » publiée chaque matin par la tâche GitHub, avec un
-  lien vers sa page. Gratuit, et possible avec un mot de passe d'application ou un jeton
+  Mastodon) : fait (session E). Une « photo du jour » publiée chaque matin par la tâche
+  GitHub, avec un lien vers sa page ; mode d'emploi : `reseaux/README.md`. Gratuit, et possible avec un mot de passe d'application ou un jeton
   rangé dans les secrets du dépôt.
 - **Instagram vers Pinterest** : Pinterest peut republier automatiquement les
   publications d'un compte Instagram relié, si l'option est proposée dans ses
@@ -205,7 +205,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Flickr | communauté photo, groupes par lieu et par thème | compte gratuit (nombre de photos limité) : les meilleures, avec le lien vers leur page Pexels |
 | 500px | communauté de photographes, paysages | compte gratuit, quelques photos par semaine |
 | Behance | relié à Adobe Portfolio | une série par projet, avec le lien vers le site |
-| Pixelfed, Bluesky, Mastodon | réseaux ouverts, sans algorithme payant | automatique (session E) |
+| Pixelfed, Bluesky, Mastodon | réseaux ouverts, sans algorithme payant | automatique : photo du jour ([reseaux/](../reseaux/README.md)) |
 | Instagram | la plus grande audience photo | à la main ou par Metricool |
 | X, Threads, LinkedIn | audience générale et professionnelle | par le connecteur Typefully |
 | Groupes Facebook | groupes locaux (Poitou, Pays basque, Galice) et de photographes | à la main, selon les règles de chaque groupe |

@@ -42,6 +42,7 @@ cliquer sur « Merge pull request » : le travail rejoint `main`, la branche pub
     pinterest/    visuels verticaux et fichiers d'import (chantier 2)
     atelier/      photos à décrire et tableaux de titres (chantier 3)
     releves/      relevés hebdomadaires des vues Pexels (chantier 4)
+    reseaux/      photo du jour sur Bluesky et Mastodon
 
 ## À savoir
 
