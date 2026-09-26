@@ -30,6 +30,10 @@ elles restent visibles dans l'historique.
 - [`resultats/ppex-photos-sans-titre.csv`](resultats/ppex-photos-sans-titre.csv) :
   titres et mots-clés rédigés le 24 septembre 2026 pour les 155 photos récentes sans
   titre et pour 2 photos pas encore publiées.
+- [`resultats/photos-en-attente-de-titre.csv`](resultats/photos-en-attente-de-titre.csv) :
+  titres et mots-clés rédigés le 26 septembre 2026, d'après l'image et les mots-clés
+  Pexels, pour les 196 autres photos publiées sans titre, que le site laissait de côté.
+  Leurs traductions française et chinoise sont dans `vitrine/donnees/`.
 
 ## Précaution
 
