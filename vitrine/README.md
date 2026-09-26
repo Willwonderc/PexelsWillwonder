@@ -218,16 +218,20 @@ courriel ou sur votre page de statistiques
 (https://www.pexels.com/@karl-forterre-28489473/stats/). Une ligne par site et par photo :
 
 - `photo` : numéro Pexels ;
-- `site` : nom du site tel qu'il s'affiche, par exemple `CNN.com` ;
+- `site` : nom du site tel qu'il s'affiche, par exemple `CNN.com`, ou nom de la
+  campagne ;
+- `type` : `site` pour un site web (« Utilisée sur CNN.com »), `campagne` pour une
+  campagne (« Utilisée par la campagne « Niort à Gauche » ») ;
 - `page` : facultatif, adresse exacte de la page où paraît la photo, trouvée par exemple
   par une recherche d'image inversée (Google Lens, TinEye) ; le nom du site devient
   alors un lien ;
 - `signale_le` : date du signalement (AAAA-MM-JJ) ;
 - `source` : d'où vient l'information.
 
-Ces usages s'affichent sur l'accueil (« Utilisées sur … »), en fin de galerie et de
-série, sur la page de chaque photo concernée et dans la rubrique « Ils ont utilisé mes
-photos » de la page « À propos ». N'y noter que des usages par d'autres que vous.
+Ces usages s'affichent sur la page de chaque photo concernée et dans la rubrique « Ils
+ont utilisé mes photos » de la page « À propos ». Les sites web figurent aussi sur
+l'accueil (« Utilisées sur … ») et en fin de galerie et de série. N'y noter que des
+usages avérés.
 
 ## Domaine personnel
 

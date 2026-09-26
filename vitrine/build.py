@@ -119,8 +119,10 @@ TEXTES = {
         "materiel": "Matériel",
         "usages": "Ils ont utilisé mes photos",
         "usages_ligne": "Utilisées sur {sites}",
-        "usages_intro": "Pexels m'a signalé ces usages de mes photos par d'autres sites. Ce n'est qu'une "
-                        "petite partie : Pexels ne signale pas chaque téléchargement.",
+        "usages_intro": "Pexels m'a signalé ces usages de mes photos. Ce n'est qu'une petite partie : "
+                        "Pexels ne signale pas chaque téléchargement.",
+        "usage_par": "Utilisée par {qui}{date}.",
+        "campagne": "la campagne « {nom} »",
         "usage_photo": "Utilisée sur {sites}, d'après Pexels{date}.",
         "liste_et": "et",
         "auteur": "Aussi auteur",
@@ -187,8 +189,10 @@ TEXTES = {
         "materiel": "Equipment",
         "usages": "Where my photos have been used",
         "usages_ligne": "Used on {sites}",
-        "usages_intro": "Pexels notified me that other websites used these photos. This is only a small "
-                        "part: Pexels does not report every download.",
+        "usages_intro": "Pexels notified me of these uses of my photos. This is only a small part: "
+                        "Pexels does not report every download.",
+        "usage_par": "Used by {qui}{date}.",
+        "campagne": "the “{nom}” campaign",
         "usage_photo": "Used on {sites}, according to Pexels{date}.",
         "liste_et": "and",
         "auteur": "Also a writer",
@@ -253,7 +257,9 @@ TEXTES = {
         "materiel": "器材",
         "usages": "使用过我照片的网站",
         "usages_ligne": "曾被 {sites} 使用",
-        "usages_intro": "Pexels 通知我，以下网站使用了我的这些照片。这只是其中一小部分：Pexels 并不通报每一次下载。",
+        "usages_intro": "Pexels 通知了我以下这些照片的使用情况。这只是其中一小部分：Pexels 并不通报每一次下载。",
+        "usage_par": "这张照片曾被{qui}使用{date}。",
+        "campagne": "“{nom}”竞选活动",
         "usage_photo": "据 Pexels 通知，这张照片曾被 {sites} 使用{date}。",
         "liste_et": "和",
         "auteur": "作家身份",
@@ -333,14 +339,16 @@ def lire_ini(nom):
 
 def lire_usages():
     """Usages de photos par d'autres sites (usages.csv), tels que Pexels les signale :
-    {numéro: [{"site", "page", "date"}]}, dans l'ordre du fichier."""
+    {numéro: [{"site", "type", "page", "date"}]}, dans l'ordre du fichier. Type « site » : un
+    site web (« utilisée sur … ») ; « campagne » : une campagne (« utilisée par … »)."""
     chemin = ICI / "usages.csv"
     usages = {}
     for ligne in lire_csv(chemin) if chemin.exists() else []:
         numero, site = (ligne.get("photo") or "").strip(), (ligne.get("site") or "").strip()
         if numero.isdigit() and site:
             usages.setdefault(int(numero), []).append({
-                "site": site, "page": (ligne.get("page") or "").strip(),
+                "site": site, "type": (ligne.get("type") or "").strip().lower() or "site",
+                "page": (ligne.get("page") or "").strip(),
                 "date": (ligne.get("signale_le") or "").strip()})
     return usages
 
@@ -960,6 +968,30 @@ def enumeration(elements, langue):
     return virgule.join(elements[:-1]) + f' {TEXTES[langue]["liste_et"]} ' + elements[-1]
 
 
+def designation(usage, langue):
+    """Nom affiché d'un usage : le site (lien vers la page exacte s'il est connu), ou
+    « la campagne « … » »."""
+    nom = e(usage["site"])
+    if usage["type"] == "campagne":
+        nom = TEXTES[langue]["campagne"].format(nom=nom)
+    return f'<a href="{e(usage["page"])}">{nom}</a>' if usage["page"] else nom
+
+
+def phrases_usages(usages, langue):
+    """« Utilisée sur CNN.com …, d'après Pexels (janvier 2026). » et « Utilisée par … »."""
+    t = TEXTES[langue]
+    sites = [u for u in usages if u["type"] == "site"]
+    autres = [u for u in usages if u["type"] != "site"]
+    phrases = []
+    if sites:
+        phrases.append(t["usage_photo"].format(sites=enumeration([designation(u, langue) for u in sites], langue),
+                                               date=date_usages(sites, langue)))
+    if autres:
+        phrases.append(t["usage_par"].format(qui=enumeration([designation(u, langue) for u in autres], langue),
+                                             date=date_usages(autres, langue)))
+    return " ".join(phrases)
+
+
 def date_usages(usages, langue):
     """Mois du dernier signalement, entre parenthèses, ou rien."""
     dates = [u["date"] for u in usages if u["date"]]
@@ -968,7 +1000,7 @@ def date_usages(usages, langue):
 
 def ligne_usages(g, langue):
     """« Utilisées sur CNN.com, … », lien vers la rubrique de la page « À propos »."""
-    sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages))
+    sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
     if not sites:
         return ""
     texte = TEXTES[langue]["usages_ligne"].format(sites=enumeration(sites, langue))
@@ -1484,9 +1516,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     ariane, donnees_ariane = fil_ariane(adr, langue, parents, (titre, chemins[langue]))
     licence = f'<a href="{adr.chemin(langue, "utiliser")}">{t["licence"]}</a>'
     usages = g.usages.get(photo["id"], [])
-    sites = [f'<a href="{e(u["page"])}">{e(u["site"])}</a>' if u["page"] else e(u["site"]) for u in usages]
-    usage = (f'<p class="usage">{t["usage_photo"].format(sites=enumeration(sites, langue), date=date_usages(usages, langue))}</p>'
-             if usages else "")
+    usage = f'<p class="usage">{phrases_usages(usages, langue)}</p>' if usages else ""
     contenu = (
         f'<article class="photo"><figure class="cliche" style="--r:{ratio:.3f}">'
         f'<a href="{e(page_pexels)}" title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image-{photo["id"]}">'
@@ -1555,7 +1585,7 @@ def page_a_propos(g, par_id, galeries, series, langue):
             + '<ul class="liens">' + "".join(
                 f'<li><a href="{adr.chemin(langue, "photo", p["id"])}">{e(p["titre"][langue])}</a>'
                 f'{DEUX_POINTS[langue]}'
-                f'{enumeration([e(x["site"]) for x in u], langue)}{date_usages(u, langue)}</li>'
+                f'{enumeration([designation(x, langue) for x in u], langue)}{date_usages(u, langue)}</li>'
                 for p, u in utilisees) + "</ul>"
         )
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
@@ -2046,6 +2076,7 @@ def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, p
                      for gal in galeries],
         "recentes": [fiche(p) for p in photos[:12]],
         "usages": [{**fiche(p), "sites": [u["site"] for u in g.usages[p["id"]]],
+                    "types": [u["type"] for u in g.usages[p["id"]]],
                     "signale_le": max((u["date"] for u in g.usages[p["id"]]), default="")}
                    for p in photos if p["id"] in g.usages],
     }
