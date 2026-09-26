@@ -228,10 +228,11 @@ courriel ou sur votre page de statistiques
 - `signale_le` : date du signalement (AAAA-MM-JJ) ;
 - `source` : d'où vient l'information.
 
-Ces usages s'affichent sur la page de chaque photo concernée et dans la rubrique « Ils
-ont utilisé mes photos » de la page « À propos ». Les sites web figurent aussi sur
-l'accueil (« Utilisées sur … ») et en fin de galerie et de série. N'y noter que des
-usages avérés.
+Ces photos ont leur page, « Utilisées dans des projets » (`/galeries/photos-utilisees/`),
+annoncée en tête de la page des galeries : chaque photo entière, avec ses usages, son
+titre et la date. La page de chaque photo concernée le signale aussi, et les sites web
+figurent sur l'accueil (« Utilisées sur … ») et en fin de galerie et de série. N'y
+noter que des usages avérés.
 
 ## Domaine personnel
 

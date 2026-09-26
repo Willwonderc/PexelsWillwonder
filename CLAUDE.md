@@ -113,8 +113,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   sans titre n'a été retenue.
 - Usages par des tiers : `vitrine/usages.csv` (sites signalés par Pexels : CNN.com,
   NYTimes.com, Cambridge.org, Dictionary.com, TheFreeDictionary.com ; et la campagne
-  « Niort à Gauche », type `campagne`), affichés sur les pages des photos et dans
-  « À propos » ; les sites web aussi sur l'accueil et en fin de galerie et de série.
+  « Niort à Gauche », type `campagne`) : page dédiée « Utilisées dans des projets »
+  (`/galeries/photos-utilisees/`, en tête de la page des galeries), ligne sur la page de
+  chaque photo ; les sites web aussi sur l'accueil et en fin de galerie et de série.
   Noms des sites en texte, sans logo ni chiffre d'audience.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
   `vitrine/statique/logo-kf.webp` (original texturé).
