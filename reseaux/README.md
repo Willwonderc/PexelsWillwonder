@@ -68,7 +68,7 @@ inscrire, car certaines demandent de signaler les publications automatiques.
    électronique et un mot de passe. Confirmez l'adresse par le lien reçu.
 2. Complétez le profil (**Préférences** → **Profil public**) : nom, présentation, photo,
    et dans les **champs supplémentaires** le lien https://photos.karlforterre.fr.
-   Chaque page du site renvoie vers le profil (réglage `mastodon` de `vitrine/site.ini`) :
+   Chaque page du site renvoie vers le profil (rubrique `[reseaux]` de `vitrine/site.ini`) :
    Mastodon affiche alors une coche verte à côté de ce lien. Si elle n'apparaît pas,
    réenregistrez le profil une fois le site reconstruit pour relancer la vérification.
 

@@ -314,6 +314,17 @@ def lire_ini(nom):
     return conf
 
 
+def lire_reseaux():
+    """Profils de la rubrique [reseaux] de site.ini : [(nom, adresse)], dans l'ordre du
+    fichier, les noms avec leurs majuscules (« Bluesky », « LinkedIn »)."""
+    conf = configparser.ConfigParser(interpolation=None)
+    conf.optionxform = str
+    conf.read(ICI / "site.ini", encoding="utf-8")
+    if not conf.has_section("reseaux"):
+        return []
+    return [(nom.strip(), adresse.strip()) for nom, adresse in conf.items("reseaux") if adresse.strip()]
+
+
 def lire_liste(nom):
     """Numéros Pexels d'une liste : un lien ou un numéro en début de ligne, suivi au
     besoin d'un commentaire. Les lignes qui commencent par # sont ignorées."""
@@ -984,6 +995,7 @@ class Gabarit:
         self.site = reglages["site"]
         self.adr = adr
         self.preuve = preuve
+        self.reseaux = lire_reseaux()
         empreinte = hashlib.md5()
         for nom in ("style.css", "site.js"):
             empreinte.update((ICI / "statique" / nom).read_bytes())
@@ -1050,8 +1062,8 @@ class Gabarit:
                 f'<meta property="og:image" content="{url_image(image, 1200)}">',
                 f'<meta property="og:image:alt" content="{e(image["titre"][langue])}">',
             ]
-        if self.site.get("mastodon", "").strip():
-            tete.append(f'<link rel="me" href="{e(self.site["mastodon"].strip())}">')
+        for _, adresse in self.reseaux:
+            tete.append(f'<link rel="me" href="{e(adresse)}">')
         if self.site.get("google_verification", "").strip():
             tete.append(f'<meta name="google-site-verification" content="{e(self.site["google_verification"].strip())}">')
         if self.site.get("bing_verification", "").strip():
@@ -1091,8 +1103,7 @@ class Gabarit:
             f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
             f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
             f' · <a href="{e(self.site.get("site_personnel", ""))}">{e(urlparse(self.site.get("site_personnel", "")).netloc)}</a>'
-            + (f' · <a rel="me" href="{e(self.site["mastodon"].strip())}">Mastodon</a>'
-               if self.site.get("mastodon", "").strip() else "")
+            + "".join(f' · <a rel="me" href="{e(adresse)}">{e(nom)}</a>' for nom, adresse in self.reseaux)
             + (f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a>' if langue in LANGUES_FLUX else "")
             + "</p></footer>"
         )
@@ -1204,7 +1215,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
         "inLanguage": HREFLANG[langue],
         "author": {"@type": "Person", "name": nom,
                    "sameAs": [a for a in (g.site.get("profil_pexels", ""), g.site.get("site_personnel", ""),
-                                           g.site.get("mastodon", "").strip()) if a]},
+                                           *(adresse for _, adresse in g.reseaux)) if a]},
     }]
     chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
     texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
