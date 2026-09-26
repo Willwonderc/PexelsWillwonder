@@ -84,6 +84,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   planches d'inspiration faites de photos d'autres photographes, et l'API n'y a
   renvoyé aucune photo du propriétaire. Le site s'appuie donc sur la liste des photos,
   pas sur les collections.
+- Photo du jour : `reseaux/photo_du_jour.py`, lancé chaque matin par
+  `.github/workflows/photo-du-jour.yml`, publie sur Bluesky et Mastodon (ou Pixelfed) la
+  photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`, tenu par
+  cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique `[photo_du_jour]`.
+  Essai sans publier : `--essai`.
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
