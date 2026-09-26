@@ -1,14 +1,15 @@
 # Photo du jour sur Bluesky et Mastodon — mode d'emploi
 
 Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky et sur
-Mastodon (ou Pixelfed) : l'image, son titre, quatre mots-clés en hashtags et le lien
+Mastodon (ou Pixelfed) : l'image, son titre, le hashtag #Photography suivi de quatre
+mots-clés en hashtags, et le lien
 vers sa page du site, d'où elle se télécharge sur Pexels. Exemple :
 
     Beautiful twilight sky with a crescent moon and serene gradient of colors
 
     Royalty-free, free to download on Pexels: https://photos.karlforterre.fr/en/photo/13102252/
 
-    #Sky #CrescentMoon #Gradient #Twilight
+    #Photography #Sky #CrescentMoon #Gradient #Twilight
 
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
   `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
@@ -67,6 +68,9 @@ inscrire, car certaines demandent de signaler les publications automatiques.
    électronique et un mot de passe. Confirmez l'adresse par le lien reçu.
 2. Complétez le profil (**Préférences** → **Profil public**) : nom, présentation, photo,
    et dans les **champs supplémentaires** le lien https://photos.karlforterre.fr.
+   Chaque page du site renvoie vers le profil (réglage `mastodon` de `vitrine/site.ini`) :
+   Mastodon affiche alors une coche verte à côté de ce lien. Si elle n'apparaît pas,
+   réenregistrez le profil une fois le site reconstruit pour relancer la vérification.
 
 ### Créer le jeton d'accès
 
@@ -119,6 +123,9 @@ de plus.
 - **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`, ligne
   `langue` : `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois). Titre,
   hashtags et lien suivent cette langue.
+- **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
+  (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
+  mots-clés de la photo.
 - **Heure** : ligne `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
   (minute, puis heure). Évitez la minute 0, souvent retardée par GitHub.
 - **Faire une pause** : onglet **Actions** → **Photo du jour** → bouton **…** →
