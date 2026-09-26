@@ -211,6 +211,24 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
   suivi, d'après la liste `CORRECTIONS_MOTS` de `build.py` (« backgroud » →
   « background », etc.). Ajouter une ligne à cette liste pour en corriger une autre.
 
+## Usages par des tiers
+
+`usages.csv` liste les sites qui ont utilisé vos photos, tels que Pexels les signale par
+courriel ou sur votre page de statistiques
+(https://www.pexels.com/@karl-forterre-28489473/stats/). Une ligne par site et par photo :
+
+- `photo` : numéro Pexels ;
+- `site` : nom du site tel qu'il s'affiche, par exemple `CNN.com` ;
+- `page` : facultatif, adresse exacte de la page où paraît la photo, trouvée par exemple
+  par une recherche d'image inversée (Google Lens, TinEye) ; le nom du site devient
+  alors un lien ;
+- `signale_le` : date du signalement (AAAA-MM-JJ) ;
+- `source` : d'où vient l'information.
+
+Ces usages s'affichent sur l'accueil (« Utilisées sur … »), en fin de galerie et de
+série, sur la page de chaque photo concernée et dans la rubrique « Ils ont utilisé mes
+photos » de la page « À propos ». N'y noter que des usages par d'autres que vous.
+
 ## Domaine personnel
 
 Le site est servi à l'adresse photos.karlforterre.fr : un enregistrement CNAME

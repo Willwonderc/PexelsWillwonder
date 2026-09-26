@@ -117,6 +117,12 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Lieux photographiés",
         "materiel": "Matériel",
+        "usages": "Ils ont utilisé mes photos",
+        "usages_ligne": "Utilisées sur {sites}",
+        "usages_intro": "Pexels m'a signalé ces usages de mes photos par d'autres sites. Ce n'est qu'une "
+                        "petite partie : Pexels ne signale pas chaque téléchargement.",
+        "usage_photo": "Utilisée sur {sites}, d'après Pexels{date}.",
+        "liste_et": "et",
         "auteur": "Aussi auteur",
         "visionneuse": "Visionneuse",
         "fermer": "Fermer",
@@ -179,6 +185,12 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Places photographed",
         "materiel": "Equipment",
+        "usages": "Where my photos have been used",
+        "usages_ligne": "Used on {sites}",
+        "usages_intro": "Pexels notified me that other websites used these photos. This is only a small "
+                        "part: Pexels does not report every download.",
+        "usage_photo": "Used on {sites}, according to Pexels{date}.",
+        "liste_et": "and",
         "auteur": "Also a writer",
         "visionneuse": "Photo viewer",
         "fermer": "Close",
@@ -239,6 +251,11 @@ TEXTES = {
         "contact": "联系方式",
         "lieux_photographies": "拍摄地点",
         "materiel": "器材",
+        "usages": "使用过我照片的网站",
+        "usages_ligne": "曾被 {sites} 使用",
+        "usages_intro": "Pexels 通知我，以下网站使用了我的这些照片。这只是其中一小部分：Pexels 并不通报每一次下载。",
+        "usage_photo": "据 Pexels 通知，这张照片曾被 {sites} 使用{date}。",
+        "liste_et": "和",
         "auteur": "作家身份",
         "visionneuse": "照片浏览器",
         "fermer": "关闭",
@@ -312,6 +329,20 @@ def lire_ini(nom):
     conf = configparser.ConfigParser(interpolation=None)
     conf.read(ICI / nom, encoding="utf-8")
     return conf
+
+
+def lire_usages():
+    """Usages de photos par d'autres sites (usages.csv), tels que Pexels les signale :
+    {numéro: [{"site", "page", "date"}]}, dans l'ordre du fichier."""
+    chemin = ICI / "usages.csv"
+    usages = {}
+    for ligne in lire_csv(chemin) if chemin.exists() else []:
+        numero, site = (ligne.get("photo") or "").strip(), (ligne.get("site") or "").strip()
+        if numero.isdigit() and site:
+            usages.setdefault(int(numero), []).append({
+                "site": site, "page": (ligne.get("page") or "").strip(),
+                "date": (ligne.get("signale_le") or "").strip()})
+    return usages
 
 
 def lire_reseaux():
@@ -900,6 +931,50 @@ def cartes_series(series, langue, adr, titre=None, sauf=None):
     )
 
 
+MOIS = {
+    "fr": ("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
+           "octobre", "novembre", "décembre"),
+    "en": ("January", "February", "March", "April", "May", "June", "July", "August", "September",
+           "October", "November", "December"),
+}
+
+
+def mois_annee(jour, langue):
+    """« janvier 2026 », « January 2026 », « 2026 年 1 月 »."""
+    d = date.fromisoformat(jour)
+    return f"{d.year} 年 {d.month} 月" if langue == "zh" else f"{MOIS[langue][d.month - 1]} {d.year}"
+
+
+DEUX_POINTS = {"fr": " : ", "en": ": ", "zh": "："}
+
+
+def entre_parentheses(texte, langue):
+    return f"（{texte}）" if langue == "zh" else f" ({texte})"
+
+
+def enumeration(elements, langue):
+    """« a, b et c » ; en chinois « a、b 和 c »."""
+    if len(elements) < 2:
+        return "".join(elements)
+    virgule = "、" if langue == "zh" else ", "
+    return virgule.join(elements[:-1]) + f' {TEXTES[langue]["liste_et"]} ' + elements[-1]
+
+
+def date_usages(usages, langue):
+    """Mois du dernier signalement, entre parenthèses, ou rien."""
+    dates = [u["date"] for u in usages if u["date"]]
+    return entre_parentheses(mois_annee(max(dates), langue), langue) if dates else ""
+
+
+def ligne_usages(g, langue):
+    """« Utilisées sur CNN.com, … », lien vers la rubrique de la page « À propos »."""
+    sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages))
+    if not sites:
+        return ""
+    texte = TEXTES[langue]["usages_ligne"].format(sites=enumeration(sites, langue))
+    return f'<p class="preuve"><a href="{g.adr.chemin(langue, "apropos")}#usages">{e(texte)}</a></p>'
+
+
 def preuve_sociale(preuve, langue):
     """« 878 500 vues et 3 950 téléchargements sur Pexels », d'après les relevés."""
     t = TEXTES[langue]
@@ -920,6 +995,7 @@ def rappel(g, langue):
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
+        + ligne_usages(g, langue)
         + "</aside>"
     )
 
@@ -996,6 +1072,7 @@ class Gabarit:
         self.adr = adr
         self.preuve = preuve
         self.reseaux = lire_reseaux()
+        self.usages = {}
         empreinte = hashlib.md5()
         for nom in ("style.css", "site.js"):
             empreinte.update((ICI / "statique" / nom).read_bytes())
@@ -1187,6 +1264,7 @@ def ouverture_accueil(g, photos, langue):
         f'<a class="bouton bouton-contour" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-accueil">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
+        + ligne_usages(g, langue)
         + "</div></section>"
     )
 
@@ -1405,6 +1483,10 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
                (parente["titre"][langue], adr.chemin(langue, "galerie", parente["cle"]))] if parente else []
     ariane, donnees_ariane = fil_ariane(adr, langue, parents, (titre, chemins[langue]))
     licence = f'<a href="{adr.chemin(langue, "utiliser")}">{t["licence"]}</a>'
+    usages = g.usages.get(photo["id"], [])
+    sites = [f'<a href="{e(u["page"])}">{e(u["site"])}</a>' if u["page"] else e(u["site"]) for u in usages]
+    usage = (f'<p class="usage">{t["usage_photo"].format(sites=enumeration(sites, langue), date=date_usages(usages, langue))}</p>'
+             if usages else "")
     contenu = (
         f'<article class="photo"><figure class="cliche" style="--r:{ratio:.3f}">'
         f'<a href="{e(page_pexels)}" title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image-{photo["id"]}">'
@@ -1413,7 +1495,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         f'alt="{e(titre)}" fetchpriority="high" style="background-color:{e(photo["couleur"])}"></a></figure>'
         f'<div class="legende">{ariane}<h1>{e(titre)}</h1>'
         f'<p><a class="bouton" href="{e(page_pexels)}" data-goatcounter-click="pexels-{photo["id"]}" '
-        f'data-goatcounter-title="{e(titre)}">{t["telecharger"]}</a></p>'
+        f'data-goatcounter-title="{e(titre)}">{t["telecharger"]}</a></p>{usage}'
         f'<p class="credit">{t["credit"].format(licence=licence)} '
         f'<span class="numero">{t["numero"].format(id=photo["id"])}</span></p>'
         f"{liste}{dans}</div>{suite}</article>{voisines}"
@@ -1465,6 +1547,17 @@ def page_a_propos(g, par_id, galeries, series, langue):
     reglage = g.reglages["a-propos"]
     textes = paragraphes(traduit(reglage, "texte", langue))
     corps = "".join(f"<p>{e(p)}</p>" for p in textes)
+    utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
+    if utilisees:
+        corps += (
+            f'<h2 id="usages">{t["usages"]}</h2><p>{e(t["usages_intro"])}</p>'
+            + grille([p for p, _ in utilisees], langue, adr)
+            + '<ul class="liens">' + "".join(
+                f'<li><a href="{adr.chemin(langue, "photo", p["id"])}">{e(p["titre"][langue])}</a>'
+                f'{DEUX_POINTS[langue]}'
+                f'{enumeration([e(x["site"]) for x in u], langue)}{date_usages(u, langue)}</li>'
+                for p, u in utilisees) + "</ul>"
+        )
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
     materiel = paragraphes(traduit(reglage, "materiel", langue))
     if materiel:
@@ -1952,6 +2045,9 @@ def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, p
                       "couverture": fiche(gal["bandeau"])}
                      for gal in galeries],
         "recentes": [fiche(p) for p in photos[:12]],
+        "usages": [{**fiche(p), "sites": [u["site"] for u in g.usages[p["id"]]],
+                    "signale_le": max((u["date"] for u in g.usages[p["id"]]), default="")}
+                   for p in photos if p["id"] in g.usages],
     }
     ecrire(adr.fichier(f"{adr.base}/apercu.json"), json.dumps(apercu, ensure_ascii=False, indent=1) + "\n")
 
@@ -2033,6 +2129,8 @@ def main():
         shutil.rmtree(SORTIE)
     shutil.copytree(ICI / "statique", SORTIE / "statique")
     g = Gabarit(reglages, adr, preuve)
+    publiees = {p["id"] for p in photos}
+    g.usages = {i: u for i, u in lire_usages().items() if i in publiees}
     par_photo = {p["id"]: [gal for gal in galeries if p in gal["photos"]] for p in photos}
     par_serie = {p["id"]: [s for s in series if p in s["photos"]] for p in photos}
     par_couleur = {p["id"]: [c for c in couleurs if p in c["photos"]] for p in photos}

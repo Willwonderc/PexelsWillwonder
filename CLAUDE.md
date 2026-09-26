@@ -111,6 +111,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   chaque photo vues, téléchargements, J'aime, statut de modération et mots-clés Pexels.
   Les 89 photos retenues par la modération font 81 % des vues ; aucune photo importée
   sans titre n'a été retenue.
+- Usages par des tiers : `vitrine/usages.csv` (sites signalés par Pexels : CNN.com,
+  NYTimes.com, Cambridge.org, Dictionary.com, TheFreeDictionary.com), affichés sur
+  l'accueil, en fin de galerie et de série, sur les pages des photos et dans « À propos ».
+  Noms des sites en texte, sans logo ni chiffre d'audience.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
   `vitrine/statique/logo-kf.webp` (original texturé).
 - Captures d'écran en session : Chromium ne charge pas les images de
