@@ -273,6 +273,7 @@ h1 {
 .bouton-contour { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
 
 .credit { font-size: 14px; color: var(--doux); }
+.usage { font-size: 14px; }
 .numero { white-space: nowrap; }
 
 .mots { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
