@@ -43,6 +43,9 @@ POIDS_MAX = 950_000
 BLUESKY_SERVICE = "https://bsky.social"
 BLUESKY_LONGUEUR = 300  # caractères au plus dans une publication Bluesky
 HASHTAGS = 4
+# Hashtag ajouté en tête de chaque publication, en plus des mots-clés : un sujet très
+# suivi sur Mastodon et Bluesky.
+HASHTAG_FIXE = {"fr": "Photographie", "en": "Photography", "zh": "摄影"}
 
 TEXTES = {
     "fr": "Libre de droits, à télécharger gratuitement sur Pexels :",
@@ -81,14 +84,16 @@ def hashtag(mot):
 
 
 def hashtags(photo, langue):
-    """Les premiers mots-clés de la photo, sans les mots d'ambiance ni les doublons."""
-    tags, vus = [], set()
+    """Le hashtag fixe, puis les premiers mots-clés de la photo, sans les mots d'ambiance
+    ni les doublons."""
+    fixe = HASHTAG_FIXE.get(langue, "")
+    tags, vus = ([fixe], {fixe.lower()}) if fixe else ([], set())
     for mot in photo["mots"][langue]:
         tag = hashtag(mot)
         if tag and build.cle_mot(mot) not in build.MOTS_VAGUES and tag.lower() not in vus:
             tags.append(tag)
             vus.add(tag.lower())
-        if len(tags) == HASHTAGS:
+        if len(tags) == HASHTAGS + bool(fixe):
             break
     return tags
 

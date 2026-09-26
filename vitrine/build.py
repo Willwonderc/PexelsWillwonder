@@ -393,6 +393,36 @@ def lire_textes():
 # Mots-clés mal encodés dans l'export de la fiche de suivi (« apÃ ro » pour « apéro »).
 ILLISIBLE = re.compile("[ÃÂ]|â€|\ufffd")
 
+# Fautes de frappe des mots-clés saisis sur Pexels, qui ne permet plus de les corriger :
+# elles sont redressées à la lecture des fiches de suivi (pages du site, hashtags).
+CORRECTIONS_MOTS = {
+    "abbaye du mont-saint-micheal": "abbaye du mont-saint-michel",
+    "backgound": "background",
+    "backgroud": "background",
+    "center-val de loire": "centre-val de loire",
+    "chesse": "cheese",
+    "cineamtic": "cinematic",
+    "confidant": "confident",
+    "headsho": "headshot",
+    "ladnmark": "landmark",
+    "landmamrk": "landmark",
+    "organnic": "organic",
+    "turquois": "turquoise",
+    "vegitable": "vegetable",
+    "vertial": "vertical",
+}
+
+
+def corriger_mots(mots):
+    """Mots-clés corrigés d'après CORRECTIONS_MOTS, sans doublons."""
+    resultat, vus = [], set()
+    for mot in mots:
+        mot = CORRECTIONS_MOTS.get(mot.lower(), mot)
+        if mot.lower() not in vus:
+            vus.add(mot.lower())
+            resultat.append(mot)
+    return resultat
+
 
 def lire_suivi():
     """Fiches de suivi (releves/suivi-*.csv) : vues et mots-clés Pexels de chaque photo.
@@ -409,7 +439,7 @@ def lire_suivi():
                 continue
             fiche = suivi.setdefault(int(cle), {"vues": 0, "mots": []})
             fiche["vues"] = max(fiche["vues"], entier(ligne.get("vues")))
-            mots = [m for m in liste_mots(ligne.get("mots_cles")) if not ILLISIBLE.search(m)]
+            mots = corriger_mots(m for m in liste_mots(ligne.get("mots_cles")) if not ILLISIBLE.search(m))
             if mots:
                 fiche["mots"] = mots
     return suivi
@@ -1020,6 +1050,8 @@ class Gabarit:
                 f'<meta property="og:image" content="{url_image(image, 1200)}">',
                 f'<meta property="og:image:alt" content="{e(image["titre"][langue])}">',
             ]
+        if self.site.get("mastodon", "").strip():
+            tete.append(f'<link rel="me" href="{e(self.site["mastodon"].strip())}">')
         if self.site.get("google_verification", "").strip():
             tete.append(f'<meta name="google-site-verification" content="{e(self.site["google_verification"].strip())}">')
         if self.site.get("bing_verification", "").strip():
@@ -1059,6 +1091,8 @@ class Gabarit:
             f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
             f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
             f' · <a href="{e(self.site.get("site_personnel", ""))}">{e(urlparse(self.site.get("site_personnel", "")).netloc)}</a>'
+            + (f' · <a rel="me" href="{e(self.site["mastodon"].strip())}">Mastodon</a>'
+               if self.site.get("mastodon", "").strip() else "")
             + (f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a>' if langue in LANGUES_FLUX else "")
             + "</p></footer>"
         )
@@ -1169,7 +1203,8 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
         "url": adr.absolue(adr.chemin(langue, "accueil")),
         "inLanguage": HREFLANG[langue],
         "author": {"@type": "Person", "name": nom,
-                   "sameAs": [g.site.get("profil_pexels", ""), g.site.get("site_personnel", "")]},
+                   "sameAs": [a for a in (g.site.get("profil_pexels", ""), g.site.get("site_personnel", ""),
+                                           g.site.get("mastodon", "").strip()) if a]},
     }]
     chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
     texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
