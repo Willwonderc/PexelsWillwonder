@@ -526,3 +526,18 @@ html.v-ouverte { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .galerie-image img, .carreau img, .diapo, .v-grande { transition: none; }
 }
+
+/* Photos utilisées dans des projets : chaque photo entière, avec ses usages. */
+
+.projets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 40px 28px;
+  align-items: start;
+}
+.projet { margin: 0; }
+.projet img { display: block; width: auto; height: auto; max-width: 100%; max-height: 70vh; }
+.projet figcaption { display: grid; gap: 3px; margin-top: 12px; }
+.projet-usage { font-size: 19px; font-weight: 600; font-stretch: 104%; line-height: 1.25; }
+.projet-titre { font-size: 14px; text-decoration: none; }
+.projet-date { font-size: 13px; color: var(--doux); }
