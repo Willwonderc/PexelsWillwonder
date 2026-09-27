@@ -73,6 +73,10 @@ revient au français.
   `titre_zh`, `mots_cles_zh`). Pour une nouvelle photo, reprendre les mots-clés du
   glossaire `donnees/glossaire-mots-cles-zh.csv` (anglais → chinois), dans l'ordre des
   mots anglais.
+  Les mots-clés anglais de Pexels traduisent parfois mal les mots français : le glossaire
+  suit le sens voulu (`bezel`, venu de « lunette » : 眼镜 ; `billy goat`, venu de
+  « bouc » : 山羊胡 ; `class`, venu de « classe » : 有格调 ; `journal` : 报纸), et le
+  mot-clé `lot`, qui n'y désigne pas le département, n'est pas traduit.
 - Sans traduction chinoise, la page chinoise affiche l'anglais.
 - Sur les pages chinoises, les liens vers Pexels mènent à son interface chinoise
   (`https://www.pexels.com/zh-cn/…`).
