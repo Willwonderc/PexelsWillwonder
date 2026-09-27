@@ -15,7 +15,8 @@ de photographe.
 2. Donner ce lien à une session Claude Code ouverte sur ce dépôt. Elle télécharge
    l'archive, regarde les photos et rédige titres et mots-clés.
 3. Le tableau (numéro, lien, titre, mots-clés) arrive dans `resultats/`.
-4. Reporter les titres et mots-clés sur Pexels.
+4. Inscrire titres et mots-clés dans les métadonnées des fichiers avant l'import :
+   Pexels n'affiche plus de champ Titre (voir « Conseils pour chaque import »).
 
 Les photos ne passent pas par le dépôt : rien n'est publié d'autre que les tableaux.
 Autre possibilité, pour un petit lot : déposer des copies réduites (JPEG, côté long
@@ -25,6 +26,9 @@ elles restent visibles dans l'historique.
 
 ## Fichiers
 
+- [`projet-claude.md`](projet-claude.md) : consignes du projet Claude où Karl envoie
+  ses photos avant chaque import (un titre et 30 mots-clés par photo), et message type
+  à joindre.
 - [`inventaire.csv`](inventaire.csv) : les 919 photos du profil, avec pour chacune
   son lien et l'état de son titre sur Pexels (titré, sans titre ou non vérifié).
 - [`resultats/ppex-photos-sans-titre.csv`](resultats/ppex-photos-sans-titre.csv) :
@@ -92,13 +96,17 @@ Part des photos retenues par galerie du site (toutes fiches confondues) :
 2. **Titre en anglais, descriptif, de 6 à 12 mots** : sujet + détail + lieu ou
    ambiance (« Seagull Perched on a Stone Cross Against Sky », « Le Loup Lighthouse in
    France on Foggy Day »). Pas de titre poétique, de nom de préréglage (« MOOD: … »)
-   ni de titre en français : ceux-là vont dans la description du site.
-3. **30 à 45 mots-clés en anglais**, du plus précis au plus général : sujet, détails,
-   lieu (ville, région, pays), couleurs, ambiance, usages (background, wallpaper,
-   travel). Relire l'orthographe : « landmamrk », « cineamtic », « darth », « vertial »,
-   « telefoto » figurent encore sur des photos publiées. Le mot « portrait » seulement
-   pour une personne, jamais pour dire « format vertical ». Ne pas coller le même lieu
-   (« pau ») à tout un lot.
+   ni de titre en français : ceux-là vont dans la description du site. Pexels n'affiche
+   plus de champ Titre à l'import : il lit le titre dans les métadonnées du fichier, où
+   l'inscrire avant l'export (voir [`projet-claude.md`](projet-claude.md), « Avant
+   d'importer »).
+3. **30 mots-clés en anglais**, le plus que Pexels lit dans le fichier (toutes les
+   photos qui en ont 30 ou plus ont été retenues), du plus précis au plus général :
+   sujet, détails, lieu (ville, région, pays), couleurs, ambiance, usages (background,
+   wallpaper, travel). Relire l'orthographe : « landmamrk », « cineamtic », « darth »,
+   « vertial », « telefoto » figurent encore sur des photos publiées. Le mot
+   « portrait » seulement pour une personne, jamais pour dire « format vertical ». Ne
+   pas coller le même lieu (« pau ») à tout un lot.
 4. **Choisir plutôt que tout verser** : mieux vaut 10 photos bien préparées que 40
    importées d'un coup sans fiche. Écarter les doublons, les photos floues ou
    sous-exposées ; dans une série, varier les vues (plan large, détail, vertical).
@@ -111,5 +119,4 @@ Part des photos retenues par galerie du site (toutes fiches confondues) :
 7. **Aucune signature ni filigrane** sur les fichiers importés.
 
 Les tableaux de l'atelier donnent environ 20 mots-clés, ce qui suffit au site. Pour un
-import, demander à la session « 30 à 45 mots-clés », ou compléter avec ceux que Pexels
-propose à l'import.
+import, demander à la session « 30 mots-clés ».
