@@ -176,10 +176,13 @@ préférence par quelqu'un d'autre, que Karl pourra compléter.
    général de la BnF, qui crée en général une notice d'autorité pour l'auteur, puis
    demande pour lui un identifiant ISNI. Demander à la Société des Éditions du Poitou si
    le dépôt a été fait.
-   Avant tout dépôt, vérifier les ISBN : les PDF d'impression donnent
-   978-2-9588873-3-9 pour *Darshan* et 978-2-9588873-2-2 pour *L'histoire du petit Théo*,
-   mais les EPUB donnent 978-2-9588873-4-6 pour *Darshan* et 978-2-9588873-3-9 (celui de
-   *Darshan*) pour *L'histoire du petit Théo*, sans doute par erreur. Les deux achevés
+   Avant tout dépôt, vérifier les ISBN. Chaque livre en a reçu un par format, papier et
+   EPUB, mais le 978-2-9588873-3-9 est imprimé dans deux livres : le PDF d'impression de
+   *Darshan* (dont l'EPUB porte le 978-2-9588873-4-6) et l'EPUB de *L'histoire du petit
+   Théo* (dont le papier porte le 978-2-9588873-2-2). Seule la déclaration de la Société
+   des Éditions du Poitou à l'AFNIL dit auquel des deux il appartient ; l'autre fichier
+   prendra un autre numéro de ce bloc. La première édition de *L'histoire du petit
+   Théo*, publiée en ligne en 2021, avait son propre ISBN, 979-10-699-7416-6. Les achevés
    d'imprimer indiquent décembre 2023, alors que le site date *Darshan* de 2022.
 2. **Le dépôt du mémoire dans DUMAS**, par la bibliothèque de l'université de Poitiers
    (partie 4) : une notice relue par la bibliothèque, dans HAL.
