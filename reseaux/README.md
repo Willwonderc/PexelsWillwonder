@@ -164,7 +164,8 @@ Chine). Règles de chaque carrousel :
   7 photos avec leur titre (en portrait, plein cadre ; en paysage, entières sur fond
   flou) ; une image de fin : photos gratuites sur Pexels, chercher « Karl Forterre ».
   Une discrète signature « © Karl Forterre » est permise : ces fichiers ne vont pas sur
-  Pexels.
+  Pexels. Pour un récit de voyage, chaque photo peut porter son étape (« 第1站 · … »).
+  S'il manque une photo, une image du petit cours de français complète les neuf.
 - **Texte** : titre de 20 caractères au plus ; récit, petit cours de français, liste des
   photos, invitation à les télécharger sur Pexels, une ligne en anglais et une dizaine
   de hashtags chinois, dont #法国摄影师. Pas de lien : RedNote ne les rend pas
@@ -185,12 +186,37 @@ Souvenirs et repères de Karl pour les récits :
   plusieurs siècles de jardin à la française.
 - Éclipse totale du 12 août 2026, en Galice : il a eu le sentiment d'un paysage écrasé
   par l'événement singulier qui se produisait.
+- Road trip du 10 au 19 août 2026, en voiture depuis Niort, avec Maëlle, sa fiancée,
+  que les récits peuvent nommer. Voyage sans programme rigide, à pied dans les villes :
+  - **Gijón** (Asturies), plusieurs jours : intérêt pour son passé industriel et ouvrier.
+    Une journée à l'Universidad Laboral, avec une pause pâtisseries et Cola Cao, puis le
+    Jardín Botánico Atlántico voisin, bien plus vaste qu'il n'y paraît depuis l'entrée.
+    Une autre journée : l'aquarium et le musée du chemin de fer. Le Cola Cao est devenu
+    un souvenir rapporté du voyage.
+  - **Galice**, quelques jours : l'éclipse du 12 août, la plage des Cathédrales à
+    Ribadeo.
+  - **Pays basque** : logés près de Bilbao, en métro jusqu'au centre. La vieille ville
+    (Casco Viejo), les quais de la ria, le Teatro Arriaga, le funiculaire pour voir la
+    ville d'en haut. Le pastel de arroz, le chocolate con churros et du turrón rapporté
+    en souvenir. Le 16 août, le musée Guggenheim et le Puppy de Jeff Koons, couvert de
+    fleurs.
+  - **Béarn**, deux nuits près de Pau : le 18 août, l'église de L'Hôpital-Saint-Blaise,
+    sur le chemin de Saint-Jacques, inscrite au patrimoine mondial de l'UNESCO.
+  - **Bordeaux**, le 19 août, sur la route du retour : la Cité du Vin, son exposition
+    permanente sur l'histoire et les cultures du vin, et la dégustation qui la termine.
+  - Photos sur Pexels : Gijón (la Laboral), la Galice, Irun, le Béarn et Bordeaux (le
+    monument aux Girondins) ; presque rien de Bilbao (deux vues industrielles).
+  - Ne citer ni les dépenses, ni les hébergements, ni d'autres proches.
 
 Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
 Villandry, Normandie et Bretagne. Sur le site, ils ont rejoint les séries « Nuits
 étoilées » (petit cours de français et deux photos), « Éclipse totale de Soleil en
 Galice » (récit), « Les jardins de Villandry » (récit et petit cours de français) et la
 nouvelle série « Phares et marées, de Granville à Saint-Malo ».
+
+Deuxième envoi, le même jour : le road trip d'août et Bordeaux, devenus sur le site les
+séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et le
+monument aux Girondins ».
 
 ## Contenu du dossier
 
