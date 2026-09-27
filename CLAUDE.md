@@ -89,6 +89,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`, tenu par
   cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique `[photo_du_jour]`.
   Essai sans publier : `--essai`.
+- RedNote (小红书) : carrousels préparés en session et envoyés par courriel, publiés à la
+  main par Karl ; récit de photographe français, version française à côté. Règles et
+  souvenirs de Karl : `reseaux/README.md`, rubrique « RedNote ».
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
