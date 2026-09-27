@@ -25,6 +25,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
 | F | Tableau de bord | fin octobre | GoatCounter créé, quelques relevés notés |
+| H | Instagram | dès que possible | nom du compte Instagram professionnel noté dans la consigne |
 
 Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
 `https://photos.karlforterre.fr/apercu.json`, écrit par `vitrine/build.py` : une session
@@ -87,4 +88,13 @@ Typefully. »
 
 ```text
 Session F : chantier 4 de docs/plan.md, le tableau de bord. Une page du site non référencée (noindex, absente du plan du site) qui suit semaine après semaine : les vues et abonnés Pexels (releves/vues-pexels.csv), les téléchargements, les photos retenues par la modération et les photos les plus vues (fiches de suivi déposées dans releves/, au format de suivi-pexels.csv ou en classeur .xlsx lu sans dépendance), les clics vers Pexels mesurés par GoatCounter et les statistiques Pinterest, avec la solution la plus simple et gratuite pour les récupérer. Prévois aussi le compteur du petit écran Turing décrit dans docs/plan.md. Explique-moi d'abord les accès à créer, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+## H — Instagram
+
+Avant de lancer la session, remplacer `@compte` par le nom du compte Instagram
+professionnel.
+
+```text
+Session H de docs/plan-site-pro.md, promotion automatique sur Instagram : j'ai déjà un compte Instagram professionnel, @compte. Ajoute Instagram à la tâche « Photo du jour » (reseaux/photo_du_jour.py, .github/workflows/photo-du-jour.yml), par l'API officielle de Meta avec connexion Instagram, qui ne demande pas de Page Facebook. Vérifie d'abord sa documentation : image JPEG à une adresse publique (celle de images.pexels.com convient), rapport largeur/hauteur entre 4:5 et 1,91:1 (recadre les photos en hauteur en 4:5), 100 publications par 24 heures au plus, jeton valable 60 jours à renouveler automatiquement. Légende : titre, hashtags et renvoi vers le lien du site dans la biographie, puisque les légendes n'ont pas de liens cliquables. Tiens le journal reseaux/photo-du-jour.json comme pour les autres réseaux. Explique-moi d'abord pas à pas comment créer l'application Meta et le jeton, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
 ```

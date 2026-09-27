@@ -97,6 +97,13 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   série de son sujet (`vitrine/series.ini`) : le récit dans les trois langues
   (`recit_*`), le petit cours de français sur les pages anglaises et chinoises
   seulement (`francais_en`, `francais_zh`) ; un nouveau sujet reçoit sa série.
+- Publications à la main, préparées en session : RedNote et le profil Facebook personnel
+  de Karl (carrousels en français, sans mettre en avant le côté français). Chaque
+  carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
+  musique pop libre de droits (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
+  Instagram : compte
+  professionnel existant, publication automatique prévue (consigne H de
+  `consignes/prochaines-sessions.md`).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et

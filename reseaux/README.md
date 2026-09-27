@@ -220,6 +220,46 @@ Deuxième envoi, le même jour : le road trip d'août et Bordeaux, devenus sur l
 séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et le
 monument aux Girondins ».
 
+## Vidéos diaporama des carrousels
+
+Chaque carrousel peut aussi devenir une vidéo, à publier à sa place ou en plus. Les cinq
+premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais :
+
+- **Format** : 3:4 (1080 × 1440 pixels), comme les carrousels, de 40 à 70 secondes.
+- **Déroulé** : la couverture du carrousel, puis chaque photo originale avec un zoom
+  lent (en paysage, entière sur fond flou) et le récit en sous-titres ; le petit cours
+  de français (versions chinoise et anglaise seulement) et l'image de fin.
+- **Textes** : les sous-titres reprennent les textes validés, mot pour mot en chinois ;
+  l'anglais est traduit du français. Chinois et anglais présentent Karl en photographe
+  français. La version française, destinée à un public français (son Facebook
+  personnel), ne met pas en avant ce côté français, que Karl trouve peu sérieux : ni
+  « photographe français », ni « en France, on… ». Couvertures et fins française et
+  anglaise sont refaites dans le style des carrousels, sans ce sous-titre.
+- **Musique** : pop instrumentale libre de droits, choisie parmi des artistes qui
+  publient eux-mêmes tout leur catalogue en CC0, comme Loyalty Freak Music ; fondue au
+  début et à la fin, au volume conseillé pour les réseaux (−16 LUFS). Se méfier des
+  fichiers d'Internet Archive marqués « domaine public » par n'importe qui : beaucoup
+  sont des disques du commerce. Un fichier « Musiques et licences.txt » accompagne les
+  vidéos. Sur RedNote, Karl peut aussi remplacer la musique par un morceau de la
+  bibliothèque de l'application (配乐).
+- **Envoi** : un fichier par vidéo (30 Mo au plus par fichier), la langue dans le nom.
+  Karl les range sur son Mac dans `Documents Locaux/Caroussels`, en trois dossiers :
+  « Chinois (RedNote) », « Français » et « Anglais ».
+
+## Facebook personnel, à la main
+
+Karl publie lui-même les carrousels sur son profil Facebook personnel : Meta ne permet
+aucune publication automatique sur un profil, seulement sur une Page. Les sessions
+préparent la version française (images, vidéo et texte), sans mettre en avant le côté
+français (voir ci-dessus) : les images françaises des carrousels RedNote, faites pour
+que Karl comprenne ce qu'il publie, portent encore « d'un photographe français » sur la
+couverture et sont donc à refaire. Rythme et forme des textes restent à fixer avec lui.
+
+## Instagram, à venir
+
+Karl a déjà un compte Instagram professionnel. Sa publication automatique, sur le modèle
+de la photo du jour, est la consigne H de `consignes/prochaines-sessions.md`.
+
 ## Contenu du dossier
 
     photo_du_jour.py     choisit la photo, publie sur Bluesky et Mastodon, tient le journal
