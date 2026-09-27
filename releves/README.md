@@ -43,3 +43,21 @@ l'écran Turing.
 Chaque relevé compte aussi comme une activité du dépôt. GitHub suspend les tâches
 planifiées d'un dépôt public resté 60 jours sans activité : un relevé par semaine garde
 donc en marche la reconstruction nocturne du site.
+
+## Réponses des assistants IA
+
+[assistants-ia.csv](assistants-ia.csv) garde, une fois par mois, les réponses de
+ChatGPT, Copilot, Perplexity, Gemini et Claude à une liste fixe de questions (« Qui est
+Karl Forterre ? », « Qu'est-ce que la médiation auctoriale ? »…), pour voir s'ils citent
+le site photo, karlforterre.fr ou Pexels. Une ligne par question et par assistant :
+
+- `date` : au format AAAA-MM-JJ ;
+- `assistant` : ChatGPT, Copilot, Perplexity, Gemini, Claude… ;
+- `question` : la question posée, telle quelle ;
+- `cite` : `oui` si la réponse ou ses sources mentionnent le site, karlforterre.fr ou
+  Pexels, `non` sinon ;
+- `source` : l'adresse citée, s'il y en a une ;
+- `remarque` : une erreur à corriger, un détail notable.
+
+Liste des questions et démarche : [referencement/README.md](../referencement/README.md),
+partie 5.

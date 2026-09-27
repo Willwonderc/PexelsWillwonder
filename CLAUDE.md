@@ -91,13 +91,23 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique `[photo_du_jour]`.
   Essai sans publier : `--essai`.
 - RedNote (小红书) : carrousels préparés en session et envoyés par courriel, publiés à la
-  main par Karl ; récit de photographe français, version française à côté. Règles et
-  souvenirs de Karl : `reseaux/README.md`, rubrique « RedNote ». Chaque carrousel
-  rejoint aussi la série de son sujet (`vitrine/series.ini`) : le récit dans les trois
-  langues (`recit_*`), le petit cours de français sur les pages anglaises et chinoises
+  main par Karl sur le compte « Soviet Croissant » (rednote ID 26225410141) ; récit de
+  photographe français, au ton léger, version française à côté. Règles et souvenirs de
+  Karl : `reseaux/README.md`, rubrique « RedNote ». Chaque carrousel rejoint aussi la
+  série de son sujet (`vitrine/series.ini`) : le récit dans les trois langues
+  (`recit_*`), le petit cours de français sur les pages anglaises et chinoises
   seulement (`francais_en`, `francais_zh`) ; un nouveau sujet reçoit sa série.
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
+- Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
+  `llms-full.txt` (une version par langue), la page « Questions fréquentes »
+  (`vitrine/questions.ini`) et les données Person de l'auteur, dont l'identifiant
+  `https://karlforterre.fr/#auteur` est partagé avec karlforterre.fr (rubrique
+  `[personne]` de `site.ini`). Journal des pages `vitrine/donnees/pages.json` (empreinte
+  et date de dernière modification, pour `lastmod` et IndexNow) : seule la tâche GitHub
+  l'enregistre (`--indexnow`), puis signale les pages une fois le site en ligne
+  (`--envoyer-indexnow`, travail `signaler`). La clé IndexNow de `site.ini` est publique
+  par nature. Ne jamais lancer `--envoyer-indexnow` en session : il contacte Bing.
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
   `vitrine/galeries.ini`, qui les emploient souvent à tort (« portrait » pour un format
   vertical, « pau » ajouté par lots) ; les lignes `ajouter` et `retirer` gardent le
