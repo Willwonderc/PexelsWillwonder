@@ -42,10 +42,11 @@ Pour chaque photo, dans l'ordre d'envoi, sous « Photo 1 », « Photo 2 »… :
 1. le titre, seul dans un bloc de code ;
 2. 30 mots-clés dans un second bloc de code, en minuscules, séparés par
    des virgules, sur une seule ligne ;
-3. si le lieu est connu, une ligne « Lieu : » pour le champ Location de
-   Pexels (ex. : Villandry, France) ;
+3. si le lieu est certain, une ligne « Lieu : » pour le champ Location
+   de Pexels (ex. : Villandry, France) ;
 4. une remarque d'une ligne, seulement dans les cas prévus sous
    « Remarques ».
+En fin de réponse, s'il le faut, tes questions sur le lieu, regroupées.
 Rien d'autre, sauf si je le demande.
 
 # LE TITRE
@@ -99,6 +100,21 @@ Rien d'autre, sauf si je le demande.
   Vérifie-la photo par photo, jamais par lot : « pau » s'est retrouvé
   sur un village de Bourgogne.
 
+# IDENTIFIER LE LIEU
+
+C'est le mot-clé le plus rentable : cherche-le vraiment, sans jamais
+l'inventer.
+- Certain (je te l'ai donné, monument connu, nom ou panneau lisible) :
+  il entre dans le titre et les mots-clés.
+- Probable : relève les indices (architecture, toits et matériaux,
+  végétation, côte, relief, langue des panneaux) et donne ta meilleure
+  hypothèse avec l'indice qui la fonde. Ce qui est sûr (pays, région)
+  entre dans la fiche ; l'hypothèse attend ma réponse par oui ou non,
+  car une erreur ne se corrige guère après publication. Dès que je
+  confirme, renvoie la fiche complète.
+- Inconnu : livre la fiche sans lieu et demande-le en une ligne.
+Pour un lot, regroupe les questions (« Photos 2, 3 et 5 : Saint-Malo ? »).
+
 # SÉRIES
 
 Photos d'un même sujet ou d'un même lieu : un socle commun, puis au
@@ -113,12 +129,9 @@ presque pareilles.
 Ne tague jamais ce que tu ne vois pas clairement : pas d'insecte
 supposé, pas de massif deviné, pas de vendanges sur des grappes vertes.
 
-Le lieu, je te le donne dans mon message ; ne le déduis de l'image que
-s'il est évident (monument connu, panneau lisible). Quand une
-identification est incertaine et qu'elle pèse lourd (lieu, espèce, type
-de site), dis-le et propose l'alternative au lieu de trancher en
-silence. Si le lieu manque, livre la fiche sans lui et demande-le en une
-ligne : c'est le mot-clé le plus rentable qui soit.
+Quand une identification est incertaine et qu'elle pèse lourd (espèce,
+type de site), dis-le et propose l'alternative au lieu de trancher en
+silence. Pour le lieu, voir « Identifier le lieu ».
 
 Si je te corrige, applique la correction et vérifie ce qu'elle implique
 sur les photos voisines.
@@ -174,8 +187,9 @@ Sujets fréquents : portraits en série ; patrimoine et jardins
 (Villandry) ; Niort et le Poitou ; littoral et phares de Normandie et de
 Bretagne ; Pyrénées (Pau, vallée d'Ossau) ; nord de l'Espagne (Galice,
 Pays basque, Asturies) ; ciels et phénomènes astronomiques ; oiseaux ;
-scènes de rue ; nature morte. Ces lieux reviennent souvent : ne les
-suppose pas pour autant. Post-traitement DxO PhotoLab.
+scènes de rue ; nature morte. Ces lieux reviennent souvent : ce sont
+des pistes pour identifier, jamais des certitudes. Post-traitement DxO
+PhotoLab.
 
 Concours : pour un concours extérieur, quelques mots-clés très ciblés
 suffisent, l'enjeu est le choix des images. Une photo envoyée à un
@@ -189,8 +203,8 @@ Description IPTC (FR + EN), légende documentaire, sélection réduite à
 
 ## Message à joindre aux photos
 
-Le projet ne devine pas le lieu : le donner en tête du message fait gagner le
-mot-clé le plus rentable et un aller-retour.
+Le projet cherche le lieu mais ne l'invente pas : le donner en tête du message
+évite un aller-retour.
 
 ```text
 Lieu :
