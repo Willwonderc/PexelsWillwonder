@@ -150,12 +150,14 @@ RedNote n'offre pas d'accès automatique : une session Claude prépare des carro
 les envoie par courriel à forterrekarl@gmail.com, avec un lien vers une page qui
 regroupe les images et des boutons pour copier les textes. Karl les publie depuis
 l'application, deux ou trois fois par semaine, entre 13 h et 15 h à Paris (le soir en
-Chine). Règles de chaque carrousel :
+Chine), sur le compte « Soviet Croissant » (rednote ID 26225410141,
+https://www.xiaohongshu.com/user/profile/678629da000000000801aa88), au ton léger
+et sympathique. Règles de chaque carrousel :
 
-- **Récit** : à la première personne, il met en avant que Karl est un photographe
-  français et relie chaque image à la France (lieu, histoire, culture, façon de vivre).
-  Il s'appuie sur des faits vrais et sur les souvenirs de Karl ci-dessous, sans jamais
-  inventer d'anecdote personnelle.
+- **Récit** : à la première personne et sur un ton léger, comme le compte, il met en
+  avant que Karl est un photographe français et relie chaque image à la France (lieu,
+  histoire, culture, façon de vivre). Il s'appuie sur des faits vrais et sur les
+  souvenirs de Karl ci-dessous, sans jamais inventer d'anecdote personnelle.
 - **Petit cours de français** (法语小课堂) : deux ou trois mots français liés aux photos.
 - **Deux versions** : la version chinoise, à publier, et à côté la même en français
   (images et texte), pour que Karl comprenne ce qu'il publie ; celle-ci ne se publie pas.

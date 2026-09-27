@@ -1,7 +1,9 @@
 # Construit le site de photographe et le publie sur GitHub Pages :
 # chaque nuit, après chaque modification de main, ou à la demande (Run workflow).
-# Chaque passage enregistre sur main les nouvelles fiches Pexels et le journal des
-# parutions Pinterest (vitrine/donnees/).
+# Chaque passage enregistre sur main les nouvelles fiches Pexels, le journal des
+# parutions Pinterest et le journal des pages (vitrine/donnees/). Une fois le site en
+# ligne, les pages nouvelles, modifiées ou supprimées sont signalées aux moteurs de
+# recherche par IndexNow (referencement/README.md).
 name: Site
 
 on:
@@ -24,7 +26,7 @@ jobs:
   construire:
     runs-on: ubuntu-latest
     steps:
-      # Toujours la dernière version de main, qui contient le journal du passage précédent.
+      # Toujours la dernière version de main, qui contient les journaux du passage précédent.
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -32,15 +34,15 @@ jobs:
       - name: Lire les nouvelles photos et construire le site
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-        run: python3 vitrine/build.py --enregistrer-parutions
+        run: python3 vitrine/build.py --enregistrer-parutions --indexnow
 
-      - name: Enregistrer les fiches Pexels et le journal des parutions
+      - name: Enregistrer les fiches Pexels et les journaux
         run: |
           if [ -n "$(git status --porcelain vitrine/donnees)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add vitrine/donnees/fiches.json vitrine/donnees/parutions.json
-            git commit -m "Fiches Pexels et parutions Pinterest mises à jour"
+            git add vitrine/donnees/fiches.json vitrine/donnees/parutions.json vitrine/donnees/pages.json
+            git commit -m "Fiches Pexels, parutions Pinterest et journal des pages mis à jour"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
@@ -51,6 +53,13 @@ jobs:
         with:
           path: _site
 
+      # Liste des pages à signaler, transmise au travail « signaler ».
+      - uses: actions/upload-artifact@v4
+        with:
+          name: indexnow
+          path: _indexnow/
+          retention-days: 1
+
   publier:
     needs: construire
     runs-on: ubuntu-latest
@@ -60,3 +69,21 @@ jobs:
     steps:
       - id: publication
         uses: actions/deploy-pages@v4
+
+  # Une fois le site en ligne seulement : signalées plus tôt, les pages seraient lues
+  # dans leur ancienne version. Un échec ici ne retire rien au site publié.
+  signaler:
+    needs: publier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: indexnow
+          path: _indexnow
+
+      - name: Signaler les pages nouvelles, modifiées ou supprimées (IndexNow)
+        run: python3 vitrine/build.py --envoyer-indexnow

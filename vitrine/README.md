@@ -109,11 +109,18 @@ celle de la page de la photo : on peut la copier pour la partager. Le tout tient
 `statique/site.js`, sans bibliothèque ; sans JavaScript, la vignette mène simplement
 à la page de la photo.
 
-## Pages « Utiliser mes photos », « Mentions légales » et « Confidentialité »
+## Pages « Utiliser mes photos », « Questions fréquentes », « Mentions légales » et « Confidentialité »
 
 Liées en pied de page, elles se construisent seules :
 - **Utiliser mes photos** explique la licence Pexels simplement, avec un lien vers le
   texte officiel.
+- **Questions fréquentes** (`/questions-frequentes/`, `/en/faq/`, `/zh/faq/`) : qui est
+  Karl Forterre, licence, téléchargement, crédit, lieux, usages par des médias, langues,
+  contact, médiation auctoriale. Questions et réponses se règlent dans `questions.ini`,
+  dont l'en-tête explique chaque réglage : liens `[texte](adresse)` et chiffres tenus à
+  jour (`{vues}`, `{photos}`…). Elles sont aussi données aux moteurs (données
+  structurées FAQPage) et aux assistants IA (`llms.txt`) : des réponses courtes,
+  exactes et complètes sont celles qu'ils citent.
 - **Mentions légales** : éditeur, contact et hébergeur (GitHub). Les réglages sont dans
   `site.ini`, rubrique `[mentions]`. Pour un site professionnel, la loi demande aussi
   l'adresse et le téléphone de l'éditeur, et son numéro SIRET s'il en a un : il suffit
@@ -194,19 +201,45 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
 
 ## Référencement
 
+Démarches à faire à la main (Bing Webmaster Tools, Wikidata, Wikimedia Commons) et
+leviers pour les assistants IA : [referencement/README.md](../referencement/README.md).
+
 - **Google** : ajoutez le site dans Google Search Console, recopiez le code de la
   balise de validation dans `site.ini` (`google_verification`), puis déclarez le plan
   du site : `https://photos.karlforterre.fr/sitemap.xml`.
-- **Bing** (seul grand moteur utilisable en Chine) : même démarche dans Bing Webmaster
-  Tools, code dans `bing_verification` ; pas à pas dans
-  [docs/promotion-chine.md](../docs/promotion-chine.md). Le plan du site relie chaque
-  page à ses deux traductions (`hreflang` fr, en et zh-Hans).
+- **Bing** (qui sert aussi Copilot, DuckDuckGo, Yahoo et une partie de ChatGPT, et seul
+  grand moteur utilisable en Chine) : même démarche dans Bing Webmaster Tools, code dans
+  `bing_verification` ; pas à pas dans [referencement/README.md](../referencement/README.md).
+  Le plan du site relie chaque page à ses deux traductions (`hreflang` fr, en et
+  zh-Hans) et donne la date de sa dernière modification (`lastmod`).
+- **IndexNow** : chaque nuit, une fois le site en ligne, les pages nouvelles, modifiées
+  ou supprimées sont signalées à Bing, qui transmet aux autres moteurs du protocole
+  (Yandex, Seznam, Naver, Yep, Amazon). La clé est le réglage `indexnow` de `site.ini` :
+  elle n'est pas secrète, le site la publie lui-même (`/<clé>.txt`). Le journal des
+  pages, `donnees/pages.json`, garde l'empreinte et la date de dernière modification de
+  chaque page : seul un vrai changement (titre, description, données structurées ou
+  contenu) la fait signaler, pas une retouche de la feuille de style ou du pied de page.
+  Le résultat de chaque envoi se lit dans l'onglet **Actions**, tâche **Site**, travail
+  **signaler**.
+- **Assistants IA** : `llms.txt` présente le site aux assistants (format llmstxt.org) :
+  qui est l'auteur, la licence, le crédit à donner, les séries, les galeries, les
+  questions fréquentes et les données ; `llms-full.txt` y ajoute chaque photo (titre,
+  galeries, mots-clés, adresse). Une version par langue : `/llms.txt`, `/en/llms.txt`,
+  `/zh/llms.txt`. Ils se reconstruisent chaque nuit, rien à faire.
+- **L'auteur dans les données structurées** : la rubrique `[personne]` de `site.ini`
+  décrit Karl Forterre (métiers, lieu, formation, domaines) pour Google, Bing et les
+  assistants IA. Son identifiant est le même que sur karlforterre.fr : pour eux, les deux
+  sites, le profil Pexels et les réseaux désignent une seule personne. Les profils de
+  `[reseaux]` s'y ajoutent seuls ; la ligne `profils` reçoit les autres (fiche Wikidata,
+  ORCID…). Chaque photo, série et galerie renvoie à cette personne, et la page « À
+  propos » est déclarée comme sa page de profil (ProfilePage).
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).
 - **Réseaux** : la rubrique `[reseaux]` de `site.ini` liste vos profils (Mastodon,
-  Bluesky…), une ligne par réseau : `Nom = adresse`. Ils s'affichent en pied de page de
-  chaque page, avec un lien `rel="me"` qui vaut au lien du site une coche verte dans le
-  profil Mastodon. Pour ajouter un réseau, il suffit d'écrire une ligne.
+  Bluesky, LinkedIn…), une ligne par réseau : `Nom = adresse`. Ils s'affichent en pied
+  de page de chaque page, avec un lien `rel="me"` qui vaut au lien du site une coche
+  verte dans le profil Mastodon. Pour ajouter un réseau, il suffit d'écrire une ligne ;
+  celle de RedNote attend l'adresse du profil.
 - **Fautes de frappe des mots-clés Pexels** : corrigées à la lecture de la fiche de
   suivi, d'après la liste `CORRECTIONS_MOTS` de `build.py` (« backgroud » →
   « background », etc.). Ajouter une ligne à cette liste pour en corriger une autre.
@@ -260,9 +293,15 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
 - `selection.txt`, `series.ini` : la sélection de l'accueil et les séries. Avec les
   galeries, elles alimentent `apercu.json`, lu par karlforterre.fr.
 - `donnees/fiches.json` : les fiches lues sur Pexels, tenues à jour automatiquement.
+- `questions.ini` : les questions fréquentes, en trois langues.
 - `donnees/parutions.json` : le journal des parutions Pinterest, tenu par la tâche de nuit
   (`build.py --enregistrer-parutions`). Un essai de `build.py` sans cette option ne le
   modifie pas.
+- `donnees/pages.json` : le journal des pages (empreinte et date de dernière
+  modification), tenu par la tâche de nuit (`build.py --indexnow`), qui en tire la liste
+  des pages à signaler par IndexNow (`build.py --envoyer-indexnow`, une fois le site en
+  ligne). Un essai de `build.py` sans ces options ne le modifie pas. Après un changement
+  d'adresse du site, supprimer ce fichier : toutes les pages seront signalées à nouveau.
 - `donnees/textes-fr.csv` et `donnees/textes-zh.csv` : les titres et mots-clés français
   et chinois.
 - `donnees/glossaire-mots-cles-zh.csv` : les mots-clés anglais du site traduits en
