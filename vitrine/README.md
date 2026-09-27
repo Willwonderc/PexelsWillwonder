@@ -221,9 +221,14 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
 Démarches à faire à la main (Bing Webmaster Tools, Wikidata, Wikimedia Commons) et
 leviers pour les assistants IA : [referencement/README.md](../referencement/README.md).
 
-- **Google** : ajoutez le site dans Google Search Console, recopiez le code de la
-  balise de validation dans `site.ini` (`google_verification`), puis déclarez le plan
-  du site : `https://photos.karlforterre.fr/sitemap.xml`.
+- **Google** : une propriété de domaine dans Google Search Console, validée chez OVH,
+  couvre les deux sites (pas à pas dans [referencement/README.md](../referencement/README.md)) ;
+  déclarez-y le plan du site : `https://photos.karlforterre.fr/sitemap.xml`. Le réglage
+  `google_verification` de `site.ini` ne sert qu'à l'autre méthode, par balise.
+- **Titre et description de l'accueil** : réglages `titre_*` et `description_*` de la
+  rubrique `[accueil]` de `site.ini`, distincts de l'accroche visible. Ailleurs, la
+  description vient du texte de la page : début du texte d'une galerie ou d'une série,
+  titre et mots-clés d'une photo ; 140 à 160 caractères, deux fois moins en chinois.
 - **Bing** (qui sert aussi Copilot, DuckDuckGo, Yahoo et une partie de ChatGPT, et seul
   grand moteur utilisable en Chine) : même démarche dans Bing Webmaster Tools, code dans
   `bing_verification` ; pas à pas dans [referencement/README.md](../referencement/README.md).
