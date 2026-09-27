@@ -235,13 +235,18 @@ premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglai
   personnel), ne met pas en avant ce côté français, que Karl trouve peu sérieux : ni
   « photographe français », ni « en France, on… ». Couvertures et fins française et
   anglaise sont refaites dans le style des carrousels, sans ce sous-titre.
-- **Musique** : pop instrumentale libre de droits, choisie parmi des artistes qui
-  publient eux-mêmes tout leur catalogue en CC0, comme Loyalty Freak Music ; fondue au
-  début et à la fin, au volume conseillé pour les réseaux (−16 LUFS). Se méfier des
-  fichiers d'Internet Archive marqués « domaine public » par n'importe qui : beaucoup
-  sont des disques du commerce. Un fichier « Musiques et licences.txt » accompagne les
-  vidéos. Sur RedNote, Karl peut aussi remplacer la musique par un morceau de la
-  bibliothèque de l'application (配乐).
+- **Musique**, libre de droits, fondue au début et à la fin, au volume conseillé pour
+  les réseaux (−16 LUFS) :
+  - en chinois et en anglais, de la musique classique dans des enregistrements dédiés
+    au domaine public : Chopin par Musopen (https://archive.org/details/musopen-chopin),
+    Bach par Kimiko Ishizaka (https://archive.org/details/bach-well-tempered-clavier-book-1) ;
+  - en français, de la pop instrumentale, choisie parmi des artistes qui publient
+    eux-mêmes tout leur catalogue en CC0, comme Loyalty Freak Music.
+
+  Se méfier des fichiers d'Internet Archive marqués « domaine public » par n'importe
+  qui : beaucoup sont des disques du commerce. Chaque dossier contient un fichier
+  « Musiques et licences ». Sur RedNote, Karl peut aussi remplacer la musique par un
+  morceau de la bibliothèque de l'application (配乐).
 - **Envoi** : un fichier par vidéo (30 Mo au plus par fichier), la langue dans le nom.
   Karl les range sur son Mac dans `Documents Locaux/Caroussels`, en trois dossiers :
   « Chinois (RedNote) », « Français » et « Anglais ».

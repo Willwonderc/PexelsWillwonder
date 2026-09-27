@@ -100,7 +100,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Publications à la main, préparées en session : RedNote et le profil Facebook personnel
   de Karl (carrousels en français, sans mettre en avant le côté français). Chaque
   carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
-  musique pop libre de droits (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
+  musique libre de droits : classique en chinois et en anglais, pop en français
+  (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
   Instagram : compte
   professionnel existant, publication automatique prévue (consigne H de
   `consignes/prochaines-sessions.md`).
