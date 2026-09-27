@@ -171,6 +171,12 @@ Chine). Règles de chaque carrousel :
   cliquables et pénalise les publications qui renvoient ailleurs.
 - **Choix des photos** : par série, galerie ou lieu, en commençant par les plus vues ;
   titres et mots-clés chinois dans `vitrine/donnees/textes-zh.csv`.
+- **Sur le site photo** : chaque carrousel rejoint aussi la série de son sujet, dans
+  `vitrine/series.ini`. Le récit y va en français, en anglais et en chinois
+  (`recit_fr`, `recit_en`, `recit_zh`), sans ce que le texte de la série dit déjà. Le
+  petit cours de français ne figure que sur les pages anglaises et chinoises
+  (`francais_en`, `francais_zh`). Ses photos y entrent si elles n'y sont pas. Un sujet
+  sans série reçoit la sienne (voir `vitrine/README.md`, rubrique « Séries »).
 
 Souvenirs et repères de Karl pour les récits :
 
@@ -181,7 +187,10 @@ Souvenirs et repères de Karl pour les récits :
   par l'événement singulier qui se produisait.
 
 Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
-Villandry, Normandie et Bretagne.
+Villandry, Normandie et Bretagne. Sur le site, ils ont rejoint les séries « Nuits
+étoilées » (petit cours de français et deux photos), « Éclipse totale de Soleil en
+Galice » (récit), « Les jardins de Villandry » (récit et petit cours de français) et la
+nouvelle série « Phares et marées, de Granville à Saint-Malo ».
 
 ## Contenu du dossier
 

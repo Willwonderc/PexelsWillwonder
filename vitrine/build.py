@@ -111,6 +111,8 @@ TEXTES = {
         "galeries_intro": "Les photos rangées par thème et par lieu, toutes à télécharger gratuitement sur Pexels.",
         "titre_serie": "{titre} : photos libres de droits",
         "autres_series": "Autres séries",
+        "recit_photographe": "Le récit du photographe",
+        "lecon_francais": "Petit cours de français",
         "utiliser": "Utiliser mes photos",
         "mentions": "Mentions légales",
         "confidentialite": "Confidentialité",
@@ -181,6 +183,8 @@ TEXTES = {
         "galeries_intro": "Photos arranged by theme and by place, all free to download on Pexels.",
         "titre_serie": "{titre}: royalty-free photos",
         "autres_series": "More series",
+        "recit_photographe": "The photographer's story",
+        "lecon_francais": "A little French lesson",
         "utiliser": "Use my photos",
         "mentions": "Legal notice",
         "confidentialite": "Privacy",
@@ -249,6 +253,8 @@ TEXTES = {
         "galeries_intro": "按主题和地点整理的照片，全部可在 Pexels 免费下载。",
         "titre_serie": "{titre}：免版税照片",
         "autres_series": "更多专题",
+        "recit_photographe": "摄影师手记",
+        "lecon_francais": "法语小课堂",
         "utiliser": "使用我的照片",
         "mentions": "法律声明",
         "confidentialite": "隐私政策",
@@ -320,6 +326,28 @@ def traduit(reglage, champ, langue, defaut=""):
         if valeur:
             return valeur
     return defaut
+
+
+def lecon_francais(reglage, langue):
+    """Petit cours de français d'une série (réglages francais_en, francais_zh) : pages
+    anglaises et chinoises seulement, jamais les françaises ; sans traduction chinoise,
+    l'anglais. Une ligne par mot, « mot français = explication » ; une ligne sans « = »
+    prolonge l'explication précédente. Rend [(mot, explication)]."""
+    if langue == "fr":
+        return []
+    texte = ""
+    for l in dict.fromkeys((langue, "en")):
+        texte = (reglage.get(f"francais_{l}") or "").strip()
+        if texte:
+            break
+    mots = []
+    for ligne in texte.splitlines():
+        mot, egal, sens = ligne.partition("=")
+        if egal and mot.strip():
+            mots.append([" ".join(mot.split()), " ".join(sens.split())])
+        elif ligne.strip() and mots:
+            mots[-1][1] = f'{mots[-1][1]} {" ".join(ligne.split())}'.strip()
+    return [(mot, sens) for mot, sens in mots if sens]
 
 
 def chiffre(n, langue):
@@ -699,7 +727,8 @@ def composer_galeries(conf, photos, minimum):
 
 
 def composer_series(conf, photos, minimum):
-    """Séries racontées de series.ini : photos dans l'ordre donné, textes en trois langues."""
+    """Séries racontées de series.ini : photos dans l'ordre donné, textes en trois langues,
+    récit du photographe et, pour les pages anglaises et chinoises, petit cours de français."""
     par_id = {p["id"]: p for p in photos}
     series = []
     for cle in conf.sections():
@@ -717,6 +746,8 @@ def composer_series(conf, photos, minimum):
             "cle": cle,
             **champs,
             "texte": {l: paragraphes(traduit(reglage, "texte", l)) for l in LANGUES},
+            "recit": {l: paragraphes(traduit(reglage, "recit", l)) for l in LANGUES},
+            "francais": {l: lecon_francais(reglage, l) for l in LANGUES},
             "photos": membres,
             "couverture": couverture,
             "bandeau": photo_bandeau(reglage, membres, couverture),
@@ -1505,13 +1536,25 @@ def page_serie(g, serie, series, langue):
     chemins = {l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES}
     titre = serie["titre"][langue]
     texte_serie = serie["texte"][langue]
+    recit = serie["recit"][langue]
+    lecon = serie["francais"][langue]
     description = texte_serie[0] if texte_serie else titre
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["series"], adr.chemin(langue, "series"))], (titre, chemins[langue]))
+    # Avant les photos : le texte (chapeau, puis paragraphes), le récit du photographe et,
+    # sur les pages anglaises et chinoises seulement, le petit cours de français.
+    corps = (
+        (f'<p class="chapeau">{e(texte_serie[0])}</p>' + "".join(f"<p>{e(p)}</p>" for p in texte_serie[1:])
+         if texte_serie else "")
+        + (f'<section class="serie-recit"><h2 class="surtitre">{e(t["recit_photographe"])}</h2>'
+           + "".join(f"<p>{e(p)}</p>" for p in recit) + "</section>" if recit else "")
+        + (f'<section class="lecon"><h2 class="surtitre">{e(t["lecon_francais"])}</h2><dl>'
+           + "".join(f'<div><dt lang="fr">{e(mot)}</dt><dd>{e(sens)}</dd></div>' for mot, sens in lecon)
+           + "</dl></section>" if lecon else "")
+    )
     contenu = (
         bandeau(g, serie["bandeau"], langue, titre, e(infos_serie(serie, langue)), ariane, plein_ecran=True)
         + '<div class="enveloppe">'
-        + (f'<div class="texte serie-texte"><p class="chapeau">{e(texte_serie[0])}</p>'
-           + "".join(f"<p>{e(p)}</p>" for p in texte_serie[1:]) + "</div>" if texte_serie else "")
+        + (f'<div class="texte serie-texte">{corps}</div>' if corps else "")
         + grille(serie["photos"], langue, adr, grand=True)
         + rappel(g, langue)
         + cartes_series(series, langue, adr, titre=t["autres_series"], sauf=serie)

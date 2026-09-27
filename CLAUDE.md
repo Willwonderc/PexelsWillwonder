@@ -31,7 +31,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 
 ## Façon de travailler
 
-- Échanger en français. Textes du site en français et en anglais.
+- Échanger en français, même quand les contenus sont en chinois ou en anglais. Textes
+  du site en français, en anglais et en chinois.
 - Documentation en français. Les « LISEZMOI » demandés sont des `README.md`.
 - Tout doit rester simple à utiliser et à maintenir sans compétences de développement :
   peu de dépendances, aucun service payant, modes d'emploi pas à pas.
@@ -91,7 +92,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   Essai sans publier : `--essai`.
 - RedNote (小红书) : carrousels préparés en session et envoyés par courriel, publiés à la
   main par Karl ; récit de photographe français, version française à côté. Règles et
-  souvenirs de Karl : `reseaux/README.md`, rubrique « RedNote ».
+  souvenirs de Karl : `reseaux/README.md`, rubrique « RedNote ». Chaque carrousel
+  rejoint aussi la série de son sujet (`vitrine/series.ini`) : le récit dans les trois
+  langues (`recit_*`), le petit cours de français sur les pages anglaises et chinoises
+  seulement (`francais_en`, `francais_zh`) ; un nouveau sujet reçoit sa série.
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
