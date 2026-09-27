@@ -1504,7 +1504,8 @@ def index_usages(g, par_id, langue):
     lignes = []
     for p, usages in utilisees:
         titre = e(p["titre"][langue])
-        fond = (f'<img src="{url_image(p, 1600)}" srcset="{srcset(p, (1200, 1600, 2200))}" sizes="100vw" '
+        fond = (f'<img src="{url_image(p, 1600)}" srcset="{srcset(p, (1200, 1600, 2200))}" '
+                f'sizes="(min-width: 1800px) 100vw, 50vw" '
                 f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="" decoding="async">')
         for u in usages:
             infos = f'{e(t["campagne_court"])} · {titre}' if u["type"] == "campagne" else titre
@@ -1583,6 +1584,9 @@ def page_usages(g, par_id, series, langue):
         + "".join(salle(p, u, rang, len(utilisees), langue, adr) for rang, (p, u) in enumerate(utilisees, 1))
         + f'<div class="enveloppe">{rappel(g, langue, usages=False)}</div>'
     )
+    auteur = personne(g, langue)
+    reference = {"@id": auteur["@id"]} if "@id" in auteur else auteur
+    nom = g.site.get("nom", "Karl Forterre")
     donnees = [{
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -1590,7 +1594,25 @@ def page_usages(g, par_id, series, langue):
         "description": t["usages_intro"],
         "url": adr.absolue(chemins[langue]),
         "inLanguage": HREFLANG[langue],
-        "author": personne(g, langue),
+        "author": auteur,
+        "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": len(photos),
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": rang,
+                "item": {
+                    "@type": "ImageObject",
+                    "name": p["titre"][langue],
+                    "url": adr.absolue(adr.chemin(langue, "photo", p["id"])),
+                    "contentUrl": p["image"],
+                    "creator": reference,
+                    "creditText": f"{nom} / Pexels",
+                    "license": LICENCE,
+                    "acquireLicensePage": pexels(p["page"], langue),
+                },
+            } for rang, p in enumerate(photos, 1)],
+        },
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=t["usages_intro"], chemins=chemins, contenu=contenu,
                    image=photos[0], donnees=donnees, series=bool(series), classe="sur-photo exposition")

@@ -50,11 +50,21 @@
   }
 
   /* ---------- Galeries : index des photos utilisées dans des projets ----------
-     Les grandes photos du survol ne se chargent qu'au premier passage de la souris ou
-     du clavier sur l'index, pour ne pas alourdir la page ; chacune ne se montre qu'une
-     fois chargée. */
+     Les noms entrent l'un après l'autre quand l'index arrive à l'écran. Les grandes
+     photos du survol se chargent au premier passage de la souris ou du clavier ; sur
+     ordinateur, aussi d'avance, une fois la page chargée, pour que le premier survol soit
+     immédiat. Chacune ne se montre qu'une fois chargée. */
 
   var index = document.querySelector(".index-usages");
+  if (index && !calme && "IntersectionObserver" in window) {
+    index.classList.add("index-anime");
+    var arrivee = new IntersectionObserver(function (entrees) {
+      if (!entrees[0].isIntersecting) return;
+      index.classList.add("vu");
+      arrivee.disconnect();
+    }, { threshold: 0.12 });
+    arrivee.observe(index);
+  }
   if (index && "content" in document.createElement("template")) {
     var chargerFonds = function () {
       index.removeEventListener("pointerenter", auPointeur);
@@ -74,6 +84,13 @@
     };
     index.addEventListener("pointerenter", auPointeur);
     index.addEventListener("focusin", chargerFonds);
+    var ordinateur = window.matchMedia && window.matchMedia("(hover: hover) and (min-width: 641px)").matches;
+    var economie = navigator.connection && navigator.connection.saveData;
+    if (ordinateur && !economie) {
+      window.addEventListener("load", function () {
+        (window.requestIdleCallback || function (f) { setTimeout(f, 1500); })(chargerFonds);
+      });
+    }
   }
 
   /* ---------- Photos utilisées : chaque photo apparaît à son arrivée à l'écran ---------- */
