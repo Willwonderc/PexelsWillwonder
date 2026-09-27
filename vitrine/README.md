@@ -73,6 +73,10 @@ revient au français.
   `titre_zh`, `mots_cles_zh`). Pour une nouvelle photo, reprendre les mots-clés du
   glossaire `donnees/glossaire-mots-cles-zh.csv` (anglais → chinois), dans l'ordre des
   mots anglais.
+  Les mots-clés anglais de Pexels traduisent parfois mal les mots français : le glossaire
+  suit le sens voulu (`bezel`, venu de « lunette » : 眼镜 ; `billy goat`, venu de
+  « bouc » : 山羊胡 ; `class`, venu de « classe » : 有格调 ; `journal` : 报纸), et le
+  mot-clé `lot`, qui n'y désigne pas le département, n'est pas traduit.
 - Sans traduction chinoise, la page chinoise affiche l'anglais.
 - Sur les pages chinoises, les liens vers Pexels mènent à son interface chinoise
   (`https://www.pexels.com/zh-cn/…`).
@@ -90,6 +94,19 @@ paragraphe en grand (le chapeau), photos plus grandes et plus espacées. Tout se
 `vitrine/series.ini`, dont l'en-tête explique chaque réglage ; l'ordre des blocs est
 celui de l'affichage. Adresses : `/series/<identifiant>/` et
 `/en/series/<identifiant>/` et `/zh/series/<identifiant>/`.
+
+Les carrousels RedNote (voir `reseaux/README.md`) rejoignent les séries au fur et à
+mesure, sous le texte et avant les photos :
+
+- **Le récit du photographe** (`recit_fr`, `recit_en`, `recit_zh`) : le récit à la
+  première personne du carrousel, dans les trois langues, sans ce que le texte de la
+  série dit déjà.
+- **Le petit cours de français** (`francais_en`, `francais_zh`) : les mots français du
+  carrousel, sur les pages anglaises et chinoises seulement, jamais sur les pages
+  françaises. Une ligne par mot : `le phare = the lighthouse…`.
+
+Un carrousel sur un sujet qui a déjà sa série l'enrichit ; un nouveau sujet reçoit sa
+propre série.
 
 ## Photo en bandeau
 
