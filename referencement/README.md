@@ -27,7 +27,7 @@ Tout est construit chaque nuit par `vitrine/build.py` ; rien à faire.
 |---|---|---|
 | `llms.txt` et `llms-full.txt` | `/llms.txt`, `/en/llms.txt`, `/zh/llms.txt` | Présentation du site en texte simple pour les assistants IA (format [llmstxt.org](https://llmstxt.org/)) : l'auteur, la licence, le crédit à donner, les séries, les galeries, les questions fréquentes ; `llms-full.txt` y ajoute chacune des photos |
 | Questions fréquentes | [/questions-frequentes/](https://photos.karlforterre.fr/questions-frequentes/), `/en/faq/`, `/zh/faq/` | Des réponses courtes et exactes, faciles à citer ; réglées dans `vitrine/questions.ini` |
-| L'auteur dans les données structurées | chaque page | Pour Google, Bing et les assistants, le site photo, karlforterre.fr, Pexels, Mastodon, Bluesky, LinkedIn (et bientôt RedNote et Wikidata) désignent une seule personne ; réglages : rubrique `[personne]` de `vitrine/site.ini` |
+| L'auteur dans les données structurées | chaque page | Pour Google, Bing et les assistants, le site photo, karlforterre.fr, Pexels, Mastodon, Bluesky, LinkedIn, RedNote (et bientôt Wikidata) désignent une seule personne ; réglages : rubrique `[personne]` de `vitrine/site.ini` |
 | IndexNow | chaque nuit, une fois le site en ligne | Bing reçoit la liste des pages nouvelles, modifiées ou supprimées et la transmet à Yandex, Seznam, Naver, Yep et Amazon ; Bing sert Copilot, DuckDuckGo, Yahoo et une partie des recherches de ChatGPT |
 | Plan du site daté | `/sitemap.xml` | Chaque page avec la date de sa dernière vraie modification (`lastmod`), que Bing et Google lisent pour savoir quoi relire |
 | `robots.txt` ouvert | `/robots.txt` | Tous les robots sont admis, y compris ceux des assistants (OAI-SearchBot pour ChatGPT, Claude-SearchBot, PerplexityBot…) |
@@ -47,8 +47,13 @@ Tout est construit chaque nuit par `vitrine/build.py` ; rien à faire.
 - **Le signalement** part une fois le site en ligne (travail **signaler** de la tâche
   **Site**, onglet **Actions**), sinon les moteurs liraient l'ancienne version.
 - **Le résultat** se lit dans ce travail : « IndexNow : 12 pages signalées, réponse 200
-  (adresses reçues) ». Une réponse 202 au premier envoi est normale : Bing vérifie la
-  clé. Une croix rouge signale un refus (clé ou adresses) : le message dit lequel.
+  (adresses reçues) ». Au premier envoi, Bing vérifie d'abord la clé : il répond 202, ou
+  refuse l'envoi le temps de lire le fichier de clé (« SiteVerificationNotCompleted ») ;
+  le travail patiente alors et renvoie la liste, pendant une vingtaine de minutes au
+  plus. Une croix rouge signale un refus (clé ou adresses) : le message dit lequel.
+- **Après une croix rouge**, relancer le travail le jour même : onglet **Actions** →
+  tâche **Site** → **Re-run failed jobs**. La liste des pages à signaler n'est gardée
+  qu'un jour ; passé ce délai, elles ne partiront qu'à leur prochaine modification.
 - **Changer de clé** : remplacer la valeur de `indexnow` par 32 chiffres et lettres de
   a à f pris au hasard (une session Claude peut en tirer une). Laisser vide pour ne plus
   rien signaler.
@@ -59,7 +64,6 @@ Tout est construit chaque nuit par `vitrine/build.py` ; rien à faire.
 |---|---|---|
 | [1. Bing Webmaster Tools](#1-bing-webmaster-tools) | 20 minutes | Suivre l'indexation par Bing, et voir combien de fois Copilot cite vos pages |
 | Google Search Console | 20 minutes | Déjà prévue (`vitrine/README.md`, « Référencement ») : Gemini et les réponses IA de Google s'appuient sur l'index de Google |
-| Le profil RedNote | 2 minutes | Retirer le `#` de la ligne `RedNote` de la rubrique `[reseaux]` de `vitrine/site.ini` et y coller l'adresse du profil : il rejoint le pied de page et les données de l'auteur |
 | [2. Wikidata](#2-wikidata) | 20 minutes | Mettre les photos déposées sur Commons sur les fiches des lieux ; la fiche de Karl Forterre viendra après une notice BnF ou un dépôt du mémoire |
 | [3. Wikimedia Commons](#3-wikimedia-commons--douze-photos-de-lieux) | 2 heures | Douze photos de lieux, réutilisables par Wikipédia et Wikidata, avec le nom de l'auteur |
 | [Brave Search](#être-présent-dans-les-trois-index-qui-comptent) | 5 minutes | Proposer quelques adresses : Brave fournit la recherche de Claude |
