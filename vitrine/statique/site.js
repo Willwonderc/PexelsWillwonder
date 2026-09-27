@@ -93,6 +93,62 @@
     }
   }
 
+  /* Une bande par photo : quand plusieurs sites ou campagnes ont utilisé la même photo,
+     leurs noms (et le mois du signalement, s'il diffère) s'y relaient, en respiration.
+     Les bandes respirent chacune à son tour ; tout s'arrête quand l'index sort de l'écran
+     ou que la page est cachée. Sans script, ou si l'appareil demande moins d'animations,
+     les noms restent l'un sous l'autre. */
+
+  var bandes = [];
+  if (index && !calme && "IntersectionObserver" in window) {
+    Array.prototype.forEach.call(index.querySelectorAll(".index-ligne"), function (ligne) {
+      var noms = ligne.querySelectorAll(".index-nom > span");
+      var mois = ligne.querySelectorAll(".index-quand > span");
+      if (noms.length > 1) bandes.push({ suites: mois.length > 1 ? [noms, mois] : [noms], rang: 0 });
+    });
+  }
+  if (bandes.length) {
+    var RELAIS = 6000, PREMIER = 4500, tour = 0, minuterie = null, enVue = false;
+    bandes.forEach(function (b) {
+      b.montres = b.suites.map(function (suite) {
+        suite[0].parentNode.classList.add("index-relais");
+        suite[0].classList.add("actif");
+        return suite[0];
+      });
+    });
+    /* Relais d'une bande ; un mois identique au précédent reste en place. */
+    var relayer = function () {
+      var b = bandes[tour++ % bandes.length];
+      b.rang = (b.rang + 1) % b.suites[0].length;
+      b.suites.forEach(function (suite, k) {
+        var avant = b.montres[k], apres = suite[b.rang];
+        if (apres.textContent === avant.textContent) return;
+        avant.classList.remove("actif");
+        apres.classList.add("actif");
+        b.montres[k] = apres;
+      });
+    };
+    var planifier = function (delai) {
+      minuterie = setTimeout(function () {
+        relayer();
+        planifier(RELAIS / bandes.length);
+      }, delai);
+    };
+    var regler = function () {
+      var marche = enVue && !document.hidden;
+      if (marche && minuterie === null) planifier(PREMIER);
+      if (!marche && minuterie !== null) {
+        clearTimeout(minuterie);
+        minuterie = null;
+      }
+    };
+    new IntersectionObserver(function (entrees) {
+      enVue = entrees[entrees.length - 1].isIntersecting;
+      regler();
+    }).observe(index);
+    document.addEventListener("visibilitychange", regler);
+  }
+
   /* ---------- Photos utilisées : chaque photo apparaît à son arrivée à l'écran ---------- */
 
   var salles = document.querySelectorAll(".salle");
