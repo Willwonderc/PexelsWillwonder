@@ -1,6 +1,6 @@
-/* Site de Karl Forterre : fondu de l'accueil et visionneuse plein écran.
-   JavaScript léger, sans bibliothèque. Sans lui, le site fonctionne tout autant :
-   chaque vignette mène à la page de sa photo. */
+/* Site de Karl Forterre : fondu de l'accueil, photos utilisées dans des projets et
+   visionneuse plein écran. JavaScript léger, sans bibliothèque. Sans lui, le site
+   fonctionne tout autant : chaque vignette mène à la page de sa photo. */
 (function () {
   "use strict";
 
@@ -47,6 +47,48 @@
       preparer(1);
       setTimeout(avancer, DUREE);
     }
+  }
+
+  /* ---------- Galeries : index des photos utilisées dans des projets ----------
+     Les grandes photos du survol ne se chargent qu'au premier passage de la souris ou
+     du clavier sur l'index, pour ne pas alourdir la page ; chacune ne se montre qu'une
+     fois chargée. */
+
+  var index = document.querySelector(".index-usages");
+  if (index && "content" in document.createElement("template")) {
+    var chargerFonds = function () {
+      index.removeEventListener("pointerenter", auPointeur);
+      index.removeEventListener("focusin", chargerFonds);
+      Array.prototype.forEach.call(index.querySelectorAll(".index-fond"), function (fond) {
+        var modele = fond.querySelector("template");
+        if (!modele) return;
+        var img = document.importNode(modele.content, true).firstElementChild;
+        var pret = function () { fond.classList.add("pret"); };
+        img.addEventListener("load", pret);
+        fond.replaceChild(img, modele);
+        if (img.complete && img.naturalWidth) pret();
+      });
+    };
+    var auPointeur = function (ev) {
+      if (ev.pointerType !== "touch") chargerFonds();
+    };
+    index.addEventListener("pointerenter", auPointeur);
+    index.addEventListener("focusin", chargerFonds);
+  }
+
+  /* ---------- Photos utilisées : chaque photo apparaît à son arrivée à l'écran ---------- */
+
+  var salles = document.querySelectorAll(".salle");
+  if (salles.length && !calme && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("salles-animees");
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (entree) {
+        if (!entree.isIntersecting) return;
+        entree.target.classList.add("vue");
+        observateur.unobserve(entree.target);
+      });
+    }, { threshold: 0.2 });
+    Array.prototype.forEach.call(salles, function (s) { observateur.observe(s); });
   }
 
   /* ---------- Visionneuse plein écran ---------- */

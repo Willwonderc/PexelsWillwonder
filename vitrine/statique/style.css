@@ -527,17 +527,248 @@ html.v-ouverte { overflow: hidden; }
   .galerie-image img, .carreau img, .diapo, .v-grande { transition: none; }
 }
 
-/* Photos utilisées dans des projets : chaque photo entière, avec ses usages. */
+/* Page des galeries : index des photos utilisées dans des projets. Sur fond noir, les
+   noms des sites en très grand, comme un générique ; au survol ou au clavier, la photo
+   utilisée remplit toute la rubrique (chargée par site.js au premier passage). Sur un
+   écran tactile ou étroit, chaque nom a sa vignette. */
 
-.projets {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-  gap: 40px 28px;
-  align-items: start;
+.index-usages {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #0b0b0b;
+  color: #f2f2f2;
+  padding-block: clamp(36px, 6vw, 92px) clamp(30px, 5vw, 76px);
 }
-.projet { margin: 0; }
-.projet img { display: block; width: auto; height: auto; max-width: 100%; max-height: 70vh; }
-.projet figcaption { display: grid; gap: 3px; margin-top: 12px; }
-.projet-usage { font-size: 19px; font-weight: 600; font-stretch: 104%; line-height: 1.25; }
-.projet-titre { font-size: 14px; text-decoration: none; }
-.projet-date { font-size: 13px; color: var(--doux); }
+.index-usages a:focus-visible { outline-color: #f2f2f2; }
+.index-tete, .index-suite { position: relative; z-index: 2; }
+.index-tete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px 24px;
+  margin-bottom: clamp(18px, 3vw, 40px);
+}
+.index-usages .surtitre { margin: 0; color: rgba(242, 242, 242, .72); }
+.index-note { margin: 0; font-size: 13px; color: rgba(242, 242, 242, .56); }
+.index-liste { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid rgba(242, 242, 242, .16); }
+.index-liste li { border-top: 1px solid rgba(242, 242, 242, .16); }
+.index-ligne {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, clamp(12rem, 22vw, 19rem));
+  align-items: center;
+  gap: 4px 32px;
+  padding-block: clamp(8px, 1.2vw, 18px);
+  text-decoration: none;
+}
+.index-nom, .index-infos, .index-vignette { position: relative; z-index: 1; }
+.index-nom {
+  font-size: clamp(34px, 7.4vw, 124px);
+  line-height: .98;
+  font-weight: 400;
+  font-stretch: 68%;
+  letter-spacing: -.012em;
+  transition: color .45s ease, transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.index-infos {
+  display: grid;
+  gap: 2px;
+  justify-items: end;
+  text-align: right;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(242, 242, 242, .56);
+  transition: color .45s ease;
+}
+.index-titre {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: rgba(242, 242, 242, .84);
+  transition: color .45s ease;
+}
+/* Photo du survol : placée sur toute la rubrique (les lignes ne sont pas positionnées),
+   sous les noms, et montrée seulement une fois chargée. */
+.index-fond {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: #0b0b0b;
+  transition: opacity .7s ease;
+}
+.index-fond img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: var(--pos, center);
+  transform: scale(1.05);
+  transition: transform 1.8s cubic-bezier(.2, .7, .2, 1);
+}
+.index-fond::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, .8), rgba(0, 0, 0, .5) 58%, rgba(0, 0, 0, .7));
+}
+.index-vignette { display: none; }
+.index-suite { margin: clamp(18px, 2.6vw, 32px) 0 0; font-size: 14px; }
+.index-suite a {
+  color: rgba(242, 242, 242, .88);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(242, 242, 242, .4);
+}
+.index-suite a:hover { color: #fff; border-color: #fff; }
+
+@media (hover: hover) and (min-width: 641px) {
+  .index-liste:hover .index-nom, .index-liste:hover .index-infos, .index-liste:hover .index-titre { color: rgba(242, 242, 242, .28); }
+  .index-ligne:hover .index-nom, .index-ligne:hover .index-infos, .index-ligne:hover .index-titre { color: #fff; }
+  .index-ligne:hover .index-nom { transform: translateX(clamp(8px, 1.2vw, 20px)); }
+  .index-ligne:hover .index-fond.pret { opacity: 1; }
+  .index-ligne:hover .index-fond img { transform: scale(1); }
+}
+.index-ligne:focus-visible { outline: 2px solid #f2f2f2; outline-offset: -2px; }
+.index-ligne:focus-visible .index-fond.pret { opacity: 1; }
+.index-ligne:focus-visible .index-fond img { transform: scale(1); }
+
+@media (max-width: 640px), (hover: none) {
+  .index-ligne { grid-template-columns: 56px minmax(0, 1fr); gap: 3px 16px; padding-block: 12px; }
+  .index-vignette { display: block; grid-row: 1 / 3; width: 56px; height: 56px; overflow: hidden; background: var(--c); }
+  .index-vignette img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center); }
+  .index-nom { font-size: clamp(28px, 8.4vw, 56px); }
+  .index-infos { justify-items: start; text-align: left; font-size: 12.5px; }
+  .index-titre { -webkit-line-clamp: 1; }
+}
+
+/* Photos utilisées dans des projets : une exposition sur fond noir. Une photo par écran,
+   entière, avec son cartel ; une lueur reprend la couleur moyenne de la photo, donnée par
+   Pexels. Le défilement s'arrête de lui-même sur une photo proche. */
+
+.exposition {
+  --fond: #0b0b0b;
+  --encre: #efefef;
+  --doux: #9c9ca3;
+  --trait: #2a2a2a;
+  --bouton: #efefef;
+  --bouton-texte: #101010;
+}
+:root:has(> body.exposition) { color-scheme: dark; scroll-snap-type: y proximity; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(> body.exposition) { scroll-behavior: smooth; }
+}
+
+.salle-ouverture { scroll-snap-align: start; }
+.salle-ouverture .plein-texte { max-width: 62rem; }
+/* Noms des sites de l'ouverture : chacun mène à sa photo ; ils passent à la ligne entre
+   deux noms, jamais au milieu d'un nom. */
+.salle-liste {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .3em 1.4em;
+  margin: clamp(18px, 2.6vw, 30px) auto 0;
+  max-width: 48rem;
+  font-size: clamp(15px, 1.5vw, 19px);
+  letter-spacing: .02em;
+  color: rgba(255, 255, 255, .92);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .45);
+}
+.salle-liste a { text-decoration: none; white-space: nowrap; }
+.salle-liste a:hover { text-decoration: underline; }
+.salle-ouverture .accroche { max-width: 38rem; font-size: clamp(15px, 1.3vw, 17px); color: rgba(255, 255, 255, .76); }
+
+.salle {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 96px);
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(32px, 7vh, 80px) max(var(--marge), calc((100% - 1480px) / 2));
+  background: radial-gradient(50% 60% at 30% 50%, color-mix(in srgb, var(--c) 22%, transparent), transparent 72%);
+  scroll-snap-align: start;
+}
+.salle-inverse {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  background: radial-gradient(50% 60% at 70% 50%, color-mix(in srgb, var(--c) 22%, transparent), transparent 72%);
+}
+.salle-portrait { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.salle-inverse .salle-oeuvre { order: 2; }
+.salle-oeuvre { margin: 0; display: flex; justify-content: center; min-width: 0; }
+.salle-oeuvre a { display: block; max-width: 100%; }
+.salle-oeuvre img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 82vh;
+  max-height: 82svh;
+  /* Liseré discret : une photo sombre, comme le ciel étoilé, se détache du fond. */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .07), 0 30px 80px rgba(0, 0, 0, .55);
+}
+.salle-cartel { max-width: 32rem; }
+.salle-rang {
+  margin: 0 0 clamp(14px, 2vw, 22px);
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: 125%;
+  letter-spacing: .14em;
+  color: var(--doux);
+  font-variant-numeric: tabular-nums;
+}
+.salle-noms {
+  margin: 0;
+  font-size: clamp(36px, 4.6vw, 72px);
+  line-height: .98;
+  font-weight: 400;
+  font-stretch: 68%;
+  letter-spacing: -.012em;
+}
+.salle-noms span { display: block; }
+.salle-noms::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin: clamp(18px, 2.4vw, 28px) 0;
+  background: currentColor;
+  opacity: .42;
+}
+.salle-titre { margin: 0; font-size: 17px; line-height: 1.45; text-wrap: pretty; }
+.salle-usages { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--doux); }
+.salle-usages a { color: var(--encre); }
+.salle-lien { margin: 22px 0 0; font-size: 14px; }
+.salle-lien a { text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid currentColor; }
+.salle-lien a:hover { opacity: .8; }
+
+/* Apparition de chaque photo à son arrivée à l'écran (classe posée par site.js, sauf si
+   l'appareil demande moins d'animations). */
+.salles-animees .salle-oeuvre, .salles-animees .salle-cartel > * {
+  transition: opacity .9s ease, transform 1.1s cubic-bezier(.2, .7, .2, 1);
+}
+.salles-animees .salle:not(.vue) .salle-oeuvre { opacity: 0; transform: scale(1.03); }
+.salles-animees .salle:not(.vue) .salle-cartel > * { opacity: 0; transform: translateY(20px); }
+.salles-animees .salle-cartel > :nth-child(2) { transition-delay: .08s; }
+.salles-animees .salle-cartel > :nth-child(3) { transition-delay: .16s; }
+.salles-animees .salle-cartel > :nth-child(4) { transition-delay: .24s; }
+.salles-animees .salle-cartel > :nth-child(5) { transition-delay: .32s; }
+
+@media (max-width: 640px) {
+  .salle, .salle-inverse, .salle-portrait { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 22px; padding-block: 64px 44px; }
+  .salle-inverse .salle-oeuvre { order: 0; }
+  .salle-oeuvre img { max-height: 64vh; max-height: 64svh; }
+  .salle-noms { font-size: clamp(30px, 9vw, 44px); }
+  .salle-noms span { display: inline; }
+  .salle-noms span + span::before { content: " · "; }
+  .salle-noms::after { margin: 16px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-nom, .index-infos, .index-titre, .index-fond, .index-fond img { transition: none; }
+  .index-fond img { transform: none; }
+}
