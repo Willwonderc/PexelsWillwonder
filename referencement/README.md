@@ -60,7 +60,7 @@ Tout est construit chaque nuit par `vitrine/build.py` ; rien à faire.
 | [1. Bing Webmaster Tools](#1-bing-webmaster-tools) | 20 minutes | Suivre l'indexation par Bing, et voir combien de fois Copilot cite vos pages |
 | Google Search Console | 20 minutes | Déjà prévue (`vitrine/README.md`, « Référencement ») : Gemini et les réponses IA de Google s'appuient sur l'index de Google |
 | Le profil RedNote | 2 minutes | Retirer le `#` de la ligne `RedNote` de la rubrique `[reseaux]` de `vitrine/site.ini` et y coller l'adresse du profil : il rejoint le pied de page et les données de l'auteur |
-| [2. Wikidata](#2-wikidata) | 1 heure | Une fiche qui dit aux moteurs et aux assistants qui est Karl Forterre, avec ses livres et son mémoire |
+| [2. Wikidata](#2-wikidata) | 20 minutes | Mettre les photos déposées sur Commons sur les fiches des lieux ; la fiche de Karl Forterre viendra après une notice BnF ou un dépôt du mémoire |
 | [3. Wikimedia Commons](#3-wikimedia-commons--douze-photos-de-lieux) | 2 heures | Douze photos de lieux, réutilisables par Wikipédia et Wikidata, avec le nom de l'auteur |
 | [Brave Search](#être-présent-dans-les-trois-index-qui-comptent) | 5 minutes | Proposer quelques adresses : Brave fournit la recherche de Claude |
 | [Dépôt du mémoire](#déposer-le-mémoire-dans-une-archive-ouverte) | 1 heure | Faire entrer le mémoire dans les bases universitaires, avec une adresse stable |
@@ -145,139 +145,146 @@ Une fois par mois, avec le relevé des vues Pexels :
 
 Wikidata est la base de connaissances libre de la fondation Wikimedia. Google, Bing, les
 assistants IA et Wikipédia y puisent pour savoir qui est qui. Une fiche « Karl Forterre »
-y relie, par des identifiants vérifiables, ses deux sites, son profil Pexels, ses réseaux,
-ses livres et son mémoire : c'est ce qui permet à un assistant de comprendre que le
-photographe de Pexels, l'auteur de *Darshan* et l'auteur du mémoire sur la médiation
-auctoriale sont une seule et même personne.
+y relierait, par des identifiants vérifiables, ses deux sites, son profil Pexels, ses
+réseaux, ses livres et son mémoire. Mais elle ne se crée pas n'importe comment.
 
-Compter une heure. Un seul compte sert pour Wikidata, Wikimedia Commons et Wikipédia.
+### Où en est-on (vérifié le 27 septembre 2026)
 
-### Ce que Wikidata accepte
+- **Aucune fiche** Karl Forterre sur Wikidata, ni pour ses livres, son mémoire ou la
+  Société des Éditions du Poitou.
+- **Aucune notice d'autorité** à son nom à la BnF, dans IdRef (la base des universités)
+  ou dans ISNI. Le catalogue de la BnF n'a pas non plus de notice pour les ISBN des deux
+  livres.
+- **Wikidata déconseille fortement de créer la fiche qui vous concerne**, ou celle de
+  vos œuvres : c'est de l'autopromotion, et ces fiches sont souvent supprimées (page
+  « Wikidata:Self-promotion »). Une réforme en discussion en septembre 2026 l'interdirait.
+  En revanche, compléter une fiche qui existe déjà, avec des sources, est permis
+  (« Wikidata:Autobiography »).
+- Une fiche est admise si la personne est décrite par des **sources sérieuses,
+  publiques et indépendantes** : une notice de la BnF, un dépôt dans une archive
+  universitaire, un article de presse. Un profil Pexels, un site personnel ou un compte
+  sur un réseau ne suffisent pas.
 
-Une fiche est admise si elle décrit une personne ou une œuvre clairement identifiable,
-décrite par des sources sérieuses et publiques. C'est le cas ici : les deux livres ont un
-ISBN et relèvent du dépôt légal (*Darshan* : 978-2-9588873-3-9 ; *L'histoire du petit
-Théo* : 978-2-9588873-2-2), le mémoire est en ligne, le profil Pexels aussi.
+D'où l'ordre de marche : d'abord les sources indépendantes, puis la fiche, créée de
+préférence par quelqu'un d'autre, que Karl pourra compléter.
 
-Rien n'interdit de rédiger soi-même sa propre fiche, mais elle se relit comme les
-autres : des faits, pas d'adjectifs, et une source pour chaque déclaration. Les fiches
-promotionnelles ou invérifiables sont supprimées. Wikipédia, elle, déconseille
-fortement d'écrire l'article qui vous concerne et supprime ceux qui n'ont pas de sources
-indépendantes : ne pas en créer.
+### Étape 1, dès maintenant : les sources indépendantes
 
-### Avant de commencer (10 minutes)
+1. **Le dépôt légal des livres à la BnF.** Il est obligatoire pour tout livre diffusé en
+   France : l'éditeur (ou l'auteur qui s'édite lui-même) le déclare en ligne sur
+   https://depotlegal.bnf.fr et envoie un exemplaire. Le livre entre alors au catalogue
+   général de la BnF, qui crée en général une notice d'autorité pour l'auteur, puis
+   demande pour lui un identifiant ISNI. Demander à la Société des Éditions du Poitou si
+   le dépôt a été fait.
+   Avant tout dépôt, vérifier les ISBN : les PDF d'impression donnent
+   978-2-9588873-3-9 pour *Darshan* et 978-2-9588873-2-2 pour *L'histoire du petit Théo*,
+   mais les EPUB donnent 978-2-9588873-4-6 pour *Darshan* et 978-2-9588873-3-9 (celui de
+   *Darshan*) pour *L'histoire du petit Théo*, sans doute par erreur. Les deux achevés
+   d'imprimer indiquent décembre 2023, alors que le site date *Darshan* de 2022.
+2. **Le dépôt du mémoire dans DUMAS**, par la bibliothèque de l'université de Poitiers
+   (partie 4) : une notice relue par la bibliothèque, dans HAL.
+3. **Un article de presse** sur le photographe et ses photos reprises par CNN.com ou
+   NYTimes.com (partie 4).
 
-1. Chercher « Forterre, Karl » dans le catalogue de la BnF (https://catalogue.bnf.fr) :
-   les livres déposés y ont leur notice. S'il existe une **notice d'autorité** au nom de
-   Karl Forterre, noter son identifiant (huit chiffres suivis d'un caractère de
-   contrôle, dans l'adresse de la notice) : il servira de référence et d'identifiant.
-2. Créer un identifiant ORCID gratuit sur https://orcid.org (facultatif, voir partie 4) :
-   il servira aussi.
-3. Chercher « Karl Forterre » sur https://www.wikidata.org : si une fiche existe déjà, la
-   compléter plutôt qu'en créer une autre.
+### Étape 2, dès maintenant : les photos sur les fiches des lieux
 
-### Créer le compte
+Une fois les photos déposées sur Wikimedia Commons (partie 3), les proposer comme image
+des lieux sur Wikidata est une contribution ordinaire, bien acceptée quand la fiche n'a
+pas encore d'image, et c'est la plus visible : Google, Bing et les assistants reprennent
+souvent l'image d'une fiche.
 
-1. https://www.wikidata.org → **Créer un compte**, en haut à droite. Nom d'utilisateur :
-   `KarlForterre` (le même nom servira sur Commons, partie 3).
-2. **Préférences** → **Informations sur l'utilisateur** → **Langue** : français.
+1. Sur la page Commons de la catégorie du lieu (par exemple « Moyemont »), suivre le lien
+   **Élément Wikidata** du menu de gauche, ou chercher le lieu sur https://www.wikidata.org.
+2. Si la fiche n'a pas de déclaration **image** (P18) : **ajouter une déclaration** →
+   `image` → taper le nom du fichier déposé sur Commons → **publier**.
+3. Si elle a déjà une image, ne pas la remplacer par la sienne : en proposer le
+   changement sur la page de discussion de la fiche, et seulement si la photo est
+   nettement meilleure.
 
-### Créer la fiche de Karl Forterre
+### Étape 3, plus tard : la fiche de Karl Forterre
 
-1. Menu de gauche → **Créer un nouvel élément**.
-2. Langue `fr`, **Libellé** : `Karl Forterre` ; **Description** : `photographe et écrivain
-   français` (en minuscules, sans éloge) ; **Alias** : rien. Puis **Créer**.
-3. En haut de la fiche, ajouter l'anglais : libellé `Karl Forterre`, description
-   `French photographer and writer` (et, si on veut, le chinois : `法国摄影师、作家`).
-4. Ajouter les déclarations une à une : **+ ajouter une déclaration**, taper le nom de la
-   propriété, puis la valeur, et choisir dans la liste proposée. Les numéros (P…) aident
-   à trouver la bonne propriété.
+Quand une source indépendante existe (notice BnF, dépôt DUMAS, article), la fiche peut
+être créée, idéalement par un bibliothécaire ou un contributeur de Wikidata (les notices
+de la BnF y sont régulièrement reprises). Karl peut ensuite la compléter. S'il décide de
+la créer lui-même, qu'il le fasse seulement à ce moment-là, en citant ces sources.
 
-| Propriété | Valeur | Source (référence) |
-|---|---|---|
-| nature de l'élément (P31) | être humain | — |
-| pays de nationalité (P27) | France | https://karlforterre.fr/ |
-| occupation (P106) | photographe | https://www.pexels.com/@karl-forterre-28489473 |
-| occupation (P106) | écrivain | notice BnF d'un des livres |
-| occupation (P106) | graphiste | https://karlforterre.fr/ |
-| prénom (P735) | Karl (l'élément « prénom masculin ») | — |
-| langues parlées, écrites ou signées (P1412) | français | — |
-| scolarité (P69) | université de Poitiers | https://karlforterre.fr/memoire/ |
-| site officiel (P856) | `https://karlforterre.fr/` | — |
-| site officiel (P856) | `https://photos.karlforterre.fr/` | — |
-| adresse Mastodon (P4033) | `KarlForterre@mastodon.social` | — |
-| identifiant Bluesky | `karlforterre.bsky.social` | — |
-| identifiant LinkedIn (P6634) | `karl-forterre-720b61220` | — |
-| décrit à l'URL (P973) | `https://photos.karlforterre.fr/a-propos/` | — |
-| identifiant ORCID (P496) | une fois créé | — |
-| identifiant BnF (P268) | si la notice d'autorité existe | — |
+**Créer un compte** : https://www.wikidata.org → **Créer un compte**. Le même compte sert
+sur Wikimedia Commons et Wikipédia ; nom d'utilisateur conseillé : `KarlForterre`.
 
-   Pour une source : sous la déclaration, **+ ajouter une référence** → propriété
-   **URL de la référence** (P854), coller l'adresse ; puis **date de consultation**
-   (P813), la date du jour. **Publier** après chaque déclaration.
-5. Noter le numéro de la fiche (Q suivi de chiffres, en haut) : il sert plus bas.
+**Créer une fiche** : menu de gauche → **Créer un nouvel élément** ; champs **Langue**,
+**Libellé**, **Description**, **Alias**, puis **Créer**. Pour un nom de personne, le
+libellé peut aller dans le champ « par défaut pour toutes les langues ». La description
+est courte, sans éloge et ne forme pas une phrase : `photographe et écrivain français`
+(en anglais : `French photographer and writer`).
 
-Le lieu de résidence (P551, Niort) et le genre (P21) sont facultatifs : ce sont des
-données personnelles, à ne donner que si Karl le souhaite.
+**Ajouter une déclaration** : **ajouter une déclaration** → taper le nom ou le numéro de
+la propriété → la valeur → **ajouter une référence** → **URL de la référence** (P854) et
+**date de consultation** (P813) → **publier**. Le site de Karl ne peut servir de source
+que pour ce qui le concerne lui-même.
 
-### Créer la fiche du mémoire
-
-1. **Créer un nouvel élément** : libellé `L'influence de la médiation auctoriale du site
-   d'auteur` ; description `mémoire de master de Karl Forterre (université de Poitiers,
-   2023)` ; en anglais : `master's thesis by Karl Forterre (University of Poitiers,
-   2023)`.
-2. Déclarations :
+Propriétés vérifiées pour sa fiche :
 
 | Propriété | Valeur |
 |---|---|
-| nature de l'élément (P31) | mémoire de master |
-| titre (P1476) | `L'influence de la médiation auctoriale du site d'auteur` (langue : français) |
-| auteur (P50) | Karl Forterre (la fiche créée plus haut) |
-| date de publication (P577) | juin 2023 |
-| thèse soumise à (P4101) | université de Poitiers |
-| langue de l'œuvre ou du nom (P407) | français |
-| œuvre complète disponible à l'URL (P953) | `https://karlforterre.fr/livres/memoire-mediation-auctoriale-2023.pdf` |
-| décrit à l'URL (P973) | `https://karlforterre.fr/memoire/` |
-| identifiant DOI (P356) | s'il est déposé sur Zenodo ou HAL (partie 4) |
+| nature de l'élément (P31) | être humain (Q5) |
+| prénom (P735) | Karl (Q15731830) |
+| nom de famille (P734) | Forterre (Q65104104) |
+| pays de nationalité (P27) | France (Q142) |
+| occupation (P106) | écrivain (Q36180), photographe (Q33231), graphiste (Q627325) |
+| scolarité (P69) | université de Poitiers (Q661056), avec le qualificatif diplôme universitaire (P512) : master (Q3297843) |
+| site officiel (P856) | `https://karlforterre.fr/` et `https://photos.karlforterre.fr/` |
+| adresse Mastodon (P4033) | `KarlForterre@mastodon.social` |
+| identifiant Bluesky (P12361) | `karlforterre.bsky.social` |
+| identifiant d'un profil LinkedIn (P6634) | `karl-forterre-720b61220` |
+| identifiant de profil REDnote (P12038) | les 24 caractères qui suivent `xiaohongshu.com/user/profile/` dans l'adresse du profil |
+| a un compte sur (P553) | Pexels (Q101240504), avec le qualificatif nom du compte (P554) : `karl-forterre-28489473` (il n'existe pas de propriété propre à Pexels) |
+| nom d'utilisateur Wikimédia (P4174) | `KarlForterre` |
+| identifiants BnF (P268), ISNI (P213), IdRef (P269), ORCID (P496) | quand ils existent |
+| thèse académique (P1026) | la fiche du mémoire |
+| décrit à l'URL (P973) | `https://photos.karlforterre.fr/a-propos/` |
 
-3. Revenir sur la fiche de Karl Forterre : **+ ajouter une déclaration** → **thèse ou
-   mémoire** (P1026) → le mémoire.
+Pour le mémoire : nature de l'élément (P31) `mémoire de maîtrise ou de master`
+(Q1907875), titre (P1476), auteur (P50), date de publication (P577) juin 2023, organisme
+de soutenance (P4101) université de Poitiers, langue de l'œuvre (P407) français, sujet
+principal (P921), œuvre intégrale disponible sur (P953) l'adresse du PDF, et identifiant
+DOI (P356) s'il est déposé sur Zenodo. Pour les livres, Wikidata distingue l'œuvre
+(nature « œuvre littéraire ») et son édition (nature « édition », qui porte l'ISBN-13,
+P212, et l'éditeur).
 
-### Les livres, si le temps le permet
-
-Une fiche par livre : nature de l'élément `œuvre littéraire` (P31), genre (P136)
-`roman` ou `conte`, auteur (P50), date de publication (P577, celle imprimée dans le
-livre), langue (P407) `français`, ISBN-13 (P212), et en source la notice BnF. Puis, sur la
-fiche de Karl Forterre, **œuvre notable** (P800) → chaque livre.
-
-### Relier Wikidata au site
-
-Sur GitHub, dans `vitrine/site.ini`, rubrique `[personne]`, ligne `profils =`, coller
-l'adresse de la fiche : `https://www.wikidata.org/wiki/Q…`, puis **Commit changes**. Les
-données de l'auteur de chaque page la reprennent dès la nuit suivante. Faire de même sur
-karlforterre.fr (liste `sameAs` des données structurées d'`index.html`), ou le demander
-à une session Claude.
+**Relier la fiche au site** : dans `vitrine/site.ini`, rubrique `[personne]`, ligne
+`profils =`, coller l'adresse de la fiche (`https://www.wikidata.org/wiki/Q…`), puis
+**Commit changes** ; faire de même dans les données structurées de karlforterre.fr
+(liste `sameAs` d'`index.html`), ou le demander à une session Claude.
 
 ## 3. Wikimedia Commons : douze photos de lieux
 
 Wikimedia Commons est la photothèque de Wikipédia. Une photo qui y est déposée peut
 illustrer les articles de Wikipédia dans toutes les langues, et la fiche Wikidata du lieu
 (propriété « image », que Google et Bing affichent souvent). Chaque réutilisation
-mentionne l'auteur, avec un lien. Compter deux heures pour douze photos.
+mentionne l'auteur, sur la page de la photo. Compter deux heures pour douze photos, plus
+un courriel d'autorisation.
+
+**À saisir maintenant** : le concours Wiki Loves Monuments France court du 15 septembre
+au 15 octobre 2026. Les photos de monuments historiques (le château et les jardins de
+Villandry, par exemple) déposées par le formulaire du concours y participent :
+https://www.wikimedia.fr/wiki-loves-monuments-2026-concours-photo-patrimoine/
 
 ### D'abord, la licence : une décision de Karl
 
-Commons n'accepte pas la licence Pexels : il demande une licence libre. L'auteur reste
-propriétaire de ses photos et peut en donner plusieurs licences à la fois : la même
-photo reste sur Pexels sous la licence Pexels et va sur Commons sous licence libre.
+Commons n'accepte pas la licence Pexels : il demande une licence libre, qui permet à
+chacun tout usage, y compris commercial. L'auteur reste propriétaire de ses photos et
+peut en donner plusieurs licences à la fois : la même photo reste sur Pexels sous la
+licence Pexels et va sur Commons sous licence libre.
 
-- **CC BY-SA 4.0** (proposée par défaut) : chacun peut réutiliser la photo, la modifier et
+- **CC BY-SA 4.0**, le choix conseillé : chacun peut réutiliser la photo, la modifier et
   même la vendre, à condition de **citer Karl Forterre** et de partager ses
-  modifications sous la même licence. C'est le choix conseillé : le crédit devient
-  obligatoire, alors qu'il est facultatif sur Pexels.
+  modifications sous la même licence. Le crédit devient obligatoire, alors qu'il est
+  facultatif sur Pexels.
 - **CC BY 4.0** : pareil, sans l'obligation de partage à l'identique.
 - Ces licences sont **irrévocables** : une photo versée reste libre. D'où le choix de
-  douze photos de lieux, pas des plus vendables.
+  douze photos de lieux, pas des plus vendables. Pour garder la pleine définition à
+  Pexels, Commons accepte une version réduite, pourvu qu'elle garde au moins
+  3 mégapixels (par exemple 3 000 pixels de large).
 
 ### Précautions
 
@@ -285,44 +292,75 @@ photo reste sur Pexels sous la licence Pexels et va sur Commons sous licence lib
   mort depuis moins de 70 ans (après 1955) ne peut pas être le sujet principal d'une
   photo sur Commons. Les douze photos ci-dessous montrent des monuments anciens, des
   paysages, ou des lieux d'Espagne, où la loi permet de photographier les bâtiments
-  visibles de la rue.
-- **Personnes.** Pas de personne reconnaissable au premier plan.
-- **Prouver qu'on est l'auteur.** Ces photos sont déjà sur Pexels : un bénévole de
-  Commons pourrait croire à une copie. Pour l'éviter :
-  1. déposer les **fichiers d'origine**, en pleine définition, avec leurs données
-     d'appareil (EXIF), et non les fichiers téléchargés de Pexels ;
-  2. sur sa **page utilisateur** Commons (lien « Utilisateur » en haut), écrire :
-     `Je suis Karl Forterre, photographe. Mes photos sont aussi publiées sur Pexels
-     (https://www.pexels.com/@karl-forterre-28489473) et sur https://photos.karlforterre.fr.` ;
-  3. ajouter à la rubrique `[reseaux]` de `vitrine/site.ini` la ligne
-     `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:KarlForterre` : le lien
-     `rel="me"` du site prouve que le compte est bien celui de l'auteur ;
-  4. dans la description de chaque photo, ajouter `Aussi publiée par l'auteur sur Pexels :`
-     suivi de l'adresse Pexels de la photo.
+  visibles depuis la rue.
+- **Personnes.** Pas de personne reconnaissable au premier plan : en France comme en
+  Espagne, il faudrait son accord.
+- **Pas de signature ni de filigrane** sur les fichiers.
+- **Fichiers d'origine.** Déposer les fichiers de l'appareil, avec leurs données
+  (EXIF), et non ceux téléchargés sur Pexels : un fichier sans données d'appareil ou de
+  faible définition éveille les soupçons.
 
-  Si un bénévole demande malgré tout une preuve, suivre le lien qu'il indique pour
-  envoyer une autorisation par courriel, depuis contact@karlforterre.fr.
+### Prouver qu'on est l'auteur : un courriel, une fois pour toutes
+
+Ces photos sont déjà publiées sur Pexels, sous une autre licence. Commons demande alors
+à l'auteur de prouver son identité, même s'il les dépose lui-même ; sans cela, les
+fichiers sont supprimés au bout de 30 jours. Le plus simple : une autorisation
+permanente, qui vaut pour toutes les photos déposées depuis le compte.
+
+1. Créer le compte (partie 2, même compte que Wikidata ; nom conseillé : `KarlForterre`).
+   Un compte de moins de quatre jours doit remplir un code de vérification à chaque
+   dépôt : rien de grave.
+2. Sur sa **page utilisateur** Commons, écrire :
+   `Je suis Karl Forterre, photographe. Mes photos sont aussi publiées sur Pexels
+   (https://www.pexels.com/@karl-forterre-28489473) et sur https://photos.karlforterre.fr.`
+3. Ajouter à la rubrique `[reseaux]` de `vitrine/site.ini` la ligne
+   `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:KarlForterre` : le site
+   renvoie alors au compte, preuve de plus qu'il est bien celui de l'auteur.
+4. Envoyer, depuis **contact@karlforterre.fr** (l'adresse du site est la meilleure
+   preuve), à **permissions-fr@wikimedia.org**, le modèle « Déclaration de consentement »
+   (https://commons.wikimedia.org/wiki/Commons:Messages_type/D%C3%A9claration_de_consentement)
+   ou celui du générateur (https://commons.wikimedia.org/wiki/Commons:Wikimedia_VRT_release_generator),
+   complété ainsi : Karl Forterre est l'auteur et le titulaire des droits des photos
+   publiées sur son profil Pexels et sur photos.karlforterre.fr ; le compte Commons
+   `KarlForterre` est le sien et il est autorisé à publier ces photos sous licence
+   CC BY-SA 4.0. Le modèle fait confirmer qu'on a compris que chacun pourra les
+   réutiliser, même commercialement, et que la licence ne peut pas être retirée.
+5. Sur la page de chaque photo déposée, ajouter le modèle `{{PP}}` (autorisation en
+   cours) : un bénévole le retire une fois le courriel traité.
 
 ### Déposer les photos
 
-1. Se connecter sur https://commons.wikimedia.org avec le compte créé pour Wikidata.
-2. Menu de gauche → **Importer un fichier** (l'assistant d'import).
-3. **Sélectionner des fichiers multimédias à partager** : choisir les douze fichiers
-   d'origine.
-4. **Cette œuvre est mon propre travail** ; licence : **Creative Commons Attribution –
-   Partage dans les mêmes conditions 4.0** ; cocher la confirmation.
-5. Pour chaque photo :
-   - **Titre** : le nom de fichier proposé dans le tableau ci-dessous (sans « .jpg ») ;
-   - **Légende** : une phrase en français, puis **Ajouter une légende dans une autre
-     langue** pour l'anglais ;
-   - **Description** : ce que montre la photo, le lieu, puis la ligne « Aussi publiée
-     par l'auteur sur Pexels : … » ;
+Dans l'assistant d'import (https://commons.wikimedia.org/wiki/Special:UploadWizard, ou
+menu de gauche → **Importer un fichier**), qui compte six étapes :
+
+1. **Téléverser** : **Sélectionnez les fichiers multimédias à partager**, choisir les
+   douze fichiers, puis **Continuer**.
+2. **Droits accordés** : **Il s'agit de mon propre travail et tout le monde est libre de
+   l'utiliser.** → **Il s'agit d'un travail entièrement personnel** → à la question de
+   la licence, choisir **Creative Commons Attribution – Partage dans les mêmes
+   conditions (CC BY-SA 4.0)** : aucune licence n'est cochée d'avance. Si l'assistant
+   demande à quoi sert l'œuvre : **Cette œuvre fournit des connaissances, des
+   instructions ou des informations à d'autres.**
+3. **Décrire**, pour chaque photo :
+   - **Titre** : le nom proposé dans le tableau ci-dessous, avec l'année de la prise de
+     vue (à vérifier dans les données de l'appareil) ;
+   - **Légende** (obligatoire) : une phrase en français, puis **Ajouter une légende dans
+     une autre langue** pour l'anglais ;
+   - **Description** : ce que montre la photo et où, puis `Aussi publiée par l'auteur
+     sur Pexels :` suivi de l'adresse Pexels de la photo ;
    - **Date** : reprise des données de l'appareil ;
-   - **Catégories** : celles du tableau (taper le début du nom, choisir dans la liste) ;
-   - **Ce que montre ce fichier** (données structurées) : taper le nom du lieu et choisir
-     la fiche Wikidata proposée.
-6. **Publier**. La page de chaque photo indique ensuite comment la créditer :
-   « Karl Forterre, CC BY-SA 4.0, via Wikimedia Commons ».
+   - **Catégorie** : celles du tableau (taper le début du nom et choisir dans la
+     liste) ; on peut y ajouter une catégorie personnelle, `Photos by Karl Forterre` ;
+   - **Emplacement** : repris des données de l'appareil s'il y en a.
+   **Copier les informations pour les autres téléversements** évite de tout retaper.
+   Puis **Publier les fichiers**.
+4. **Ajouter des données** : dans **Les principaux sujets visibles dans cet ouvrage**,
+   taper le nom du lieu et choisir sa fiche Wikidata. **Publier les données pour tous les
+   fichiers**.
+5. Sur la page de chaque photo, ajouter `{{PP}}` tant que le courriel n'a pas été traité.
+
+La page de chaque photo indique ensuite comment la créditer : « Karl Forterre, CC BY-SA
+4.0, via Wikimedia Commons ».
 
 ### Les douze photos proposées
 
@@ -331,35 +369,37 @@ privilégiant les lieux encore peu photographiés sur Commons (nombre de fichier
 27 septembre 2026). Chaque identification est à confirmer par Karl, qui sait ce qu'il a
 photographié.
 
-| # | Photo (page du site) | Nom de fichier proposé | Catégorie Commons | À savoir |
+| # | Photo (page du site) | Nom de fichier proposé (ajouter l'année de la prise de vue) | Catégorie Commons | À savoir |
 |---|---|---|---|---|
-| 1 | [38694057](https://photos.karlforterre.fr/photo/38694057/) | Villandry - jardins du château vus du ciel | Gardens of the Château de Villandry (119 fichiers) | jardins recréés à partir de 1906 par Joachim Carvallo, mort en 1936 |
-| 2 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - flèches de l'église Saint-André au-dessus de la ville | Église Saint-André (Niort) (27) | église néogothique de 1855-1863 ; le site la nomme à tort Notre-Dame |
-| 3 | [10187432](https://photos.karlforterre.fr/photo/10187432/) | Marais poitevin - barques amarrées le long d'un canal | Marais Poitevin | préciser la commune si Karl la connaît |
-| 4 | [34500384](https://photos.karlforterre.fr/photo/34500384/) | Cognac - hôtel de ville | Town hall of Cognac (10) | bâtiment de 1840 |
-| 5 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Granville - phare du cap Lihou | Phare du cap Lihou (18) | |
-| 6 | [34939450](https://photos.karlforterre.fr/photo/34939450/) | Îles Chausey - phare vu de la mer | Phare de Chausey (13) | |
-| 7 | [13087478](https://photos.karlforterre.fr/photo/13087478/) | Moyemont - chemin bordé d'arbres en été | Moyemont (14) | la photo la plus vue du compte après la Lune et la Voie lactée |
-| 8 | [13041935](https://photos.karlforterre.fr/photo/13041935/) | Xonrupt-Longemer - chapelle Saint-Florent | Chapelle Saint-Florent (Xonrupt-Longemer) (5) | chapelle de 1727, au bord du lac de Longemer |
-| 9 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, génie de la Liberté | Monument aux Girondins | monument de 1894-1901, sculptures d'Alphonse Dumilâtre |
-| 10 | [39564918](https://photos.karlforterre.fr/photo/39564918/) | Ribadeo - plage des Cathédrales, arches rocheuses | As Catedrais beach (161) | Espagne |
-| 11 | [39423921](https://photos.karlforterre.fr/photo/39423921/) | Irun - hôtel de ville | Town hall of Irun (22) | Espagne |
-| 12 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, église et tour | Universidad Laboral de Gijón, Tower of Universidad Laboral de Gijón | Espagne ; photographiée depuis l'espace public |
+| 1 | [38694057](https://photos.karlforterre.fr/photo/38694057/) | Villandry - jardins du château vus du ciel | Gardens of the Château de Villandry (119 fichiers) | sur Pexels depuis 2026 ; jardins recréés à partir de 1906 par Joachim Carvallo, mort en 1936 |
+| 2 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - flèches de l'église Saint-André au-dessus de la ville | Église Saint-André (Niort) (27) | sur Pexels depuis 2024 ; église néogothique de 1855-1863 ; le site la nomme à tort Notre-Dame |
+| 3 | [10187432](https://photos.karlforterre.fr/photo/10187432/) | Marais poitevin - barques amarrées le long d'un canal | Marais Poitevin | sur Pexels depuis 2021 ; préciser la commune si Karl la connaît |
+| 4 | [34500384](https://photos.karlforterre.fr/photo/34500384/) | Cognac - hôtel de ville | Town hall of Cognac (10) | sur Pexels depuis 2025 ; bâtiment de 1840 |
+| 5 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Granville - phare du cap Lihou | Phare du cap Lihou (18) | sur Pexels depuis 2025 |
+| 6 | [34939450](https://photos.karlforterre.fr/photo/34939450/) | Îles Chausey - phare vu de la mer | Phare de Chausey (13) | sur Pexels depuis 2025 |
+| 7 | [13087478](https://photos.karlforterre.fr/photo/13087478/) | Moyemont - chemin bordé d'arbres en été | Moyemont (14) | sur Pexels depuis 2022 ; la photo la plus vue du compte après la Lune et la Voie lactée |
+| 8 | [13041935](https://photos.karlforterre.fr/photo/13041935/) | Xonrupt-Longemer - chapelle Saint-Florent | Chapelle Saint-Florent (Xonrupt-Longemer) (5) | sur Pexels depuis 2022 ; chapelle de 1727, au bord du lac de Longemer |
+| 9 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, génie de la Liberté | Monument aux Girondins | sur Pexels depuis 2026 ; monument de 1894-1901, sculptures d'Alphonse Dumilâtre |
+| 10 | [39564918](https://photos.karlforterre.fr/photo/39564918/) | Ribadeo - plage des Cathédrales, arches rocheuses | As Catedrais beach (161) | sur Pexels depuis 2026 ; Espagne |
+| 11 | [39423921](https://photos.karlforterre.fr/photo/39423921/) | Irun - hôtel de ville | Town hall of Irun (22) | sur Pexels depuis 2026 ; Espagne |
+| 12 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, église et tour | Universidad Laboral de Gijón, Tower of Universidad Laboral de Gijón | sur Pexels depuis 2026 ; Espagne ; photographiée depuis l'espace public |
 
 En plus, si Karl le souhaite : [38995522](https://photos.karlforterre.fr/photo/38995522/),
 l'éclipse totale du 12 août 2026 vue de Galice, dans la catégorie « Solar eclipse of 2026
-August 12 », qui ne compte encore qu'une photo : les articles de Wikipédia sur cette
-éclipse cherchent des images de la totalité.
+August 12 », qui ne compte encore qu'une photo et quelques sous-catégories : une vue de
+la totalité y serait précieuse pour les articles de Wikipédia sur cette éclipse.
 
 ### Ensuite
 
-- **Wikidata** : sur la fiche Wikidata d'un lieu qui n'a pas encore d'image (propriété
-  « image », P18), on peut y mettre la photo. C'est l'endroit le plus visible : les
-  moteurs et les assistants reprennent cette image.
-- **Wikipédia** : ajouter une photo à un article qui n'en a pas, ou qui n'en a pas de
-  bonne (Moyemont, la chapelle Saint-Florent), est bienvenu ; remplacer une bonne photo
-  par la sienne, ou ajouter ses photos partout, passe pour de la promotion. Dans le doute,
-  proposer la photo sur la page de discussion de l'article.
+- **Wikidata** : mettre la photo sur la fiche du lieu qui n'a pas encore d'image (partie
+  2, étape 2). C'est l'endroit le plus visible : les moteurs et les assistants
+  reprennent cette image.
+- **Wikipédia** : ajouter une photo de qualité à un article qui n'en a pas, ou qui n'en a
+  pas de bonne (Moyemont, la chapelle Saint-Florent), est en général bien reçu, même par
+  l'auteur de la photo ; remplacer une bonne photo par la sienne, ou ajouter ses photos
+  partout, passe pour de la promotion et peut valoir un blocage. Dans le doute, proposer
+  la photo sur la page de discussion de l'article. Le crédit reste sur la page Commons de
+  la photo, jamais dans la légende de l'article.
 - **Pexels** : rien ne change ; les photos y restent, sous licence Pexels.
 
 ## 4. Les autres leviers, du plus efficace au moins utile
@@ -396,8 +436,8 @@ nom sur le web que le nombre de liens.
 - **Wikidata et Wikimedia Commons** : parties 2 et 3.
 - **Presse locale** (La Nouvelle République, Le Courrier de l'Ouest, France 3
   Nouvelle-Aquitaine) : « un photographe niortais, 880 000 vues, des photos reprises par
-  CNN.com et NYTimes.com ». Un article de presse est la source que les assistants
-  préfèrent citer.
+  CNN.com et NYTimes.com ». Les articles de presse sont parmi les sources que les
+  assistants citent le plus volontiers.
 - **LinkedIn** : une des sources les plus citées par les réponses IA de Google. Y
   publier un article sur le mémoire (voir plus bas) et, de temps à autre, une série de
   photos avec le lien de sa page.
@@ -409,23 +449,25 @@ nom sur le web que le nombre de liens.
 - **Les usages déjà connus** : chaque nouvel usage signalé par Pexels, noté dans
   `vitrine/usages.csv`, s'affiche sur le site et dans les réponses aux questions
   fréquentes. Une recherche d'image inversée (Google Lens, TinEye) sur les photos les
-  plus téléchargées en fait souvent trouver d'autres.
+  plus téléchargées peut en faire trouver d'autres.
 
 ### Le mémoire et la notion de médiation auctoriale
 
 Un mémoire de master n'existe pour les assistants que s'ils le trouvent là où ils
 cherchent les travaux universitaires : Google Scholar, OpenAlex, Semantic Scholar, les
-archives ouvertes. Aujourd'hui, il n'est qu'un PDF sur karlforterre.fr.
+archives ouvertes. Jusqu'ici, il n'était qu'un PDF sur karlforterre.fr.
 
-1. **Une page du mémoire sur karlforterre.fr**, en HTML, avec la problématique, les
-   définitions citées mot pour mot, la méthode, les principaux résultats et la façon de
-   le citer, et les balises que lit Google Scholar. Les assistants citent bien plus
-   volontiers une page claire qu'un PDF de 223 pages.
+1. **Une page du mémoire sur karlforterre.fr** (https://karlforterre.fr/memoire/, faite
+   dans la même session) : la question posée, les définitions citées mot pour mot avec
+   leur page, la méthode, les principaux résultats, le résumé anglais de l'auteur, la
+   référence à citer, et les balises que lit Google Scholar. Les assistants citent bien
+   plus volontiers une page claire qu'un PDF de 223 pages.
 2. **Un dépôt dans une archive ouverte**, qui donne au mémoire une adresse stable et
    le fait entrer dans les bases universitaires (pas à pas plus bas).
 3. **Un identifiant ORCID** (https://orcid.org, gratuit) : il relie le nom de l'auteur à
-   ses travaux, et Wikidata peut s'y référer.
-4. **Une fiche Wikidata du mémoire**, reliée à celle de Karl Forterre (partie 2).
+   ses travaux.
+4. **Plus tard, une fiche Wikidata du mémoire**, reliée à celle de Karl Forterre, une
+   fois les sources indépendantes réunies (partie 2).
 5. **Un article LinkedIn** qui présente la notion avec les mots du mémoire : sa
    définition, la question posée, deux ou trois résultats chiffrés, le lien vers la page
    du mémoire. Pas de résumé inventé : tout doit se retrouver dans le mémoire.
@@ -437,31 +479,64 @@ autobiographies.
 ### Déposer le mémoire dans une archive ouverte
 
 Une archive ouverte donne au mémoire une adresse permanente et le fait entrer dans les
-bases que consultent les chercheurs et les assistants spécialisés (Google Scholar,
-OpenAlex, OpenAIRE). Deux voies gratuites :
+bases que consultent les chercheurs et les assistants spécialisés. Commencer par un
+préalable, qui sert à tout :
 
-- **DUMAS** (https://dumas.ccsd.cnrs.fr), l'archive des mémoires de master, rattachée à
-  HAL. Le dépôt passe par l'université et demande l'accord du directeur de mémoire :
-  écrire à la bibliothèque universitaire de Poitiers (service des thèses et mémoires)
-  pour savoir si l'université y dépose ses mémoires et comment. C'est la voie la plus
-  reconnue en France.
-- **Zenodo** (https://zenodo.org), l'archive ouverte du CERN, ouverte à tous :
-  1. créer un compte (possible avec l'identifiant ORCID) ;
-  2. **New upload** → déposer le PDF ;
-  3. type de ressource : **Publication** → **Thesis** ; titre, auteur (avec son ORCID),
-     date de publication (juin 2023), langue (français), description (la question et la
-     méthode, reprises de la page du mémoire), mots-clés (médiation auctoriale, site
-     d'auteur…) ;
-  4. choisir la licence, puis **Publish**. Zenodo attribue un **DOI**, identifiant
-     permanent que reconnaissent Wikidata, ORCID et les bases universitaires.
+**Un PDF de 5 Mo au plus, au format PDF 1.4 ou plus récent.** Le PDF actuel pèse 6 Mo
+(surtout ses 52 images) et relève de la version 1.3 : trop lourd pour Google Scholar,
+trop ancien pour DUMAS. Le plus simple : le réexporter depuis Pages, avec une qualité
+d'image un peu moindre (**Fichier** → **Exporter vers** → **PDF**, **Qualité de
+l'image** : **Bonne**). Si le fichier obtenu reste en version 1.3, la bibliothèque de
+Poitiers, qui contrôle chaque dépôt, indique comment le convertir ; une session Claude
+peut aussi préparer une version allégée. Déposé dans le dossier `memoire/` du dépôt
+karlforterre.fr, ce fichier permettra d'ajouter à la page du mémoire la balise qui signale
+le texte intégral à Google Scholar (règle de Google : le PDF dans le même dossier que la
+page, 5 Mo au plus).
 
-La licence est à choisir par Karl. Les annexes reproduisent des entretiens avec des
-personnes nommées : une licence qui interdit la modification, **CC BY-NC-ND 4.0**
-(partage libre, avec citation, sans usage commercial ni modification), est la plus
-prudente.
+**DUMAS, par la bibliothèque de l'université de Poitiers : la voie conseillée.** DUMAS
+(https://dumas.ccsd.cnrs.fr) est l'archive des mémoires de master, rattachée à HAL.
+L'université de Poitiers y participe, et les anciens étudiants peuvent demander un dépôt
+(https://bu.univ-poitiers.fr/appui-a-la-recherche/dumas/) :
 
-Après le dépôt, ajouter le DOI à la fiche Wikidata du mémoire (P356), au profil ORCID et
-à la page du mémoire sur karlforterre.fr (une session Claude peut s'en charger).
+1. obtenir l'accord du directeur de mémoire, Jean-François Cerisier, pour une diffusion
+   en ligne ;
+2. remplir le « Formulaire des données de dépôt » et le « Formulaire d'autorisation de
+   diffusion étudiant·e » de la page de la bibliothèque, signés comme elle l'indique ;
+3. envoyer le PDF, nommé `FORTERRE_Karl_2023_mémoire_M2.pdf`, avec les deux
+   formulaires, à support.dumas@univ-poitiers.fr ;
+4. la bibliothèque vérifie le fichier et le dépose. Un dépôt ne peut plus être retiré ;
+   un embargo (une date de mise en ligne différée) est possible.
+
+Attention aux annexes : la bibliothèque refuse les données personnelles et les images
+d'autrui sans autorisation. Les entretiens nomment leurs participants, et le mémoire
+reproduit des pages de sites d'auteurs : lui en parler avant l'envoi, quitte à déposer
+une version sans ces annexes.
+
+**Zenodo, si DUMAS n'est pas possible.** Zenodo (https://zenodo.org), l'archive ouverte
+du CERN, accepte tout auteur qui a les droits sur ce qu'il dépose :
+
+1. se connecter avec l'identifiant ORCID (ou créer un compte) ;
+2. **New upload** → **Upload files** : le PDF ; à **Do you already have a DOI?**,
+   répondre non puis **Get a DOI now!** ;
+3. **Resource type** : **Thesis** ; **Title**, **Publication date** (2023-06),
+   **Add creator** (Karl Forterre, avec son ORCID) ; description (la question et la
+   méthode, reprises de la page du mémoire), mots-clés, langue ;
+4. licence : Zenodo propose CC BY 4.0 ; choisir plutôt **CC BY-NC-ND 4.0** (partage
+   libre, avec citation, sans usage commercial ni modification), plus prudente pour un
+   mémoire qui cite des entretiens et des images d'autrui ;
+5. **Save draft** → **Preview** → **Publish**. Un dépôt ne se supprime que dans les
+   30 jours.
+
+Zenodo attribue un **DOI** (identifiant permanent) et alimente OpenAIRE et OpenAlex,
+mais, d'après sa propre aide, pas Google Scholar : d'où l'intérêt de la page du mémoire
+sur karlforterre.fr et de DUMAS.
+
+**ORCID** (https://orcid.org) : gratuit. Rubrique **Works** → **+ Add** : ajouter le
+mémoire (par son DOI s'il en a un, sinon à la main, avec l'adresse de sa page) et les
+deux livres (par leur ISBN).
+
+Après le dépôt, ajouter le DOI ou l'adresse DUMAS à la page du mémoire sur
+karlforterre.fr, à ORCID et, le moment venu, à Wikidata.
 
 ### Ce qui ne sert à rien, ou pas encore
 
@@ -540,6 +615,17 @@ promesses.
   réel : https://ahrefs.com/blog/llmstxt-study/
 - Ce qui fait citer une page : Aggarwal et al., « GEO: Generative Engine Optimization »,
   https://arxiv.org/abs/2311.09735 ; Chen et al. (2025), https://arxiv.org/abs/2509.08919
-- Wikidata : https://www.wikidata.org/wiki/Wikidata:Notability
+- Wikidata : admissibilité, https://www.wikidata.org/wiki/Wikidata:Notability ;
+  autopromotion, https://www.wikidata.org/wiki/Wikidata:Self-promotion ; fiche sur
+  soi-même, https://www.wikidata.org/wiki/Wikidata:Autobiography
+- BnF : dépôt légal, https://depotlegal.bnf.fr et
+  https://www.bnf.fr/fr/le-depot-legal-de-lautoedition-la-bnf
 - Wikimedia Commons : licences, https://commons.wikimedia.org/wiki/Commons:Licensing ;
-  liberté de panorama, https://commons.wikimedia.org/wiki/Commons:Freedom_of_panorama
+  liberté de panorama, https://commons.wikimedia.org/wiki/Commons:Freedom_of_panorama ;
+  photos déjà publiées ailleurs, https://commons.wikimedia.org/wiki/Commons:Volunteer_Response_Team ;
+  noms de fichiers, https://commons.wikimedia.org/wiki/Commons:File_naming
+- DUMAS à l'université de Poitiers : https://bu.univ-poitiers.fr/appui-a-la-recherche/dumas/
+  et https://bu.univ-poitiers.fr/faq-dumas/
+- Google Scholar, règles d'inclusion : https://scholar.google.com/intl/en/scholar/inclusion.html
+- Zenodo : https://help.zenodo.org/docs/deposit/create-new-upload/ ; Zenodo et Google
+  Scholar : https://support.zenodo.org/help/en-gb/18-general/61-is-zenodo-indexed-by-google-scholar
