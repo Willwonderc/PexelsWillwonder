@@ -91,6 +91,19 @@ paragraphe en grand (le chapeau), photos plus grandes et plus espacées. Tout se
 celui de l'affichage. Adresses : `/series/<identifiant>/` et
 `/en/series/<identifiant>/` et `/zh/series/<identifiant>/`.
 
+Les carrousels RedNote (voir `reseaux/README.md`) rejoignent les séries au fur et à
+mesure, sous le texte et avant les photos :
+
+- **Le récit du photographe** (`recit_fr`, `recit_en`, `recit_zh`) : le récit à la
+  première personne du carrousel, dans les trois langues, sans ce que le texte de la
+  série dit déjà.
+- **Le petit cours de français** (`francais_en`, `francais_zh`) : les mots français du
+  carrousel, sur les pages anglaises et chinoises seulement, jamais sur les pages
+  françaises. Une ligne par mot : `le phare = the lighthouse…`.
+
+Un carrousel sur un sujet qui a déjà sa série l'enrichit ; un nouveau sujet reçoit sa
+propre série.
+
 ## Photo en bandeau
 
 Chaque série et chaque galerie s'ouvre sur une grande photo, derrière son titre, comme
