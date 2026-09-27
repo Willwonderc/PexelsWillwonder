@@ -1588,10 +1588,29 @@ def salle(p, usages, rang, total, langue, adr):
     )
 
 
+def accrochee(p, usages, rang, langue):
+    """Une photo accrochée au mur de l'ouverture de l'exposition, entière, avec son petit
+    cartel (les noms des sites, le mois du signalement) ; elle mène à sa salle, plus bas
+    dans la page."""
+    noms = " · ".join(nom_usage(u, langue, coupure=False) for u in usages)
+    dates = [u["date"] for u in usages if u["date"]]
+    tailles = "(max-width: 640px) 46vw, " + ("26vw" if en_largeur(p) else "12vw")
+    return (
+        f'<a class="accrochee" href="#photo-{p["id"]}" '
+        f'style="--r:{p["largeur"] / p["hauteur"]:.3f};--pos:{cadrage(p)};--i:{rang - 1}">'
+        f'<img src="{url_image(p, 800)}" srcset="{srcset(p, (400, 800, 1200))}" sizes="{tailles}" '
+        f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="{e(p["titre"][langue])}" decoding="async" '
+        f'style="background-color:{e(p["couleur"])}">'
+        f'<span class="accrochee-cartel"><span class="accrochee-noms">{noms}</span>'
+        + (f'<span class="accrochee-date">{mois_annee(max(dates), langue)}</span>' if dates else "")
+        + "</span></a>"
+    )
+
+
 def page_usages(g, par_id, series, langue):
-    """Page des photos utilisées dans des projets, présentée comme une exposition : une
-    ouverture plein écran (titre, noms des sites, qui mènent chacun à sa photo), puis une
-    photo par écran, entière, avec son cartel."""
+    """Page des photos utilisées dans des projets, présentée comme une exposition : à
+    l'ouverture, les photos accrochées côte à côte sur un mur noir, chacune menant à sa
+    salle ; puis une photo par écran, entière, avec son cartel."""
     adr = g.adr
     t = TEXTES[langue]
     utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
@@ -1602,16 +1621,12 @@ def page_usages(g, par_id, series, langue):
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
                                         (titre, chemins[langue]))
     photos = [p for p, _ in utilisees]
-    ouverture = next((p for p in photos if en_largeur(p)), photos[0])
-    sommaire = " ".join(f'<a href="#photo-{p["id"]}">{nom_usage(u, langue, coupure=False)}</a>'
-                       for p, usages in utilisees for u in usages)
+    mur = "".join(accrochee(p, u, rang, langue) for rang, (p, u) in enumerate(utilisees, 1))
     contenu = (
-        '<section class="plein centre salle-ouverture"><div class="defile">'
-        f'{diapo(ouverture, langue, adr, True)}</div>'
-        f'<div class="plein-texte">{ariane}<h1>{e(titre)}</h1>'
-        f'<p class="salle-liste">{sommaire}</p>'
+        f'<section class="salle-ouverture">{ariane}<h1>{e(titre)}</h1>'
+        f'<div class="accrochage">{mur}</div>'
         f'<p class="accroche">{e(t["usages_intro"])} <span class="nombre">{nombre_photos(len(photos), langue)}</span></p>'
-        "</div></section>"
+        "</section>"
         + "".join(salle(p, u, rang, len(utilisees), langue, adr) for rang, (p, u) in enumerate(utilisees, 1))
         + f'<div class="enveloppe">{rappel(g, langue, usages=False)}</div>'
     )

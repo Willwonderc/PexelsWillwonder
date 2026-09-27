@@ -131,8 +131,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Usages par des tiers : `vitrine/usages.csv` (sites signalés par Pexels : CNN.com,
   NYTimes.com, Cambridge.org, Dictionary.com, TheFreeDictionary.com ; et la campagne
   « Niort à Gauche », type `campagne`) : page dédiée « Utilisées dans des projets »
-  (`/galeries/photos-utilisees/`), présentée comme une exposition (une photo par écran,
-  avec son cartel), et annoncée en tête de la page des galeries par un index des noms en
+  (`/galeries/photos-utilisees/`), présentée comme une exposition (les photos accrochées
+  côte à côte à l'ouverture, puis une photo par écran, avec son cartel), et annoncée en tête de la page des galeries par un index des noms en
   très grand (la photo au survol) ; ligne sur la page de chaque photo ; les sites web
   aussi sur l'accueil et en fin de galerie et de série. Noms des sites en texte, sans
   logo ni chiffre d'audience.

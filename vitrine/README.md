@@ -279,7 +279,8 @@ courriel ou sur votre page de statistiques
 - `source` : d'où vient l'information.
 
 Ces photos ont leur page, « Utilisées dans des projets » (`/galeries/photos-utilisees/`),
-présentée comme une exposition sur fond noir : une photo par écran, entière, avec son
+présentée comme une exposition sur fond noir : à l'ouverture, les photos accrochées côte
+à côte, chacune avec son petit cartel ; puis une photo par écran, entière, avec son
 cartel (les noms des sites en grand, le titre de la photo, ses usages d'après Pexels et
 le mois du signalement). La page des galeries s'ouvre sur l'index de ces usages : un nom
 par ligne de `usages.csv`, en très grand ; au survol, la photo utilisée remplit la
