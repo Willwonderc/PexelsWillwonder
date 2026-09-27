@@ -144,6 +144,12 @@ TEXTES = {
         "usage_par": "Utilisée par {qui}{date}.",
         "campagne": "la campagne « {nom} »",
         "usage_photo": "Utilisée sur {sites}, d'après Pexels{date}.",
+        "usages_source": "D'après Pexels",
+        "campagne_court": "Campagne",
+        "guillemets": "« {nom} »",
+        "voir_usages": "Voir les {n}\u00a0photos et leurs usages",
+        "voir_usage": "Voir la photo et ses usages",
+        "voir_photo": "Voir la photo",
         "liste_et": "et",
         "auteur": "Aussi auteur",
         "visionneuse": "Visionneuse",
@@ -219,6 +225,12 @@ TEXTES = {
         "usage_par": "Used by {qui}{date}.",
         "campagne": "the “{nom}” campaign",
         "usage_photo": "Used on {sites}, according to Pexels{date}.",
+        "usages_source": "According to Pexels",
+        "campagne_court": "Campaign",
+        "guillemets": "“{nom}”",
+        "voir_usages": "See the {n}\u00a0photos and their uses",
+        "voir_usage": "See the photo and its uses",
+        "voir_photo": "See the photo",
         "liste_et": "and",
         "auteur": "Also a writer",
         "visionneuse": "Photo viewer",
@@ -290,6 +302,12 @@ TEXTES = {
         "usage_par": "这张照片曾被{qui}使用{date}。",
         "campagne": "“{nom}”竞选活动",
         "usage_photo": "据 Pexels 通知，这张照片曾被 {sites} 使用{date}。",
+        "usages_source": "据 Pexels 通知",
+        "campagne_court": "竞选活动",
+        "guillemets": "“{nom}”",
+        "voir_usages": "查看这 {n} 张照片及其使用情况",
+        "voir_usage": "查看这张照片及其使用情况",
+        "voir_photo": "查看照片",
         "liste_et": "和",
         "auteur": "作家身份",
         "visionneuse": "照片浏览器",
@@ -1085,8 +1103,9 @@ def preuve_sociale(preuve, langue):
     return ""
 
 
-def rappel(g, langue):
-    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page."""
+def rappel(g, langue, usages=True):
+    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page ; « usages » :
+    avec la ligne qui mène aux photos utilisées dans des projets (sauf sur cette page)."""
     t = TEXTES[langue]
     preuve = preuve_sociale(g.preuve, langue)
     return (
@@ -1094,7 +1113,7 @@ def rappel(g, langue):
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
-        + ligne_usages(g, langue)
+        + (ligne_usages(g, langue) if usages else "")
         + "</aside>"
     )
 
@@ -1468,14 +1487,14 @@ def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
     t = TEXTES[langue]
     chemins = {l: adr.chemin(l, "galeries") for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
-    suite = (carte_usages(g, par_id or {}, langue)
-             + cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
+    index = index_usages(g, par_id or {}, langue)
+    suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
              + pastilles(couleurs, galeries, langue, adr))
     if galeries:
         contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)
-                   + f'<div class="enveloppe">{suite}</div>')
+                   + index + f'<div class="enveloppe">{suite}</div>')
     else:
-        contenu = f'<section class="ouverture">{ariane}<h1>{t["galeries"]}</h1></section>' + suite
+        contenu = f'<section class="ouverture">{ariane}<h1>{t["galeries"]}</h1></section>' + index + suite
     description = " · ".join(gal["titre"][langue] for gal in galeries)
     texte = g.page(langue, titre=t["galeries"], description=description, chemins=chemins, contenu=contenu,
                    image=galeries[0]["couverture"] if galeries else None, donnees=[donnees_ariane],
@@ -1487,41 +1506,111 @@ def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
 CLE_USAGES = "photos-utilisees"
 
 
-def projet(p, usages, langue, adr):
-    """Une photo utilisée : l'image entière, puis ses usages, son titre et la date."""
-    lien = adr.chemin(langue, "photo", p["id"])
-    qui = enumeration([designation(u, langue) for u in usages], langue)
-    dates = [u["date"] for u in usages if u["date"]]
-    return (
-        f'<figure class="projet"><a href="{lien}">'
-        f'<img src="{url_image(p, 1200)}" srcset="{srcset(p, (600, 1200, 1800))}" '
-        f'sizes="(max-width: 640px) 92vw, 45vw" width="{p["largeur"]}" height="{p["hauteur"]}" '
-        f'alt="{e(p["titre"][langue])}" loading="lazy" decoding="async" '
-        f'style="background-color:{e(p["couleur"])}"></a>'
-        f'<figcaption><span class="projet-usage">{qui[:1].upper() + qui[1:]}</span>'
-        f'<a class="projet-titre" href="{lien}">{e(p["titre"][langue])}</a>'
-        + (f'<span class="projet-date">{mois_annee(max(dates), langue)}</span>' if dates else "")
-        + "</figcaption></figure>"
-    )
+def nom_usage(usage, langue, coupure=True):
+    """Nom d'un usage écrit en grand : le site, ou la campagne entre guillemets.
+    « coupure » : un nom trop long pour la ligne passe à la ligne avant son extension
+    (« TheFreeDictionary / .com »)."""
+    if usage["type"] == "campagne":
+        return e(TEXTES[langue]["guillemets"].format(nom=usage["site"]))
+    debut, point, fin = usage["site"].rpartition(".")
+    return f"{e(debut)}<wbr>.{e(fin)}" if coupure and point and debut else e(usage["site"])
 
 
-def carte_usages(g, par_id, langue):
-    """Rubrique de la page des galeries : une carte vers la page des photos utilisées."""
-    utilisees = [par_id[i] for i in g.usages if i in par_id]
+def cadrage(photo):
+    """Partie gardée d'une photo recadrée : le centre d'une photo en largeur, le haut d'une
+    photo en hauteur, où se trouve le plus souvent le sujet."""
+    return "50% 50%" if en_largeur(photo) else "50% 25%"
+
+
+def index_usages(g, par_id, langue):
+    """Rubrique de la page des galeries, sur fond noir : le nom de chaque site ou campagne
+    en très grand, lien vers la page de la photo utilisée. Au survol ou au clavier, cette
+    photo remplit la rubrique : statique/site.js ne la charge qu'au premier passage (modèle
+    <template>). Sur un écran tactile ou étroit, chaque nom a sa vignette."""
+    utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
     if not utilisees:
         return ""
     t = TEXTES[langue]
-    sites = list(dict.fromkeys(u["site"] for u in sum(g.usages.values(), []) if u["type"] == "site"))
-    couverture = next((p for p in utilisees if en_largeur(p)), utilisees[0])
+    adr = g.adr
+    lignes = []
+    for p, usages in utilisees:
+        titre = e(p["titre"][langue])
+        fond = (f'<img src="{url_image(p, 1600)}" srcset="{srcset(p, (1200, 1600, 2200))}" '
+                f'sizes="(min-width: 1800px) 100vw, 50vw" '
+                f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="" decoding="async">')
+        for u in usages:
+            infos = f'{e(t["campagne_court"])} · {titre}' if u["type"] == "campagne" else titre
+            lignes.append(
+                f'<li><a class="index-ligne" href="{adr.chemin(langue, "photo", p["id"])}" '
+                f'style="--pos:{cadrage(p)};--c:{e(p["couleur"])}">'
+                f'<span class="index-fond"><template>{fond}</template></span>'
+                f'<span class="index-vignette"><img src="{url_image(p, 240)}" width="{p["largeur"]}" '
+                f'height="{p["hauteur"]}" alt="" loading="lazy" decoding="async"></span>'
+                f'<span class="index-nom">{nom_usage(u, langue)}</span>'
+                f'<span class="index-infos"><span class="index-titre">{infos}</span>'
+                + (f'<span>{mois_annee(u["date"], langue)}</span>' if u["date"] else "")
+                + "</span></a></li>"
+            )
+    n = len(utilisees)
+    suite = t["voir_usages"].format(n=n) if n > 1 else t["voir_usage"]
     return (
-        f'<section class="bloc"><h2 class="surtitre">{t["usages_galerie"]}</h2><div class="galeries">'
-        + carte(g.adr.chemin(langue, "galerie", CLE_USAGES), couverture, t["usages_galerie"],
-                enumeration(sites, langue) if sites else nombre_photos(len(utilisees), langue))
-        + "</div></section>"
+        '<section class="index-usages" aria-labelledby="titre-usages"><div class="enveloppe">'
+        f'<div class="index-tete"><h2 class="surtitre" id="titre-usages">{e(t["usages_galerie"])}</h2>'
+        f'<p class="index-note">{e(t["usages_source"])} · {nombre_photos(n, langue)}</p></div>'
+        f'<ol class="index-liste">{"".join(lignes)}</ol>'
+        f'<p class="index-suite"><a href="{adr.chemin(langue, "galerie", CLE_USAGES)}">{e(suite)} →</a></p>'
+        "</div></section>"
+    )
+
+
+def salle(p, usages, rang, total, langue, adr):
+    """Une photo de l'exposition des photos utilisées : l'image entière d'un côté, son
+    cartel de l'autre (noms des sites en grand, titre, usages d'après Pexels, lien vers sa
+    page). Une photo sur deux passe à droite ; une lueur reprend sa couleur moyenne."""
+    t = TEXTES[langue]
+    lien = adr.chemin(langue, "photo", p["id"])
+    classes = "salle" + (" salle-inverse" if rang % 2 == 0 else "") + ("" if en_largeur(p) else " salle-portrait")
+    tailles = "(max-width: 640px) 92vw, " + ("56vw" if en_largeur(p) else "40vw")
+    noms = "".join(f"<span>{nom_usage(u, langue)}</span>" for u in usages)
+    return (
+        f'<section class="{classes}" id="photo-{p["id"]}" style="--c:{e(p["couleur"])}">'
+        f'<figure class="salle-oeuvre"><a href="{lien}">'
+        f'<img src="{url_image(p, 1600)}" srcset="{srcset(p, (800, 1200, 1600, 2200, 3000))}" sizes="{tailles}" '
+        f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="{e(p["titre"][langue])}" loading="lazy" '
+        f'decoding="async" style="background-color:{e(p["couleur"])}"></a></figure>'
+        '<div class="salle-cartel">'
+        f'<p class="salle-rang">{rang} / {total}</p>'
+        f'<h2 class="salle-noms">{noms}</h2>'
+        f'<p class="salle-titre">{e(p["titre"][langue])}</p>'
+        f'<p class="salle-usages">{phrases_usages(usages, langue)}</p>'
+        f'<p class="salle-lien"><a href="{lien}">{t["voir_photo"]} →</a></p>'
+        "</div></section>"
+    )
+
+
+def accrochee(p, usages, rang, langue):
+    """Une photo accrochée au mur de l'ouverture de l'exposition, entière, avec son petit
+    cartel (les noms des sites, le mois du signalement) ; elle mène à sa salle, plus bas
+    dans la page."""
+    noms = " · ".join(nom_usage(u, langue, coupure=False) for u in usages)
+    dates = [u["date"] for u in usages if u["date"]]
+    tailles = "(max-width: 640px) 46vw, " + ("26vw" if en_largeur(p) else "12vw")
+    return (
+        f'<a class="accrochee" href="#photo-{p["id"]}" '
+        f'style="--r:{p["largeur"] / p["hauteur"]:.3f};--pos:{cadrage(p)};--i:{rang - 1}">'
+        f'<img src="{url_image(p, 800)}" srcset="{srcset(p, (400, 800, 1200))}" sizes="{tailles}" '
+        f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="{e(p["titre"][langue])}" decoding="async" '
+        f'style="background-color:{e(p["couleur"])}">'
+        f'<span class="accrochee-cartel"><span class="accrochee-noms">{noms}</span>'
+        + (f'<span class="accrochee-date">{mois_annee(max(dates), langue)}</span>' if dates else "")
+        + "</span></a>"
     )
 
 
 def page_usages(g, par_id, series, langue):
+    """Page des photos utilisées dans des projets, présentée comme une exposition : à
+    l'ouverture, les photos accrochées côte à côte sur un mur noir, chacune menant à sa
+    salle ; puis une photo par écran, entière, avec son cartel."""
     adr = g.adr
     t = TEXTES[langue]
     utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
@@ -1532,13 +1621,18 @@ def page_usages(g, par_id, series, langue):
     ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
                                         (titre, chemins[langue]))
     photos = [p for p, _ in utilisees]
-    accroche = f'{e(t["usages_intro"])} <span class="nombre">{nombre_photos(len(photos), langue)}</span>'
+    mur = "".join(accrochee(p, u, rang, langue) for rang, (p, u) in enumerate(utilisees, 1))
     contenu = (
-        bandeau(g, next((p for p in photos if en_largeur(p)), photos[0]), langue, titre, accroche, ariane)
-        + '<div class="enveloppe"><div class="projets">'
-        + "".join(projet(p, u, langue, adr) for p, u in utilisees)
-        + "</div>" + rappel(g, langue) + "</div>"
+        f'<section class="salle-ouverture">{ariane}<h1>{e(titre)}</h1>'
+        f'<div class="accrochage">{mur}</div>'
+        f'<p class="accroche">{e(t["usages_intro"])} <span class="nombre">{nombre_photos(len(photos), langue)}</span></p>'
+        "</section>"
+        + "".join(salle(p, u, rang, len(utilisees), langue, adr) for rang, (p, u) in enumerate(utilisees, 1))
+        + f'<div class="enveloppe">{rappel(g, langue, usages=False)}</div>'
     )
+    auteur = personne(g, langue)
+    reference = {"@id": auteur["@id"]} if "@id" in auteur else auteur
+    nom = g.site.get("nom", "Karl Forterre")
     donnees = [{
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -1546,10 +1640,28 @@ def page_usages(g, par_id, series, langue):
         "description": t["usages_intro"],
         "url": adr.absolue(chemins[langue]),
         "inLanguage": HREFLANG[langue],
-        "author": personne(g, langue),
+        "author": auteur,
+        "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": len(photos),
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": rang,
+                "item": {
+                    "@type": "ImageObject",
+                    "name": p["titre"][langue],
+                    "url": adr.absolue(adr.chemin(langue, "photo", p["id"])),
+                    "contentUrl": p["image"],
+                    "creator": reference,
+                    "creditText": f"{nom} / Pexels",
+                    "license": LICENCE,
+                    "acquireLicensePage": pexels(p["page"], langue),
+                },
+            } for rang, p in enumerate(photos, 1)],
+        },
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=t["usages_intro"], chemins=chemins, contenu=contenu,
-                   image=photos[0], donnees=donnees, series=bool(series), classe="sur-photo")
+                   image=photos[0], donnees=donnees, series=bool(series), classe="sur-photo exposition")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
