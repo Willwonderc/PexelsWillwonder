@@ -58,16 +58,81 @@ Tout est construit chaque nuit par `vitrine/build.py` ; rien à faire.
   a à f pris au hasard (une session Claude peut en tirer une). Laisser vide pour ne plus
   rien signaler.
 
-## À faire à la main, dans cet ordre
+## Reste à faire à la main
 
-| Étape | Temps | Pourquoi |
-|---|---|---|
-| [1. Bing Webmaster Tools](#1-bing-webmaster-tools) | 20 minutes | Suivre l'indexation par Bing, et voir combien de fois Copilot cite vos pages |
-| Google Search Console | 20 minutes | Déjà prévue (`vitrine/README.md`, « Référencement ») : Gemini et les réponses IA de Google s'appuient sur l'index de Google |
-| [2. Wikidata](#2-wikidata) | 20 minutes | Mettre les photos déposées sur Commons sur les fiches des lieux ; la fiche de Karl Forterre viendra après une notice BnF ou un dépôt du mémoire |
-| [3. Wikimedia Commons](#3-wikimedia-commons--douze-photos-de-lieux) | 2 heures | Douze photos de lieux, réutilisables par Wikipédia et Wikidata, avec le nom de l'auteur |
-| [Brave Search](#être-présent-dans-les-trois-index-qui-comptent) | 5 minutes | Proposer quelques adresses : Brave fournit la recherche de Claude |
-| [Dépôt du mémoire](#déposer-le-mémoire-dans-une-archive-ouverte) | 1 heure | Faire entrer le mémoire dans les bases universitaires, avec une adresse stable |
+État au 27 septembre 2026, dans l'ordre conseillé. Cocher chaque ligne une fois faite
+(remplacer `[ ]` par `[x]`). Une session Claude peut guider chaque étape pas à pas : il
+suffit de le lui demander, sans jamais lui confier de mot de passe ni de code reçu par SMS.
+
+- [x] **HTTPS du site photo** : dépôt PexelsWillwonder, Settings → Pages → Enforce HTTPS.
+  Fait le 27 septembre : http://photos.karlforterre.fr mène désormais à https.
+- [ ] **Google Search Console** (20 minutes) : une propriété de domaine `karlforterre.fr`,
+  validée par un enregistrement TXT chez OVH, qui couvre les deux sites ; y envoyer les
+  deux `sitemap.xml`, puis demander l'indexation de l'accueil du site photo, de
+  https://karlforterre.fr/en/ et de https://karlforterre.fr/zh/
+  ([pas à pas](#google-search-console-pas-à-pas)).
+- [ ] **Bing Webmaster Tools** (10 minutes) : importer les deux sites depuis Search Console
+  ([partie 1](#1-bing-webmaster-tools)).
+- [ ] **GoatCounter** (10 minutes) : créer le compte gratuit sur
+  https://www.goatcounter.com/signup avec le code `karlforterre`, puis écrire ce code après
+  `goatcounter =` dans `vitrine/site.ini`. Il compte les visites et les clics vers Pexels ;
+  la session F (tableau de bord) en a besoin.
+- [ ] **Mastodon** (1 minute) : Modifier le profil → Enregistrer, sans rien changer, pour
+  que le champ « Site » (https://karlforterre.fr) prenne sa coche verte, maintenant que
+  karlforterre.fr renvoie vers le profil. Le champ « Photos » l'a depuis le 27 septembre.
+- [ ] **Chaque semaine** (2 minutes) : une ligne de plus dans `releves/vues-pexels.csv`
+  (date, vues, photos, abonnés). Un seul relevé à ce jour, celui du 24 septembre.
+- [ ] **Liens vers les sites** (15 minutes) : du profil Pexels vers
+  https://photos.karlforterre.fr ; de LinkedIn, Plume d'Argent et Facebook vers
+  https://karlforterre.fr ; sur GitHub, la présentation du dépôt PexelsWillwonder
+  (aujourd'hui « Promotion de Pixels », sans site), par la roue dentée de « About ».
+- [ ] **Vitesse** (10 minutes) : mesurer les deux accueils sur https://pagespeed.web.dev,
+  version mobile, et confier à une session tout score sous 90.
+- [ ] **Relire** (30 minutes) :
+  - `vitrine/selection.txt` ;
+  - les textes des séries (`vitrine/series.ini`) : les dates « Été 2026 » et « 2026 »,
+    déduites des dates d'import, et le lieu « France et Espagne » de « Nuits étoilées » ;
+  - dans `vitrine/site.ini`, les rubriques `[mentions]` (adresse, téléphone, SIRET, tous
+    facultatifs) et `[a-propos]` (portrait, matériel).
+- [ ] **Brave Search** (5 minutes) :
+  [proposer quelques adresses](#être-présent-dans-les-trois-index-qui-comptent).
+- [ ] **Wikimedia Commons** (2 heures) :
+  [douze photos de lieux](#3-wikimedia-commons--douze-photos-de-lieux), avec le courriel
+  d'autorisation envoyé depuis contact@karlforterre.fr. Le concours Wiki Loves Monuments
+  est ouvert jusqu'au 15 octobre 2026.
+- [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
+  fiche de l'auteur viendra plus tard.
+- [ ] **Dépôt du mémoire** (1 heure) :
+  [DUMAS, ou à défaut Zenodo](#déposer-le-mémoire-dans-une-archive-ouverte), une fois le
+  PDF allégé.
+- [ ] **Une fois par mois** : [suivre les résultats](#5-suivre-les-résultats-une-fois-par-mois),
+  dont les réponses des assistants, notées dans `releves/assistants-ia.csv`.
+
+### Google Search Console, pas à pas
+
+Une propriété « Domaine » couvre d'un coup karlforterre.fr et photos.karlforterre.fr, en
+http comme en https. Elle se valide dans la zone DNS chez OVH, sans toucher aux sites : le
+réglage `google_verification` de `vitrine/site.ini` reste alors vide.
+
+1. Ouvrir https://search.google.com/search-console, se connecter avec le compte Google,
+   puis **Ajouter une propriété** → **Domaine** → saisir `karlforterre.fr` → **Continuer**.
+2. Google affiche un enregistrement TXT de la forme `google-site-verification=…` : le
+   copier.
+3. Dans un autre onglet, espace client OVH (https://www.ovh.com/manager/) → **Web Cloud**
+   → **Noms de domaine** → `karlforterre.fr` → onglet **Zone DNS** → **Ajouter une
+   entrée** → **TXT** : laisser **Sous-domaine** vide, coller l'enregistrement dans
+   **Valeur**, puis **Suivant** → **Valider**.
+4. Revenir à Search Console et cliquer sur **Valider**. Si Google ne trouve pas encore
+   l'enregistrement, réessayer une heure plus tard : la zone DNS met parfois du temps à se
+   propager.
+5. Menu **Sitemaps** : envoyer `https://photos.karlforterre.fr/sitemap.xml`, puis
+   `https://karlforterre.fr/sitemap.xml`.
+6. En haut, **Inspection de l'URL** : coller `https://photos.karlforterre.fr/`, puis
+   **Demander l'indexation** ; recommencer avec `https://karlforterre.fr/en/` et
+   `https://karlforterre.fr/zh/`.
+
+Bing Webmaster Tools importe ensuite les deux sites depuis Search Console en un clic
+(partie 1).
 
 ## 1. Bing Webmaster Tools
 

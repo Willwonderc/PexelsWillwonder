@@ -38,6 +38,7 @@ import shutil
 import time
 import unicodedata
 import urllib.error
+from collections import Counter
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -311,6 +312,35 @@ def plier(texte):
 
 def tronquer(texte, n=160):
     return texte if len(texte) <= n else texte[: n - 1].rsplit(" ", 1)[0] + "…"
+
+
+# Descriptions des pages (balise description, que Google affiche sous le titre) : entre
+# ces deux longueurs, et deux fois plus courtes en chinois, qui dit autant en moins de
+# caractères. En deçà du minimum, une description passe pour trop courte.
+LONGUEUR_DESCRIPTION = {"fr": (140, 160), "en": (140, 160), "zh": (70, 80)}
+DESCRIPTION_COURTE = {"fr": 70, "en": 70, "zh": 35}
+
+
+def resume(texte, langue):
+    """Début d'un texte ramené à la longueur d'une description : coupé à la fin d'une
+    phrase quand elle tombe entre les deux longueurs, sinon à la fin d'un mot (en chinois,
+    après un signe de ponctuation), avec des points de suspension."""
+    court, long = LONGUEUR_DESCRIPTION.get(langue, LONGUEUR_DESCRIPTION["en"])
+    texte = re.sub(r"\s*\n\s*", " ", texte).strip()
+    if len(texte) <= long:
+        return texte
+    if langue == "zh":
+        extrait = texte[:long]
+        for signes, suite in (("。！？", None), ("，；：、", "…"), (" ", "…")):
+            fin = max(extrait.rfind(s) for s in signes)
+            if fin + 1 >= court:
+                return extrait[:fin + 1] if suite is None else extrait[:fin].rstrip(" ·") + suite
+        return texte[:long - 1] + "…"
+    extrait = texte[:long + 1]
+    fin = max(extrait.rfind(s) for s in (". ", "! ", "? "))
+    if fin + 1 >= court:
+        return texte[:fin + 1]
+    return texte[:long - 1].rsplit(" ", 1)[0].rstrip(" ,;:—") + "…"
 
 
 def nombres(texte):
@@ -1266,7 +1296,7 @@ class Gabarit:
             f'<meta charset="utf-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
             f"<title>{e(titre_page)}</title>",
-            f'<meta name="description" content="{e(tronquer(description))}">',
+            f'<meta name="description" content="{e(resume(description, langue))}">',
             f'<link rel="canonical" href="{url}">',
             *(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{adr.absolue(chemins[l])}">' for l in LANGUES),
             f'<link rel="alternate" hreflang="x-default" href="{adr.absolue(chemins["fr"])}">',
@@ -1275,7 +1305,7 @@ class Gabarit:
             f'<meta property="og:type" content="website">',
             f'<meta property="og:locale" content="{t["locale"]}">',
             f'<meta property="og:title" content="{e(titre)}">',
-            f'<meta property="og:description" content="{e(tronquer(description))}">',
+            f'<meta property="og:description" content="{e(resume(description, langue))}">',
             f'<meta property="og:url" content="{url}">',
             '<meta name="twitter:card" content="summary_large_image">',
             f'<link rel="preload" href="{self.statique("archivo.woff2")}" as="font" type="font/woff2" crossorigin>',
@@ -1429,6 +1459,10 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     adr = g.adr
     t = TEXTES[langue]
     accroche = traduit(g.reglages["accueil"], "accroche", langue)
+    # Titre et description pour les moteurs (réglages titre_* et description_* de
+    # [accueil]) ; à défaut, le titre du site et l'accroche.
+    titre = traduit(g.reglages["accueil"], "titre", langue, t["accueil"])
+    description = traduit(g.reglages["accueil"], "description", langue, accroche)
     contenu = (
         ouverture_accueil(g, ouverture, langue)
         + '<div class="enveloppe">'
@@ -1448,7 +1482,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
         "@id": adr.absolue(adr.chemin("fr", "accueil")) + "#site",
         "name": nom,
         "alternateName": t["accueil"],
-        "description": accroche,
+        "description": description,
         "url": adr.absolue(adr.chemin(langue, "accueil")),
         "inLanguage": HREFLANG[langue],
         "author": reference,
@@ -1456,7 +1490,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     }
     donnees = [{"@context": "https://schema.org", "@graph": [site, auteur] if "@id" in auteur else [site]}]
     chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
-    texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
+    texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=(ouverture or photos or [None])[0], donnees=donnees,
                    classe="accueil sur-photo" if ouverture else "accueil",
                    titre_complet=True, series=bool(series))
@@ -1563,6 +1597,9 @@ def page_galerie(g, galerie, series, langue):
                                         (galerie["titre"][langue], chemins[langue]))
     texte_galerie = galerie["texte"][langue]
     accroche = f'{e(description)} <span class="nombre">{nombre_photos(len(galerie["photos"]), langue)}</span>'
+    # Pour les moteurs : le début du texte de la galerie, plus parlant que la ligne courte.
+    if texte_galerie:
+        description = resume(" ".join(texte_galerie), langue)
     contenu = (
         bandeau(g, galerie["bandeau"], langue, galerie["titre"][langue], accroche, ariane)
         + '<div class="enveloppe">'
@@ -1679,12 +1716,39 @@ def page_serie(g, serie, series, langue):
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
+def descriptions_photos(photos):
+    """Description de la page de chaque photo, par langue : son titre et la phrase de
+    crédit. Quand plusieurs photos portent le même titre, ou que la description serait
+    trop courte, les trois premiers mots-clés la complètent, puis au besoin le numéro
+    Pexels : chaque page garde une description à elle."""
+    resultat = {}
+    for langue in LANGUES:
+        t = TEXTES[langue]
+        repetes = {titre for titre, n in Counter(p["titre"][langue] for p in photos).items() if n > 1}
+        descriptions, details = {}, {}
+        for p in photos:
+            titre = p["titre"][langue]
+            simple = f"{titre}. {t['suffixe']}"
+            details[p["id"]] = ", ".join([m for m in p["mots"][langue] if plier(m) != plier(titre)][:3])
+            besoin = titre in repetes or len(simple) < DESCRIPTION_COURTE[langue]
+            descriptions[p["id"]] = (f"{titre} ({details[p['id']]}). {t['suffixe']}"
+                                     if besoin and details[p["id"]] else simple)
+        doubles = {d for d, n in Counter(descriptions.values()).items() if n > 1}
+        for p in photos:
+            if descriptions[p["id"]] in doubles:
+                numero = t["numero"].format(id=p["id"])
+                detail = f"{details[p['id']]}, {numero}" if details[p["id"]] else numero
+                descriptions[p["id"]] = f"{p['titre'][langue]} ({detail}). {t['suffixe']}"
+        resultat[langue] = descriptions
+    return resultat
+
+
 def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_photo, avec_series, proches,
                couleurs_photo):
     adr = g.adr
     t = TEXTES[langue]
     titre = photo["titre"][langue]
-    description = f"{titre}. {t['suffixe']}"
+    description = g.descriptions_photos[langue][photo["id"]]
     chemins = {l: adr.chemin(l, "photo", photo["id"]) for l in LANGUES}
     ratio = photo["largeur"] / photo["hauteur"]
     page_pexels = pexels(photo["page"], langue)
@@ -2014,9 +2078,11 @@ def page_mentions(g, series, langue):
             f"site remain the property of {e(editeur)}.</p>"
             f"<h2>Personal data</h2><p>See the {confidentialite} page.</p>"
         )
-    description = {"fr": f"Mentions légales du site de {editeur} : éditeur et hébergeur.",
-                   "en": f"Legal notice for {editeur}'s website: publisher and host.",
-                   "zh": f"{editeur} 网站的法律声明：发布者与托管方。"}[langue]
+    description = {"fr": f"Mentions légales du site de photographie de {editeur} : éditeur, hébergement "
+                         "par GitHub Pages, droits sur les photos publiées sur Pexels et sur les textes.",
+                   "en": f"Legal notice for {editeur}'s photography website: publisher, hosting by GitHub Pages, "
+                         "and rights to the photos published on Pexels and to the texts.",
+                   "zh": f"{editeur} 摄影网站的法律声明：发布者、GitHub Pages 托管，以及 Pexels 上照片与网站文字的权利。"}[langue]
     page_texte(g, langue, "mentions", t["mentions"], description, corps, bool(series))
 
 
@@ -2838,6 +2904,7 @@ def main():
     par_couleur = {p["id"]: [c for c in couleurs if p in c["photos"]] for p in photos}
     proches = photos_proches(photos, par_photo)
     avec_series = bool(series)
+    g.descriptions_photos = descriptions_photos(photos)
     for langue in LANGUES:
         page_accueil(g, photos, galeries, series, selection, ouverture, langue)
         page_galeries(g, galeries, series, couleurs, langue, par_id)
