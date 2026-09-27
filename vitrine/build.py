@@ -2487,12 +2487,19 @@ REPONSES_INDEXNOW = {
     429: "trop de requêtes : envoi pris pour un abus, à reprendre plus tard",
 }
 
+# Au premier envoi avec une clé, Bing lit d'abord le fichier de clé et refuse l'envoi en
+# attendant (403, « SiteVerificationNotCompleted »). Attentes avant chaque nouvel essai,
+# en secondes : une vingtaine de minutes en tout.
+ATTENTES_VERIFICATION = (60, 120, 300, 600)
+
 
 def envoyer_indexnow():
     """Envoie à IndexNow la liste préparée par la construction, par lots de 10 000
     adresses au plus. Renvoie le code de sortie : 1 si IndexNow refuse l'envoi (clé ou
-    adresses), 0 sinon ; une panne passagère ne fait qu'un avertissement. Après un refus
-    pour excès (429), IndexNow demande d'attendre au moins dix minutes : pas de nouvel essai."""
+    adresses), 0 sinon ; une panne passagère ne fait qu'un avertissement. Tant que Bing
+    vérifie la clé, l'envoi est repris après une attente (ATTENTES_VERIFICATION). Après un
+    refus pour excès (429), IndexNow demande d'attendre au moins dix minutes : pas de
+    nouvel essai."""
     if not ENVOI_INDEXNOW.exists():
         print("IndexNow : aucune liste préparée (build.py --indexnow), rien à signaler.")
         return 0
@@ -2505,10 +2512,9 @@ def envoyer_indexnow():
     for debut in range(0, len(adresses), 10000):
         lot = adresses[debut:debut + 10000]
         corps = json.dumps({**envoi, "urlList": lot}).encode("utf-8")
-        code, detail = None, ""
-        for essai in range(3):
-            if essai:
-                time.sleep(30 * essai)
+        pannes = verifications = 0
+        while True:
+            code, detail = None, ""
             requete = urllib.request.Request(INDEXNOW, data=corps, method="POST", headers={
                 "Content-Type": "application/json; charset=utf-8", "User-Agent": "site-karl-forterre"})
             try:
@@ -2518,7 +2524,16 @@ def envoyer_indexnow():
                 code, detail = erreur.code, erreur.read().decode("utf-8", "replace")[:300]
             except OSError as erreur:
                 code, detail = None, str(erreur)
-            if code is not None and code < 500:
+            if (code == 403 and "SiteVerificationNotCompleted" in detail
+                    and verifications < len(ATTENTES_VERIFICATION)):
+                attente = ATTENTES_VERIFICATION[verifications]
+                verifications += 1
+                print(f"IndexNow : Bing vérifie encore la clé ; nouvel essai dans {attente // 60} min.")
+                time.sleep(attente)
+            elif (code is None or code >= 500) and pannes < 2:
+                pannes += 1
+                time.sleep(30 * pannes)
+            else:
                 break
         explication = REPONSES_INDEXNOW.get(code, detail or "pas de réponse")
         print(f"IndexNow : {len(lot)} pages signalées, réponse {code or '—'} ({explication}).")
