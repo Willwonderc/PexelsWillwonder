@@ -144,6 +144,45 @@ de plus.
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
 enregistrer, et sans secrets. `--langue fr` essaie une autre langue.
 
+## RedNote (小红书), à la main
+
+RedNote n'offre pas d'accès automatique : une session Claude prépare des carrousels et
+les envoie par courriel à forterrekarl@gmail.com, avec un lien vers une page qui
+regroupe les images et des boutons pour copier les textes. Karl les publie depuis
+l'application, deux ou trois fois par semaine, entre 13 h et 15 h à Paris (le soir en
+Chine). Règles de chaque carrousel :
+
+- **Récit** : à la première personne, il met en avant que Karl est un photographe
+  français et relie chaque image à la France (lieu, histoire, culture, façon de vivre).
+  Il s'appuie sur des faits vrais et sur les souvenirs de Karl ci-dessous, sans jamais
+  inventer d'anecdote personnelle.
+- **Petit cours de français** (法语小课堂) : deux ou trois mots français liés aux photos.
+- **Deux versions** : la version chinoise, à publier, et à côté la même en français
+  (images et texte), pour que Karl comprenne ce qu'il publie ; celle-ci ne se publie pas.
+- **Images** : 9 au format 3:4 (1080 × 1440 pixels). Une couverture titrée, sous-titrée
+  « 一个法国摄影师的… » (vu par un photographe français) et signée KF’ Karl Forterre ;
+  7 photos avec leur titre (en portrait, plein cadre ; en paysage, entières sur fond
+  flou) ; une image de fin : photos gratuites sur Pexels, chercher « Karl Forterre ».
+  Une discrète signature « © Karl Forterre » est permise : ces fichiers ne vont pas sur
+  Pexels.
+- **Texte** : titre de 20 caractères au plus ; récit, petit cours de français, liste des
+  photos, invitation à les télécharger sur Pexels, une ligne en anglais et une dizaine
+  de hashtags chinois, dont #法国摄影师. Pas de lien : RedNote ne les rend pas
+  cliquables et pénalise les publications qui renvoient ailleurs.
+- **Choix des photos** : par série, galerie ou lieu, en commençant par les plus vues ;
+  titres et mots-clés chinois dans `vitrine/donnees/textes-zh.csv`.
+
+Souvenirs et repères de Karl pour les récits :
+
+- Il habite Niort, dans l'ouest de la France, entre La Rochelle et Poitiers.
+- Villandry : il y est allé pour admirer des jardins héritiers d'une tradition de
+  plusieurs siècles de jardin à la française.
+- Éclipse totale du 12 août 2026, en Galice : il a eu le sentiment d'un paysage écrasé
+  par l'événement singulier qui se produisait.
+
+Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
+Villandry, Normandie et Bretagne.
+
 ## Contenu du dossier
 
     photo_du_jour.py     choisit la photo, publie sur Bluesky et Mastodon, tient le journal
