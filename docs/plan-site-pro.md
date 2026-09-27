@@ -112,6 +112,12 @@ Existe déjà : image et bouton vers la page Pexels, « Suivre sur Pexels » en 
 - Page « À propos » : portrait, courte biographie, matériel, lieux favoris, contact.
 
 ### 7. Référencement
+Fait en session « Référencement IA » (27 septembre 2026) : `llms.txt` en trois langues,
+signalement IndexNow des pages nouvelles ou modifiées par la tâche de nuit, plan du site
+daté, données structurées de l'auteur partagées avec karlforterre.fr, page « Questions
+fréquentes » en trois langues. Démarches à faire à la main (Bing Webmaster Tools,
+Wikidata, Wikimedia Commons) et leviers pour les assistants IA :
+[referencement/README.md](../referencement/README.md).
 - Google Search Console : propriété « domaine » karlforterre.fr, validée par un
   enregistrement TXT chez OVH, puis déclaration du plan du site. Bing Webmaster Tools
   peut ensuite importer cette configuration.
@@ -211,7 +217,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Groupes Facebook | groupes locaux (Poitou, Pays basque, Galice) et de photographes | à la main, selon les règles de chaque groupe |
 | Reddit, forums photo | grandes audiences par sujet | à la main, en participant plus qu'en publiant ses liens |
 | YouTube Shorts, TikTok, Reels | diaporamas courts des séries | à la main |
-| Wikimedia Commons | photos de lieux reprises dans Wikipédia | licence libre au choix de l'auteur |
+| Wikimedia Commons | photos de lieux reprises dans Wikipédia | licence libre au choix de l'auteur ; douze photos proposées et pas à pas : [referencement/](../referencement/README.md) |
 | Offices de tourisme, presse locale, clubs photo | relais locaux, liens depuis des sites reconnus | courriels préparés par une session |
 | Unsplash, Pixabay | aucun | à éviter : ils détourneraient les téléchargements de Pexels |
 

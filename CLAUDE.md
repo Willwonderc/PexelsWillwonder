@@ -94,6 +94,15 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   souvenirs de Karl : `reseaux/README.md`, rubrique « RedNote ».
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
+- Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
+  `llms-full.txt` (une version par langue), la page « Questions fréquentes »
+  (`vitrine/questions.ini`) et les données Person de l'auteur, dont l'identifiant
+  `https://karlforterre.fr/#auteur` est partagé avec karlforterre.fr (rubrique
+  `[personne]` de `site.ini`). Journal des pages `vitrine/donnees/pages.json` (empreinte
+  et date de dernière modification, pour `lastmod` et IndexNow) : seule la tâche GitHub
+  l'enregistre (`--indexnow`), puis signale les pages une fois le site en ligne
+  (`--envoyer-indexnow`, travail `signaler`). La clé IndexNow de `site.ini` est publique
+  par nature. Ne jamais lancer `--envoyer-indexnow` en session : il contacte Bing.
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
   `vitrine/galeries.ini`, qui les emploient souvent à tort (« portrait » pour un format
   vertical, « pau » ajouté par lots) ; les lignes `ajouter` et `retirer` gardent le

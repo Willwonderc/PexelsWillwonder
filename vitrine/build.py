@@ -6,13 +6,21 @@
    variable d'environnement PEXELS_API_KEY est définie.
 3. Ajoute les parutions du jour au journal des flux Pinterest
    (vitrine/donnees/parutions.json).
-4. Écrit le site statique dans le dossier _site/.
+4. Écrit le site statique dans le dossier _site/, avec les fichiers llms.txt pour les
+   assistants IA.
+5. Compare chaque page au journal des pages (vitrine/donnees/pages.json) : la date de
+   sa dernière modification va dans le plan du site, et les pages nouvelles, modifiées
+   ou supprimées sont à signaler aux moteurs de recherche par IndexNow.
 
 Options :
   --fiches-seulement       ne fait que l'étape 2
   --max-appels N           nombre maximum d'appels à l'API (180 par défaut)
   --enregistrer-parutions  enregistre le journal (tâche de nuit) ; sans cette option,
                            les parutions du jour servent aux flux sans être enregistrées
+  --indexnow               enregistre le journal des pages et prépare la liste des pages
+                           à signaler, _indexnow/envoi.json (tâche de nuit)
+  --envoyer-indexnow       envoie cette liste à IndexNow, une fois le site en ligne
+                           (tâche de nuit), et ne fait rien d'autre
 """
 
 import argparse
@@ -40,6 +48,13 @@ RACINE = ICI.parent
 SORTIE = RACINE / "_site"
 FICHES = ICI / "donnees" / "fiches.json"
 PARUTIONS = ICI / "donnees" / "parutions.json"
+PAGES = ICI / "donnees" / "pages.json"
+# Pages à signaler par IndexNow, préparées par la construction et envoyées une fois le
+# site en ligne (hors du site publié). Bing les transmet aux autres moteurs du protocole
+# (Yandex, Seznam, Naver, Yep, Amazon…) et, contrairement à api.indexnow.org, refuse
+# clairement une clé qu'il ne trouve pas.
+ENVOI_INDEXNOW = RACINE / "_indexnow" / "envoi.json"
+INDEXNOW = "https://www.bing.com/indexnow"
 AUTRES = "autres-photos"  # flux des photos rangées dans aucune galerie
 PHOTOGRAPHE = 28489473
 LICENCE = "https://www.pexels.com/license/"
@@ -114,6 +129,9 @@ TEXTES = {
         "utiliser": "Utiliser mes photos",
         "mentions": "Mentions légales",
         "confidentialite": "Confidentialité",
+        "faq": "Questions fréquentes",
+        "faq_intro": "Licence, téléchargement, crédit, lieux, auteur : les réponses aux questions les plus "
+                     "courantes sur les photos de Karl Forterre.",
         "contact": "Contact",
         "lieux_photographies": "Lieux photographiés",
         "materiel": "Matériel",
@@ -184,6 +202,9 @@ TEXTES = {
         "utiliser": "Use my photos",
         "mentions": "Legal notice",
         "confidentialite": "Privacy",
+        "faq": "Frequently asked questions",
+        "faq_intro": "License, downloads, credit, places, the photographer: answers to the most common "
+                     "questions about Karl Forterre's photos.",
         "contact": "Contact",
         "lieux_photographies": "Places photographed",
         "materiel": "Equipment",
@@ -252,6 +273,8 @@ TEXTES = {
         "utiliser": "使用我的照片",
         "mentions": "法律声明",
         "confidentialite": "隐私政策",
+        "faq": "常见问题",
+        "faq_intro": "许可协议、下载、署名、拍摄地点与摄影师：关于 Karl Forterre 照片的常见问题解答。",
         "contact": "联系方式",
         "lieux_photographies": "拍摄地点",
         "materiel": "器材",
@@ -794,14 +817,17 @@ def photos_proches(photos, par_photo, nombre=8):
     proches = {}
     for p in photos:
         score = {}
-        for cle in p["cles"]:
+        # Mots pris dans le même ordre à chaque construction, et scores arrondis : sans quoi
+        # les arrondis de calcul changeraient d'une nuit à l'autre l'ordre des photos à égalité,
+        # et la page paraîtrait modifiée (plan du site, IndexNow).
+        for cle in sorted(p["cles"]):
             for autre in index[cle] if cle in poids else ():
                 score[autre] = score.get(autre, 0) + poids[cle]
         for gal in par_photo[p["id"]]:
             for autre in membres[gal["cle"]]:
                 score[autre] = score.get(autre, 0) + 2
         score.pop(p["id"], None)
-        meilleures = sorted(score, key=lambda i: (-score[i], -par_id[i]["vues"], -i))[:nombre]
+        meilleures = sorted(score, key=lambda i: (-round(score[i], 6), -par_id[i]["vues"], -i))[:nombre]
         proches[p["id"]] = [par_id[i] for i in meilleures]
     return proches
 
@@ -840,6 +866,10 @@ class Adresses:
             "utiliser": "/use-my-photos/" if en else "/utiliser-mes-photos/",
             "mentions": "/legal-notice/" if en else "/mentions-legales/",
             "confidentialite": "/privacy/" if en else "/confidentialite/",
+            "faq": "/faq/" if en else "/questions-frequentes/",
+            # Présentation du site pour les assistants IA (llmstxt.org), une par langue.
+            "llms": "/llms.txt",
+            "llms_complet": "/llms-full.txt",
             "flux": "/feed.xml" if en else "/flux.xml",
             "flux_galerie": f"/galleries/{cle}/feed.xml" if en else f"/galeries/{cle}/flux.xml",
             "flux_autres": "/more-photos/feed.xml" if en else "/autres-photos/flux.xml",
@@ -961,11 +991,20 @@ def entre_parentheses(texte, langue):
 
 
 def enumeration(elements, langue):
-    """« a, b et c » ; en chinois « a、b 和 c »."""
+    """« a, b et c » ; en chinois « a、b 和 c », sans espace entre deux mots chinois
+    (« 摄影师和作家 ») mais avec une espace à côté d'un mot latin (« CNN.com 和 … »)."""
     if len(elements) < 2:
         return "".join(elements)
-    virgule = "、" if langue == "zh" else ", "
-    return virgule.join(elements[:-1]) + f' {TEXTES[langue]["liste_et"]} ' + elements[-1]
+    if langue != "zh":
+        return ", ".join(elements[:-1]) + f' {TEXTES[langue]["liste_et"]} ' + elements[-1]
+    debut, fin = "、".join(elements[:-1]), elements[-1]
+
+    def latin(texte, bout):
+        texte = re.sub(r"<[^>]+>", "", texte)
+        return bool(texte) and texte[bout].isascii()
+
+    return (debut + (" " if latin(debut, -1) else "") + TEXTES[langue]["liste_et"]
+            + (" " if latin(fin, 0) else "") + fin)
 
 
 def designation(usage, langue):
@@ -1035,6 +1074,60 @@ def rappel(g, langue):
 def jsonld(donnees):
     texte = json.dumps(donnees, ensure_ascii=False).replace("</", "<\\/")
     return f'<script type="application/ld+json">{texte}</script>'
+
+
+def profils(g):
+    """Adresses qui désignent l'auteur ailleurs : profil Pexels, site d'auteur, réseaux de
+    la rubrique [reseaux] et autres profils de la rubrique [personne] (Wikidata…)."""
+    p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
+    adresses = [g.site.get("profil_pexels", ""), site_auteur(g), *(a for _, a in g.reseaux),
+                *liste_mots(p.get("profils"))]
+    return list(dict.fromkeys(a.strip() for a in adresses if a.strip()))
+
+
+def site_auteur(g):
+    adresse = g.site.get("site_personnel", "").strip()
+    return adresse.rstrip("/") + "/" if adresse else ""
+
+
+def personne(g, langue, complete=False):
+    """L'auteur dans les données structurées (schema.org Person). Son identifiant (@id),
+    le même que dans les données de karlforterre.fr, fait des deux sites, du profil Pexels
+    et des réseaux une seule et même personne pour les moteurs et les assistants IA.
+    « complete » : la fiche entière (accueil, À propos) ; sinon une référence."""
+    p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
+    fiche = {"@type": "Person"}
+    if (p.get("identifiant") or "").strip():
+        fiche["@id"] = p["identifiant"].strip()
+    fiche["name"] = g.site.get("nom", "Karl Forterre")
+    if site_auteur(g):
+        fiche["url"] = site_auteur(g)
+    if not complete:
+        return fiche
+    for champ, cle in (("givenName", "prenom"), ("familyName", "nom_de_famille"), ("image", "portrait")):
+        if (p.get(cle) or "").strip():
+            fiche[champ] = p[cle].strip()
+    metiers = liste_mots(traduit(p, "metier", langue))
+    if metiers:
+        fiche["jobTitle"] = metiers if len(metiers) > 1 else metiers[0]
+    presentation = paragraphes(traduit(g.reglages["a-propos"], "texte", langue))
+    if presentation:
+        fiche["description"] = presentation[0]
+    contact = g.reglages["mentions"].get("contact", "").strip() if g.reglages.has_section("mentions") else ""
+    if contact:
+        fiche["email"] = f"mailto:{contact}"
+    lieu = traduit(p, "lieu", langue)
+    if lieu:
+        fiche["homeLocation"] = {"@type": "Place", "name": lieu}
+    if (p.get("nationalite") or "").strip():
+        fiche["nationality"] = {"@type": "Country", "name": p["nationalite"].strip()}
+    if (p.get("formation") or "").strip():
+        fiche["alumniOf"] = {"@type": "CollegeOrUniversity", "name": p["formation"].strip()}
+    domaines = liste_mots(traduit(p, "domaines", langue))
+    if domaines:
+        fiche["knowsAbout"] = domaines
+    fiche["sameAs"] = profils(g)
+    return fiche
 
 
 def fil_ariane(adr, langue, parents, courante):
@@ -1162,6 +1255,8 @@ class Gabarit:
             f'<script src="{self.statique("site.js")}?v={self.version}" defer></script>',
             f'<link rel="icon" href="{self.statique("favicon.svg")}" type="image/svg+xml">',
             f'<link rel="apple-touch-icon" href="{self.statique("icone-180.png")}">',
+            # Présentation du site pour les assistants IA (llms.txt de la langue de la page).
+            f'<link rel="describedby" href="{adr.chemin(langue, "llms")}" type="text/markdown">',
         ]
         if langue in LANGUES_FLUX:
             tete.append(f'<link rel="alternate" type="application/rss+xml" title="{e(t["flux"])}" '
@@ -1208,6 +1303,7 @@ class Gabarit:
             '<footer class="pied">'
             f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
             f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
+            f' · <a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a>'
             f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
             f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
             f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
@@ -1317,16 +1413,20 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
         + "</div>"
     )
     nom = g.site.get("nom", "Karl Forterre")
-    donnees = [{
-        "@context": "https://schema.org",
+    auteur = personne(g, langue, complete=True)
+    reference = {"@id": auteur["@id"]} if "@id" in auteur else auteur
+    site = {
         "@type": "WebSite",
+        "@id": adr.absolue(adr.chemin("fr", "accueil")) + "#site",
         "name": nom,
+        "alternateName": t["accueil"],
+        "description": accroche,
         "url": adr.absolue(adr.chemin(langue, "accueil")),
         "inLanguage": HREFLANG[langue],
-        "author": {"@type": "Person", "name": nom,
-                   "sameAs": [a for a in (g.site.get("profil_pexels", ""), g.site.get("site_personnel", ""),
-                                           *(adresse for _, adresse in g.reseaux)) if a]},
-    }]
+        "author": reference,
+        "publisher": reference,
+    }
+    donnees = [{"@context": "https://schema.org", "@graph": [site, auteur] if "@id" in auteur else [site]}]
     chemins = {l: adr.chemin(l, "accueil") for l in LANGUES}
     texte = g.page(langue, titre=f'{t["accueil"]}', description=accroche, chemins=chemins, contenu=contenu,
                    image=(ouverture or photos or [None])[0], donnees=donnees,
@@ -1381,6 +1481,7 @@ def page_galerie(g, galerie, series, langue):
         "description": description,
         "url": adr.absolue(chemins[langue]),
         "inLanguage": HREFLANG[langue],
+        "author": personne(g, langue),
     }, donnees_ariane]
     texte = g.page(langue, titre=galerie["titre"][langue], description=description, chemins=chemins,
                    contenu=contenu, image=galerie["couverture"], donnees=donnees, flux=flux, series=bool(series),
@@ -1411,6 +1512,7 @@ def page_couleur(g, couleur, couleurs, galeries, series, langue):
         "description": description,
         "url": adr.absolue(chemins[langue]),
         "inLanguage": HREFLANG[langue],
+        "author": personne(g, langue),
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=couleur["couverture"], donnees=donnees, series=bool(series))
@@ -1450,7 +1552,6 @@ def page_serie(g, serie, series, langue):
         + cartes_series(series, langue, adr, titre=t["autres_series"], sauf=serie)
         + "</div>"
     )
-    nom = g.site.get("nom", "Karl Forterre")
     donnees = [{
         "@context": "https://schema.org",
         "@type": "ImageGallery",
@@ -1459,7 +1560,7 @@ def page_serie(g, serie, series, langue):
         "url": adr.absolue(chemins[langue]),
         "inLanguage": HREFLANG[langue],
         "image": url_image(serie["couverture"], 1200),
-        "author": {"@type": "Person", "name": nom, "url": g.site.get("profil_pexels", "")},
+        "author": personne(g, langue),
         **({"contentLocation": {"@type": "Place", "name": serie["lieu"][langue]}} if serie["lieu"][langue] else {}),
     }, donnees_ariane]
     texte = g.page(langue, titre=t["titre_serie"].format(titre=titre), description=description, chemins=chemins,
@@ -1543,26 +1644,30 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         "height": photo["hauteur"],
         "encodingFormat": "image/jpeg",
         "inLanguage": HREFLANG[langue],
-        "creator": {"@type": "Person", "name": nom, "url": g.site.get("profil_pexels", "")},
+        "creator": personne(g, langue),
         "creditText": f"{nom} / Pexels",
         "copyrightNotice": nom,
         "license": LICENCE,
         "acquireLicensePage": page_pexels,
         **({"keywords": ", ".join(mots)} if mots else {}),
+        # Lieu : la galerie de lieu de la photo, quand elle en a une.
+        **({"contentLocation": {"@type": "Place", "name": parente["titre"][langue]}}
+           if parente and parente["type"] == "lieu" else {}),
     }, donnees_ariane]
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=photo, donnees=donnees, classe="page-photo", series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None):
-    """Page de texte simple (À propos, Utiliser mes photos, pages légales)."""
+def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None, donnees=()):
+    """Page de texte simple (À propos, Utiliser mes photos, questions fréquentes, pages
+    légales). « donnees » : données structurées propres à la page, avant le fil d'Ariane."""
     adr = g.adr
     chemins = {l: adr.chemin(l, genre) for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (titre, chemins[langue]))
     contenu = f'<section class="ouverture texte">{ariane}<h1>{e(titre)}</h1>{corps}</section>'
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
-                   image=image, donnees=[donnees_ariane], series=avec_series)
+                   image=image, donnees=[*donnees, donnees_ariane], series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1609,15 +1714,25 @@ def page_a_propos(g, par_id, galeries, series, langue):
         f'<h2>{t["contact"]}</h2><ul class="liens">'
         + (f"<li>{contact}</li>" if contact else "")
         + f'<li><a href="{e(pexels(g.site.get("profil_pexels", ""), langue))}">{t["profil"]}</a></li>'
-        f'<li><a href="{e(g.site.get("site_personnel", ""))}">{e(urlparse(g.site.get("site_personnel", "")).netloc)}</a></li></ul>'
+        f'<li><a href="{e(g.site.get("site_personnel", ""))}">{e(urlparse(g.site.get("site_personnel", "")).netloc)}</a></li>'
+        f'<li><a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a></li></ul>'
     )
     if portrait:
         corps = (f'<figure class="portrait"><img src="{url_image(portrait, 800)}" '
                  f'srcset="{srcset(portrait, (400, 800, 1200))}" sizes="(max-width: 640px) 92vw, 420px" '
                  f'width="{portrait["largeur"]}" height="{portrait["hauteur"]}" alt="{e(portrait["titre"][langue])}"></figure>'
                  + corps)
+    # Page de profil de l'auteur (schema.org ProfilePage), avec sa fiche entière.
+    profil = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "name": t["a_propos"],
+        "url": adr.absolue(adr.chemin(langue, "apropos")),
+        "inLanguage": HREFLANG[langue],
+        "mainEntity": personne(g, langue, complete=True),
+    }
     page_texte(g, langue, "apropos", t["a_propos"], textes[0] if textes else t["a_propos"],
-               corps + rappel(g, langue), bool(series), image=portrait)
+               corps + rappel(g, langue), bool(series), image=portrait, donnees=[profil])
 
 
 LICENCE_PEXELS = {
@@ -1884,6 +1999,115 @@ def page_confidentialite(g, series, langue):
     page_texte(g, langue, "confidentialite", t["confidentialite"], description, corps, bool(series))
 
 
+# Questions fréquentes (questions.ini) : liens [texte](adresse) et champs {nom}.
+MOTIF_REPONSE = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)|\{(\w+)\}")
+
+
+def adresse_lien(g, langue, cible, absolue):
+    """Adresse d'un lien des questions fréquentes : complète (https://…, mailto:…), le
+    profil Pexels (« pexels ») ou une page du site dans la langue de la page (« utiliser »,
+    « galerie:pyrenees », « apropos#usages »…). None si la page n'existe pas."""
+    if re.match(r"(https?:|mailto:)", cible):
+        return pexels(cible, langue)
+    page, _, ancre = cible.partition("#")
+    if page == "pexels":
+        adresse = pexels(g.site.get("profil_pexels", ""), langue)
+    else:
+        genre, _, cle = page.partition(":")
+        try:
+            adresse = g.adr.chemin(langue, genre, cle or None)
+        except KeyError:
+            print(f"Questions fréquentes : lien « {cible} » inconnu, laissé sans lien.")
+            return None
+        adresse = g.adr.absolue(adresse) if absolue else adresse
+    return adresse + (f"#{ancre}" if ancre else "")
+
+
+def lire_questions(g, langue, photos, galeries, series, markdown=False):
+    """Questions fréquentes de questions.ini, dans une langue : [(identifiant, question,
+    paragraphes de la réponse)]. Réponses en HTML (liens relatifs), ou en Markdown aux
+    adresses complètes pour llms.txt. Une question qui fait appel à une liste vide (aucun
+    usage signalé, par exemple) est laissée de côté."""
+    conf = lire_ini("questions.ini")
+
+    def echapper(texte):
+        # Texte courant : les apostrophes restent lisibles, dans la page comme dans ses données.
+        return texte if markdown else html.escape(texte, quote=False)
+
+    def lien(texte, adresse):
+        if markdown:
+            return f"[{texte}]({adresse})" if adresse else texte
+        return f'<a href="{e(adresse)}">{echapper(texte)}</a>' if adresse else echapper(texte)
+
+    def lien_page(texte, genre, cle=None):
+        chemin = g.adr.chemin(langue, genre, cle)
+        return lien(texte, g.adr.absolue(chemin) if markdown else chemin)
+
+    sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
+    valeurs = {
+        "photos": chiffre(len(photos), langue),
+        "galeries": chiffre(len(galeries), langue),
+        "vues": chiffre(g.preuve["vues"], langue) if g.preuve["vues"] else "",
+        "telechargements": chiffre(g.preuve["telechargements"], langue) if g.preuve["telechargements"] else "",
+        "lieux": enumeration([lien_page(gal["titre"][langue], "galerie", gal["cle"])
+                              for gal in galeries if gal["type"] == "lieu"], langue),
+        "series": enumeration([lien_page(s["titre"][langue], "serie", s["cle"]) for s in series], langue),
+        "sites": enumeration([echapper(s) for s in sites], langue),
+    }
+
+    def rendre(texte):
+        morceaux, fin = [], 0
+        for m in MOTIF_REPONSE.finditer(texte):
+            morceaux.append(echapper(texte[fin:m.start()]))
+            if m.group(1):
+                morceaux.append(lien(m.group(1), adresse_lien(g, langue, m.group(2), markdown)))
+            elif m.group(3) in valeurs:
+                morceaux.append(valeurs[m.group(3)])
+            else:
+                morceaux.append(echapper(m.group(0)))
+            fin = m.end()
+        morceaux.append(echapper(texte[fin:]))
+        return "".join(morceaux)
+
+    questions = []
+    for cle in conf.sections():
+        question = traduit(conf[cle], "question", langue)
+        reponse = traduit(conf[cle], "reponse", langue)
+        if not question or not reponse or any(valeurs.get(nom) == "" for nom in re.findall(r"\{(\w+)\}", reponse)):
+            continue
+        questions.append((cle, question, [rendre(p) for p in paragraphes(reponse)]))
+    return questions
+
+
+def page_questions(g, photos, galeries, series, langue):
+    """Questions fréquentes, avec leurs données structurées FAQPage."""
+    t = TEXTES[langue]
+    questions = lire_questions(g, langue, photos, galeries, series)
+    if not questions:
+        return False
+    corps = f'<p class="accroche">{e(t["faq_intro"])}</p>' + "".join(
+        f'<h2 id="{e(cle)}">{html.escape(question, quote=False)}</h2>' + "".join(f"<p>{p}</p>" for p in reponse)
+        for cle, question, reponse in questions
+    )
+    # Dans les données structurées, les liens de la réponse ont leur adresse complète.
+    absolues = re.compile(r'href="(/[^"]*)"')
+    faq = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "name": t["faq"],
+        "url": g.adr.absolue(g.adr.chemin(langue, "faq")),
+        "inLanguage": HREFLANG[langue],
+        "mainEntity": [{
+            "@type": "Question",
+            "name": question,
+            "acceptedAnswer": {"@type": "Answer", "text": absolues.sub(
+                lambda m: f'href="{g.adr.absolue(m.group(1))}"', "".join(f"<p>{p}</p>" for p in reponse))},
+        } for _, question, reponse in questions],
+    }
+    page_texte(g, langue, "faq", t["faq"], t["faq_intro"], corps + rappel(g, langue), bool(series), donnees=[faq])
+    return True
+
+
 def page_introuvable(g, series):
     adr = g.adr
     contenu = "".join(
@@ -2083,39 +2307,363 @@ def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, p
     ecrire(adr.fichier(f"{adr.base}/apercu.json"), json.dumps(apercu, ensure_ascii=False, indent=1) + "\n")
 
 
-def ecrire_plan(adr, photos, galeries, series, couleurs):
+def pages_du_plan(adr, photos, galeries, series, couleurs, avec_faq):
+    """Pages du plan du site : [(chemins dans chaque langue, image)]."""
     entrees = []
+    genres = (["accueil", "galeries"] + (["series"] if series else [])
+              + ["apropos", "utiliser"] + (["faq"] if avec_faq else []) + ["mentions", "confidentialite"])
+    for genre in genres:
+        entrees.append(({l: adr.chemin(l, genre) for l in LANGUES}, None))
+    for serie in series:
+        entrees.append(({l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES}, None))
+    for gal in galeries:
+        entrees.append(({l: adr.chemin(l, "galerie", gal["cle"]) for l in LANGUES}, None))
+    for couleur in couleurs:
+        entrees.append(({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in LANGUES}, None))
+    for p in photos:
+        entrees.append(({l: adr.chemin(l, "photo", p["id"]) for l in LANGUES}, p["image"]))
+    return entrees
 
-    def ajouter(chemins, image=None):
+
+def ecrire_plan(adr, entrees, journal):
+    """Plan du site : chaque page, ses traductions, son image et la date de sa dernière
+    modification d'après le journal des pages (lastmod, que Bing et Google lisent pour
+    savoir quoi relire)."""
+    blocs = []
+    for chemins, image in entrees:
         for langue in LANGUES:
             bloc = f"<url><loc>{adr.absolue(chemins[langue])}</loc>"
+            if chemins[langue] in journal:
+                bloc += f"<lastmod>{journal[chemins[langue]][1]}</lastmod>"
             for autre in LANGUES:
                 bloc += f'<xhtml:link rel="alternate" hreflang="{HREFLANG[autre]}" href="{adr.absolue(chemins[autre])}"/>'
             if image:
                 bloc += f"<image:image><image:loc>{e(image)}</image:loc></image:image>"
-            entrees.append(bloc + "</url>")
-
-    genres = ["accueil", "galeries"] + (["series"] if series else []) + ["apropos", "utiliser", "mentions", "confidentialite"]
-    for genre in genres:
-        ajouter({l: adr.chemin(l, genre) for l in LANGUES})
-    for serie in series:
-        ajouter({l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES})
-    for gal in galeries:
-        ajouter({l: adr.chemin(l, "galerie", gal["cle"]) for l in LANGUES})
-    for couleur in couleurs:
-        ajouter({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in LANGUES})
-    for p in photos:
-        ajouter({l: adr.chemin(l, "photo", p["id"]) for l in LANGUES}, image=p["image"])
+            blocs.append(bloc + "</url>")
     texte = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
         'xmlns:xhtml="http://www.w3.org/1999/xhtml" '
         'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
-        + "".join(entrees) + "</urlset>\n"
+        + "".join(blocs) + "</urlset>\n"
     )
     ecrire(SORTIE / "sitemap.xml", texte)
     racine = adr.absolue(adr.base + "/")
-    ecrire(SORTIE / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {racine}sitemap.xml\n")
+    # Tous les robots sont les bienvenus, ceux des moteurs comme ceux des assistants IA
+    # (OAI-SearchBot, Claude-SearchBot, PerplexityBot…) : llms.txt leur présente le site.
+    ecrire(SORTIE / "robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {racine}sitemap.xml\n"
+                                  f"# Présentation pour les assistants IA : {racine}llms.txt\n")
+
+
+# ---------------------------------------------------------------- journal des pages, IndexNow
+
+
+def empreinte(fichier):
+    """Empreinte de ce qui compte dans une page : titre, description, données structurées
+    et contenu principal. L'en-tête, le pied de page et la version des feuilles de style
+    n'y entrent pas : ils changent sans que la page change vraiment."""
+    texte = fichier.read_text(encoding="utf-8")
+    morceaux = re.findall(r'<title>.*?</title>|<meta name="description"[^>]*>'
+                          r'|<script type="application/ld\+json">.*?</script>|<main\b.*?</main>', texte, flags=re.S)
+    return hashlib.sha1("".join(morceaux).encode("utf-8")).hexdigest()[:12]
+
+
+def charger_pages():
+    if PAGES.exists():
+        return json.loads(PAGES.read_text(encoding="utf-8"))
+    return {}
+
+
+def enregistrer_pages(journal):
+    """Une page par ligne : adresse, empreinte, date de dernière modification."""
+    lignes = [f" {json.dumps(chemin, ensure_ascii=False)}: {json.dumps(valeur)}"
+              for chemin, valeur in sorted(journal.items())]
+    PAGES.write_text("{\n" + ",\n".join(lignes) + "\n}\n", encoding="utf-8")
+
+
+def suivre_pages(adr, entrees, jour):
+    """Compare les pages construites au journal des pages (donnees/pages.json). Renvoie le
+    journal à jour, où chaque page garde la date de sa dernière modification réelle, et
+    les adresses à signaler : pages nouvelles, modifiées, ou supprimées depuis."""
+    ancien = charger_pages()
+    journal, signaler = {}, []
+    for chemins, _ in entrees:
+        for chemin in chemins.values():
+            valeur = empreinte(adr.fichier(chemin))
+            if chemin in ancien and ancien[chemin][0] == valeur:
+                journal[chemin] = ancien[chemin]
+            else:
+                journal[chemin] = [valeur, jour]
+                signaler.append(adr.absolue(chemin))
+    signaler += [adr.absolue(chemin) for chemin in ancien if chemin not in journal]
+    return journal, signaler
+
+
+def cle_indexnow(reglages):
+    """Clé IndexNow de site.ini : de 8 à 128 lettres, chiffres ou tirets."""
+    cle = reglages["site"].get("indexnow", "").strip()
+    if cle and not re.fullmatch(r"[A-Za-z0-9-]{8,128}", cle):
+        print(f"Clé IndexNow « {cle} » invalide (8 à 128 lettres, chiffres ou tirets) : rien ne sera signalé.")
+        return ""
+    return cle
+
+
+def preparer_indexnow(adr, cle, signaler):
+    """Écrit la liste des pages à signaler (_indexnow/envoi.json), que la tâche de nuit
+    envoie une fois le site en ligne : avant, les moteurs trouveraient l'ancienne page."""
+    ENVOI_INDEXNOW.parent.mkdir(parents=True, exist_ok=True)
+    envoi = {"host": urlparse(adr.origine).netloc, "key": cle,
+             "keyLocation": adr.absolue(f"{adr.base}/{cle}.txt"), "urlList": signaler if cle else []}
+    ENVOI_INDEXNOW.write_text(json.dumps(envoi, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+# Réponses d'IndexNow (https://www.indexnow.org/documentation).
+REPONSES_INDEXNOW = {
+    200: "adresses reçues",
+    202: "adresses reçues, clé en cours de vérification",
+    400: "requête mal formée",
+    403: "clé refusée : le fichier de clé n'est pas en ligne ou ne correspond pas à la clé",
+    422: "adresses refusées : elles n'appartiennent pas au site, ou la clé ne correspond pas",
+    429: "trop de requêtes : envoi pris pour un abus, à reprendre plus tard",
+}
+
+
+def envoyer_indexnow():
+    """Envoie à IndexNow la liste préparée par la construction, par lots de 10 000
+    adresses au plus. Renvoie le code de sortie : 1 si IndexNow refuse l'envoi (clé ou
+    adresses), 0 sinon ; une panne passagère ne fait qu'un avertissement. Après un refus
+    pour excès (429), IndexNow demande d'attendre au moins dix minutes : pas de nouvel essai."""
+    if not ENVOI_INDEXNOW.exists():
+        print("IndexNow : aucune liste préparée (build.py --indexnow), rien à signaler.")
+        return 0
+    envoi = json.loads(ENVOI_INDEXNOW.read_text(encoding="utf-8"))
+    adresses = envoi.get("urlList", [])
+    if not envoi.get("key") or not adresses:
+        print("IndexNow : aucune page nouvelle, modifiée ou supprimée à signaler.")
+        return 0
+    sortie = 0
+    for debut in range(0, len(adresses), 10000):
+        lot = adresses[debut:debut + 10000]
+        corps = json.dumps({**envoi, "urlList": lot}).encode("utf-8")
+        code, detail = None, ""
+        for essai in range(3):
+            if essai:
+                time.sleep(30 * essai)
+            requete = urllib.request.Request(INDEXNOW, data=corps, method="POST", headers={
+                "Content-Type": "application/json; charset=utf-8", "User-Agent": "site-karl-forterre"})
+            try:
+                with urllib.request.urlopen(requete, timeout=60) as reponse:
+                    code = reponse.status
+            except urllib.error.HTTPError as erreur:
+                code, detail = erreur.code, erreur.read().decode("utf-8", "replace")[:300]
+            except OSError as erreur:
+                code, detail = None, str(erreur)
+            if code is not None and code < 500:
+                break
+        explication = REPONSES_INDEXNOW.get(code, detail or "pas de réponse")
+        print(f"IndexNow : {len(lot)} pages signalées, réponse {code or '—'} ({explication}).")
+        if code in (400, 403, 422):
+            if detail:
+                print(f"  Détail : {detail}")
+            sortie = 1
+    return sortie
+
+
+# ---------------------------------------------------------------- llms.txt, pour les assistants IA
+
+
+LLMS = {
+    "fr": {
+        "titre": "Karl Forterre — photographies libres de droits",
+        "compte": "{photos} photos, en {series} séries et {galeries} galeries.",
+        "auteur": "{nom} : {metiers}{lieu}. Site d'auteur : {site}",
+        "licence": "Licence : licence Pexels. Usage gratuit, personnel ou commercial, sans inscription ni "
+                   "obligation de crédit ; il est interdit de vendre une photo telle quelle ou de la "
+                   "redistribuer sur une autre banque d'images. Texte officiel : {licence}",
+        "credit": "Crédit conseillé : « Photo : {nom} / Pexels », avec un lien vers la page de la photo.",
+        "pages_photos": "Chaque photo a sa page sur ce site, dont l'adresse finit par son numéro Pexels (par "
+                        "exemple {exemple}) : elle mène à sa page Pexels, où la photo se télécharge en pleine "
+                        "définition.",
+        "usages": "Photos utilisées notamment par {sites}, d'après Pexels.",
+        "langues": "Langues : français{fr}, anglais{en}, chinois simplifié{zh}.",
+        "principales": "Pages principales",
+        "lieux": "Galeries par lieu",
+        "themes": "Galeries par thème",
+        "donnees": "Données",
+        "complet": "Toutes les photos : titre, galeries, mots-clés et adresse de chacune",
+        "complet_titre": "toutes les photos",
+        "apercu": "Sélection, séries, galeries et chiffres, en JSON",
+        "plan": "Plan du site, avec les traductions de chaque page",
+        "flux": "Dernières photos, en RSS",
+        "auteur_titre": "L'auteur",
+        "autres_langues": "Autres langues",
+        "photos_titre": "Photos",
+        "numero": "Pexels n° {id}",
+        "dans": "galeries : {galeries}",
+        "mots": "mots-clés : {mots}",
+    },
+    "en": {
+        "titre": "Karl Forterre — royalty-free photographs",
+        "compte": "{photos} photos, in {series} series and {galeries} galleries.",
+        "auteur": "{nom}: {metiers}{lieu}. Author website: {site}",
+        "licence": "License: the Pexels license. Free to use, for personal or commercial purposes, with no "
+                   "account and no attribution required; selling an unaltered copy of a photo or redistributing "
+                   "it on another stock photo platform is not allowed. Official text: {licence}",
+        "credit": "Suggested credit: “Photo: {nom} / Pexels”, with a link to the photo's page.",
+        "pages_photos": "Each photo has its own page on this site, whose address ends with its Pexels ID (for "
+                        "example {exemple}); it leads to the photo's Pexels page, where the full-resolution file "
+                        "can be downloaded.",
+        "usages": "Photos used by {sites}, among others, according to Pexels.",
+        "langues": "Languages: French{fr}, English{en}, Simplified Chinese{zh}.",
+        "principales": "Main pages",
+        "lieux": "Galleries by place",
+        "themes": "Galleries by theme",
+        "donnees": "Data",
+        "complet": "Every photo: title, galleries, keywords and address",
+        "complet_titre": "every photo",
+        "apercu": "Selection, series, galleries and figures, as JSON",
+        "plan": "Sitemap, with the translations of each page",
+        "flux": "Latest photos, as RSS",
+        "auteur_titre": "The photographer",
+        "autres_langues": "Other languages",
+        "photos_titre": "Photos",
+        "numero": "Pexels no. {id}",
+        "dans": "galleries: {galeries}",
+        "mots": "keywords: {mots}",
+    },
+    "zh": {
+        "titre": "Karl Forterre — 免版税摄影作品",
+        "compte": "共 {photos} 张照片，分为 {series} 个专题和 {galeries} 个图库。",
+        "auteur": "{nom}：{metiers}{lieu}。个人网站：{site}",
+        "licence": "许可协议：Pexels 许可协议。可免费用于个人或商业用途，无需注册，也不强制署名；不得原样出售照片，"
+                   "也不得在其他图片素材网站上转发。官方文本：{licence}",
+        "credit": "建议署名：「摄影：{nom} / Pexels」，并附上照片页面的链接。",
+        "pages_photos": "每张照片在本站都有自己的页面，网址以其 Pexels 编号结尾（例如 {exemple}），"
+                        "页面链接到该照片的 Pexels 页面，可在那里下载原图。",
+        "usages": "据 Pexels 通知，这些照片曾被 {sites} 等网站使用。",
+        "langues": "语言：法语{fr}，英语{en}，简体中文{zh}。",
+        "principales": "主要页面",
+        "lieux": "按地点分类的图库",
+        "themes": "按主题分类的图库",
+        "donnees": "数据",
+        "complet": "全部照片：每张照片的标题、图库、关键词和链接",
+        "complet_titre": "全部照片",
+        "apercu": "精选、专题、图库与统计数据（JSON）",
+        "plan": "网站地图，含每个页面的各语言版本",
+        "flux": "最新照片（RSS）",
+        "auteur_titre": "关于摄影师",
+        "autres_langues": "其他语言",
+        "photos_titre": "照片",
+        "numero": "Pexels 编号 {id}",
+        "dans": "图库：{galeries}",
+        "mots": "关键词：{mots}",
+    },
+}
+
+
+def une_ligne(texte):
+    return " ".join(str(texte).split())
+
+
+def ecrire_llms(g, photos, galeries, series, couleurs, selection, par_photo, langue):
+    """llms.txt (llmstxt.org) : le site présenté aux assistants IA, en Markdown, dans une
+    langue. llms-full.txt y ajoute les réponses entières et la liste de toutes les photos.
+    Pages françaises : /llms.txt ; anglaises : /en/llms.txt ; chinoises : /zh/llms.txt."""
+    adr = g.adr
+    t, x = TEXTES[langue], LLMS[langue]
+    nom = g.site.get("nom", "Karl Forterre")
+    p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
+
+    def url(genre, cle=None, l=langue):
+        return adr.absolue(adr.chemin(l, genre, cle))
+
+    presentation = paragraphes(traduit(g.reglages["a-propos"], "texte", langue))
+    resume = ("" if langue == "zh" else " ").join([
+        traduit(g.reglages["accueil"], "accroche", langue), *presentation[:1],
+        x["compte"].format(photos=chiffre(len(photos), langue), series=len(series), galeries=len(galeries))])
+    metiers = liste_mots(traduit(p, "metier", langue))
+    lieu = traduit(p, "lieu", langue)
+    sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
+    preuve = preuve_sociale(g.preuve, langue)
+    point = "。" if langue == "zh" else "."
+    exemple = (selection or photos or [{"id": 0}])[0]["id"]
+    faits = [
+        x["auteur"].format(nom=nom, metiers=enumeration(metiers, langue) if metiers else "",
+                           lieu=entre_parentheses(lieu, langue) if lieu else "", site=site_auteur(g)),
+        x["licence"].format(licence=pexels(LICENCE, langue)),
+        x["credit"].format(nom=nom),
+        x["pages_photos"].format(exemple=url("photo", exemple)),
+        *([preuve + point] if preuve else []),
+        *([x["usages"].format(sites=enumeration(sites, langue))] if sites else []),
+        x["langues"].format(**{l: entre_parentheses(url("accueil", l=l), langue) for l in LANGUES}),
+    ]
+    tete = [f"# {x['titre']}", "", f"> {une_ligne(resume)}", "", *(f"- {une_ligne(f)}" for f in faits)]
+
+    def section(titre, lignes):
+        return ["", f"## {titre}", "", *lignes] if lignes else []
+
+    principales = [
+        f"- [{t['accueil_court']}]({url('accueil')}): {une_ligne(traduit(g.reglages['accueil'], 'accroche', langue))}",
+        f"- [{t['faq']}]({url('faq')}): {t['faq_intro']}",
+        f"- [{t['utiliser']}]({url('utiliser')}): {LICENCE_PEXELS[langue]['intro']}",
+        f"- [{t['a_propos']}]({url('apropos')}): {une_ligne(presentation[0]) if presentation else nom}",
+        *([f"- [{t['series']}]({url('series')}): {t['series_intro']}"] if series else []),
+        f"- [{t['galeries']}]({url('galeries')}): {t['galeries_intro']}",
+    ]
+    lignes_series = [
+        f"- [{s['titre'][langue]}]({url('serie', s['cle'])}): {infos_serie(s, langue)}"
+        + (f". {tronquer(s['texte'][langue][0], 300)}" if s["texte"][langue] else "")
+        for s in series
+    ]
+
+    def lignes_galeries(genre):
+        return [f"- [{gal['titre'][langue]}]({url('galerie', gal['cle'])}): "
+                + une_ligne(" ".join(filter(None, [gal["description"][langue],
+                                                   entre_parentheses(nombre_photos(len(gal["photos"]), langue), langue)])))
+                for gal in galeries if gal["type"] == genre]
+
+    questions = lire_questions(g, langue, photos, galeries, series, markdown=True)
+    lignes_questions = [f"- [{question}]({url('faq')}#{cle}): {une_ligne(' '.join(reponse))}"
+                        for cle, question, reponse in questions]
+    lignes_selection = [f"- [{ph['titre'][langue]}]({url('photo', ph['id'])}): {x['numero'].format(id=ph['id'])}"
+                        for ph in selection]
+    auteur = paragraphes(traduit(g.reglages["a-propos"], "auteur", langue))
+    lignes_auteur = ([f"- [{urlparse(site_auteur(g)).netloc}]({site_auteur(g)}): {une_ligne(' '.join(auteur))}"]
+                     if site_auteur(g) and auteur else [])
+    lignes_auteur += [f"- [{t['profil']}]({pexels(g.site.get('profil_pexels', ''), langue)})"]
+    lignes_auteur += [f"- [{nom_reseau}]({adresse})" for nom_reseau, adresse in g.reseaux]
+    lignes_donnees = [
+        f"- [llms-full.txt]({url('llms_complet')}): {x['complet']}",
+        f"- [apercu.json]({adr.absolue(adr.base + '/apercu.json')}): {x['apercu']}",
+        f"- [sitemap.xml]({adr.absolue(adr.base + '/sitemap.xml')}): {x['plan']}",
+        *([f"- [{t['flux']}]({url('flux')}): {x['flux']}"] if langue in LANGUES_FLUX else []),
+    ]
+    facultatif = [f"- [{c['titre'][langue]}]({url('couleur', c['cle'][langue])}): "
+                  f"{nombre_photos(len(c['photos']), langue)}" for c in couleurs]
+    facultatif += [f"- [llms.txt ({HREFLANG[l]})]({url('llms', l=l)}): {x['autres_langues']}"
+                   for l in LANGUES if l != langue]
+    corps = (tete + section(x["principales"], principales) + section(t["series"], lignes_series)
+             + section(x["lieux"], lignes_galeries("lieu")) + section(x["themes"], lignes_galeries("theme"))
+             + section(t["faq"], lignes_questions) + section(t["selection"], lignes_selection)
+             + section(x["auteur_titre"], lignes_auteur) + section(x["donnees"], lignes_donnees)
+             + section("Optional", facultatif))
+    ecrire(adr.fichier(adr.chemin(langue, "llms")), "\n".join(corps) + "\n")
+
+    # llms-full.txt : les réponses entières et chaque photo, de la plus récente à la plus ancienne.
+    reponses = [f"### {question}\n\n" + "\n\n".join(reponse) for _, question, reponse in questions]
+    lignes_photos = []
+    for ph in photos:
+        details = [x["numero"].format(id=ph["id"]), f"{ph['largeur']} × {ph['hauteur']} px"]
+        if par_photo[ph["id"]]:
+            details.append(x["dans"].format(galeries=", ".join(gal["titre"][langue] for gal in par_photo[ph["id"]])))
+        if ph["mots"][langue]:
+            details.append(x["mots"].format(mots=", ".join(ph["mots"][langue])))
+        lignes_photos.append(f"- [{une_ligne(ph['titre'][langue])}]({url('photo', ph['id'])}): " + " · ".join(details))
+    complet = ([f"# {x['titre']} — {x['complet_titre']}", "", f"> {une_ligne(resume)}", "",
+                *(f"- {une_ligne(f)}" for f in faits)]
+               + (["", f"## {t['faq']}", "", *reponses] if reponses else [])
+               + ["", f"## {x['photos_titre']}", "", *lignes_photos])
+    ecrire(adr.fichier(adr.chemin(langue, "llms_complet")), "\n".join(complet) + "\n")
 
 
 # ---------------------------------------------------------------- programme
@@ -2126,7 +2674,11 @@ def main():
     options.add_argument("--fiches-seulement", action="store_true")
     options.add_argument("--max-appels", type=int, default=180)
     options.add_argument("--enregistrer-parutions", action="store_true")
+    options.add_argument("--indexnow", action="store_true")
+    options.add_argument("--envoyer-indexnow", action="store_true")
     args = options.parse_args()
+    if args.envoyer_indexnow:
+        raise SystemExit(envoyer_indexnow())
 
     ids = lire_photos()
     fiches = charger_fiches()
@@ -2180,6 +2732,7 @@ def main():
         page_utiliser(g, series, langue)
         page_mentions(g, series, langue)
         page_confidentialite(g, series, langue)
+        avec_faq = page_questions(g, photos, galeries, series, langue)
         for gal in galeries:
             page_galerie(g, gal, series, langue)
         for rang, p in enumerate(photos):
@@ -2200,8 +2753,20 @@ def main():
                     adr.chemin(langue, "accueil"), adr.chemin(langue, "flux_autres"),
                     parutions_flux(journal.get(AUTRES, {}), par_id, r["flux_max"]))
     page_introuvable(g, series)
-    ecrire_plan(adr, photos, galeries, series, couleurs)
+    for langue in LANGUES:
+        ecrire_llms(g, photos, galeries, series, couleurs, selection, par_photo, langue)
+    entrees = pages_du_plan(adr, photos, galeries, series, couleurs, avec_faq)
+    journal_pages, signaler = suivre_pages(adr, entrees, AUJOURDHUI)
+    ecrire_plan(adr, entrees, journal_pages)
     ecrire_apercu(g, photos, galeries, series, selection, lire_libelles("selection.txt"), par_photo, par_serie)
+    # IndexNow : la clé, publique, est publiée à la racine du site ; les moteurs y vérifient
+    # que les pages signalées viennent bien du propriétaire du site.
+    cle = cle_indexnow(reglages)
+    if cle:
+        ecrire(adr.fichier(f"{adr.base}/{cle}.txt"), cle)
+    if args.indexnow:
+        enregistrer_pages(journal_pages)
+        preparer_indexnow(adr, cle, signaler)
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
     for gal in galeries:
         print(f"  {gal['cle']} : {len(gal['photos'])} photos")
@@ -2221,6 +2786,12 @@ def main():
     attente = sum(1 for cle, membres, _ in flux for p in membres if str(p["id"]) not in journal.get(cle, {}))
     print(f"Pinterest : {du_jour} parutions ajoutées aujourd'hui, {attente} en attente dans les files"
           + ("." if args.enregistrer_parutions else " (journal non enregistré)."))
+    print(f"Assistants IA : llms.txt et llms-full.txt en {len(LANGUES)} langues"
+          + (", questions fréquentes." if avec_faq else "."))
+    print(f"Pages : {len(journal_pages)} au plan du site, {len(signaler)} nouvelles, modifiées ou supprimées"
+          + (" : à signaler par IndexNow (_indexnow/envoi.json)." if args.indexnow and cle
+             else " (IndexNow : pas de clé dans site.ini)." if args.indexnow
+             else " (journal non enregistré)."))
 
 
 if __name__ == "__main__":
