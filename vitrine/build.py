@@ -117,7 +117,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Lieux photographiés",
         "materiel": "Matériel",
-        "usages": "Ils ont utilisé mes photos",
+        "usages_galerie": "Utilisées dans des projets",
         "usages_ligne": "Utilisées sur {sites}",
         "usages_intro": "Pexels m'a signalé ces usages de mes photos. Ce n'est qu'une petite partie : "
                         "Pexels ne signale pas chaque téléchargement.",
@@ -187,7 +187,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Places photographed",
         "materiel": "Equipment",
-        "usages": "Where my photos have been used",
+        "usages_galerie": "Used in projects",
         "usages_ligne": "Used on {sites}",
         "usages_intro": "Pexels notified me of these uses of my photos. This is only a small part: "
                         "Pexels does not report every download.",
@@ -255,7 +255,7 @@ TEXTES = {
         "contact": "联系方式",
         "lieux_photographies": "拍摄地点",
         "materiel": "器材",
-        "usages": "使用过我照片的网站",
+        "usages_galerie": "项目中使用的照片",
         "usages_ligne": "曾被 {sites} 使用",
         "usages_intro": "Pexels 通知了我以下这些照片的使用情况。这只是其中一小部分：Pexels 并不通报每一次下载。",
         "usage_par": "这张照片曾被{qui}使用{date}。",
@@ -953,9 +953,6 @@ def mois_annee(jour, langue):
     return f"{d.year} 年 {d.month} 月" if langue == "zh" else f"{MOIS[langue][d.month - 1]} {d.year}"
 
 
-DEUX_POINTS = {"fr": " : ", "en": ": ", "zh": "："}
-
-
 def entre_parentheses(texte, langue):
     return f"（{texte}）" if langue == "zh" else f" ({texte})"
 
@@ -999,12 +996,12 @@ def date_usages(usages, langue):
 
 
 def ligne_usages(g, langue):
-    """« Utilisées sur CNN.com, … », lien vers la rubrique de la page « À propos »."""
+    """« Utilisées sur CNN.com, … », lien vers la page des photos utilisées."""
     sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
     if not sites:
         return ""
     texte = TEXTES[langue]["usages_ligne"].format(sites=enumeration(sites, langue))
-    return f'<p class="preuve"><a href="{g.adr.chemin(langue, "apropos")}#usages">{e(texte)}</a></p>'
+    return f'<p class="preuve"><a href="{g.adr.chemin(langue, "galerie", CLE_USAGES)}">{e(texte)}</a></p>'
 
 
 def preuve_sociale(preuve, langue):
@@ -1335,12 +1332,13 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_galeries(g, galeries, series, couleurs, langue):
+def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
     adr = g.adr
     t = TEXTES[langue]
     chemins = {l: adr.chemin(l, "galeries") for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
-    suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
+    suite = (carte_usages(g, par_id or {}, langue)
+             + cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
              + pastilles(couleurs, galeries, langue, adr))
     if galeries:
         contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)
@@ -1351,6 +1349,75 @@ def page_galeries(g, galeries, series, couleurs, langue):
     texte = g.page(langue, titre=t["galeries"], description=description, chemins=chemins, contenu=contenu,
                    image=galeries[0]["couverture"] if galeries else None, donnees=[donnees_ariane],
                    series=bool(series), classe="sur-photo" if galeries else "")
+    ecrire(adr.fichier(chemins[langue]), texte)
+
+
+# Page des photos utilisées dans des projets, rangée parmi les galeries.
+CLE_USAGES = "photos-utilisees"
+
+
+def projet(p, usages, langue, adr):
+    """Une photo utilisée : l'image entière, puis ses usages, son titre et la date."""
+    lien = adr.chemin(langue, "photo", p["id"])
+    qui = enumeration([designation(u, langue) for u in usages], langue)
+    dates = [u["date"] for u in usages if u["date"]]
+    return (
+        f'<figure class="projet"><a href="{lien}">'
+        f'<img src="{url_image(p, 1200)}" srcset="{srcset(p, (600, 1200, 1800))}" '
+        f'sizes="(max-width: 640px) 92vw, 45vw" width="{p["largeur"]}" height="{p["hauteur"]}" '
+        f'alt="{e(p["titre"][langue])}" loading="lazy" decoding="async" '
+        f'style="background-color:{e(p["couleur"])}"></a>'
+        f'<figcaption><span class="projet-usage">{qui[:1].upper() + qui[1:]}</span>'
+        f'<a class="projet-titre" href="{lien}">{e(p["titre"][langue])}</a>'
+        + (f'<span class="projet-date">{mois_annee(max(dates), langue)}</span>' if dates else "")
+        + "</figcaption></figure>"
+    )
+
+
+def carte_usages(g, par_id, langue):
+    """Rubrique de la page des galeries : une carte vers la page des photos utilisées."""
+    utilisees = [par_id[i] for i in g.usages if i in par_id]
+    if not utilisees:
+        return ""
+    t = TEXTES[langue]
+    sites = list(dict.fromkeys(u["site"] for u in sum(g.usages.values(), []) if u["type"] == "site"))
+    couverture = next((p for p in utilisees if en_largeur(p)), utilisees[0])
+    return (
+        f'<section class="bloc"><h2 class="surtitre">{t["usages_galerie"]}</h2><div class="galeries">'
+        + carte(g.adr.chemin(langue, "galerie", CLE_USAGES), couverture, t["usages_galerie"],
+                enumeration(sites, langue) if sites else nombre_photos(len(utilisees), langue))
+        + "</div></section>"
+    )
+
+
+def page_usages(g, par_id, series, langue):
+    adr = g.adr
+    t = TEXTES[langue]
+    utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
+    if not utilisees:
+        return
+    chemins = {l: adr.chemin(l, "galerie", CLE_USAGES) for l in LANGUES}
+    titre = t["usages_galerie"]
+    ariane, donnees_ariane = fil_ariane(adr, langue, [(t["galeries"], adr.chemin(langue, "galeries"))],
+                                        (titre, chemins[langue]))
+    photos = [p for p, _ in utilisees]
+    accroche = f'{e(t["usages_intro"])} <span class="nombre">{nombre_photos(len(photos), langue)}</span>'
+    contenu = (
+        bandeau(g, next((p for p in photos if en_largeur(p)), photos[0]), langue, titre, accroche, ariane)
+        + '<div class="enveloppe"><div class="projets">'
+        + "".join(projet(p, u, langue, adr) for p, u in utilisees)
+        + "</div>" + rappel(g, langue) + "</div>"
+    )
+    donnees = [{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": titre,
+        "description": t["usages_intro"],
+        "url": adr.absolue(chemins[langue]),
+        "inLanguage": HREFLANG[langue],
+    }, donnees_ariane]
+    texte = g.page(langue, titre=titre, description=t["usages_intro"], chemins=chemins, contenu=contenu,
+                   image=photos[0], donnees=donnees, series=bool(series), classe="sur-photo")
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
@@ -1577,17 +1644,6 @@ def page_a_propos(g, par_id, galeries, series, langue):
     reglage = g.reglages["a-propos"]
     textes = paragraphes(traduit(reglage, "texte", langue))
     corps = "".join(f"<p>{e(p)}</p>" for p in textes)
-    utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
-    if utilisees:
-        corps += (
-            f'<h2 id="usages">{t["usages"]}</h2><p>{e(t["usages_intro"])}</p>'
-            + grille([p for p, _ in utilisees], langue, adr)
-            + '<ul class="liens">' + "".join(
-                f'<li><a href="{adr.chemin(langue, "photo", p["id"])}">{e(p["titre"][langue])}</a>'
-                f'{DEUX_POINTS[langue]}'
-                f'{enumeration([designation(x, langue) for x in u], langue)}{date_usages(u, langue)}</li>'
-                for p, u in utilisees) + "</ul>"
-        )
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
     materiel = paragraphes(traduit(reglage, "materiel", langue))
     if materiel:
@@ -2065,6 +2121,7 @@ def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, p
             "galeries": adr.absolue(adr.chemin("fr", "galeries")),
             "series": adr.absolue(adr.chemin("fr", "series")),
             "profil_pexels": g.site.get("profil_pexels", ""),
+            **({"usages": adr.absolue(adr.chemin("fr", "galerie", CLE_USAGES))} if g.usages else {}),
         },
         "selection": [fiche(p, avec_liens=True) for p in selection],
         "series": [{**lien("serie", s["cle"], s["titre"]["fr"]), "cle": s["cle"], "lieu": s["lieu"]["fr"],
@@ -2083,7 +2140,7 @@ def ecrire_apercu(g, photos, galeries, series, selection, libelles, par_photo, p
     ecrire(adr.fichier(f"{adr.base}/apercu.json"), json.dumps(apercu, ensure_ascii=False, indent=1) + "\n")
 
 
-def ecrire_plan(adr, photos, galeries, series, couleurs):
+def ecrire_plan(adr, photos, galeries, series, couleurs, usages=False):
     entrees = []
 
     def ajouter(chemins, image=None):
@@ -2102,6 +2159,8 @@ def ecrire_plan(adr, photos, galeries, series, couleurs):
         ajouter({l: adr.chemin(l, "serie", serie["cle"]) for l in LANGUES})
     for gal in galeries:
         ajouter({l: adr.chemin(l, "galerie", gal["cle"]) for l in LANGUES})
+    if usages:
+        ajouter({l: adr.chemin(l, "galerie", CLE_USAGES) for l in LANGUES})
     for couleur in couleurs:
         ajouter({l: adr.chemin(l, "couleur", couleur["cle"][l]) for l in LANGUES})
     for p in photos:
@@ -2169,7 +2228,8 @@ def main():
     avec_series = bool(series)
     for langue in LANGUES:
         page_accueil(g, photos, galeries, series, selection, ouverture, langue)
-        page_galeries(g, galeries, series, couleurs, langue)
+        page_galeries(g, galeries, series, couleurs, langue, par_id)
+        page_usages(g, par_id, series, langue)
         for couleur in couleurs:
             page_couleur(g, couleur, couleurs, galeries, series, langue)
         if series:
@@ -2200,7 +2260,7 @@ def main():
                     adr.chemin(langue, "accueil"), adr.chemin(langue, "flux_autres"),
                     parutions_flux(journal.get(AUTRES, {}), par_id, r["flux_max"]))
     page_introuvable(g, series)
-    ecrire_plan(adr, photos, galeries, series, couleurs)
+    ecrire_plan(adr, photos, galeries, series, couleurs, usages=bool(g.usages))
     ecrire_apercu(g, photos, galeries, series, selection, lire_libelles("selection.txt"), par_photo, par_serie)
     print(f"{len(photos)} photos publiées ({sans_titre} en attente d'un titre), {len(galeries)} galeries :")
     for gal in galeries:
