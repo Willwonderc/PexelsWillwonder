@@ -31,7 +31,10 @@ les photos Pexels.
    `pinterest/imports/essai-2-une-epingle-par-galerie.csv` (Paramètres → Importer du
    contenu → Importer un fichier). Il publie une épingle par galerie, et Pinterest
    crée au passage les tableaux qui n'existent pas. Pour le régénérer :
-   `python3 pinterest/epingles.py --essai`.
+   `python3 pinterest/epingles.py --essai`. Seulement pour des tableaux qui n'ont pas
+   encore de flux relié : sinon, la photo paraît deux fois dans le tableau, une fois par
+   le flux et une fois par l'import (c'est arrivé le 27 septembre 2026 ; les épingles en
+   double, celles qui mènent à pexels.com, sont à supprimer).
 5. **Relier les flux** : Paramètres → Importer du contenu (anciennement « Créer des
    épingles en masse ») → Publication automatique → coller l'adresse d'un flux, choisir son tableau, enregistrer.
    Recommencer pour chaque galerie. Pinterest crée au plus 200 épingles par jour. Pour
@@ -87,23 +90,23 @@ galeries.
 |---|---|---|---|
 | Loire Valley château gardens | 24 | `https://photos.karlforterre.fr/en/galleries/jardins-chateaux-loire/feed.xml` | oui |
 | Sky and astrophotography | 21 | `https://photos.karlforterre.fr/en/galleries/ciel-astrophotographie/feed.xml` | oui |
-| Clouds and sunsets | 28 | `https://photos.karlforterre.fr/en/galleries/nuages-couchers-de-soleil/feed.xml` | **à relier** |
-| Landscapes and countryside | 39 | `https://photos.karlforterre.fr/en/galleries/paysages-campagne/feed.xml` | **à relier** |
-| Trees and forests | 79 | `https://photos.karlforterre.fr/en/galleries/arbres-et-forets/feed.xml` | **à relier** |
+| Clouds and sunsets | 28 | `https://photos.karlforterre.fr/en/galleries/nuages-couchers-de-soleil/feed.xml` | oui |
+| Landscapes and countryside | 39 | `https://photos.karlforterre.fr/en/galleries/paysages-campagne/feed.xml` | oui |
+| Trees and forests | 79 | `https://photos.karlforterre.fr/en/galleries/arbres-et-forets/feed.xml` | oui |
 | Flowers and macro | 71 | `https://photos.karlforterre.fr/en/galleries/fleurs-et-macro/feed.xml` | oui |
-| Sea and coast | 25 | `https://photos.karlforterre.fr/en/galleries/mer-et-littoral/feed.xml` | **à relier** |
-| Rivers, lakes and canals | 55 | `https://photos.karlforterre.fr/en/galleries/rivieres-et-lacs/feed.xml` | **à relier** |
-| Architecture and heritage | 96 | `https://photos.karlforterre.fr/en/galleries/architecture-patrimoine/feed.xml` | **à relier** |
-| Churches and cathedrals | 44 | `https://photos.karlforterre.fr/en/galleries/eglises-cathedrales/feed.xml` | **à relier** |
-| Cities and street scenes | 62 | `https://photos.karlforterre.fr/en/galleries/villes-et-rues/feed.xml` | **à relier** |
-| Transport | 11 | `https://photos.karlforterre.fr/en/galleries/transports/feed.xml` | **à relier** |
+| Sea and coast | 25 | `https://photos.karlforterre.fr/en/galleries/mer-et-littoral/feed.xml` | oui |
+| Rivers, lakes and canals | 55 | `https://photos.karlforterre.fr/en/galleries/rivieres-et-lacs/feed.xml` | oui |
+| Architecture and heritage | 96 | `https://photos.karlforterre.fr/en/galleries/architecture-patrimoine/feed.xml` | oui |
+| Churches and cathedrals | 44 | `https://photos.karlforterre.fr/en/galleries/eglises-cathedrales/feed.xml` | oui |
+| Cities and street scenes | 62 | `https://photos.karlforterre.fr/en/galleries/villes-et-rues/feed.xml` | oui |
+| Transport | 11 | `https://photos.karlforterre.fr/en/galleries/transports/feed.xml` | oui |
 | Portraits | 48 | `https://photos.karlforterre.fr/en/galleries/portraits/feed.xml` | oui |
-| Everyday life | 51 | `https://photos.karlforterre.fr/en/galleries/scenes-de-vie/feed.xml` | **à relier** |
+| Everyday life | 51 | `https://photos.karlforterre.fr/en/galleries/scenes-de-vie/feed.xml` | oui |
 | Wedding | 7 | `https://photos.karlforterre.fr/en/galleries/mariage/feed.xml` | oui |
-| Protests and activism | 10 | `https://photos.karlforterre.fr/en/galleries/manifestations/feed.xml` | **à relier** |
-| Animals | 62 | `https://photos.karlforterre.fr/en/galleries/animaux/feed.xml` | **à relier** |
-| Food and drink | 20 | `https://photos.karlforterre.fr/en/galleries/cuisine-et-boissons/feed.xml` | **à relier** |
-| Objects and still life | 31 | `https://photos.karlforterre.fr/en/galleries/objets-natures-mortes/feed.xml` | **à relier** |
+| Protests and activism | 10 | `https://photos.karlforterre.fr/en/galleries/manifestations/feed.xml` | oui |
+| Animals | 62 | `https://photos.karlforterre.fr/en/galleries/animaux/feed.xml` | oui |
+| Food and drink | 20 | `https://photos.karlforterre.fr/en/galleries/cuisine-et-boissons/feed.xml` | oui |
+| Objects and still life | 31 | `https://photos.karlforterre.fr/en/galleries/objets-natures-mortes/feed.xml` | oui |
 | Black and white | 68 | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` | oui |
 | Abstract backgrounds | 43 | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` | oui |
 | Basque Country | 13 | `https://photos.karlforterre.fr/en/galleries/pays-basque/feed.xml` | oui |
@@ -113,15 +116,16 @@ galeries.
 | Pyrenees | 47 | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` | oui |
 | Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
 | Niort and Poitou | 45 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
-| Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | **à relier** |
-| Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | **à relier** |
-| Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | **à relier** |
-| Normandy and Brittany | 13 | `https://photos.karlforterre.fr/en/galleries/normandie-bretagne/feed.xml` | **à relier** |
-| Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | **à relier** |
+| Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | oui |
+| Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | oui |
+| Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | oui |
+| Normandy and Brittany | 13 | `https://photos.karlforterre.fr/en/galleries/normandie-bretagne/feed.xml` | oui |
+| Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | oui |
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
-Les 19 flux marqués « à relier » sont ceux des galeries créées par la session B (septembre 2026) :
-créer chaque tableau avec le titre anglais de la galerie, puis y relier son flux (étape 5).
+Les 34 flux sont reliés, dont les 19 des galeries créées par la session B (septembre
+2026). Pour une nouvelle galerie, créer son tableau à la main avec le titre anglais de la
+galerie, puis y relier son flux (étape 5).
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
 reçoit plus rien ; il reste relié pour les photos à venir qui n'entreraient dans aucune.
 Une galerie qui compte moins de 4 photos, comme Toulouse aujourd'hui, n'a pas encore de
