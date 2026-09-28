@@ -24,6 +24,9 @@ Chaque semaine, on relève cinq chiffres :
 | Pages les plus vues | GoatCounter |
 | Téléchargements, photos retenues, photos les plus vues | fiche de suivi `releves/suivi-pexels.csv`, publiée par Telepex, l'application Mac de Karl |
 
+Tous, sauf Search Console, se lisent semaine après semaine sur le tableau de bord,
+https://photos.karlforterre.fr/tableau-de-bord/ (page non référencée, session F).
+
 ## Ce que montre la fiche de suivi
 
 Relevé du 24 septembre 2026, photo par photo :
@@ -241,7 +244,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Mi-octobre | Session D | Atelier : titres des 196 photos sans titre |
 | Fin octobre | Session E | Photo du jour sur Bluesky et Mastodon ou Pixelfed ; Typefully si connecté |
 | Octobre, avant F | Session T, sur le Mac | Telepex publie ses relevés (vues, téléchargements, J'aime, modération) chaque semaine ou chaque jour |
-| Fin octobre | Session F | Tableau de bord (chantier 4 de `docs/plan.md`) |
+| Fait le 28 septembre | Session F | Tableau de bord (chantier 4 de `docs/plan.md`) ; restent la clé GoatCounter et l'écran Turing |
 | Dès que possible | Session H | Instagram : photo du jour sur le compte professionnel |
 
 Chaque session s'ouvre **dans une nouvelle session**, qui coûte bien moins cher qu'une

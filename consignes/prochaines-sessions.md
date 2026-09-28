@@ -24,11 +24,16 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | C | Traductions françaises | mi-octobre | B fusionnée |
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
-| T | Telepex : relevés frais pour le tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
-| F | Tableau de bord | fin octobre | T faite et une semaine de relevés publiés par Telepex ; GoatCounter : fait, il compte depuis le 28 septembre |
+| T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
+| F | Tableau de bord | faite le 28 septembre | restent la clé GoatCounter (voir F) et l'écran Turing |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
-| J | Légendes Instagram | chaque mois, vers le 20 octobre pour la première fois | la tâche « Photo du jour » annonce moins de 7 légendes rédigées d'avance |
+| L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
+| V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
+| V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
+| V3 | Studio vidéo : son et voix | après V2 | V2 fusionnée |
+| V4 | Studio vidéo : formats et diffusion | après V3 | V3 fusionnée |
+| V5 | Studio vidéo : mesure | après V4 | V4 et F fusionnées |
 
 Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
 `https://photos.karlforterre.fr/apercu.json`, écrit par `vitrine/build.py` : une session
@@ -87,28 +92,30 @@ Si le connecteur Typefully est branché (https://claude.ai/customize/connectors)
 ajouter à la fin : « Programme aussi un mois de publications sur X et Threads avec
 Typefully. »
 
-## T — Telepex : relevés frais pour le tableau de bord
+## T — Telepex : envoi automatique au tableau de bord
 
 Telepex est l'application Mac de Karl qui relève, pour chaque photo de son profil Pexels,
-les vues, les téléchargements, les J'aime et le statut de modération ; c'est d'elle que
-vient la fiche de suivi du 24 septembre. Elle reste sur le Mac, hors de ce dépôt public :
-ni son code ni sa méthode n'y figurent. La session T lui fait publier son relevé dans
-`releves/`, chaque semaine ou chaque jour, pour que le tableau de bord (F), la preuve
-sociale du site, les mots-clés des nouvelles photos, l'ordre des épingles et la photo du
-jour partent de chiffres frais. Chaque relevé publié reconstruit le site en quelques
-minutes.
+les vues, les téléchargements, les J'aime et le statut de modération, et qui en fait le
+classeur Excel « Suivi photos Pexels » ; c'est de lui que vient la fiche de suivi du
+24 septembre. Il reste sur le Mac, hors de ce dépôt public : ni son code ni sa méthode n'y
+figurent. La session T lui fait envoyer tout seul, après chaque relevé, la feuille des
+photos au tableau de bord : le site la traite automatiquement et se reconstruit en quelques
+minutes. Le tableau de bord (F), la preuve sociale du site, les mots-clés des nouvelles
+photos, l'ordre des épingles et la photo du jour partent alors de chiffres frais.
 
-Elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex, et non sur
-claude.ai/code : Telepex n'est pas sur GitHub et se compile avec Xcode. Une fois par
-semaine suffit aux courbes du tableau de bord et ménage le site de Pexels ; chaque jour
-reste possible.
+La feuille part en CSV, le format que lit le site : les mêmes lignes que les onglets
+« Publiées » et « Non publiées » du classeur, plus légères et lisibles sur GitHub ; le
+classeur Excel reste sur le Mac. La session se lance sur le Mac, dans Claude Code, dans le
+dossier de Telepex, et non sur claude.ai/code : Telepex n'est pas sur GitHub et se compile
+avec Xcode. Un envoi par semaine suffit aux courbes du tableau de bord et ménage le site de
+Pexels ; chaque jour reste possible.
 
 ```text
-Session T, dans le dossier de Telepex : fais alimenter par Telepex le tableau de bord du dépôt public Willwonderc/PexelsWillwonder en relevés frais. Rien de Telepex ne va dans ce dépôt, ni code, ni clé, ni adresse d'API : seulement le relevé.
-1. Après chaque scan complet, écris le relevé au format de releves/suivi-pexels.csv du dépôt (https://github.com/Willwonderc/PexelsWillwonder/blob/main/releves/README.md), en UTF-8 sans BOM : photo, moderation (retenue pour approved, refusée sinon), import (AAAA-MM-JJ), vues, telechargements, jaime, evenement (oui ou non), titre (le titre Pexels, vide pour une photo sans titre, jamais le texte « Free stock photo of… »), mots_cles (séparés par des virgules), puis une colonne releve (date et heure du relevé, ISO 8601). Un scan incomplet, où manquent des statistiques ou l'onglet Événements marquants, ne publie rien.
-2. Publie-le à la place de releves/suivi-pexels.csv par l'API de GitHub, en un commit « Relevé Telepex du AAAA-MM-JJ », puis ajoute à releves/vues-pexels.csv la ligne du relevé : date, total des vues, nombre de photos, abonnés si le profil les donne, remarque « Telepex ». Jeton à grain fin limité à ce dépôt (Contents en lecture et écriture), que je range moi-même dans le trousseau du Mac ; sans jeton, le relevé reste sur le Mac, prêt à déposer à la main.
-3. Un réglage de fréquence : chaque semaine, le lundi matin (par défaut), ou chaque jour, à heure fixe, même Telepex fermé (tâche launchd) ; un relevé par jour au plus ; et un bouton « Publier le relevé » pour le faire à la demande.
-4. Mets à jour CLAUDE.md et README.md de Telepex : le relevé CSV, et lui seul, est publié dans le dépôt. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
+Session T, dans le dossier de Telepex : Telepex doit envoyer tout seul, après chaque relevé, la feuille des photos au tableau de bord du site photo (dépôt public Willwonderc/PexelsWillwonder), qui la traite automatiquement. Rien de Telepex ne va dans ce dépôt, ni code, ni clé, ni adresse d'API : seulement la feuille du relevé.
+1. À la fin de chaque scan complet, lancé à la main ou par le réglage du point 3, écris la feuille au format de releves/suivi-pexels.csv du dépôt (colonnes décrites dans https://github.com/Willwonderc/PexelsWillwonder/blob/main/releves/README.md), en UTF-8 sans BOM : photo, moderation (retenue pour approved, refusée sinon), import (AAAA-MM-JJ), vues, telechargements, jaime, evenement (oui ou non), titre (le titre Pexels, vide pour une photo sans titre, jamais le texte « Free stock photo of… »), mots_cles (séparés par des virgules), puis releve (date et heure du relevé, ISO 8601). Ce sont les lignes des onglets « Publiées » et « Non publiées » du classeur, qui reste sur le Mac. Un scan incomplet, où manquent des statistiques ou l'onglet Événements marquants, n'envoie rien.
+2. Envoie-la par l'API de GitHub, en un seul commit « Relevé Telepex du AAAA-MM-JJ » qui remplace releves/suivi-pexels.csv et ajoute à releves/vues-pexels.csv la ligne du relevé : date, total des vues, nombre de photos, abonnés si le profil les donne, remarque « Telepex ». Jeton à grain fin limité à ce dépôt (Contents en lecture et écriture), que je range moi-même dans le trousseau du Mac. Si l'envoi échoue (pas de réseau, jeton expiré), Telepex le dit dans sa barre d'état et réessaie au relevé suivant ; il me prévient un mois avant l'expiration du jeton. Sans jeton, la feuille reste sur le Mac, prête à déposer à la main.
+3. Un réglage de fréquence : chaque semaine, le lundi matin (par défaut), ou chaque jour, à heure fixe, même Telepex fermé (tâche launchd) ; un envoi par jour au plus ; et un bouton « Envoyer au tableau de bord » pour le faire à la demande.
+4. Mets à jour CLAUDE.md et README.md de Telepex : la feuille du relevé, et elle seule, est envoyée au dépôt public. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
 ```
 
 ## F — Tableau de bord
@@ -157,6 +164,13 @@ Session F : chantier 4 de docs/plan.md, le tableau de bord. Commence par m'expli
 Règles : Python sans dépendance pour le site ; ni la tâche de nuit ni toi n'allez chercher de chiffres sur pexels.com, ils viennent des relevés ; la clé n'apparaît ni dans le code ni dans les journaux ; garde apercu.json et son format ; essaie avec des chiffres fictifs que tu ne laisses pas dans le dépôt. Mets à jour releves/README.md (relevés de Telepex, relevés à la main, lecture du tableau de bord, écran Turing), README.md, docs/plan-site-pro.md et CLAUDE.md. Vérifie que vitrine/build.py tourne, que la page n'apparaît ni dans sitemap.xml, ni dans vitrine/donnees/pages.json, ni dans llms.txt, et son rendu sur ordinateur et sur téléphone ; puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
+Session faite le 28 septembre 2026, avant la session T : le tableau de bord est en ligne sur
+https://photos.karlforterre.fr/tableau-de-bord/ et se remplira des relevés de Telepex dès
+leur arrivée. Pinterest reste relevé à la main : son API demande une application approuvée
+et un jeton à renouveler. Restent à faire : la clé GoatCounter (pas à pas :
+`releves/README.md`, « Relier GoatCounter ») et le programme de l'écran Turing, pour
+lequel une prochaine session demandera le modèle de l'écran et le système du PC.
+
 ## H — Instagram
 
 Le compte Instagram @karl_forterre est passé en compte professionnel « Créateur » le
@@ -185,15 +199,55 @@ Session I de docs/plan-site-pro.md : une galerie de lieu dédiée à Niort, où 
 Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots en français, en anglais et en chinois, dans la ligne éditoriale de CLAUDE.md ; corrige les titres faux repérés en chemin ; donne-moi le nouveau flux Pinterest à relier. Vérifie que vitrine/build.py tourne, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
-## J — Légendes Instagram (chaque mois)
+## L — Légendes Instagram
 
-La tâche « Photo du jour » publie sur Instagram la légende rédigée d'avance de chaque
-photo, dans `reseaux/legendes-instagram.ini`. Les trente premières, écrites le
-28 septembre 2026, couvrent la Voie lactée (29 septembre) et les photos suivantes,
-jusque vers le 28 octobre. Le compte rendu de la tâche (onglet **Actions**, étape
-« Publier la photo du jour ») indique combien il en reste : en dessous de sept, lancer
-cette session.
+Sur Instagram, tout est en français, dans un style proche de l'expression de Karl
+(`reseaux/style-karl.md`). La photo du jour y prend la légende écrite à l'avance pour
+chaque photo dans `reseaux/legendes-instagram.csv` (14 écrites le 28 septembre) ; sans
+légende prête, elle garde le titre français.
 
 ```text
-Session J : rédige les légendes Instagram des 30 prochaines photos de la photo du jour, dans reseaux/legendes-instagram.ini, à la suite de celles qui restent, en respectant les règles de style de reseaux/README.md (partie 5.11) : en français, à la première personne, sobre, sans tutoiement ni vouvoiement, sans émoji ; le lieu et le moment quand ils sont connus, un peu de contexte dans la ligne éditoriale de CLAUDE.md, mes souvenirs seulement s'ils sont notés dans le dépôt, les reprises par des tiers de vitrine/usages.csv. Uniquement des faits vrais : regarde chaque photo en petite taille (adresse « image » de sa fiche, suivie de ?auto=compress&cs=tinysrgb&fm=jpg&w=400) et ne nomme pas un lieu douteux. L'ordre de parution et les légendes à écrire se lisent avec python3 reseaux/photo_du_jour.py --a-venir 40. Montre-moi les légendes, avec la liste des lieux ou des faits dont tu doutes, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --essai : il indique pour combien des prochaines photos une légende est prête. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md : une à trois phrases, 300 caractères au plus, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+## V — Studio vidéo
+
+Plan complet et cahier des charges « agence » : [docs/plan-videos.md](../docs/plan-videos.md).
+Programme actuel : `reseaux/videos/`, avec son mode d'emploi. Une session par chantier,
+dans l'ordre, chaque pull request fusionnée avant la suivante.
+
+### V1 — Fondations du studio
+
+```text
+Session V1 de docs/plan-videos.md : fondations du studio vidéo (programme actuel : reseaux/videos/, mode d'emploi dans son README).
+1. Projets : un fichier .ini par sujet dans reseaux/videos/projets/ (photos, textes des trois langues, musiques, formats), lisible par moi. Convertis les cinq carrousels de donnees.py sans rien changer aux vidéos, et ajoute la création d'un projet à partir d'une série de vitrine/series.ini et des titres de vitrine/donnees/textes-*.csv.
+2. Carrousels RedNote complets, en chinois et en français : couverture, photos en portrait et en paysage, petit cours de français, fin, au style des images de la page des carrousels (https://claude.ai/artifact/MpieDE6XVwk37bEa8quksx, à lire avec l'outil Artifact). Mesure-les au pixel comme diapositive.py, qui reproduit déjà les photos en paysage. Les vidéos chinoises ne doivent plus dépendre de cette page.
+3. Contrôle qualité : reseaux/videos/qualite.py vérifie les règles du cahier des charges qui peuvent l'être dès maintenant (caractéristiques techniques lues par ffprobe, volume, durées, longueur et vitesse de lecture des textes, zones de sécurité, mots interdits de la ligne éditoriale, poids) et écrit un rapport lisible ; une vidéo en échec n'est pas livrée.
+4. Tâche GitHub « Vidéos » (.github/workflows/videos.yml), lancée à la demande avec le nom du projet : carrousel, vidéos des trois langues et rapport à télécharger.
+5. Miroir des musiques dans une version publiée (release) du dépôt, utilisé quand Internet Archive ne répond pas.
+Vérifie que les cinq vidéos actuelles se refont à l'identique (images au pixel près), mets à jour reseaux/videos/README.md pas à pas, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+### V2 — Montage au niveau agence
+
+```text
+Session V2 de docs/plan-videos.md : montage au niveau d'une agence (règles A, R, T et M du cahier des charges). Accroche sur la photo la plus forte avec une promesse à l'écran, couverture à part ; rythme calé sur les temps forts de la musique ; cadrage guidé par le sujet (carte de saillance simple, détection des visages avec OpenCV) ; mouvements et transitions variés ; typographie animée mot à mot et gabarits de marque (logo animé discret, bas de titre, fin courte) ; carte animée de l'itinéraire pour les récits de voyage, sur fond Natural Earth ; couleurs homogènes et grain léger ; aperçu rapide en basse définition. Étends qualite.py aux nouvelles règles. Refais les cinq vidéos actuelles et montre-les-moi à côté des anciennes, en images et en vidéo, avant de les remplacer. Mets à jour le mode d'emploi, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+### V3 — Son et voix
+
+```text
+Session V3 de docs/plan-videos.md : son et voix (règles S du cahier des charges). Volume à −14 LUFS et crêtes à −1 dBTP, fin sur une phrase musicale, musique baissée sous la voix ; catalogue musical en fichier (morceau, ambiance, tempo, licence, crédit, adresse) avec un choix automatique conforme à CLAUDE.md ; habillage sonore tiré de banques CC0 ; version sans musique de chaque vidéo. Voix : je dépose un enregistrement fait sur mon iPhone ; transcription et sous-titres mot à mot avec Whisper, montage calé sur la voix. Voix de synthèse libre (Piper) en option pour l'anglais et le chinois, seulement si la licence de la voix le permet. Explique-moi d'abord comment enregistrer et déposer ma voix. Mets à jour le mode d'emploi, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+### V4 — Formats natifs et diffusion
+
+```text
+Session V4 de docs/plan-videos.md : formats natifs et diffusion (règles I, L et C du cahier des charges). Déclinaisons 9:16, 3:4, 1:1 et 16:9 d'un même montage, avec les zones de sécurité mesurées de chaque réseau et des durées par réseau ; kits de publication par réseau et par langue (titre, texte, hashtags, couverture, texte alternatif, heure conseillée) ; page d'aperçu où je valide chaque vidéo. Reels sur Instagram par l'API officielle, avec la connexion et le jeton de la photo du jour, seulement après mon accord, tout en français et dans le style de reseaux/style-karl.md ; YouTube Shorts par l'API officielle (vérifie sa documentation, le quota et l'audit nécessaire pour publier en public) ; une page par vidéo sur photos.karlforterre.fr avec le lecteur YouTube, des données VideoObject et un plan de site vidéo. Explique-moi d'abord pas à pas les accès à créer, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+```
+
+### V5 — Mesure et amélioration continue
+
+```text
+Session V5 de docs/plan-videos.md : mesure et amélioration continue. Relevés par vidéo (spectateurs restés après 3 secondes, durée moyenne regardée, visionnages complets, partages, enregistrements, abonnés gagnés, clics vers le site) par les API d'Instagram et de YouTube, et à la main pour RedNote et Facebook dans un fichier de releves/ ; intégration au tableau de bord de la session F ; tests A/B de deux accroches ou de deux couvertures (Reels à l'essai d'Instagram si le compte y a accès) ; bilan mensuel qui propose d'ajuster les règles. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
 ```

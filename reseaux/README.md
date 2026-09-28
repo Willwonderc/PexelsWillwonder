@@ -11,8 +11,9 @@ télécharge sur Pexels. Exemple :
 
     #Photography #Sky #CrescentMoon #Gradient #Twilight
 
-Sur Instagram, dont les légendes n'ont pas de liens cliquables, le lien est remplacé par
-un renvoi vers celui de la biographie (voir la partie 5, « Instagram »).
+Sur Instagram, tout est en français, avec une légende écrite dans le style de Karl ;
+les légendes n'y ont pas de liens cliquables, et le lien est remplacé par un renvoi vers
+celui de la biographie (voir la partie 5, « Instagram »).
 
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
   `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
@@ -128,12 +129,12 @@ La photo du jour part aussi sur le compte @karl_forterre, par l'API officielle d
 ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
 `reseaux/photo-du-jour.json` note chaque publication dans sa rubrique `instagram`.
 
-- **Légende**, toujours en français, à la demande de Karl : un texte rédigé d'avance
-  dans son style (voir « Légendes rédigées d'avance », ci-dessous), puis « Comme toutes
-  mes photos, elle est libre de droits et se télécharge gratuitement sur Pexels : le
-  lien est dans ma bio. », puis cinq hashtags : Instagram n'en accepte pas davantage
-  depuis décembre 2025. Les légendes n'ont pas de liens cliquables : c'est le lien de la
-  biographie qui mène au site. Une photo sans texte rédigé reçoit son titre français.
+- **Légende**, toujours en français (règle de Karl du 28 septembre 2026) : un texte
+  écrit à l'avance dans son style (`reseaux/legendes-instagram.csv`, d'après le guide
+  `reseaux/style-karl.md`) ou, à défaut, le titre français de la photo ; puis « Libre de
+  droits, à télécharger gratuitement sur Pexels : lien dans la bio. », puis cinq
+  hashtags : Instagram n'en accepte pas davantage depuis décembre 2025. Les légendes
+  n'ont pas de liens cliquables : c'est le lien de la biographie qui mène au site.
 - **Image** : Instagram la télécharge lui-même chez Pexels, en JPEG de 1 440 pixels de
   large. Il n'accepte que les proportions comprises entre 4:5 (en hauteur) et 1,91:1
   (en largeur) : les photos en hauteur sont recadrées au centre en 4:5, les neuf
@@ -142,15 +143,13 @@ ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
   **Jeton Instagram** l'échange contre un neuf et le range elle-même dans les secrets du
   dépôt : il n'y a rien à refaire tant qu'elle passe au vert.
 - **Limite** : 100 publications par 24 heures au plus ; la tâche en fait une par jour.
-- **Sans Page Facebook ni examen de Meta** : l'application reste « Non publiée » (en
-  développement), réservée à votre propre compte, ce qui dispense de l'examen des
-  applications (App Review). Ses photos sont pourtant visibles de tous : constaté à la
-  première publication, le 28 septembre 2026.
+- **Sans Page Facebook ni examen de Meta** : l'application reste « en développement »
+  (Meta dit « Development mode »), réservée à votre propre compte, ce qui dispense de
+  l'examen des applications (App Review).
 
-Ces étapes suivent la documentation de Meta, vérifiée le 28 septembre 2026, et les
-libellés relevés le même jour dans le tableau de bord en français. Meta change parfois
-le nom de ses menus, et son site peut s'afficher en anglais : les libellés anglais sont
-donnés en italique ; si l'un d'eux diffère un peu, cherchez le plus proche.
+Ces étapes suivent la documentation de Meta, vérifiée le 28 septembre 2026. Meta change
+parfois le nom de ses menus, et son site peut s'afficher en anglais : les libellés
+anglais sont donnés en italique ; si l'un d'eux diffère un peu, cherchez le plus proche.
 Comptez une demi-heure en tout, sur un ordinateur. Comme pour les autres réseaux, un
 jeton se colle uniquement dans un secret du dépôt, jamais dans une conversation, un
 fichier ou un message.
@@ -170,47 +169,40 @@ adresse `https://photos.karlforterre.fr`, titre « Photos libres de droits ».
 
 ### 5.3 L'application
 
-1. **Mes applications** (*My Apps*) → **Créer une app** (*Create app*).
+1. **Mes apps** (*My Apps*) → **Créer une app** (*Create app*).
 2. Nom de l'application : par exemple `Photo du jour KF`. Meta refuse les noms qui
    contiennent Instagram, Insta, IG, Facebook ou Meta. Adresse de contact : la vôtre.
-3. Cas d'utilisation : **Gérer les messages et les contenus sur Instagram** (*Manage
+3. Cas d'utilisation : **Gérer les messages et le contenu sur Instagram** (*Manage
    messaging & content on Instagram*). S'il n'est pas proposé : **Autre** (*Other*),
    puis le type **Entreprise** (*Business*), puis, dans le tableau de bord, le produit
    **Instagram** → **Configurer** (*Set up*).
 4. Portefeuille business : **Je ne veux pas encore associer de portefeuille business**
    (*I don't want to connect a business portfolio yet*).
 5. Terminez la création. Meta peut redemander le mot de passe Facebook : tapez-le sur son
-   site, jamais ailleurs. Le tableau de bord s'ouvre, avec la mention « Non publiée » à
-   côté de **Publier** dans le menu de gauche : c'est normal, laissez-la ainsi. Le
-   produit *Facebook Login for Business*, ajouté d'office au menu, ne sert pas ici.
+   site, jamais ailleurs.
 
 ### 5.4 Le droit de publier
 
-1. Dans le tableau de bord de l'application : **Personnaliser le cas d'utilisation Gérer
-   les messages et les contenus sur Instagram** (ou menu de gauche **Cas
-   d'utilisation**, *Use cases*, puis **Personnaliser**, *Customize*) → **Autorisations
-   et fonctionnalités** (*Permissions and features*).
+1. Dans le tableau de bord de l'application : **Cas d'utilisation** (*Use cases*) →
+   **Personnaliser** (*Customize*) à côté du cas Instagram → **Autorisations et
+   fonctionnalités** (*Permissions and features*). Si ce chemin n'existe pas, cherchez
+   **Autorisations et fonctionnalités** dans le menu de gauche.
 2. Vérifiez que `instagram_business_basic` et `instagram_business_content_publish`
-   sont ajoutées : elles portent alors la mention « Prête pour le test » et un bouton
-   **Actions** ; sinon, cliquez sur **Ajouter** (*Add*). La seconde donne le droit de
-   publier ; les autres autorisations ne servent pas. Faites-le **avant** de créer le
-   jeton : un jeton garde les autorisations qu'il avait à sa création.
+   sont ajoutées (bouton **Ajouter**, *Add*, sinon). La seconde donne le droit de publier.
+   Faites-le **avant** de créer le jeton : un jeton garde les autorisations qu'il avait à
+   sa création.
 
 ### 5.5 @karl_forterre, testeur de l'application
 
 Une application en développement n'agit que sur les comptes qui y ont un rôle.
 
-1. Tableau de bord, menu de gauche : **Rôles dans l'application** (*App roles*) →
-   **Rôles** → **Ajouter des personnes** (*Add People*) → **Testeur Instagram**
-   (*Instagram Tester*) → saisissez `karl_forterre` → **Ajouter**. Le rôle apparaît
-   « En attente ».
+1. Tableau de bord, menu de gauche : **Rôles de l'app** (*App roles*) → **Rôles** →
+   **Ajouter des personnes** (*Add People*) → **Testeur Instagram** (*Instagram
+   Tester*) → saisissez `karl_forterre` → **Ajouter**. Le rôle apparaît « En attente ».
 2. Sur un ordinateur, connecté à @karl_forterre (l'application Instagram du téléphone
    n'affiche pas toujours l'invitation), ouvrez
-   https://www.instagram.com/accounts/manage_access/ (**Paramètres** → **Applications
-   et sites Web**), onglet **Invitations à tester** (*Tester Invites*), et acceptez
-   l'invitation. L'application y porte son nom suivi de « -IG » (« Photo du jour
-   KF-IG ») ; une fois l'invitation acceptée, elle affiche « Autorisée par vous le … »
-   et un bouton **Supprimer**, sur lequel il ne faut pas cliquer.
+   https://www.instagram.com/accounts/manage_access/, onglet **Invitations de testeur**
+   (*Tester Invites*), puis **Accepter**.
 
 ### 5.6 Le jeton Instagram, rangé dans les secrets du dépôt
 
@@ -257,12 +249,10 @@ secrets, seulement de les remplacer.
    ont déjà publié ce jour-là, seul Instagram publie. Après une à deux minutes, la ligne
    passe au vert : la photo la plus vue est sur Instagram, et le journal note le lien
    de la publication.
-2. Vérifiez qu'elle est visible de tous : demandez à quelqu'un de regarder votre profil
-   depuis son compte, ou ouvrez https://www.instagram.com/karl_forterre/ dans une
-   fenêtre de navigation privée, sans être connecté. Au premier essai, le 28 septembre
-   2026, elle l'était, l'application restant « Non publiée ». Si ce n'était plus le
-   cas, passez l'application « en ligne » (*Live*) : menu de gauche **Publier**
-   (*Publish*). Meta demande alors une adresse de politique de confidentialité
+2. Vérifiez qu'elle est visible de tous : ouvrez https://www.instagram.com/karl_forterre/
+   dans une fenêtre de navigation privée, sans être connecté. Si la photo n'y apparaît
+   pas, passez l'application « en ligne » (*Live*) : bouton **Publier** (*Publish*) du
+   tableau de bord. Meta demande alors une adresse de politique de confidentialité
    (`https://photos.karlforterre.fr/confidentialite/`), des instructions de suppression
    des données (la même adresse), une icône (le logo KF’ de
    `vitrine/statique/logo-kf.webp`) et une catégorie. L'accès « standard », qui suffit
@@ -290,55 +280,21 @@ la tâche le vérifie auprès d'Instagram avant de conclure, et ne la republie p
 
 ### 5.10 Couper l'accès
 
-Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bouton
-**Supprimer**) ; ou supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
+Sur https://www.instagram.com/accounts/manage_access/, retirez l'application ; ou
+supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
 `INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
 **Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
 
-### 5.11 Légendes rédigées d'avance
-
-Karl veut sur Instagram des légendes en français, proches de sa façon de s'exprimer.
-Elles sont écrites à l'avance, photo par photo, dans `reseaux/legendes-instagram.ini`,
-dans l'ordre où les photos paraîtront (des plus vues aux moins vues). Chaque matin, la
-tâche prend celle de la photo du jour ; faute de texte rédigé, elle met le titre
-français de la photo. Son compte rendu indique combien de légendes rédigées restent :
-quand il en reste moins d'une semaine, lancer la consigne J de
-`consignes/prochaines-sessions.md`, qui en fait rédiger trente de plus.
-
-Format, une rubrique par photo, une ligne chacune :
-
-    [27116682]
-    texte = La Voie lactée au-dessus d'une ligne d'arbres. …
-    hashtags = #VoieLactée #CielÉtoilé #Astrophotographie #Nuit #Étoiles
-
-La ligne `hashtags` est facultative : sans elle, la photo garde ses hashtags
-automatiques. Pour corriger une légende, modifier sa ligne sur GitHub (icône crayon du
-fichier) avant le jour de sa parution.
-
-Style, choisi par Karl le 28 septembre 2026, à suivre par toute session qui rédige :
-
-- à la première personne, sobre, comme ses textes de karlforterre.fr : « Niort, où
-  j'habite », « comme toutes mes photos » ;
-- ni tutoiement ni vouvoiement : des tournures neutres (« elle se télécharge ») ;
-- aucun émoji ;
-- le lieu et le moment quand ils sont connus (titre, galerie, série, saison visible) ;
-- un peu de contexte : histoire du lieu, nature, astronomie, dans la ligne éditoriale
-  de `CLAUDE.md` (un monument par ce qu'il a de républicain, de populaire ou d'ouvrier) ;
-- ses souvenirs, seulement ceux qu'il a confiés (rubrique « RedNote » ci-dessous) ;
-- les reprises par des tiers (`vitrine/usages.csv`) et les vues Pexels, quand elles
-  comptent ;
-- uniquement des faits vrais : regarder chaque photo en petite taille, ne jamais
-  inventer d'anecdote ni affirmer un lieu douteux ;
-- public surtout français : pas de « photographe français » ; « Maëlle », pas « ma
-  fiancée ».
-
 ## Réglages
 
-- **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`, ligne
-  `langue` : `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois). Titre,
-  hashtags et lien suivent cette langue. Une ligne `langue_bluesky`, `langue_mastodon`
-  ou `langue_instagram` donne à un réseau sa propre langue : Instagram est en français
-  (`langue_instagram = fr`), et les légendes rédigées d'avance ne servent qu'en français.
+- **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`. Ligne
+  `langue` pour Bluesky et Mastodon : `en` (anglais, par défaut), `fr` (français) ou `zh`
+  (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_instagram` pour
+  Instagram : `fr`, à garder (règle de Karl).
+- **Légendes Instagram** : `reseaux/legendes-instagram.csv`, une ligne par photo (numéro
+  Pexels, légende), à corriger au besoin directement sur GitHub. L'essai (`--essai`)
+  indique pour combien des prochaines photos une légende est prête ; quand il en reste
+  moins de 14, la consigne L en fait écrire de nouvelles.
 - **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
   (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
   mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.
@@ -362,9 +318,7 @@ Style, choisi par Karl le 28 septembre 2026, à suivre par toute session qui ré
 
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
 enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram téléchargerait
-(recadrage compris), et si sa légende est rédigée d'avance. `--langue fr` essaie une autre
-langue. `--a-venir 40` liste les 40 prochaines photos d'Instagram, dans l'ordre de
-parution, et dit lesquelles attendent encore leur légende. Ne jamais lancer
+(recadrage compris). `--langue fr` essaie une autre langue. Ne jamais lancer
 `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
@@ -450,7 +404,9 @@ ville d'Irun (image 4), dans le carrousel comme dans les vidéos, et rejoint la 
 ## Vidéos diaporama des carrousels
 
 Chaque carrousel peut aussi devenir une vidéo, à publier à sa place ou en plus. Les cinq
-premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais :
+premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais, avec le
+programme de `reseaux/videos/` (mode d'emploi dans son README). Le plan pour l'amener au
+niveau d'une agence est dans `docs/plan-videos.md`. Règles actuelles :
 
 - **Format** : 3:4 (1080 × 1440 pixels), comme les carrousels, de 40 à 70 secondes.
 - **Déroulé** : la couverture du carrousel, puis chaque photo originale avec un zoom
@@ -501,7 +457,8 @@ couverture et sont donc à refaire. Rythme et forme des textes restent à fixer 
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
-    legendes-instagram.ini  légendes Instagram rédigées d'avance, dans le style de Karl
+    videos/              programme des vidéos diaporama des carrousels (mode d'emploi :
+                         videos/README.md ; plan d'amélioration : docs/plan-videos.md)
 
 Tâches GitHub : `.github/workflows/photo-du-jour.yml` (chaque matin) et
 `.github/workflows/jeton-instagram.yml` (chaque lundi).
