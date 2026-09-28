@@ -47,6 +47,7 @@ FORMATS = {
 # Lecture : caractères par seconde, au plus (règle T2) et visés ; lignes (règle T1).
 LECTURE = {"zh": (8.0, 7.2), "fr": (15.0, 14.0), "en": (15.0, 14.0)}
 CARACTERES_LIGNE = {"zh": 16, "fr": 38, "en": 38}
+MAX_SOUS_TITRE = 70  # caractères par sous-titre : lus en 5 s au plus, dans un plan de 6 s au plus
 PONCT_FIN_ZH = "，。：、）」”！？；…"
 OUVRANTES_ZH = "（「“《"
 
@@ -394,7 +395,8 @@ def decouper_latin(texte, f, largeur, max_car):
     morceaux, i = [], 0
     while i < len(mots):
         j = i + 1
-        while j < len(mots) and len(couper_latin(mots[i:j + 1], f, largeur, max_car)) <= 2:
+        while (j < len(mots) and len(couper_latin(mots[i:j + 1], f, largeur, max_car)) <= 2
+               and len(" ".join(mots[i:j + 1])) <= MAX_SOUS_TITRE):
             j += 1
         if j < len(mots):
             for k in range(j, i + max(1, (j - i) // 2), -1):
@@ -797,9 +799,11 @@ class Rendu:
                 p.fond = None
             else:
                 r = im.width / im.height
-                pw = round(1000 * u) if M.fmt != "1x1" else round(900 * u)
-                ph = round(pw / r)
                 x0, y0, x1, y1 = M.zone()
+                # photo entière, réduite si besoin pour que photo et sous-titres tiennent dans la zone sûre
+                place = (y1 - y0) - round(104 * u) - 2 * M.pas_ligne()
+                pw = min(round(1000 * u) if M.fmt != "1x1" else round(900 * u), int(place * r))
+                ph = round(pw / r)
                 bloc = ph + round(64 * u) + 2 * M.pas_ligne()
                 haut = borne((H - bloc) / 2 - 0.03 * H, y0 + 40 * u, y1 - bloc)
                 px, py = (W - pw) // 2, round(haut)

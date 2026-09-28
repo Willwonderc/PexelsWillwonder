@@ -233,9 +233,11 @@ class Rythme:
     def coupe(self, t_min, t_cible, t_max):
         """Meilleur point de coupe entre t_min et t_max, près de t_cible."""
         idx = np.where((self.points >= t_min - 1e-6) & (self.points <= t_max + 1e-6))[0]
-        if len(idx) == 0:
-            apres = np.where(self.points >= t_min)[0]
-            return float(self.points[apres[0]]) if len(apres) else float(t_cible)
+        if len(idx) == 0:  # aucun point dans la fenêtre : le plus proche de ses bords
+            if not len(self.points):
+                return float(t_cible)
+            hors = np.where(self.points < t_min, t_min - self.points, self.points - t_max)
+            return float(self.points[int(np.argmin(hors))])
         ecart = np.abs(self.points[idx] - t_cible) / self.ecart_type
         return float(self.points[idx[int(np.argmax(self.poids[idx] - 0.45 * ecart))]])
 
