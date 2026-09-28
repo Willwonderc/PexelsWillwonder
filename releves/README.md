@@ -1,5 +1,24 @@
 # 4 — Relevés pour le tableau de bord
 
+Le tableau de bord se lit sur **https://photos.karlforterre.fr/tableau-de-bord/**, à garder
+dans ses favoris : aucune page du site n'y mène, et les moteurs de recherche ne l'indexent
+pas. Il reste public pour qui connaît l'adresse, et ne montre donc rien de confidentiel. Il
+se met à jour chaque nuit, et quelques minutes après chaque relevé enregistré sur GitHub :
+
+- **Pexels** : vues, abonnés, téléchargements, J'aime et photos retenues, semaine après
+  semaine, en chiffres et en courbes ;
+- **Photos** : les dix plus vues et leur gain de la semaine, les photos nouvellement
+  retenues, et toutes les photos, avec recherche, filtres et tri, comme dans Telepex ;
+- **Site photo** : visites, provenance (Google, Pinterest, assistants IA…), pages les plus
+  vues et clics vers Pexels, d'après GoatCounter ;
+- **Pinterest** et **assistants IA**, d'après les relevés ci-dessous ;
+- en tête, un rappel pour chaque relevé en retard (plus de huit jours, ou plus d'un mois
+  pour les assistants IA).
+
+L'historique des relevés, `vitrine/donnees/historique.json`, est tenu par la tâche de nuit :
+les totaux de chaque relevé, les chiffres photo par photo des cinq dernières semaines (pour
+les gains de la semaine et du mois) et les semaines de GoatCounter.
+
 [vues-pexels.csv](vues-pexels.csv) rassemble le total de vues Pexels, une ligne par
 relevé : l'API Pexels ne fournit pas ce chiffre, et ni ce dépôt ni ses tâches ne relèvent
 aucune statistique sur pexels.com. Karl le note à la main ; une fois la session T faite
@@ -46,12 +65,58 @@ Une fois la session T faite, Telepex ajoute lui-même sa ligne à chaque relevé
 « Telepex ») : ne noter à la main que ce qu'il ne relève pas, comme les abonnés s'il ne
 les lit pas.
 
-Ce relevé alimentera la page de tableau de bord du site (session F) et le compteur de
-l'écran Turing.
+Ce relevé alimente le tableau de bord et le compteur de l'écran Turing.
 
 Chaque relevé compte aussi comme une activité du dépôt. GitHub suspend les tâches
 planifiées d'un dépôt public resté 60 jours sans activité : un relevé par semaine garde
 donc en marche la reconstruction nocturne du site.
+
+## Statistiques Pinterest, chaque semaine
+
+Pinterest n'offre son API qu'aux applications qu'il a approuvées, avec un jeton à renouveler
+au moins tous les 60 jours et 90 jours d'historique au plus : un relevé à la main, une fois
+par semaine, reste le plus simple. Sur Pinterest, ouvrir Statistiques → Vue d'ensemble,
+choisir les 7 derniers jours, puis, sur GitHub, ouvrir [pinterest.csv](pinterest.csv),
+cliquer sur le crayon, ajouter une ligne à la fin et « Commit changes ». Exemple de ligne,
+chiffres fictifs :
+
+    2026-10-05,6900,170,44,30,6,deux nouveaux tableaux
+
+- `date` : au format AAAA-MM-JJ ;
+- `impressions`, `engagements`, `clics_sortants` (vers le site), `enregistrements` : les
+  chiffres des 7 derniers jours ;
+- `abonnes` : facultatif ;
+- `remarque` : facultative.
+
+## Relier GoatCounter, une fois
+
+GoatCounter compte les visites du site et les clics vers Pexels depuis le 28 septembre 2026
+(https://karlforterre.goatcounter.com). Pour que le tableau de bord les affiche, il lui faut
+une clé d'API qui ne sert qu'à lire les statistiques :
+
+1. Sur https://karlforterre.goatcounter.com, cliquer sur son nom d'utilisateur, en haut, puis
+   sur **API**.
+2. Dans l'encadré **Add new API Token** : un nom (**Name**), par exemple « tableau de
+   bord » ; dans **Permissions**, ne cocher que **Read statistics** ; puis **Add new**.
+   Copier la clé qui apparaît dans la liste **API tokens**.
+3. Sur GitHub, dépôt Willwonderc/PexelsWillwonder : **Settings** → **Secrets and
+   variables** → **Actions** → **New repository secret**. Nom : `GOATCOUNTER_JETON` ; valeur :
+   la clé copiée ; puis **Add secret**.
+4. Onglet **Actions** → **Site** → **Run workflow**, ou attendre la nuit : la section « Site
+   photo » du tableau de bord se remplit.
+
+Ne jamais coller cette clé dans une conversation, un fichier du dépôt ou un message : le
+secret de GitHub suffit. Si GoatCounter la refuse un jour, le tableau de bord le signale en
+tête, et le reste du site se construit comme d'habitude.
+
+## Compteur de l'écran Turing
+
+Chaque passage publie aussi
+[https://photos.karlforterre.fr/tableau-de-bord/compteur.json](https://photos.karlforterre.fr/tableau-de-bord/compteur.json),
+que le petit écran Turing du PC relira toutes les heures : vues Pexels, abonnés,
+téléchargements, J'aime et photos retenues, avec la date de chaque relevé, puis visites et
+clics vers Pexels des 7 derniers jours. Le programme de l'écran reste à installer : il
+dépend du modèle de l'écran et du système du PC.
 
 ## Réponses des assistants IA
 
