@@ -25,7 +25,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
 | F | Tableau de bord | fin octobre | GoatCounter créé, quelques relevés notés |
-| H | Instagram | dès que possible | fait : @karl_forterre est un compte « Créateur » depuis le 28 septembre |
+| H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 
 Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
@@ -104,6 +104,10 @@ proposés à Karl : ils suivent ce qu'il regarde.
 ```text
 Session H de docs/plan-site-pro.md, promotion automatique sur Instagram : mon compte Instagram @karl_forterre est un compte professionnel « Créateur ». Ajoute Instagram à la tâche « Photo du jour » (reseaux/photo_du_jour.py, .github/workflows/photo-du-jour.yml), par l'API officielle de Meta avec connexion Instagram, qui ne demande pas de Page Facebook. Vérifie d'abord sa documentation : image JPEG à une adresse publique (celle de images.pexels.com convient), rapport largeur/hauteur entre 4:5 et 1,91:1 (recadre les photos en hauteur en 4:5), 100 publications par 24 heures au plus, jeton valable 60 jours à renouveler automatiquement. Légende : titre, hashtags et renvoi vers le lien du site dans la biographie, puisque les légendes n'ont pas de liens cliquables. Tiens le journal reseaux/photo-du-jour.json comme pour les autres réseaux. Explique-moi d'abord pas à pas comment créer l'application Meta et le jeton, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
 ```
+
+Session faite le 28 septembre 2026 : Instagram rejoint la photo du jour, et la tâche
+« Jeton Instagram » renouvelle le jeton chaque lundi. Réglages à faire une fois, pas à
+pas : `reseaux/README.md`, partie 5.
 
 ## I — Galerie Niort
 

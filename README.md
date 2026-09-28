@@ -42,7 +42,7 @@ cliquer sur « Merge pull request » : le travail rejoint `main`, la branche pub
     pinterest/    visuels verticaux et fichiers d'import (chantier 2)
     atelier/      photos à décrire et tableaux de titres (chantier 3)
     releves/      relevés hebdomadaires des vues Pexels (chantier 4)
-    reseaux/      photo du jour sur Bluesky et Mastodon
+    reseaux/      photo du jour sur Bluesky, Mastodon et Instagram
     referencement/ moteurs de recherche et assistants IA : Bing, Wikidata, Wikimedia Commons
 
 ## À savoir

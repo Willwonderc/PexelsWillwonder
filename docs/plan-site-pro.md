@@ -147,6 +147,10 @@ Wikidata, Wikimedia Commons) et leviers pour les assistants IA :
   Mastodon) : fait (session E). Une « photo du jour » publiée chaque matin par la tâche
   GitHub, avec un lien vers sa page ; mode d'emploi : `reseaux/README.md`. Gratuit, et possible avec un mot de passe d'application ou un jeton
   rangé dans les secrets du dépôt.
+- **Instagram** : fait (session H). La même photo du jour sur le compte @karl_forterre,
+  par l'API officielle de Meta avec connexion Instagram, sans Page Facebook ; légende
+  avec renvoi vers le lien de la biographie ; jeton renouvelé chaque semaine par une
+  tâche GitHub. Mode d'emploi : `reseaux/README.md`, partie 5.
 - **Instagram vers Pinterest** : Pinterest peut republier automatiquement les
   publications d'un compte Instagram relié, si l'option est proposée dans ses
   paramètres (son emplacement varie selon les versions).
@@ -216,7 +220,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | 500px | communauté de photographes, paysages | compte gratuit, quelques photos par semaine |
 | Behance | relié à Adobe Portfolio | une série par projet, avec le lien vers le site |
 | Pixelfed, Bluesky, Mastodon | réseaux ouverts, sans algorithme payant | automatique : photo du jour ([reseaux/](../reseaux/README.md)) |
-| Instagram | la plus grande audience photo | compte professionnel existant : publication automatique par l'API officielle de Meta, à brancher sur la photo du jour (session H) ; le connecteur Metricool, lui, demande une offre payante |
+| Instagram | la plus grande audience photo | automatique : photo du jour sur le compte professionnel @karl_forterre, par l'API officielle de Meta (session H, [reseaux/](../reseaux/README.md)) ; le connecteur Metricool, lui, demande une offre payante |
 | Facebook (profil personnel) | proches et public local | à la main : carrousels et vidéos en français préparés en session ([reseaux/](../reseaux/README.md)) ; aucune publication automatique possible sur un profil |
 | X, Threads, LinkedIn | audience générale et professionnelle | par le connecteur Typefully |
 | Groupes Facebook | groupes locaux (Poitou, Pays basque, Galice) et de photographes | à la main, selon les règles de chaque groupe |
