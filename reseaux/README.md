@@ -396,7 +396,9 @@ ville d'Irun (image 4), dans le carrousel comme dans les vidéos, et rejoint la 
 ## Vidéos diaporama des carrousels
 
 Chaque carrousel peut aussi devenir une vidéo, à publier à sa place ou en plus. Les cinq
-premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais :
+premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais, avec le
+programme de `reseaux/videos/` (mode d'emploi dans son README). Le plan pour l'amener au
+niveau d'une agence est dans `docs/plan-videos.md`. Règles actuelles :
 
 - **Format** : 3:4 (1080 × 1440 pixels), comme les carrousels, de 40 à 70 secondes.
 - **Déroulé** : la couverture du carrousel, puis chaque photo originale avec un zoom
@@ -447,6 +449,8 @@ couverture et sont donc à refaire. Rythme et forme des textes restent à fixer 
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
+    videos/              programme des vidéos diaporama des carrousels (mode d'emploi :
+                         videos/README.md ; plan d'amélioration : docs/plan-videos.md)
 
 Tâches GitHub : `.github/workflows/photo-du-jour.yml` (chaque matin) et
 `.github/workflows/jeton-instagram.yml` (chaque lundi).

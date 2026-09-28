@@ -125,7 +125,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   de Karl (carrousels en français, sans mettre en avant le côté français). Chaque
   carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
   musique libre de droits : classique en chinois et en anglais, pop en français
-  (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
+  (`reseaux/README.md`, « Vidéos diaporama des carrousels ») ; programme de session
+  `reseaux/videos/`, plan pour atteindre le niveau d'une agence `docs/plan-videos.md`.
   Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
