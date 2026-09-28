@@ -1,6 +1,13 @@
 {
  "goatcounter": {
-  "semaines": {}
+  "semaines": {
+   "2026-09-28": {
+    "clics_photos": 0,
+    "clics_suivre": 0,
+    "complete": false,
+    "visites": 1
+   }
+  }
  },
  "releves": {
   "2026-09-24T12:42:00+02:00": {
