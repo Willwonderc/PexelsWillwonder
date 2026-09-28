@@ -117,18 +117,17 @@ galeries.
 | Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
 | Niort and Poitou | 45 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
 | Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | oui |
-| Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | **à vérifier** |
-| Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | **à vérifier** |
-| Normandy and Brittany | 13 | `https://photos.karlforterre.fr/en/galleries/normandie-bretagne/feed.xml` | **à vérifier** |
-| Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | **à vérifier** |
+| Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | oui |
+| Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | oui |
+| Normandy and Brittany | 13 | `https://photos.karlforterre.fr/en/galleries/normandie-bretagne/feed.xml` | oui |
+| Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | oui |
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
-Les tableaux des 19 galeries créées par la session B (septembre 2026) sont nés d'un import
-le 26 septembre ; leurs flux ont été reliés le 27 au soir. Le 28 septembre au matin, 15
-d'entre eux avaient commencé à recevoir leurs épingles. Les 4 marqués « à vérifier »
-n'en avaient encore reçu aucune : vérifier dans Paramètres → Importer du contenu →
-Publication automatique que leur flux y figure, sinon le relier (étape 5), puis noter
-« oui ». Pour une nouvelle galerie, créer son tableau à la main avec le titre anglais de
+Les 34 flux sont reliés. Les tableaux des 19 galeries créées par la session B (septembre
+2026) sont nés d'un import le 26 septembre ; leurs flux ont été reliés le 27 au soir, et
+tous figurent dans Paramètres → Importer du contenu → Publication automatique (vérifié le
+28 septembre). Pinterest peut mettre jusqu'à 24 heures à lire un flux qu'on vient de
+relier. Pour une nouvelle galerie, créer son tableau à la main avec le titre anglais de
 la galerie, puis y relier son flux (étape 5).
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
 reçoit plus rien ; il reste relié pour les photos à venir qui n'entreraient dans aucune.
