@@ -437,7 +437,8 @@ Pexels : ces derniers ont perdu l'appareil, l'objectif, la date et le lieu (vér
 pour une copie. Au moins 3 mégapixels, sans signature ni filigrane. Pour le dolmen de
 Buzy, la version couleur, recadrée pour ôter le visiteur ; pour l'hôtel de ville de Niort,
 la version la moins retouchée. À défaut d'original, le fichier de Pexels reste possible :
-la date se saisit alors à la main.
+la date se saisit alors à la main. Une session Claude Code sur le Mac retrouve et copie les
+originaux : consigne W de `consignes/prochaines-sessions.md`.
 
 **C. Le dépôt**, par l'assistant d'import, ouvert par le bon lien :
 

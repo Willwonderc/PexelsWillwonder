@@ -32,6 +32,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
+| W | Photos d'origine pour Wikimedia Commons, sur le Mac | avant le dépôt sur Commons : dès maintenant pour les deux photos d'Espagne (concours clos le 30 septembre) | aucune pull request : la session copie des fichiers sur le Mac (voir W) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
 | V3 | Studio vidéo : son et voix | après V2 | V2 fusionnée |
@@ -317,6 +318,55 @@ jusque vers le 28 octobre) ; sans légende prête, elle garde le titre français
 ```text
 Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --a-venir 90 : il liste la file Instagram et les légendes qui restent à écrire. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md (et les précisions de Karl qui y sont notées) : une à trois phrases, 300 caractères au plus, avec dans la colonne hashtags cinq hashtags choisis, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
+
+## W — Photos d'origine pour Wikimedia Commons, sur le Mac
+
+Wikimedia Commons veut les fichiers d'origine des photos, avec les données de l'appareil
+(appareil, objectif, date, position) : celles de Pexels les ont perdues, et un fichier
+identique à celui de Pexels sans ces données passe pour une copie
+(`referencement/README.md`, partie 3). Les originaux sont sur le Mac, hors de ce dépôt
+public : la session se lance donc sur le Mac, dans Claude Code, depuis n'importe quel
+dossier. Elle ne touche pas au dépôt : elle copie les fichiers retrouvés dans un dossier
+du Bureau, puis Karl les dépose lui-même sur Commons. Compter une demi-heure à une heure.
+
+```text
+Session W, sur mon Mac : retrouve et copie les fichiers d'origine de mes photos pour Wikimedia Commons.
+Je vais déposer sur Wikimedia Commons des photos déjà publiées sur Pexels (liste ci-dessous). Commons a besoin des fichiers d'origine, avec leurs données d'appareil (EXIF : appareil, objectif, date de prise de vue, position) ; les fichiers téléchargés sur Pexels les ont perdues. Retrouve sur ce Mac le fichier d'origine de chaque photo et copie-le dans un dossier « Photos pour Commons » sur le Bureau.
+Règles :
+- Ne modifie, ne déplace, ne renomme et ne supprime aucun de mes fichiers : copie seulement (cp -p), vers ce dossier.
+- N'envoie et ne publie rien nulle part. Seule lecture en ligne permise : les images de référence ci-dessous, sur images.pexels.com ; jamais les pages de pexels.com.
+- Écarte les fichiers téléchargés de Pexels (noms commençant par « pexels ») et les copies réduites (moins de 3 mégapixels).
+- Sers-toi d'abord des outils du Mac (mdfind, mdls, sips, qlmanage) ; demande-moi avant d'installer quoi que ce soit. Si macOS refuse l'accès à un dossier (bibliothèque Photos, disque externe), explique-moi pas à pas comment donner l'accès complet au disque, puis attends-moi.
+Méthode :
+1. Télécharge dans un dossier temporaire l'image de référence de chaque photo : https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=500 (NUMÉRO : le numéro Pexels de la liste).
+2. Cherche les candidates partout où je range mes photos : Images, Bureau, Documents, Téléchargements, iCloud Drive, bibliothèque Photos (dossier originals ; si elle ne garde que des versions allégées, dis-le-moi), catalogues Lightroom (fichiers .lrcat, lisibles comme une base SQLite, qui donnent le chemin et la date de chaque original), disques externes branchés (/Volumes). Avec Spotlight (mdfind, mdls) : images prises avant la date d'import sur Pexels ; si le fichier a une position GPS, à moins de 2 km du lieu. Si tu ne trouves rien, demande-moi où sont mes photos.
+3. Compare chaque candidate à l'image de référence par une empreinte visuelle de petites versions faites par sips, puis regarde toi-même les meilleures, côte à côte avec la référence. Mes photos publiées peuvent être recadrées, retouchées ou passées en noir et blanc : c'est le même cliché qu'il faut retrouver.
+4. Pour chaque photo, garde le fichier le plus proche de l'appareil qui a encore ses données : le JPEG de l'appareil, ou l'export retouché s'il les a gardées. Si l'original n'existe qu'en RAW (CR2, CR3, NEF, ARW, RAF, DNG…) ou en HEIC, formats que Commons refuse, copie-le tel quel et, à côté, une conversion en JPEG de qualité maximale par sips ; vérifie avec mdls qu'elle a gardé les données.
+5. Cas particuliers : pour le n° 11 (dolmen de Buzy, publié en noir et blanc), cherche la version couleur ; pour le n° 6 (hôtel de ville de Niort), copie aussi la version la moins retouchée que tu trouves.
+6. Nomme chaque copie « 01 - lieu - numéro Pexels.jpg » (numéro de la liste), sans toucher au fichier d'origine, et supprime à la fin le dossier temporaire.
+À la fin, écris dans le dossier « Photos pour Commons » un fichier rapport.csv et montre-moi un tableau : numéro, photo, fichier d'origine (chemin), type (appareil, export, RAW, HEIC), date de prise de vue, appareil et objectif, définition, position GPS (oui ou non), certitude (sûre, probable ou non trouvée), remarque. Pour chaque cas « probable », montre-moi la référence Pexels et le fichier trouvé côte à côte. L'année de prise de vue servira aux titres sur Commons.
+Les photos (numéro de la liste · numéro Pexels · lieu · importée sur Pexels le · définition sur Pexels · coordonnées du lieu) :
+01 · 39423921 · Irun, hôtel de ville · 2026-09-08 · 5000×3667 · 43.3377, -1.7888
+02 · 39228699 · Gijón, Universidad Laboral, la tour et l'église · 2026-08-27 · 3333×5000 · 43.5241, -5.6135
+03 · 23414381 · Niort, église Saint-André au-dessus de la ville · 2024-05-04 · 5408×3611 · 46.3276, -0.4621
+04 · 33035661 · Niort, flèches de l'église Saint-André dans la verdure · 2025-07-16 · 4160×6240 · 46.3276, -0.4621
+05 · 38279508 · Niort, hôtel de préfecture des Deux-Sèvres · 2026-06-25 · 3875×5834 · 46.3250, -0.4658
+06 · 38279504 · Niort, hôtel de ville · 2026-06-25 · 4160×6240 · 46.3237, -0.4647
+07 · 39376205 · Bordeaux, monument aux Girondins, statue de la Liberté · 2026-09-05 · 3333×5000 · 44.8453, -0.5747
+08 · 38694047 · Villandry, jardins du château vus d'en haut · 2026-07-23 · 2792×5000 · 47.3405, 0.5145
+09 · 34894970 · îles Chausey, le phare vu de la mer · 2025-11-23 · 6240×4160 · 48.8694, -1.8225
+10 · 34894959 · îles Chausey, la tour du phare · 2025-11-23 · 4160×6240 · 48.8694, -1.8225
+11 · 39182179 · Buzy, dolmen · 2026-08-24 · 5000×3334 · 43.1278, -0.4436
+12 · 13087478 · Moyemont, chemin bordé d'arbres · 2022-08-04 · 6240×4160 · 48.3508, 6.5389
+Et, si tu les trouves :
+13 · 38995522 · éclipse totale de Soleil, en Galice, photographiée le 12 août 2026 · 2026-08-12 · 3024×4032
+14 · 34500384 · Cognac, hôtel de ville · 2025-10-29 · 4160×6240 · 45.6977, -0.3261
+15 · 13041935 · Xonrupt-Longemer, chapelle Saint-Florent · 2022-07-31 · 6246×4170 · 48.0770, 6.9457
+```
+
+Ensuite, déposer les fichiers sur Commons en suivant `referencement/README.md`,
+« Déposer les photos, pas à pas » ; la liste reprend les numéros de son tableau (n° 1 à 12)
+et ses compléments (n° 13 à 15).
 
 ## V — Studio vidéo
 
