@@ -28,6 +28,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | U | Telepex : tableau de bord, publications et vidéos | faite le 28 septembre | Telepex 1.2 (voir U) |
 | F | Tableau de bord | faite le 28 septembre | GoatCounter relié le 28 septembre (voir F) |
 | G | Google et Bing dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
+| R | Réseaux sociaux dans le tableau de bord | quand vous voulez | la pull request précédente fusionnée ; l'autorisation des statistiques Instagram se donne pendant la session (voir R) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -243,6 +244,40 @@ le compte de service Google, sa clé et la clé d'API de Bing, rangées dans les
 Google Search Console et Bing Webmaster Tools »). Au premier passage avec la clé de Bing,
 comparer ses positions avec celles de Bing Webmaster Tools : Microsoft n'en documente pas
 l'échelle.
+
+## R — Réseaux sociaux dans le tableau de bord
+
+Ajoute au tableau de bord du site, que Telepex affiche dans son onglet « Tableau de bord »
+(session U), les chiffres de Bluesky, Mastodon, Instagram et Pinterest, relevés chaque nuit
+par la tâche GitHub, même Mac éteint. Telepex n'a rien à relever lui-même : il ne le fait
+que pour Pexels, dont l'API officielle ne donne ni vues ni téléchargements. Ces quatre
+réseaux ont une API officielle, et le dépôt a déjà les accès de la photo du jour ; lire
+leurs pages web, comme Telepex le fait pour Pexels, enfreindrait leurs conditions et
+exposerait les comptes à un blocage.
+
+Ce que chaque réseau peut donner :
+
+- **Bluesky et Mastodon** : ni l'un ni l'autre ne compte les vues. Leurs API publiques
+  donnent les J'aime, partages, réponses et abonnés, sans nouvelle clé. Au 28 septembre,
+  Mastodon comptait 5 publications et aucun abonné : les chiffres seront modestes au début.
+- **Instagram** : vues, couverture, J'aime, enregistrements, partages et abonnés, avec une
+  autorisation de plus (`instagram_business_manage_insights`) et un jeton refait une fois ;
+  le renouvellement du lundi continue ensuite tout seul.
+- **Pinterest** : impressions, enregistrements et clics, si Pinterest ouvre son API au
+  compte ; sinon, le relevé à la main de `releves/pinterest.csv` reste.
+
+Le journal de la photo du jour (`reseaux/photo-du-jour.json`) garde le lien de chaque
+publication, réseau par réseau : le tableau de bord peut ainsi mettre, pour chaque photo,
+ses chiffres sur chaque réseau à côté de ses vues Pexels, et montrer ce qui marche où.
+
+```text
+Session R : les réseaux sociaux dans le tableau de bord du site (que Telepex affiche dans son onglet « Tableau de bord »), relevés chaque nuit par la tâche GitHub, par les API officielles seulement, jamais en lisant les pages web des réseaux.
+1. Bluesky et Mastodon, par leurs API publiques, sans nouvelle clé : abonnés semaine par semaine ; pour chaque publication de la photo du jour (liens dans reseaux/photo-du-jour.json), J'aime, partages, réponses et citations. Ces deux réseaux ne comptent pas les vues : la rubrique le dit.
+2. Instagram (@karl_forterre), par l'API officielle avec connexion Instagram : vues, couverture, J'aime, commentaires, enregistrements et partages de chaque publication ; abonnés et vues du compte. Il faut l'autorisation instagram_business_manage_insights : explique-moi pas à pas comment l'ajouter et refaire le jeton (reseaux/README.md, 5.4 à 5.6), sans jamais me demander de coller un jeton dans la conversation ; le renouvellement du lundi doit continuer de marcher. Sans l'autorisation, la rubrique le signale et le site se construit quand même.
+3. Pinterest : vérifie ce que permet aujourd'hui l'API v5 pour les statistiques du compte et des épingles (accès, historique, durée du jeton). Si elle est accessible pour un compte comme le mien, branche-la comme Instagram, jeton renouvelé par une tâche GitHub ; sinon, garde le relevé à la main de releves/pinterest.csv et explique-moi pourquoi.
+4. Dans le tableau de bord, une rubrique « Réseaux sociaux » : un bloc par réseau, courbes semaine après semaine, les dix publications qui ont le mieux marché avec leur photo, et pour chaque photo publiée ses chiffres sur chaque réseau à côté de ses vues Pexels. Historique dans vitrine/donnees/historique.json ; abonnés de chaque réseau dans compteur.json. Vérifie la documentation officielle de chaque API avant d'écrire le code (quotas, métriques en service : Instagram a remplacé les impressions par les vues en 2025).
+Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+```
 
 ## H — Instagram
 
