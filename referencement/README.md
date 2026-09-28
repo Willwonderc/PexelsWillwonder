@@ -396,57 +396,81 @@ licence Pexels et va sur Commons sous licence libre.
 
 Ces photos sont déjà publiées sur Pexels, sous une autre licence. Commons demande alors
 à l'auteur de prouver son identité, même s'il les dépose lui-même ; sans cela, les
-fichiers sont supprimés au bout de 30 jours. Le plus simple : une autorisation
-permanente, qui vaut pour toutes les photos déposées depuis le compte.
+fichiers sont supprimés au bout de 30 jours. Commons a prévu le cas de qui publie
+régulièrement ailleurs : un courriel déclare une fois pour toutes que le compte est celui
+de l'auteur et qu'il peut placer ses photos sous licence libre
+(https://commons.wikimedia.org/wiki/Commons:Volunteer_Response_Team/fr). Il part de
+**contact@karlforterre.fr**, l'adresse des mentions légales des deux sites, vers
+**permissions-fr@wikimedia.org**, juste après le premier dépôt, pour citer les fichiers
+(étape D ci-dessous). Un bénévole le traite en quelques jours ou quelques semaines, puis
+remplace sur chaque fichier le bandeau « autorisation en cours » par le numéro de son
+dossier.
 
-1. Créer le compte (partie 2, même compte que Wikidata ; nom conseillé : `KarlForterre`).
-   Un compte de moins de quatre jours doit remplir un code de vérification à chaque
-   dépôt : rien de grave.
-2. Sur sa **page utilisateur** Commons, écrire :
+### Déposer les photos, pas à pas
+
+Compter une heure et demie. Les photos d'Espagne d'abord : le concours espagnol ferme le
+30 septembre.
+
+**A. Le compte** (10 minutes, une fois pour toutes)
+
+1. https://commons.wikimedia.org/wiki/Special:CreateAccount : nom d'utilisateur
+   `KarlForterre`, un mot de passe, l'adresse contact@karlforterre.fr. Le même compte
+   sert sur Wikidata et Wikipédia.
+2. Cliquer sur le lien du courriel de confirmation : le concours exige une adresse
+   confirmée (à défaut : **Préférences** → **Confirmer votre adresse de courriel**).
+3. Page utilisateur : https://commons.wikimedia.org/wiki/User:KarlForterre → **Créer** →
+   coller le texte suivant → **Publier la page** :
    `Je suis Karl Forterre, photographe. Mes photos sont aussi publiées sur Pexels
    (https://www.pexels.com/@karl-forterre-28489473) et sur https://photos.karlforterre.fr.`
-3. Ajouter à la rubrique `[reseaux]` de `vitrine/site.ini` la ligne
-   `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:KarlForterre` : le site
-   renvoie alors au compte, preuve de plus qu'il est bien celui de l'auteur.
-4. Envoyer, depuis **contact@karlforterre.fr** (l'adresse du site est la meilleure
-   preuve), à **permissions-fr@wikimedia.org**, le modèle « Déclaration de consentement »
-   (https://commons.wikimedia.org/wiki/Commons:Messages_type/D%C3%A9claration_de_consentement)
-   ou celui du générateur (https://commons.wikimedia.org/wiki/Commons:Wikimedia_VRT_release_generator),
-   complété ainsi : Karl Forterre est l'auteur et le titulaire des droits des photos
-   publiées sur son profil Pexels et sur photos.karlforterre.fr ; le compte Commons
-   `KarlForterre` est le sien et il est autorisé à publier ces photos sous licence
-   CC BY-SA 4.0. Le modèle fait confirmer qu'on a compris que chacun pourra les
-   réutiliser, même commercialement, et que la licence ne peut pas être retirée.
-5. Sur la page de chaque photo déposée, ajouter le modèle `{{PP}}` (autorisation en
-   cours) : un bénévole le retire une fois le courriel traité.
+4. Ajouter à la rubrique `[reseaux]` de `vitrine/site.ini` la ligne
+   `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:KarlForterre`, ou le
+   demander à une session Claude : le site renvoie alors au compte, preuve de plus.
 
-### Déposer les photos
+Un compte de moins de quatre jours doit recopier un code de vérification à chaque dépôt :
+rien de grave.
 
-Pour le concours, ouvrir l'assistant par le lien du concours, qui y inscrit d'office les
-photos : en France, https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-fr,
-qui demande le code Mérimée du monument (colonne « Concours » du tableau ci-dessous) ; en
-Espagne, avant le 30 septembre, https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-es,
-qui demande l'identifiant donné par la liste des monuments ou des hôtels de ville
-(https://es.wikipedia.org/wiki/Wikiproyecto:Patrimonio_hist%C3%B3rico/Casas_consistoriales).
-Le compte Commons doit avoir une adresse électronique confirmée. Pour les autres photos,
-l'assistant ordinaire (https://commons.wikimedia.org/wiki/Special:UploadWizard, ou menu de
-gauche → **Importer un fichier**). L'un et l'autre comptent six étapes :
+**B. Les fichiers**
+
+Les fichiers d'origine de l'appareil, avec leurs données (EXIF), plutôt que ceux de
+Pexels : ces derniers ont perdu l'appareil, l'objectif, la date et le lieu (vérifié le
+28 septembre 2026), et un fichier identique à celui de Pexels, sans ces données, passe
+pour une copie. Au moins 3 mégapixels, sans signature ni filigrane. Pour le dolmen de
+Buzy, la version couleur, recadrée pour ôter le visiteur ; pour l'hôtel de ville de Niort,
+la version la moins retouchée. À défaut d'original, le fichier de Pexels reste possible :
+la date se saisit alors à la main.
+
+**C. Le dépôt**, par l'assistant d'import, ouvert par le bon lien :
+
+- concours de France, jusqu'au 15 octobre :
+  https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-fr, qui demande le
+  code Mérimée (colonne « Concours » du tableau ci-dessous) ;
+- concours d'Espagne, jusqu'au 30 septembre :
+  https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-es, qui demande
+  l'identifiant de la liste du concours : `Q20492832` pour l'hôtel de ville d'Irun (liste
+  des hôtels de ville du Pays basque). La Universidad Laboral de Gijón, protégée depuis
+  2016, manque aux listes du concours : la déposer par ce lien avec son numéro Wikidata,
+  `Q5196648`, sans garantie qu'elle concoure ;
+- hors concours : https://commons.wikimedia.org/wiki/Special:UploadWizard (menu de
+  gauche → **Importer un fichier**).
+
+L'assistant compte six étapes :
 
 1. **Téléverser** : **Sélectionnez les fichiers multimédias à partager**, choisir les
-   douze fichiers, puis **Continuer**.
+   fichiers de ce concours, puis **Continuer**.
 2. **Droits accordés** : **Il s'agit de mon propre travail et tout le monde est libre de
    l'utiliser.** → **Il s'agit d'un travail entièrement personnel** → à la question de
    la licence, choisir **Creative Commons Attribution – Partage dans les mêmes
-   conditions (CC BY-SA 4.0)** : aucune licence n'est cochée d'avance. Si l'assistant
-   demande à quoi sert l'œuvre : **Cette œuvre fournit des connaissances, des
-   instructions ou des informations à d'autres.**
+   conditions (CC BY-SA 4.0)**. Si l'assistant demande à quoi sert l'œuvre : **Cette
+   œuvre fournit des connaissances, des instructions ou des informations à d'autres.**
 3. **Décrire**, pour chaque photo :
    - **Titre** : le nom proposé dans le tableau ci-dessous, avec l'année de la prise de
      vue (à vérifier dans les données de l'appareil) ;
    - **Légende** (obligatoire) : une phrase en français, puis **Ajouter une légende dans
      une autre langue** pour l'anglais ;
    - **Description** : ce que montre la photo et où, puis `Aussi publiée par l'auteur
-     sur Pexels :` suivi de l'adresse Pexels de la photo ;
+     sur Pexels :` suivi de l'adresse Pexels de la photo (pour la photo 23414381, ajouter
+     que Pexels la nomme par erreur Notre-Dame) ;
+   - **Identifiant du monument**, pour le concours (voir plus haut) ;
    - **Date** : reprise des données de l'appareil ;
    - **Catégorie** : celles du tableau (taper le début du nom et choisir dans la
      liste) ; on peut y ajouter une catégorie personnelle, `Photos by Karl Forterre` ;
@@ -456,7 +480,49 @@ gauche → **Importer un fichier**). L'un et l'autre comptent six étapes :
 4. **Ajouter des données** : dans **Les principaux sujets visibles dans cet ouvrage**,
    taper le nom du lieu et choisir sa fiche Wikidata. **Publier les données pour tous les
    fichiers**.
-5. Sur la page de chaque photo, ajouter `{{PP}}` tant que le courriel n'a pas été traité.
+5. Noter l'adresse de chaque fichier déposé, de la forme
+   `https://commons.wikimedia.org/wiki/File:…` : le courriel les cite.
+6. Sur la page de chaque photo : **Modifier**, coller `{{subst:PP}}` tout en haut, puis
+   **Publier les modifications**. Ce bandeau « autorisation en cours » protège la photo le
+   temps que le courriel soit traité (`{{PP}}` seul affiche une erreur).
+
+**D. Le courriel** (10 minutes, juste après le premier dépôt)
+
+Depuis contact@karlforterre.fr, à permissions-fr@wikimedia.org. Le texte reprend mot pour
+mot le modèle officiel de Commons (« Déclaration de consentement »), mis au pluriel, et y
+ajoute la déclaration du compte. Remplacer la liste et la date :
+
+```text
+Objet : Autorisation de publication : photographies de Karl Forterre, compte Commons KarlForterre
+
+Bonjour,
+
+Je confirme par la présente être l'auteur et le titulaire unique et exclusif des droits d'auteur des photographies suivantes, que j'ai moi-même déposées sur Wikimedia Commons depuis mon compte KarlForterre (https://commons.wikimedia.org/wiki/User:KarlForterre) :
+
+- https://commons.wikimedia.org/wiki/File:…
+- https://commons.wikimedia.org/wiki/File:…
+
+Ces photographies ont d'abord été publiées sous la licence Pexels, sur mon profil https://www.pexels.com/@karl-forterre-28489473 et sur mon site https://photos.karlforterre.fr, qui renvoient l'un à l'autre ; la page de chaque fichier sur Commons donne l'adresse de la photo sur Pexels. Je vous écris depuis l'adresse contact@karlforterre.fr, qui figure dans les mentions légales de ce site (https://photos.karlforterre.fr/mentions-legales/).
+
+Je donne mon autorisation pour publier ces œuvres sous la licence Creative Commons Attribution – Partage dans les mêmes conditions 4.0 International (CC BY-SA 4.0).
+
+Je comprends qu'en faisant cela je permets à quiconque d'utiliser mes œuvres dans un but commercial, et de les modifier dans la mesure des exigences imposées par la licence.
+
+Je suis conscient de toujours jouir des droits extra-patrimoniaux sur mes œuvres, et garder le droit d'être cité pour celles-ci selon les termes de la licence retenue. Les modifications que d'autres pourront faire ne me seront pas attribuées.
+
+Je suis conscient qu'une licence libre concerne seulement les droits patrimoniaux de l'auteur, et je garde la capacité d'agir envers quiconque n'emploierait pas ce travail d'une manière autorisée, ou dans la violation des droits de la personne, des restrictions de marque déposée, etc.
+
+Je comprends que je ne peux pas retirer cette licence, et que les images sont susceptibles d'être conservées de manière permanente par n'importe quel projet de la fondation Wikimedia.
+
+Enfin, comme je publie régulièrement mes photographies sur Pexels et sur mon site, je déclare que le compte Wikimedia Commons KarlForterre est le mien, et qu'il est autorisé à placer sous licence CC BY-SA 4.0 celles de mes photographies publiées sur ces deux sites qu'il déposera à l'avenir. Mes autres photographies restent sous la seule licence Pexels.
+
+Le … (date)
+Karl Forterre, auteur des photographies
+contact@karlforterre.fr
+```
+
+Après le second dépôt (les photos de France), répondre à ce même courriel, sans changer
+l'objet, avec la liste des nouveaux fichiers : le bénévole les rattache au même dossier.
 
 La page de chaque photo indique ensuite comment la créditer : « Karl Forterre, CC BY-SA
 4.0, via Wikimedia Commons ».
