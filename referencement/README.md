@@ -444,7 +444,7 @@ photographié.
 | # | Photo (page du site) | Nom de fichier proposé (ajouter l'année de la prise de vue) | Catégorie Commons | À savoir |
 |---|---|---|---|---|
 | 1 | [38694057](https://photos.karlforterre.fr/photo/38694057/) | Villandry - jardins du château vus du ciel | Gardens of the Château de Villandry (119 fichiers) | sur Pexels depuis 2026 ; jardins recréés à partir de 1906 par Joachim Carvallo, mort en 1936 |
-| 2 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - flèches de l'église Saint-André au-dessus de la ville | Église Saint-André (Niort) (27) | sur Pexels depuis 2024 ; église néogothique de 1855-1863 ; le site la nomme à tort Notre-Dame |
+| 2 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - flèches de l'église Saint-André au-dessus de la ville | Église Saint-André (Niort) (27) | sur Pexels depuis 2024 ; église néogothique de 1855-1863 ; Pexels la nomme à tort Notre-Dame, le site dit Saint-André |
 | 3 | [10187432](https://photos.karlforterre.fr/photo/10187432/) | Marais poitevin - barques amarrées le long d'un canal | Marais Poitevin | sur Pexels depuis 2021 ; préciser la commune si Karl la connaît |
 | 4 | [34500384](https://photos.karlforterre.fr/photo/34500384/) | Cognac - hôtel de ville | Town hall of Cognac (10) | sur Pexels depuis 2025 ; bâtiment de 1840 |
 | 5 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Granville - phare du cap Lihou | Phare du cap Lihou (18) | sur Pexels depuis 2025 |
