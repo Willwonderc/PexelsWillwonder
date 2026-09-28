@@ -703,7 +703,7 @@ def choisir_cadrages(M, c, photo, sujets):
             continue
         r = orientation(photo(p.photo))
         s = sujets[p.photo]
-        paysage = r > a_cadre * 1.35
+        paysage = r > max(a_cadre * 1.35, 1.15)  # vraie photo en paysage (pas un format presque carré)
         meme = p.photo == prec.photo
         if paysage:
             # le sujet tient-il dans un cadre plein ? sinon, la photo entière
@@ -809,12 +809,14 @@ class Rendu:
             else:
                 r = im.width / im.height
                 x0, y0, x1, y1 = M.zone()
-                # photo entière, réduite si besoin pour que photo et sous-titres tiennent dans la zone sûre
-                place = (y1 - y0) - round(104 * u) - 2 * M.pas_ligne()
+                # photo entière, sous la barre de progression et le compteur, réduite si besoin
+                # pour que photo et sous-titres tiennent dans la zone sûre
+                haut_min = y0 + round(94 * u)
+                place = y1 - haut_min - round(64 * u) - 2 * M.pas_ligne()
                 pw = min(round(1000 * u) if M.fmt != "1x1" else round(900 * u), int(place * r))
                 ph = round(pw / r)
                 bloc = ph + round(64 * u) + 2 * M.pas_ligne()
-                haut = borne((H - bloc) / 2 - 0.03 * H, y0 + 40 * u, y1 - bloc)
+                haut = borne((H - bloc) / 2 - 0.03 * H, haut_min, y1 - bloc)
                 px, py = (W - pw) // 2, round(haut)
                 p.boite_photo = (px, py, px + pw, py + ph)
                 fond = fond_flou(im, W, H, 0.58)
