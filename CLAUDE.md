@@ -51,6 +51,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - **Public français** (vidéos, Facebook personnel) : ne pas mettre en avant le
   « photographe français » ni les « en France, on… », que Karl trouve peu sérieux ; dire
   « Maëlle », pas « ma fiancée ».
+- **Instagram** : toutes les publications en français, dans un style proche de
+  l'expression de Karl (guide `reseaux/style-karl.md`, tiré de ses propres textes) ; les
+  règles du public français s'y appliquent.
 - **Musique des vidéos** : libre de droits (CC0 de préférence ; CC BY ou CC BY-SA avec le
   crédit exigé), en privilégiant les morceaux les plus employés dans la publicité et les
   médias (grands classiques, pop instrumentale connue).
@@ -113,7 +116,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
   téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG
   (sinon AVIF ou WebP selon le client), recadrée au centre entre 4:5 et 1,91:1 ;
-  5 hashtags au plus ; légende sans lien (« link in bio »). Jeton de 60 jours renouvelé
+  5 hashtags au plus ; légende en français, sans lien (« lien dans la bio »), écrite à
+  l'avance dans le style de Karl (`reseaux/legendes-instagram.csv`, ligne
+  `langue_instagram` de `site.ini`), sinon le titre français. Jeton de 60 jours renouvelé
   chaque lundi par `.github/workflows/jeton-instagram.yml`, qui réécrit le secret
   `INSTAGRAM_JETON` grâce au jeton GitHub du secret `JETON_GITHUB` ; ne jamais lancer
   `--renouveler-jeton` en session.
@@ -128,7 +133,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   de Karl (carrousels en français, sans mettre en avant le côté français). Chaque
   carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
   musique libre de droits : classique en chinois et en anglais, pop en français
-  (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
+  (`reseaux/README.md`, « Vidéos diaporama des carrousels ») ; programme de session
+  `reseaux/videos/`, plan pour atteindre le niveau d'une agence `docs/plan-videos.md`.
   Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
