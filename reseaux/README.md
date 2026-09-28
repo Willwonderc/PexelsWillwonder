@@ -461,8 +461,11 @@ niveau d'une agence est dans `docs/plan-videos.md`. Règles actuelles :
   « Ligne éditoriale des textes ».
 - **Envoi** : un fichier par vidéo (30 Mo au plus par fichier), la langue dans le nom.
   Karl les range sur son Mac dans `Documents Locaux/Caroussels`, en trois dossiers :
-  « Chinois (RedNote) », « Français » et « Anglais ». Une fois la session U faite, Telepex
-  les repère dans Téléchargements, les range et les montre dans son onglet « Vidéos ».
+  « Chinois (RedNote) », « Français » et « Anglais ». Telepex (session U, faite le
+  28 septembre) les repère dans Téléchargements, même quand le téléchargement a simplifié
+  leur nom (« 4 - Road trip daoût chinois.mp4 »), les range sous le nom du dépôt et les
+  montre dans son onglet « Carrousels ». Envoyer avec elles les trois fichiers « Musiques
+  et licences » : Telepex en tire son bouton « Copier le crédit musical ».
 
 ## Facebook personnel, à la main
 
@@ -483,7 +486,14 @@ https://photos.karlforterre.fr/tableau-de-bord/publications.json et publie les i
 côté : l'onglet « Publications » de Telepex, l'application Mac de Karl, les y lit (textes à
 copier, images dans l'ordre, vidéo du même sujet, validation). Ce fichier n'apparaît ni dans
 le plan du site, ni dans `llms.txt`, ni dans IndexNow, et ne contient que ce qui est fait
-pour être publié.
+pour être publié. GitHub Pages le garde en cache jusqu'à dix minutes (`max-age=600`), et
+un paramètre ajouté à l'adresse n'y change rien : Telepex garde donc chaque validation sur
+le Mac en attendant la liste suivante.
+
+Champs de chaque publication dans `publications.json` : `id`, `reseau`, `langue`, `titre`,
+`texte`, `traduction`, `hashtags`, `images` (adresse publique et nom, dans l'ordre),
+`video`, `conseil`, `prevue` et `validee` (date de validation, ou `null`), puis, quand
+`publication.json` les a, `etapes`, `forme`, `sujet` et `carrousel`, repris tels quels.
 
 Exemple de `publication.json`, textes abrégés :
 
@@ -518,7 +528,13 @@ Exemple de `publication.json`, textes abrégés :
   `fichier` de `videos/donnees.py`) ; Telepex reçoit le nom du fichier de la langue, par
   exemple « 4 - Road trip d'août (chinois).mp4 ».
 - `date_prevue` et `heure_conseillee` (facultatifs) : le jour et le moment conseillés.
-- `etapes` (facultatif) : le pas à pas.
+- `etapes` (facultatif) : le pas à pas, une phrase par étape. Telepex y accroche ses
+  boutons d'après ces mots, à garder :
+  - « AirDrop », ou « envoyer » avec « image » ou « vidéo » : bouton d'envoi ;
+  - « copier » ou « coller » : textes à copier ;
+  - « sélectionner », « toucher + » ou « choisir les » : choix des images dans l'ordre ;
+  - « publier » : publication ;
+  - toute autre phrase reste une simple consigne.
 - `images` : dans l'ordre de publication, la première en couverture ; aucune pour une
   vidéo seule ou un texte.
 - `textes` : le titre, pour RedNote (nom commençant par « Titre »), puis le texte à
@@ -531,11 +547,25 @@ avant de pousser. `build.py` laisse de côté une publication illisible ou incom
 signale dans son journal.
 
 Quand Karl valide une publication dans Telepex, Telepex ajoute une ligne à
-`publications-validees.csv` (colonnes `date,id,reseau,langue,remarque`, remarque
-« Telepex »), en un commit « Publication validée : <id> » ; seul Telepex tient ce journal.
-La publication n'est plus proposée : elle reste 30 jours dans la liste, marquée validée,
-sans ses images. Celles-ci ne servent plus : une session peut alors les retirer du dépôt,
-en gardant `publication.json` pour mémoire.
+`publications-validees.csv` (colonnes `date,id,reseau,langue,remarque`, date au format
+AAAA-MM-JJ, remarque « Telepex »), en un commit « Publication validée : <id> » ; seul
+Telepex tient ce journal, qu'il ne réécrit jamais. La publication n'est plus proposée :
+elle reste 30 jours dans la liste, marquée validée, sans ses images. Celles-ci ne servent
+plus : une session peut alors les retirer du dépôt, en gardant `publication.json` pour
+mémoire.
+
+Le journal se lit dans l'ordre du fichier, et la dernière ligne d'un `id` l'emporte :
+
+- remarque « Telepex » : publication faite, à la date indiquée ;
+- remarque « Telepex annulation » (commit « Publication annulée : <id> ») : Karl a annulé
+  la validation ; la publication redevient à faire, avec ses images ;
+- vidéo publiée hors de la liste (onglet « Carrousels » de Telepex) : remarque « Telepex »,
+  avec un `id` de la forme `AAAA-MM-JJ-<reseau>-video-<n>-<titre>-<langue>`, par exemple
+  `2026-09-30-facebook-video-4-road-trip-d-aout-fr` ; réseau `rednote`, `facebook`,
+  `instagram`, `youtube` ou `tiktok`. Ces lignes n'ont pas de dossier dans
+  `publications/` : `build.py` les ignore, mais elles disent aux sessions ce qui est paru.
+
+Les liens des publications restent sur le Mac : le journal n'en contient jamais.
 
 Premières publications : les cinq carrousels RedNote prévus du 28 septembre au
 7 octobre 2026.

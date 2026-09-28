@@ -24,9 +24,9 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | C | Traductions françaises | mi-octobre | B fusionnée |
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
-| T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
-| U | Telepex : tableau de bord, publications et vidéos | onglet Publications fait le 28 septembre ; le reste après T | T faite ; elle se lance aussi sur le Mac, dans le dossier de Telepex (voir U) |
-| F | Tableau de bord | faite le 28 septembre | reste la clé GoatCounter (voir F) |
+| T | Telepex : envoi automatique au tableau de bord | faite le 28 septembre | premier relevé envoyé le 28 septembre (voir T) |
+| U | Telepex : tableau de bord, publications et vidéos | faite le 28 septembre | Telepex 1.2 (voir U) |
+| F | Tableau de bord | faite le 28 septembre | GoatCounter relié le 28 septembre (voir F) |
 | G | Google et Bing dans le tableau de bord | quelques jours après la vérification des deux sites | Search Console et Bing Webmaster Tools vérifiés (voir G) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
@@ -120,6 +120,10 @@ Session T, dans le dossier de Telepex : Telepex doit envoyer tout seul, après c
 4. Mets à jour CLAUDE.md et README.md de Telepex : la feuille du relevé, et elle seule, est envoyée au dépôt public. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
 ```
 
+Session faite le 28 septembre : premier envoi réel, commit « Relevé Telepex du
+2026-09-28 » (919 photos, 895 030 vues, 20 abonnés), repris aussitôt par le tableau de bord
+et `compteur.json`.
+
 ## U — Telepex : tableau de bord, publications et vidéos
 
 La session U fait de Telepex le poste de publication de Karl, sur son Mac : le tableau de
@@ -130,8 +134,8 @@ du site : chaque session qui en prépare une la dépose dans `reseaux/publicatio
 `build.py` les publie dans `/tableau-de-bord/publications.json`, que lit Telepex. Chaque
 validation rejoint le journal `reseaux/publications-validees.csv`, grâce au jeton de la
 session T : la publication n'est plus proposée, et les sessions suivantes savent ce qui
-est paru. L'onglet Publications existe depuis le 28 septembre. Comme T, la session se
-lance sur le Mac, dans Claude Code, dans le dossier de Telepex.
+est paru. Comme T, la session se lance sur le Mac, dans Claude Code, dans le dossier de
+Telepex.
 
 ```text
 Session U, dans le dossier de Telepex, après la session T : fais de Telepex mon poste de publication. Quatre onglets en haut de la fenêtre, dans le style actuel : « Photos » (la liste actuelle), « Tableau de bord », « Publications » et « Vidéos ». Telepex ne supprime jamais une photo ni une vidéo, et n'envoie au dépôt public Willwonderc/PexelsWillwonder que la feuille du relevé (session T) et le journal des publications (point 3).
@@ -141,6 +145,21 @@ Session U, dans le dossier de Telepex, après la session T : fais de Telepex mon
 4. Vidéos : le dossier Documents Locaux/Caroussels (cherche où il est sur mon Mac, sans rien y modifier ; « Changer » en choisit un autre, mémorisé), avec ses dossiers « Chinois (RedNote) », « Français » et « Anglais ». Une ligne par carrousel, dans l'ordre des numéros (vidéos nommées « 1 - Ciels et nuits étoilées (chinois).mp4 », « … (français).mp4 », « … (anglais).mp4 »), une colonne par langue : vignette, durée, lecture dans l'application, Finder, AirDrop et partage, glisser vers le navigateur, « Copier le crédit musical » (tiré de « Musiques et licences (langue).txt ») et « Valider une publication » (réseau au choix, même journal). Une langue absente est signalée. Les vidéos ainsi nommées qui arrivent dans Téléchargements sont repérées : « Ranger » les déplace dans le dossier de leur langue, et me demande avant de remplacer une vidéo existante.
 5. Mets à jour CLAUDE.md et README.md de Telepex : le journal des publications part désormais aussi au dépôt public. Vérifie sans prendre le contrôle de mon écran, avec une liste d'essai et de fausses vidéos rangées hors de mes dossiers, puis explique-moi pas à pas chaque onglet.
 ```
+
+Session faite le 28 septembre : Telepex 1.2, qui ne verse au dépôt que la feuille du
+relevé et le journal des publications.
+
+- **Publications**, pas à pas : images datées dans l'ordre, envoyées par AirDrop ou
+  glissées vers le navigateur ; vidéo du même sujet ; titre et texte à copier, la
+  traduction à côté. Les boutons s'accrochent aux étapes de chaque publication, d'après
+  quelques mots (`reseaux/README.md`, « Publications à la main, dans Telepex »).
+- **Validation** datée (maintenant par défaut, modifiable), avec un lien facultatif gardé
+  sur le Mac et jamais écrit dans le journal ; « Annuler » ; rappel à 13 h le jour prévu.
+- **Carrousels** : vidéos repérées dans Téléchargements et rangées, même quand le
+  téléchargement a simplifié leur nom ; crédit musical ; validation d'une vidéo publiée
+  hors de la liste.
+- **Tableau de bord** : heure de `compteur.json` (`mis_a_jour`) et rechargement après un
+  envoi.
 
 ## F — Tableau de bord
 
@@ -191,7 +210,7 @@ Règles : Python sans dépendance pour le site ; ni la tâche de nuit ni toi n'a
 Session faite le 28 septembre 2026, avant la session T : le tableau de bord est en ligne sur
 https://photos.karlforterre.fr/tableau-de-bord/ et se remplira des relevés de Telepex dès
 leur arrivée. Pinterest reste relevé à la main : son API demande une application approuvée
-et un jeton à renouveler. Reste à faire : la clé GoatCounter (pas à pas :
+et un jeton à renouveler. GoatCounter est relié depuis le 28 septembre (pas à pas :
 `releves/README.md`, « Relier GoatCounter »). L'écran Turing prévu au départ est remplacé, au
 choix de Karl, par un compteur des vues dans la barre des menus de son MacBook M1
 (SwiftBar ; mode d'emploi : `releves/barre-des-menus/README.md`).

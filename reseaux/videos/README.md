@@ -46,8 +46,11 @@ carrousels ». Plan d'amélioration : `docs/plan-videos.md`.
    `python3 reseaux/videos/fabrique.py videos 04-roadtrip`
 7. Les vidéos sont dans `reseaux/videos/travail/sortie/Caroussels/`, rangées par
    langue, avec le fichier « Musiques et licences ». Les envoyer à Karl une par une
-   (30 Mo au plus par fichier), la langue dans le nom ; il les range sur son Mac dans
-   `Documents Locaux/Caroussels`.
+   (30 Mo au plus par fichier), la langue dans le nom, avec les trois fichiers
+   « Musiques et licences », d'où Telepex tire le crédit musical. Le téléchargement peut
+   simplifier les noms, sans parenthèses ni apostrophe (« 4 - Road trip daoût
+   chinois.mp4 ») : Telepex, l'application Mac de Karl, les reconnaît et les range dans
+   `Documents Locaux/Caroussels` sous le nom du dépôt.
 
 Le filtre des commandes retient les vidéos dont le nom « carrousel-langue » le
 contient : `04-roadtrip` (les trois langues), `fr` (toutes les vidéos françaises),

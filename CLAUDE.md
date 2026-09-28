@@ -142,7 +142,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   contrôle par `reseaux/publications.py`) : `build.py` en tire
   `/tableau-de-bord/publications.json`, que lit l'onglet « Publications » de Telepex. Karl y
   valide ce qu'il publie, et Telepex l'inscrit dans `reseaux/publications-validees.csv`,
-  journal que lui seul tient ; la publication n'est plus proposée.
+  journal que lui seul tient, lu dans l'ordre : la publication n'est plus proposée, sauf
+  si une ligne « Telepex annulation » suit ; les vidéos publiées hors de la liste y ont
+  aussi leurs lignes (Telepex 1.2, session U, faite le 28 septembre).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Tableau de bord : `/tableau-de-bord/`, page française non référencée (noindex, hors plan du
@@ -185,8 +187,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
   `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
   adresse de téléchargement valable une heure.
-- Fiche de suivi : `releves/suivi-pexels.csv` (relevé du 24 septembre 2026, que Telepex
-  remplacera à chaque relevé une fois la session T faite) donne pour chaque photo vues,
+- Fiche de suivi : `releves/suivi-pexels.csv`, que Telepex remplace à chaque relevé depuis
+  le 28 septembre 2026 (session T), donne pour chaque photo vues,
   téléchargements, J'aime, statut de modération et mots-clés Pexels. Au 24 septembre, les
   89 photos retenues par la modération faisaient 81 % des vues ; aucune photo importée
   sans titre n'a été retenue.
