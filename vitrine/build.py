@@ -3946,7 +3946,7 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
     derniere_vue = next((l for l in reversed(vues_pexels) if l["vues"] is not None), None)
     abonnes = next((l for l in reversed(vues_pexels) if l["abonnes"] is not None), None)
     en_retard(derniere_vue["date"] if derniere_vue else None, RETARD_SEMAINE, "des vues Pexels",
-              "Telepex l'envoie chaque semaine une fois la session T faite ; sinon, "
+              "Telepex l'envoie à chaque relevé ; sinon, "
               + lien_depot("edit/main/releves/vues-pexels.csv", "noter une ligne dans vues-pexels.csv") + ".")
     tuiles, detail_vues, vue_precedente = [], "", None
     if derniere_vue:
@@ -4244,17 +4244,23 @@ PUBLICATIONS = RACINE / "reseaux" / "publications"
 VALIDEES = RACINE / "reseaux" / "publications-validees.csv"
 RESEAUX_TELEPEX = ("rednote", "facebook")
 VALIDEES_GARDEES = 30  # jours pendant lesquels une publication validée reste dans la liste
+ANNULATION = "telepex annulation"  # remarque d'une validation annulée dans Telepex
 # Nom des vidéos de chaque langue, tel que l'écrit reseaux/videos/fabrique.py.
 SUFFIXE_VIDEO = {"zh": "chinois", "fr": "français", "en": "anglais"}
 
 
 def lire_validees():
-    """Date de validation de chaque publication, d'après le journal que tient Telepex."""
+    """Date de validation de chaque publication, d'après le journal que tient Telepex, lu dans
+    l'ordre du fichier : la dernière ligne d'un id l'emporte, et une ligne « Telepex
+    annulation » remet la publication à faire. Les vidéos validées hors de la liste y ont
+    aussi leurs lignes, sans dossier dans reseaux/publications/ : elles ne servent pas ici."""
     validees = {}
     for ligne in lire_csv(VALIDEES) if VALIDEES.exists() else []:
         ident, jour = (ligne.get("id") or "").strip(), (ligne.get("date") or "").strip()
-        if ident and jour:
-            validees[ident] = max(jour, validees.get(ident, jour))
+        if ident and (ligne.get("remarque") or "").strip().lower() == ANNULATION:
+            validees.pop(ident, None)
+        elif ident and jour:
+            validees[ident] = jour
     return validees
 
 
@@ -4296,6 +4302,14 @@ def publication_telepex(adr, dossier, validees):
     for cle, champ in (("conseil", "heure_conseillee"), ("prevue", "date_prevue")):
         if pub.get(champ):
             entree[cle] = pub[champ]
+    # Repris tels quels quand la publication les a : le pas à pas, où Telepex accroche ses
+    # boutons d'après quelques mots (reseaux/README.md), la forme, le sujet et le carrousel.
+    etapes = pub.get("etapes")
+    if isinstance(etapes, list) and etapes and all(isinstance(e, str) and e.strip() for e in etapes):
+        entree["etapes"] = etapes
+    for champ in ("forme", "sujet", "carrousel"):
+        if isinstance(pub.get(champ), str) and pub[champ].strip():
+            entree[champ] = pub[champ]
     entree["validee"] = validee
     return entree
 

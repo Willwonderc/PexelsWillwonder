@@ -26,15 +26,15 @@ les gains de la semaine et du mois), et les semaines de GoatCounter, de Google e
 
 [vues-pexels.csv](vues-pexels.csv) rassemble le total de vues Pexels, une ligne par
 relevé : l'API Pexels ne fournit pas ce chiffre, et ni ce dépôt ni ses tâches ne relèvent
-aucune statistique sur pexels.com. Karl le note à la main ; une fois la session T faite
-([consignes](../consignes/prochaines-sessions.md)), Telepex, son application Mac, y
-ajoutera lui-même une ligne à chaque relevé.
+aucune statistique sur pexels.com. Depuis le 28 septembre 2026, Telepex, l'application Mac
+de Karl, y ajoute lui-même une ligne à chaque relevé (session T des
+[consignes](../consignes/prochaines-sessions.md)) ; une ligne peut aussi se noter à la main.
 
 ## Fiche de suivi, photo par photo
 
 [suivi-pexels.csv](suivi-pexels.csv) reprend la fiche de suivi de Karl (classeur
-« Suivi des photos Pexels » écrit par Telepex, relevé du 24 septembre 2026 à 12 h 42),
-une ligne par photo, de la plus vue à la moins vue :
+« Suivi des photos Pexels » écrit par Telepex), une ligne par photo, de la plus vue à la
+moins vue :
 
 - `photo` : numéro Pexels ;
 - `moderation` : `retenue` si la modération de Pexels a mis la photo en avant (statut
@@ -48,10 +48,10 @@ une ligne par photo, de la plus vue à la moins vue :
   porte encore, pour 333 photos, le texte automatique « Free stock photo of… ») ;
 - `mots_cles` : mots-clés saisis à l'import.
 
-Une fois la session T faite, Telepex remplace lui-même ce fichier à chaque relevé,
-chaque semaine ou chaque jour, avec une colonne de plus, `releve` (date et heure du
-relevé). D'ici là, ou si Telepex ne peut pas publier, déposer à sa place un fichier au
-même format et au même nom (Add file → Upload files), en UTF-8. Le dépôt est public : il
+Telepex remplace lui-même ce fichier à chaque relevé, chaque semaine ou chaque jour,
+depuis le 28 septembre 2026, avec une colonne de plus, `releve` (date et heure du relevé).
+Si Telepex ne peut pas publier, déposer à sa place un fichier au même format et au même
+nom (Add file → Upload files), en UTF-8. Le dépôt est public : il
 ne reçoit que le relevé, jamais Telepex lui-même.
 
 ## Ajouter un relevé
@@ -66,9 +66,8 @@ puis « Commit changes ». Exemple de ligne, chiffres fictifs :
 - `photos` et `abonnes` : facultatifs, laisser vide au besoin ;
 - `remarque` : facultative, pour noter un événement de la semaine.
 
-Une fois la session T faite, Telepex ajoute lui-même sa ligne à chaque relevé (remarque
-« Telepex ») : ne noter à la main que ce qu'il ne relève pas, comme les abonnés s'il ne
-les lit pas.
+Telepex ajoute lui-même sa ligne à chaque relevé (remarque « Telepex ») : ne noter à la
+main que ce qu'il ne relève pas.
 
 Ce relevé alimente le tableau de bord et le compteur de la barre des menus du Mac.
 
