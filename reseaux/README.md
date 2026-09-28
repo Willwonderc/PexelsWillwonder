@@ -170,8 +170,9 @@ et sympathique. Règles de chaque carrousel :
   S'il manque une photo, une image du petit cours de français complète les neuf.
 - **Texte** : titre de 20 caractères au plus ; récit, petit cours de français, liste des
   photos, invitation à les télécharger sur Pexels, une ligne en anglais et une dizaine
-  de hashtags chinois, dont #法国摄影师. Pas de lien : RedNote ne les rend pas
-  cliquables et pénalise les publications qui renvoient ailleurs.
+  de hashtags chinois, dont #法国摄影师. En tout, hashtags compris, 1 000 caractères au
+  plus (un émoji peut compter pour deux) : viser 950. Pas de lien : RedNote
+  ne les rend pas cliquables et pénalise les publications qui renvoient ailleurs.
 - **Choix des photos** : par série, galerie ou lieu, en commençant par les plus vues ;
   titres et mots-clés chinois dans `vitrine/donnees/textes-zh.csv`.
 - **Sur le site photo** : chaque carrousel rejoint aussi la série de son sujet, dans
@@ -206,8 +207,9 @@ Souvenirs et repères de Karl pour les récits :
     sur le chemin de Saint-Jacques, inscrite au patrimoine mondial de l'UNESCO.
   - **Bordeaux**, le 19 août, sur la route du retour : la Cité du Vin, son exposition
     permanente sur l'histoire et les cultures du vin, et la dégustation qui la termine.
-  - Photos sur Pexels : Gijón (la Laboral), la Galice, Irun, le Béarn et Bordeaux (le
-    monument aux Girondins) ; presque rien de Bilbao (deux vues industrielles).
+  - Photos sur Pexels : Gijón (la Laboral), la Galice (dont le coucher de soleil du soir
+    de l'éclipse), Irun, le Béarn et Bordeaux (les fontaines de la place des
+    Quinconces) ; presque rien de Bilbao (deux vues industrielles).
   - Ne citer ni les dépenses, ni les hébergements, ni d'autres proches.
 
 Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
@@ -217,8 +219,10 @@ Galice » (récit), « Les jardins de Villandry » (récit et petit cours de fra
 nouvelle série « Phares et marées, de Granville à Saint-Malo ».
 
 Deuxième envoi, le même jour : le road trip d'août et Bordeaux, devenus sur le site les
-séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et le
-monument aux Girondins ».
+séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et les
+fontaines des Quinconces ». Le 28 septembre, à la demande de Karl, le coucher de soleil
+du soir de l'éclipse (photo 39236039) a pris dans le road trip la place de l'hôtel de
+ville d'Irun (image 4), dans le carrousel comme dans les vidéos, et rejoint la série.
 
 ## Vidéos diaporama des carrousels
 
