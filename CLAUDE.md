@@ -133,10 +133,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   seulement (`francais_en`, `francais_zh`) ; un nouveau sujet reçoit sa série.
 - Publications à la main, préparées en session : RedNote et le profil Facebook personnel
   de Karl (carrousels en français, sans mettre en avant le côté français). Chaque
-  carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
-  musique libre de droits : classique en chinois et en anglais, pop en français
+  carrousel peut aussi devenir une vidéo en chinois, français et anglais, avec musique
+  libre de droits : classique en chinois et en anglais, pop en français
   (`reseaux/README.md`, « Vidéos diaporama des carrousels ») ; programme de session
-  `reseaux/videos/`, plan pour atteindre le niveau d'une agence `docs/plan-videos.md`.
+  `reseaux/videos/studio.py` (vidéos 9:16 et 3:4 calées sur la musique, contrôle qualité
+  `qualite.py`), cahier des charges et suite `docs/plan-videos.md`.
   Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut). Chaque
   publication à faire à la main, RedNote ou Facebook, a son dossier
   `reseaux/publications/<id>/` (publication.json et images ; format dans `reseaux/README.md`,

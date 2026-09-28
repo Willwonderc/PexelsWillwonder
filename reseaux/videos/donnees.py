@@ -10,6 +10,11 @@ Chinois et français reprennent mot pour mot les textes validés de la page des
 carrousels (seules des coupures) ; l'anglais est traduit du français. Ligne
 éditoriale : CLAUDE.md, « Ligne éditoriale des textes ». Couverture et fin chinoises :
 images 1 et 9 du carrousel, à déposer dans travail/carrousels/ (voir README.md).
+
+Pour le studio (studio.py) : l'accroche chinoise (`accroche` : surtitre, titre et mots
+du bas de la couverture du carrousel), la promesse française ou anglaise quand le titre
+de la couverture dépasse 7 mots (`promesse`), la photo de l'accroche (`accroche_photo`,
+la photo 1 sinon) et la fin chinoise (`FIN["zh"]`, reprise de l'image 9 des carrousels).
 """
 from urllib.parse import quote
 
@@ -25,6 +30,7 @@ def archive(ident, nom):
 CARROUSELS = [
     {
         "cle": "01-ciel",
+        "accroche_photo": 2,  # vidéos du studio : la Voie lactée, plus forte que la photo de couverture
         "photos": {1: 27116682, 2: 39595391, 3: 13102252, 4: 27531658, 5: 24200555, 6: 38570570,
                    7: 38995522, 8: 13142737},
         "fichier": "1 - Ciels et nuits étoilées",
@@ -32,6 +38,7 @@ CARROUSELS = [
         "musique_fr": M + "lfm-soft-as-a-dry-pillow.mp3",  # français
         "zh": {
             "couverture": C + "01-ciel-01.jpg", "fin": C + "01-ciel-09.jpg",
+            "accroche": ("一个法国摄影师的夜空", "我拍到了银河\n和一轮新月", "星空 · 新月 · 日全食"),
             "plans": [
                 (2, ["我是 Karl，一个法国摄影师", "住在法国西部的尼奥尔"]),
                 (3, ["在法国，只要离开城市的灯光，", "乡村的夜空就会亮起满天星星"]),
@@ -47,6 +54,7 @@ CARROUSELS = [
         "fr": {
             "couverture": ("Nuits étoilées", "La Voie lactée\net le croissant\nde lune",
                            "Étoiles · lune · éclipse totale", "8 photos · gratuites sur Pexels"),
+            "promesse": "La Voie lactée, le croissant de lune",
             "plans": [
                 (2, "Il suffit de quitter les lumières de la ville pour que le ciel de campagne se couvre d'étoiles."),
                 (3, "Ces photos ont été prises dans la campagne française et en Galice, au nord de l'Espagne."),
@@ -83,6 +91,7 @@ CARROUSELS = [
         "credit_fr": "Musique : Vivaldi, « Le Printemps », John Harrison et le Wichita State University Chamber Players (CC BY-SA 3.0). Vidéo sous licence CC BY-SA 3.0.",
         "zh": {
             "couverture": C + "02-villandry-01.jpg", "fin": C + "02-villandry-09.jpg",
+            "accroche": ("一个法国摄影师的卢瓦尔河谷", "法式园林\n的几何之美", "花坛 · 菜园 · 文艺复兴"),
             "plans": [
                 (2, ["我是 Karl，一个法国摄影师", "住在法国西部的尼奥尔"]),
                 (3, ["在法国，说起「法式园林」", "我们会想到对称、几何", "还有修剪得一丝不苟的黄杨"]),
@@ -133,6 +142,7 @@ CARROUSELS = [
         "credit_fr": "Musique : « Thatched Villagers », Kevin MacLeod (incompetech.com), licence CC BY 4.0.",
         "zh": {
             "couverture": C + "03-normandie-01.jpg", "fin": C + "03-normandie-09.jpg",
+            "accroche": ("一个法国摄影师的海岸", "海雾、灯塔\n与圣米歇尔山", "海岸 · 灯塔 · 肖塞群岛"),
             "plans": [
                 (2, ["我是 Karl，一个法国摄影师", "住在法国西部的尼奥尔"]),
                 (3, ["夏天，很多法国人会去", "诺曼底和布列塔尼的海边"]),
@@ -183,6 +193,8 @@ CARROUSELS = [
         "musique_fr": M + "lfm-roller-fever.mp3",  # français
         "zh": {
             "couverture": C + "04-roadtrip-01.jpg", "fin": C + "04-roadtrip-09.jpg",
+            "accroche": ("一个法国摄影师的八月", "开车去西班牙北部\n再绕回法国",
+                         "阿斯图里亚斯 · 加利西亚 · 巴斯克 · 贝阿恩 · 波尔多"),
             "plans": [
                 (1, ["我是 Karl，一个法国摄影师", "今年8月10日，我和未婚妻 Maëlle", "从尼奥尔开车出发，", "用十天走了一个大环线"]),
                 (2, ["第一站是阿斯图里亚斯的希洪。", "我们在城里慢慢走，", "去了宏伟的劳动大学", "（Universidad Laboral）"]),
@@ -199,6 +211,7 @@ CARROUSELS = [
         "fr": {
             "couverture": ("Road trip, août 2026", "Vers le nord de\nl'Espagne, retour\npar la France",
                            "Asturies · Galice · Pays basque · Béarn · Bordeaux", "8 photos · gratuites sur Pexels"),
+            "promesse": "Vers l'Espagne, retour par la France",
             "plans": [
                 (1, "Le 10 août, Maëlle et moi sommes partis de Niort en voiture, pour une grande boucle de dix jours."),
                 (2, "Première étape : Gijón, dans les Asturies. Nous avons marché dans la ville, visité l'immense Universidad Laboral."),
@@ -236,6 +249,8 @@ CARROUSELS = [
         "musique_fr": M + "lfm-chillin-with-a-drink.mp3",  # français
         "zh": {
             "couverture": C + "05-bordeaux-01.jpg", "fin": C + "05-bordeaux-09.jpg",
+            # mots du bas : « place des Quinconces » plutôt que le monument « aux Girondins » (CLAUDE.md)
+            "accroche": ("一个法国摄影师的波尔多", "公路旅行的\n最后一站", "葡萄酒城 · 梅花广场 · 可露丽"),
             "plans": [
                 (2, ["我是 Karl，一个法国摄影师", "八月公路旅行的回程，", "我们特意绕道波尔多"]),
                 (3, ["我和未婚妻 Maëlle", "参观了葡萄酒城（La Cité du Vin）"]),
@@ -279,6 +294,7 @@ CARROUSELS = [
 ]
 
 FIN = {
+    "zh": ("法国摄影师 · 风景与建筑", "所有照片可免费下载、免费商用", "在 Pexels 搜索", "收藏这篇，下次找图更方便"),
     "en": ("French photographer · landscapes", "Free photos, even for commercial use",
            "Search on Pexels", "Save this post to find these images again"),
     "fr": ("Photographe · paysages", "Photos gratuites, même à usage commercial",

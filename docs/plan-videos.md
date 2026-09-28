@@ -120,28 +120,42 @@ session ou Karl.
 
 ## Où en est le programme
 
-Acquis : un mouvement fluide et précis (sous le pixel), trois langues, des sous-titres,
-des musiques aux licences vérifiées et créditées, la ligne éditoriale respectée, des
-vidéos reproductibles à l'identique.
+Le studio (`reseaux/videos/studio.py`, 28 septembre 2026) a refait les cinq carrousels
+en vidéos rythmées, en trois langues, en 9:16 et en 3:4, et les a toutes fait passer par
+le contrôle qualité. Acquis :
 
-Écarts avec le niveau visé :
+- **Accroche** : photo en plein cadre déjà en mouvement, promesse écrite mot à mot dès
+  0,3 s (A1, A2) ; couvertures à part en 3:4 et en 9:16 (A4) ; structure accroche,
+  récit, petit cours, fin avec appel (A3).
+- **Rythme** : coupes posées sur les temps forts (pop) ou sur les notes les plus fortes
+  (piano en rubato), vérifiées sur la vidéo finie, à 17 ms près (R2) ; plans de 1,5 à
+  6 s (R1) ; six mouvements guidés par une carte de saillance, jamais deux fois le même
+  de suite (R3, R4) ; coupe, fondu, glissé, fondu au noir (R5) ; barre de progression
+  et compteur qui avancent avec les coupes.
+- **Texte** : deux lignes au plus, mots apparus sur les attaques des notes, vitesse de
+  lecture, contraste adaptatif d'au moins 4,5 : 1, zones de sécurité par format,
+  typographie française et chinoise (T1 à T5) ; fichier SRT (T6).
+- **Image et son** : 9:16, 3:4 et 1:1 (I1) ; H.264 High, BT.709 converti, 30 images par
+  seconde (I3) ; grain contre les bandes (I4) ; photos en 4000 px, jamais agrandies
+  (I5) ; −14 LUFS, −1 dBTP, dernière note sur un temps fort puis fondu (S1, S2).
+- **Marque et conformité** : logo KF’ vectoriel animé en fin, signature, doré et
+  polices des carrousels (M1, M2) ; mots interdits, liens sur RedNote, crédits des
+  licences contrôlés (C1, C3, C4).
+- **Contrôle qualité** : `qualite.py`, une ligne par règle ; une vidéo en échec n'est
+  pas livrée.
+
+Écarts restants :
 
 | Règle | Aujourd'hui | À faire |
 |---|---|---|
-| A1, A2 | La vidéo s'ouvre sur une couverture fixe de 3,2 s. | Ouvrir sur la meilleure photo, en mouvement, avec une promesse. |
-| R1 | Plans de 4,4 à 10 s, tous au même tempo. | Accroche rapide, puis rythme variable. |
-| R2 | Coupes régulières, sans lien avec la musique. | Couper sur les temps forts. |
-| R3, R4 | Le même zoom lent (6 à 8 %) partout, avec un léger glissement, sans viser le sujet. | Mouvements variés, dirigés vers le sujet. |
-| T1, T2 | Jusqu'à 4 lignes, le récit entier à l'écran. | Deux lignes courtes ; le récit dans la légende. |
-| T6 | Sous-titres incrustés seulement. | Mot à mot et fichier SRT. |
-| I1 | Format 3:4 seulement. | 9:16, 3:4, 1:1 et 16:9, zones de sécurité. |
-| S1 | −16 LUFS, crêtes à −1,5 dBTP. | −14 LUFS et contrôle automatique. |
-| S3 à S5 | Musique seule. | Habillage sonore, voix, version sans musique. |
-| M1 | Charte implicite ; Liberation Sans dans les vidéos, Archivo dans les carrousels. | Charte écrite, une seule famille de polices. |
-| C1 | Relecture à l'œil. | Contrôle automatique, puis accord de Karl. |
-| L3, L4 | Textes RedNote sur une page ; rien pour les autres réseaux. | Kits par réseau, page de validation. |
-| Carrousels | Le programme d'origine des images RedNote est perdu ; seules les diapositives de photos en paysage sont reproduites. | Tout le carrousel regénéré, fidèle aux images existantes. |
-| Production | En session (crédit), 5 minutes de calcul pour trois vidéos, images de carrousel à récupérer à la main. | Tâche GitHub, sans session. |
+| A5, T2 | Le récit validé entier à l'écran : vidéos de 40 à 75 s. | Versions courtes (15 à 30 s) : textes courts à écrire et à faire valider par Karl, le récit complet allant dans la légende. |
+| A6 | Fin de 4 à 6 s avec l'appel à chercher sur Pexels. | Version qui boucle pour les Reels. |
+| I1 | 9:16, 3:4, 1:1. | 16:9 pour YouTube. |
+| I2, R4 | Recadrage guidé par la saillance. | Détection des visages (OpenCV) pour les photos avec des personnes. |
+| S3 à S5 | Musique seule. | Habillage sonore, voix, version sans musique (V3). |
+| L3, L4 | Vidéos, couvertures et sous-titres. | Kits par réseau, page de validation (V4). |
+| Carrousels | Les images RedNote viennent de `reseaux/publications/`. | Générateur complet des carrousels (V1). |
+| Production | En session (crédit), 3 minutes de calcul par vidéo. | Tâche GitHub, sans session (V1). |
 
 ## Le studio visé
 
