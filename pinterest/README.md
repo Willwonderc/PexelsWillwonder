@@ -91,6 +91,8 @@ galeries.
 | Loire Valley château gardens | 24 | `https://photos.karlforterre.fr/en/galleries/jardins-chateaux-loire/feed.xml` | oui |
 | Sky and astrophotography | 21 | `https://photos.karlforterre.fr/en/galleries/ciel-astrophotographie/feed.xml` | oui |
 | Clouds and sunsets | 28 | `https://photos.karlforterre.fr/en/galleries/nuages-couchers-de-soleil/feed.xml` | oui |
+| Night photography | 25 | `https://photos.karlforterre.fr/en/galleries/photos-de-nuit/feed.xml` | non |
+| Mist and fog | 14 | `https://photos.karlforterre.fr/en/galleries/brume-et-brouillard/feed.xml` | non |
 | Landscapes and countryside | 39 | `https://photos.karlforterre.fr/en/galleries/paysages-campagne/feed.xml` | oui |
 | Villages | 20 | `https://photos.karlforterre.fr/en/galleries/villages/feed.xml` | non |
 | Trees and forests | 79 | `https://photos.karlforterre.fr/en/galleries/arbres-et-forets/feed.xml` | oui |
@@ -98,6 +100,7 @@ galeries.
 | Flowers and macro | 71 | `https://photos.karlforterre.fr/en/galleries/fleurs-et-macro/feed.xml` | oui |
 | Sea and coast | 25 | `https://photos.karlforterre.fr/en/galleries/mer-et-littoral/feed.xml` | oui |
 | Rivers, lakes and canals | 55 | `https://photos.karlforterre.fr/en/galleries/rivieres-et-lacs/feed.xml` | oui |
+| Bridges | 29 | `https://photos.karlforterre.fr/en/galleries/ponts/feed.xml` | non |
 | Architecture and heritage | 96 | `https://photos.karlforterre.fr/en/galleries/architecture-patrimoine/feed.xml` | oui |
 | Churches and cathedrals | 44 | `https://photos.karlforterre.fr/en/galleries/eglises-cathedrales/feed.xml` | oui |
 | Cities and street scenes | 62 | `https://photos.karlforterre.fr/en/galleries/villes-et-rues/feed.xml` | oui |
@@ -110,6 +113,7 @@ galeries.
 | Birds | 28 | `https://photos.karlforterre.fr/en/galleries/oiseaux/feed.xml` | non |
 | Cats | 30 | `https://photos.karlforterre.fr/en/galleries/chats/feed.xml` | non |
 | Food and drink | 20 | `https://photos.karlforterre.fr/en/galleries/cuisine-et-boissons/feed.xml` | oui |
+| Coffee and café terraces | 26 | `https://photos.karlforterre.fr/en/galleries/cafes-et-terrasses/feed.xml` | non |
 | Objects and still life | 31 | `https://photos.karlforterre.fr/en/galleries/objets-natures-mortes/feed.xml` | oui |
 | Black and white | 68 | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` | oui |
 | Abstract backgrounds | 43 | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` | oui |
@@ -128,8 +132,9 @@ galeries.
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
 34 flux sont reliés, dont les 19 des galeries créées par la session B (septembre 2026).
-Les 4 galeries ajoutées le 28 septembre 2026 d'après la fiche de suivi (Villages, Autumn,
-Birds, Cats) attendent leur tableau. Pour une nouvelle galerie, créer son tableau à la main
+Les 8 galeries ajoutées le 28 septembre 2026 d'après la fiche de suivi (Night photography,
+Mist and fog, Villages, Autumn, Bridges, Birds, Cats, Coffee and café terraces) attendent
+leur tableau. Pour une nouvelle galerie, créer son tableau à la main
 avec le titre anglais de la galerie, puis y relier son flux (étape 5), de préférence le
 jour de sa mise en ligne.
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
