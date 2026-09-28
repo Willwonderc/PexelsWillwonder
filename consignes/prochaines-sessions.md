@@ -27,7 +27,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
 | U | Telepex : tableau de bord, publications et vidéos | onglet Publications fait le 28 septembre ; le reste après T | T faite ; elle se lance aussi sur le Mac, dans le dossier de Telepex (voir U) |
 | F | Tableau de bord | faite le 28 septembre | reste la clé GoatCounter (voir F) |
-| G | Google et Bing dans le tableau de bord | quelques jours après la vérification des deux sites | Search Console et Bing Webmaster Tools vérifiés (voir G) |
+| G | Google et Bing dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -215,6 +215,15 @@ Ajoute ensuite au tableau de bord (/tableau-de-bord/, écrit par vitrine/build.p
 3. Garde l'historique des semaines dans vitrine/donnees/historique.json, comme les autres chiffres. Aucune clé dans le code ni dans les journaux ; sans les secrets, le site se construit quand même et la rubrique le signale.
 Vérifie la documentation officielle des deux API avant d'écrire le code (quotas, délai des données). Explique-moi d'abord pas à pas la création du compte de service Google, de sa clé, de la clé API Bing et des secrets, sans jamais me demander de coller une clé dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
 ```
+
+Session faite le 28 septembre 2026. L'API de Bing ne fournit pas encore les citations dans
+Copilot : la rubrique renvoie au rapport AI Performance de Bing Webmaster Tools, à lire une
+fois par mois. Reste à faire : importer les deux sites dans Bing Webmaster Tools, puis créer
+le compte de service Google, sa clé et la clé d'API de Bing, rangées dans les secrets
+`SEARCH_CONSOLE_CLE` et `BING_WEBMASTER_CLE` (pas à pas : `releves/README.md`, « Relier
+Google Search Console et Bing Webmaster Tools »). Au premier passage avec la clé de Bing,
+comparer ses positions avec celles de Bing Webmaster Tools : Microsoft n'en documente pas
+l'échelle.
 
 ## H — Instagram
 

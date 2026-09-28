@@ -21,11 +21,13 @@ Options :
                            à signaler, _indexnow/envoi.json (tâche de nuit)
   --envoyer-indexnow       envoie cette liste à IndexNow, une fois le site en ligne
                            (tâche de nuit), et ne fait rien d'autre
-  --enregistrer-historique enregistre l'historique du tableau de bord (relevés Pexels et
-                           semaines de GoatCounter, tâche de nuit)
+  --enregistrer-historique enregistre l'historique du tableau de bord (relevés Pexels,
+                           semaines de GoatCounter, de Google et de Bing, tâche de nuit)
 
 Le tableau de bord (/tableau-de-bord/, non référencé) lit les relevés de releves/ et, si la
-variable d'environnement GOATCOUNTER_JETON contient une clé d'API, les chiffres de GoatCounter.
+variable d'environnement GOATCOUNTER_JETON contient une clé d'API, les chiffres de GoatCounter ;
+avec SEARCH_CONSOLE_JETON (jeton d'accès d'une heure, obtenu par la tâche de nuit) et
+BING_WEBMASTER_CLE, ceux de Google Search Console et de Bing Webmaster Tools.
 À côté, /tableau-de-bord/publications.json liste pour Telepex, l'application Mac de Karl, les
 publications à faire à la main (reseaux/publications/).
 """
@@ -49,7 +51,8 @@ from collections import Counter
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 ICI = Path(__file__).resolve().parent
 RACINE = ICI.parent
@@ -3078,7 +3081,7 @@ def lire_assistants():
 
 def charger_historique():
     historique = json.loads(HISTORIQUE.read_text(encoding="utf-8")) if HISTORIQUE.exists() else {}
-    for cle in ("releves", "semaines", "goatcounter"):
+    for cle in ("releves", "semaines", "goatcounter", "moteurs"):
         historique.setdefault(cle, {})
     return historique
 
@@ -3256,6 +3259,365 @@ def lire_goatcounter(code, jeton, journal, maintenant):
     }
 
 
+# Moteurs de recherche : Google Search Console et Bing Webmaster Tools, pour chacun des sites de la
+# rubrique [moteurs] de site.ini, par leurs API officielles et en lecture seule. La tâche de nuit
+# obtient pour Search Console un jeton d'accès d'une heure (clé du compte de service dans le secret
+# SEARCH_CONSOLE_CLE) et passe la clé de Bing (secret BING_WEBMASTER_CLE) ; sans eux, le site se
+# construit quand même et la rubrique le signale.
+
+SEARCH_CONSOLE_API = "https://www.googleapis.com/webmasters/v3/sites/{propriete}/searchAnalytics/query"
+BING_API = "https://ssl.bing.com/webmaster/api.svc/json/{methode}"
+# Google compte en journées de Californie et donne ses chiffres définitifs en 2 à 3 jours : il dit
+# lui-même où ils s'arrêtent, sinon on les arrête DELAI_GOOGLE jours avant aujourd'hui.
+PACIFIQUE = "America/Los_Angeles"
+DELAI_GOOGLE = 3
+TYPES_GOOGLE = {"web": "Google, recherche web", "image": "Google Images"}
+# Semaines relues à chaque passage (les précédentes restent dans l'historique), semaines montrées
+# dans les tableaux, et jours des chiffres cumulés et des listes de recherches et de pages.
+MOTEURS_SEMAINES = 12
+MOTEURS_LIGNES = 12
+PERIODE = 28
+# Bing donne ses positions en nombres entiers multipliés par 10 (17 pour 1,7) : Microsoft ne le
+# documente pas, mais c'est ce que constatent ceux qui se servent de son API. Une valeur comprise
+# entre 0 et 10 trahirait des positions non multipliées : elles sont alors prises telles quelles.
+BING_POSITION = 10
+# Numéros d'erreur de Bing : clé refusée ; trop de demandes ; site absent, non vérifié ou refusé.
+BING_CLE_REFUSEE = 3
+BING_LIMITE = {4, 5}
+BING_SITE = {7, 11, 13, 14}
+DATE_BING = re.compile(r"/Date\((-?\d+)([+-]\d{4})?\)/")
+
+
+class MoteurErreur(Exception):
+    """Refus ou silence d'un moteur ; code : le numéro d'erreur que donne Bing."""
+
+    def __init__(self, message, code=None):
+        super().__init__(message)
+        self.code = code
+
+
+def nom_site(adresse):
+    """« https://www.karlforterre.fr/ » → « karlforterre.fr »."""
+    hote = (urlparse(adresse if "//" in adresse else f"//{adresse}").hostname or "").lower()
+    return hote[4:] if hote.startswith("www.") else hote
+
+
+def sites_suivis(reglages):
+    """Sites de la rubrique [moteurs] de site.ini, et la propriété Search Console qui les couvre."""
+    moteurs = reglages["moteurs"] if reglages.has_section("moteurs") else {}
+    sites = [s.strip() for s in (moteurs.get("sites") or "").split(",") if s.strip()]
+    return sites, (moteurs.get("search_console") or "").strip()
+
+
+def aujourdhui_pacifique(maintenant):
+    try:
+        return maintenant.astimezone(ZoneInfo(PACIFIQUE)).date()
+    except ZoneInfoNotFoundError:
+        return (maintenant.astimezone(timezone.utc) - timedelta(hours=8)).date()
+
+
+def detail_erreur(erreur):
+    """Réponse d'erreur d'une API, pour en reconnaître la cause ; jamais recopiée telle quelle."""
+    try:
+        return erreur.read().decode("utf-8", "replace")
+    except OSError:
+        return ""
+
+
+def cumul(jours, debut, fin, garder=None):
+    """Clics, impressions et position moyenne d'une période, d'après les chiffres de chaque jour
+    (clics, impressions, position ; un jour absent n'a rien reçu). La position est pondérée par les
+    impressions, comme dans Search Console ; garder : la position déjà connue, faute de mieux."""
+    connus = [v for j, v in jours.items() if debut <= j <= fin]
+    placees = [(p, i) for _, i, p in connus if p and i]
+    poids = sum(i for _, i in placees)
+    return {"clics": sum(v[0] for v in connus), "impressions": sum(v[1] for v in connus),
+            "position": round(sum(p * i for p, i in placees) / poids, 1) if poids else garder}
+
+
+def noter_semaines(semaines, jours, premier, dernier, fin, garder_positions=False):
+    """Semaines de premier à dernier (des lundis), du lundi au dimanche, dans le journal d'un moteur :
+    complètes quand leur dimanche a ses chiffres définitifs (jusqu'au jour fin)."""
+    lundi_ = premier
+    while lundi_ <= dernier:
+        dimanche, cle = lundi_ + timedelta(days=6), lundi_.isoformat()
+        ancienne = (semaines.get(cle) or {}).get("position") if garder_positions else None
+        semaines[cle] = {**cumul(jours, lundi_, dimanche, ancienne), "complete": dimanche <= fin}
+        lundi_ += timedelta(weeks=1)
+
+
+def premieres(lignes, nombre=10):
+    """Les recherches ou les pages qui amènent le plus de clics, puis le plus d'impressions."""
+    return sorted(lignes, key=lambda l: (-l["clics"], -l["impressions"], l["nom"]))[:nombre]
+
+
+def appel_search_console(jeton, propriete, demande):
+    """Une demande à Search Analytics, l'API des performances de Search Console, en lecture seule
+    (1 200 par minute au plus pour un même site). Le jeton ne part que dans l'en-tête
+    Authorization : il n'apparaît ni dans l'adresse ni dans les messages d'erreur."""
+    requete = urllib.request.Request(
+        SEARCH_CONSOLE_API.format(propriete=quote(propriete, safe="")), method="POST",
+        data=json.dumps(demande).encode("utf-8"),
+        headers={"Authorization": f"Bearer {jeton}", "Content-Type": "application/json",
+                 "User-Agent": "photos.karlforterre.fr (tableau de bord)"})
+    time.sleep(0.2)
+    try:
+        with urllib.request.urlopen(requete, timeout=60) as reponse:
+            return json.load(reponse)
+    except urllib.error.HTTPError as erreur:
+        detail = detail_erreur(erreur)
+        if erreur.code == 401:
+            message = "Google refuse le jeton d'accès à Search Console."
+        elif erreur.code == 403 and any(m in detail for m in ("SERVICE_DISABLED", "accessNotConfigured",
+                                                                "has not been used", "is disabled")):
+            message = ("L'API Google Search Console n'est pas activée dans le projet Google Cloud du compte de "
+                       "service (mode d'emploi, étape A2).")
+        elif erreur.code == 403:
+            message = (f"Le compte de service n'a pas accès à la propriété {propriete} de Search Console : l'y "
+                       "ajouter comme utilisateur « Restreint » (mode d'emploi, étape A5).")
+        elif erreur.code == 429:
+            message = "Google limite les demandes pour l'instant (quota atteint) : nouvel essai la nuit prochaine."
+        else:
+            message = f"Search Console a répondu par l'erreur {erreur.code}."
+        raise MoteurErreur(message) from None
+    except (urllib.error.URLError, OSError, ValueError):
+        raise MoteurErreur("Search Console n'a pas répondu.") from None
+
+
+def lire_google(jeton, propriete, sites, journal, aujourdhui):
+    """Search Console, pour chaque site et chaque type de recherche (web, images) : les chiffres de
+    chaque jour des MOTEURS_SEMAINES dernières semaines, qui donnent les semaines du journal et les
+    PERIODE derniers jours de chiffres définitifs, comparés aux PERIODE jours d'avant ; puis les
+    recherches et les pages qui ont amené le plus de clics sur cette période. La propriété de
+    domaine couvre les deux sites : chacun est lu par le filtre de ses pages, et Google compte alors
+    page par page, comme Search Console filtré par page. Lève MoteurErreur ; le journal garde les
+    semaines déjà lues."""
+    premier = lundi(aujourdhui) - timedelta(weeks=MOTEURS_SEMAINES)
+    lus = {}
+    for site in sites:
+        hote = nom_site(site)
+        filtre = [{"groupType": "and", "filters": [{"dimension": "page", "operator": "includingRegex",
+                                                     "expression": rf"^https?://(www\.)?{re.escape(hote)}/"}]}]
+        for type_ in TYPES_GOOGLE:
+            reponse = appel_search_console(jeton, propriete, {
+                "startDate": premier.isoformat(), "endDate": aujourdhui.isoformat(), "dimensions": ["date"],
+                "type": type_, "dimensionFilterGroups": filtre, "dataState": "all", "rowLimit": 1000})
+            jours = {date.fromisoformat(l["keys"][0]): (round(l.get("clicks") or 0), round(l.get("impressions") or 0),
+                                                        l.get("position"))
+                     for l in reponse.get("rows") or [] if l.get("keys")}
+            incomplet = (reponse.get("metadata") or {}).get("first_incomplete_date")
+            fin = (date.fromisoformat(incomplet) - timedelta(days=1) if incomplet
+                   else aujourdhui - timedelta(days=DELAI_GOOGLE))
+            # Jusqu'à la semaine d'hier : les chiffres du jour même n'arrivent pas avant le lendemain.
+            noter_semaines(journal.setdefault(hote, {}).setdefault(type_, {}), jours, premier,
+                           lundi(aujourdhui - timedelta(days=1)), fin)
+            debut = fin - timedelta(days=PERIODE - 1)
+            listes = {}
+            for dimension in ("query", "page"):
+                reponse = appel_search_console(jeton, propriete, {
+                    "startDate": debut.isoformat(), "endDate": fin.isoformat(), "dimensions": [dimension],
+                    "type": type_, "dimensionFilterGroups": filtre, "rowLimit": 250})
+                listes[dimension] = premieres([
+                    {"nom": l["keys"][0], "clics": round(l.get("clicks") or 0),
+                     "impressions": round(l.get("impressions") or 0), "position": l.get("position")}
+                    for l in reponse.get("rows") or [] if l.get("keys")])
+            lus.setdefault(hote, {})[type_] = {
+                "debut": debut, "fin": fin, "total": cumul(jours, debut, fin),
+                "avant": cumul(jours, debut - timedelta(days=PERIODE), debut - timedelta(days=1)),
+                "recherches": listes["query"], "pages": listes["page"]}
+    return lus
+
+
+def appel_bing(cle, methode, **parametres):
+    """Une demande à l'API de Bing Webmaster Tools, en lecture seule. Bing veut sa clé dans
+    l'adresse : l'adresse n'est donc écrite ni dans un journal ni dans un message d'erreur."""
+    requete = urllib.request.Request(
+        f"{BING_API.format(methode=methode)}?{urlencode({**parametres, 'apikey': cle})}",
+        headers={"Accept": "application/json", "User-Agent": "photos.karlforterre.fr (tableau de bord)"})
+    time.sleep(0.5)
+    try:
+        with urllib.request.urlopen(requete, timeout=60) as reponse:
+            donnees = json.load(reponse)
+    except urllib.error.HTTPError as erreur:
+        try:
+            code = int(json.loads(detail_erreur(erreur)).get("ErrorCode"))
+        except (ValueError, TypeError, AttributeError):
+            code = None
+        if code == BING_CLE_REFUSEE:
+            message = ("Bing refuse la clé du secret BING_WEBMASTER_CLE : fausse, supprimée ou mal copiée "
+                       "(mode d'emploi, étape B).")
+        elif code in BING_LIMITE or erreur.code == 429:
+            message = "Bing limite les demandes pour l'instant : nouvel essai la nuit prochaine."
+        else:
+            message = f"Bing Webmaster Tools a répondu par l'erreur {erreur.code}" + (f" (code {code})" if code else "") + "."
+        raise MoteurErreur(message, code) from None
+    except (urllib.error.URLError, OSError, ValueError):
+        raise MoteurErreur("Bing Webmaster Tools n'a pas répondu.") from None
+    # Chaque méthode lue ici rend une liste, dans « d ».
+    liste = donnees.get("d") if isinstance(donnees, dict) else None
+    return liste if isinstance(liste, list) else []
+
+
+def jour_bing(texte):
+    """« /Date(1316156400000-0700)/ » → 16 septembre 2011 : des millisecondes depuis 1970, en temps
+    universel, suivies du décalage horaire de Bing, qui date ses chiffres à minuit, heure du Pacifique."""
+    trouve = DATE_BING.search(texte if isinstance(texte, str) else "")
+    if not trouve:
+        return None
+    fuseau = timezone.utc
+    if trouve.group(2):
+        decalage = timedelta(hours=int(trouve.group(2)[1:3]), minutes=int(trouve.group(2)[3:]))
+        fuseau = timezone(-decalage if trouve.group(2)[0] == "-" else decalage)
+    return datetime.fromtimestamp(int(trouve.group(1)) / 1000, fuseau).date()
+
+
+def semaines_bing(lignes, echelle):
+    """Lignes de GetPageStats ou de GetQueryStats, rangées par semaine de Bing (la date qu'il leur
+    donne) : [(page ou recherche, clics, impressions, position)]."""
+    semaines = {}
+    for l in lignes:
+        jour = jour_bing(l.get("Date")) if isinstance(l, dict) else None
+        if not jour:
+            continue
+        brute = l.get("AvgImpressionPosition")
+        position = brute / echelle if isinstance(brute, (int, float)) and brute > 0 else None
+        semaines.setdefault(jour, []).append((str(l.get("Query") or ""), l.get("Clicks") or 0,
+                                              l.get("Impressions") or 0, position))
+    return semaines
+
+
+def regrouper(lignes):
+    """Lignes de plusieurs semaines de Bing, additionnées page par page ou recherche par recherche."""
+    cumuls = {}
+    for nom, clics, impressions, position in lignes:
+        c = cumuls.setdefault(nom, [0, 0, 0, 0])
+        c[0] += clics
+        c[1] += impressions
+        if position:
+            c[2] += position * impressions
+            c[3] += impressions
+    return [{"nom": nom, "clics": c, "impressions": i, "position": round(p / poids, 1) if poids else None}
+            for nom, (c, i, p, poids) in cumuls.items()]
+
+
+def position_moyenne(lignes):
+    poids = sum(i for _, _, i, p in lignes if p)
+    return round(sum(p * i for _, _, i, p in lignes if p) / poids, 1) if poids else None
+
+
+def lire_bing(cle, sites, journal):
+    """Bing Webmaster Tools, pour chaque site qu'il connaît : clics et impressions de chaque jour,
+    toutes recherches confondues (web, images, Copilot…), qui donnent les semaines du journal et les
+    PERIODE derniers jours ; chiffres de chaque semaine page par page et recherche par recherche (Bing
+    les met à jour chaque semaine), qui donnent la position moyenne et, sur ses quatre dernières
+    semaines, les recherches et les pages qui ont amené le plus de clics. Rend aussi les sites que Bing
+    ne donne pas, avec la raison. Lève MoteurErreur (clé refusée, Bing muet) ; le journal garde les
+    semaines déjà lues."""
+    connus = {}
+    for s in appel_bing(cle, "GetUserSites"):
+        if isinstance(s, dict) and isinstance(s.get("Url"), str):
+            connus.setdefault(nom_site(s["Url"]), []).append(s)
+    lus, manquants = {}, {}
+    for site in sites:
+        hote = nom_site(site)
+        verifies = sorted((s for s in connus.get(hote, []) if s.get("IsVerified")),
+                          key=lambda s: (s["Url"].rstrip("/") != site.rstrip("/"), not s["Url"].startswith("https:")))
+        if not verifies:
+            manquants[hote] = "pas encore vérifié" if hote in connus else "absent"
+            continue
+        adresse = verifies[0]["Url"]
+        try:
+            trafic = appel_bing(cle, "GetRankAndTrafficStats", siteUrl=adresse)
+            lignes_pages = appel_bing(cle, "GetPageStats", siteUrl=adresse)
+            lignes_recherches = appel_bing(cle, "GetQueryStats", siteUrl=adresse)
+        except MoteurErreur as erreur:
+            if erreur.code not in BING_SITE:
+                raise
+            manquants[hote] = "refusé"
+            continue
+        jours = {}
+        for l in trafic:
+            jour = jour_bing(l.get("Date")) if isinstance(l, dict) else None
+            if jour:
+                clics, impressions, _ = jours.get(jour, (0, 0, None))
+                jours[jour] = (clics + (l.get("Clicks") or 0), impressions + (l.get("Impressions") or 0), None)
+        brutes = [l.get("AvgImpressionPosition") for l in lignes_pages + lignes_recherches
+                  if isinstance(l, dict) and (l.get("Impressions") or 0) > 0]
+        echelle = 1 if any(isinstance(v, (int, float)) and 0 < v < BING_POSITION for v in brutes) else BING_POSITION
+        pages, recherches = semaines_bing(lignes_pages, echelle), semaines_bing(lignes_recherches, echelle)
+        semaines = journal.setdefault(hote, {})
+        lu = {"recherches": [], "pages": []}
+        # Les semaines et les périodes commencent au premier jour que donne Bing : un jour absent n'est
+        # compté comme vide qu'après.
+        if jours:
+            fin = max(jours)
+            noter_semaines(semaines, jours, max(lundi(min(jours)), lundi(fin) - timedelta(weeks=MOTEURS_SEMAINES)),
+                           lundi(fin), fin, garder_positions=True)
+            lu.update(debut=fin - timedelta(days=PERIODE - 1), fin=fin)
+            lu["total"] = cumul(jours, lu["debut"], fin)
+            avant = lu["debut"] - timedelta(days=PERIODE)
+            lu["avant"] = cumul(jours, avant, lu["debut"] - timedelta(days=1)) if min(jours) <= avant else None
+        # Bing date chaque semaine du lendemain de son dernier jour (un samedi pour la semaine du samedi
+        # au vendredi, d'après ceux qui se servent de son API) : sa position compte pour la semaine, du
+        # lundi au dimanche, qui contient ce dernier jour.
+        for jour, lignes in pages.items():
+            semaine, position = semaines.get(lundi(jour - timedelta(days=1)).isoformat()), position_moyenne(lignes)
+            if semaine is not None and position is not None:
+                semaine["position"] = position
+        dernieres = sorted(pages)[-4:]
+        if "total" in lu:
+            lu["total"]["position"] = position_moyenne([l for j in dernieres for l in pages[j]])
+        lu["pages"] = premieres(regrouper(l for j in dernieres for l in pages[j]))
+        lu["recherches"] = premieres(regrouper(l for j in sorted(recherches)[-4:] for l in recherches[j]))
+        lus[hote] = lu
+    return lus, manquants
+
+
+def moteurs_non_lus(reglages):
+    sites, propriete = sites_suivis(reglages)
+    return {"sites": sites, "propriete": propriete, "google": None, "bing": None, "manquants": {},
+            "erreur_google": None, "erreur_bing": None}
+
+
+def inattendue(nom, erreur):
+    """Réponse d'une forme imprévue (l'API a changé ?) : signalée, sans empêcher la publication du
+    site. Le journal de la tâche en garde la nature, qui ne contient ni clé ni jeton."""
+    print(f"Moteurs de recherche, {nom} : réponse inattendue ({type(erreur).__name__} : {str(erreur)[:200]}).")
+    return f"{nom} a répondu d'une façon inattendue : à signaler à une session Claude."
+
+
+def lire_moteurs(reglages, journal, maintenant):
+    """Google et Bing, s'ils sont reliés : chiffres lus (ou None) et message d'erreur éventuel."""
+    resultat = moteurs_non_lus(reglages)
+    sites, propriete = resultat["sites"], resultat["propriete"]
+    jeton = os.environ.get("SEARCH_CONSOLE_JETON", "").strip()
+    if jeton and not propriete:
+        resultat["erreur_google"] = "Aucune propriété Search Console dans site.ini (rubrique [moteurs], réglage search_console)."
+    elif jeton and sites:
+        try:
+            resultat["google"] = lire_google(jeton, propriete, sites, journal.setdefault("google", {}),
+                                             aujourdhui_pacifique(maintenant))
+        except MoteurErreur as erreur:
+            resultat["erreur_google"] = str(erreur)
+        except (KeyError, IndexError, TypeError, ValueError, AttributeError) as erreur:
+            resultat["erreur_google"] = inattendue("Search Console", erreur)
+    elif os.environ.get("SEARCH_CONSOLE_ETAT", "").strip() == "failure":
+        # L'étape « Google Search Console : jeton d'accès » de la tâche Site a échoué.
+        resultat["erreur_google"] = (
+            "Google a refusé la clé du secret SEARCH_CONSOLE_CLE : clé supprimée ou mal copiée, API « IAM Service "
+            "Account Credentials » non activée, ou rôle « Créateur de jetons du compte de service » manquant (mode "
+            "d'emploi, étapes A2 à A4 ; détail dans le journal de la tâche Site).")
+    cle = os.environ.get("BING_WEBMASTER_CLE", "").strip()
+    if cle and sites:
+        try:
+            resultat["bing"], resultat["manquants"] = lire_bing(cle, sites, journal.setdefault("bing", {}))
+        except MoteurErreur as erreur:
+            resultat["erreur_bing"] = str(erreur)
+        except (KeyError, IndexError, TypeError, ValueError, AttributeError) as erreur:
+            resultat["erreur_bing"] = inattendue("Bing Webmaster Tools", erreur)
+    return resultat
+
+
 # Courbes et colonnes en SVG, tracées ici sans bibliothèque. Une série par graphique, traits
 # fins, graduations rondes, valeur de la dernière mesure ; statique/tableau.js ajoute le
 # survol et le clavier, et chaque graphique a son tableau de chiffres à côté.
@@ -3372,7 +3734,197 @@ def titre_photo(pid, releve_photo, par_id):
     return (releve_photo or {}).get("titre") or "Sans titre"
 
 
-def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant):
+def decimale(n):
+    """Position moyenne : « 8,4 » ; « — » si elle est inconnue."""
+    return "—" if n is None else f"{n:.1f}".replace(".", ",")
+
+
+def taux_clic(clics, impressions):
+    """« 2,4 % » des impressions ; « — » sans impression."""
+    return "—" if not impressions else f"{(clics or 0) / impressions * 100:.1f}".replace(".", ",") + " %"
+
+
+def semaines_montrees(semaines):
+    """Semaines d'un moteur, de la plus ancienne à la plus récente, depuis la première où le site est
+    apparu dans ses résultats."""
+    cles = sorted(semaines)
+    while cles and not semaines[cles[0]].get("impressions"):
+        cles.pop(0)
+    return [(date.fromisoformat(c), semaines[c]) for c in cles]
+
+
+def case(titre, contenu):
+    return f'<div class="tb-case"><p class="tb-case-titre">{e(titre)}</p>{contenu}</div>'
+
+
+def tableau_semaines(semaines):
+    if not semaines:
+        return "<p class=\"tb-doux\">Le site n'y est pas encore apparu.</p>"
+    return tableau_chiffres(["Semaine du", "#Clics", "#Impressions", "~#Taux de clic", "#Position"], [
+        [date_fr(jour, courte=True) + ("" if s.get("complete") else ' <span class="tb-sous">en cours</span>'),
+         valeur(s.get("clics")), valeur(s.get("impressions")), taux_clic(s.get("clics"), s.get("impressions")),
+         decimale(s.get("position"))]
+        for jour, s in reversed(semaines[-MOTEURS_LIGNES:])])
+
+
+def tableau_premieres(lignes, entete, libelle):
+    """Les recherches ou les pages qui amènent le plus de clics ; libelle : texte de chacune."""
+    if not lignes:
+        return "<p class=\"tb-doux\">Aucune pour l'instant.</p>"
+    return tableau_chiffres([entete, "#Clics", "#Impressions", "~#Position"],
+                            [[libelle(l["nom"]), valeur(l["clics"]), valeur(l["impressions"]), decimale(l["position"])]
+                             for l in lignes], "tb-liste")
+
+
+def libelle_page(adresse, par_id, hote_photos):
+    """Page d'une liste : le titre, abrégé, de la photo pour la page d'une photo du site ; sinon son
+    chemin."""
+    chemin = urlparse(adresse).path or "/"
+    trouve = re.search(r"/photo/(\d+)/", chemin)
+    if trouve and int(trouve.group(1)) in par_id and nom_site(adresse) == hote_photos:
+        return (f'<a href="{e(adresse)}">{e(tronquer(par_id[int(trouve.group(1))]["titre"]["fr"], 44))}</a>'
+                f'<span class="tb-sous">{e(chemin)}</span>')
+    return f'<a href="{e(adresse)}">{e(chemin)}</a>'
+
+
+def tableau_resume(sources):
+    """Les 28 derniers jours, les sources côte à côte (titre, chiffres lus ou None, raison de leur
+    absence) : clics, impressions, taux de clic et position moyenne, avec l'écart des 28 jours
+    d'avant."""
+    tete, lignes = "", {"Clics": [], "Impressions": [], "Taux de clic": [], "Position moyenne": []}
+    for titre, lu, statut in sources:
+        total, avant = (lu or {}).get("total"), (lu or {}).get("avant")
+        precision = (f"du {date_fr(lu['debut'], courte=True)} au {date_fr(lu['fin'], courte=True)}" if total
+                     else statut)
+        tete += f'<th scope="col">{e(titre)}<span class="tb-sous">{e(precision)}</span></th>'
+
+        def avec_ecart(cle):
+            if not avant or total[cle] == avant[cle]:
+                return valeur(total[cle])
+            return valeur(total[cle]) + f'<span class="tb-sous">{ecart(total[cle] - avant[cle])}</span>'
+
+        for libelle, cellule in (("Clics", lambda: avec_ecart("clics")),
+                                 ("Impressions", lambda: avec_ecart("impressions")),
+                                 ("Taux de clic", lambda: taux_clic(total["clics"], total["impressions"])),
+                                 ("Position moyenne", lambda: decimale(total["position"]))):
+            lignes[libelle].append(cellule() if total else "—")
+    corps = "".join(f'<tr><th scope="row">{libelle}</th>' + "".join(f'<td class="n">{c}</td>' for c in cellules)
+                    + "</tr>" for libelle, cellules in lignes.items())
+    return (f'<div class="tb-defile"><table class="tb-table tb-resume"><thead><tr><td></td>{tete}</tr></thead>'
+            f"<tbody>{corps}</tbody></table></div>")
+
+
+def section_moteurs(g, moteurs, journal, par_id):
+    """Rubrique « Moteurs de recherche » : pour chaque site, Google (recherche web et images à part) et
+    Bing côte à côte. Rend son HTML et les rappels : moteur non relié ou refusé, site absent de Bing."""
+    rappels, alertes = [], []
+    google, bing, manquants = moteurs["google"], moteurs["bing"], moteurs["manquants"]
+    journal_google, journal_bing = journal.get("google", {}), journal.get("bing", {})
+    mode = lien_depot("blob/main/releves/README.md#relier-google-search-console-et-bing-webmaster-tools",
+                      "mode d'emploi")
+
+    def lier(message):
+        return e(message).replace(e("mode d'emploi"), mode)
+
+    for erreur, deja, secret, nom, quoi in (
+            (moteurs["erreur_google"], journal_google or google, "SEARCH_CONSOLE_CLE", "Google Search Console",
+             "la clé d'un compte de service"),
+            (moteurs["erreur_bing"], journal_bing or bing, "BING_WEBMASTER_CLE", "Bing Webmaster Tools",
+             "sa clé d'API")):
+        if erreur and deja:
+            alertes.append(f"{lier(erreur)} Chiffres du dernier passage réussi.")
+        elif erreur:
+            rappels.append(lier(erreur))
+        elif not deja:
+            rappels.append(f"{nom} n'est pas encore relié au tableau de bord : il lui faut {quoi}, rangée dans le "
+                           f"secret {secret} du dépôt ({mode}).")
+    raisons = {"absent": "absent de Bing Webmaster Tools", "pas encore vérifié": "pas encore vérifié dans Bing Webmaster Tools",
+               "refusé": "refusé par Bing, qui ne le dit pas vérifié"}
+    for hote, raison in manquants.items():
+        rappels.append(f"Bing ne donne pas les chiffres de {e(hote)} : site {raisons[raison]}. L'importer depuis "
+                       "Search Console, ou l'ajouter à la main ("
+                       + lien_depot("blob/main/referencement/README.md#1-bing-webmaster-tools", "pas à pas") + ").")
+
+    hote_photos = nom_site(g.site.get("adresse", ""))
+    blocs = []
+    for site in moteurs["sites"]:
+        hote = nom_site(site)
+        g_semaines = journal_google.get(hote, {})
+        b_semaines = semaines_montrees(journal_bing.get(hote, {}))
+        g_lus, b_lu = (google or {}).get(hote, {}), (bing or {}).get(hote)
+        if not (g_semaines or b_semaines or g_lus or b_lu):
+            continue
+        statut_google = "pas lu à ce passage" if moteurs["erreur_google"] else "pas encore relié"
+        statut_bing = (raisons[manquants[hote]] if hote in manquants else
+                       "pas lu à ce passage" if moteurs["erreur_bing"] else
+                       "pas encore de chiffres" if bing is not None else "pas encore relié")
+        sources = [(titre, g_lus.get(type_), statut_google) for type_, titre in TYPES_GOOGLE.items()]
+        sources.append(("Bing", b_lu, statut_bing))
+        bloc = [f'<h3 class="tb-site">{e(hote)}</h3><h4>Les 28 derniers jours</h4>' + tableau_resume(sources)
+                + '<p class="tb-note">Sous chaque chiffre, l\'écart avec les 28 jours d\'avant. Google : chiffres '
+                "définitifs, en journées de Californie ; Bing : toutes recherches confondues (web, images, vidéos, "
+                "actualités, Copilot).</p>"]
+
+        # Clics par semaine : Google (web et images) et Bing côte à côte.
+        par_type = {type_: semaines_montrees(g_semaines.get(type_, {})) for type_ in TYPES_GOOGLE}
+        cumuls = {}
+        for type_ in TYPES_GOOGLE:
+            for jour, s in par_type[type_]:
+                c = cumuls.setdefault(jour, [0, True])
+                c[0] += s.get("clics") or 0
+                c[1] = c[1] and bool(s.get("complete"))
+        graphes = []
+        if cumuls:
+            en_cours = not cumuls[max(cumuls)][1]
+            graphes.append(graphe("Clics venus de Google, par semaine", sorted((j, c[0]) for j, c in cumuls.items()),
+                                  colonnes=True, note="web et images" + (" ; semaine en cours incomplète" if en_cours else "")))
+        if b_semaines:
+            en_cours = not b_semaines[-1][1].get("complete")
+            graphes.append(graphe("Clics venus de Bing, par semaine", [(j, s.get("clics")) for j, s in b_semaines],
+                                  colonnes=True, note="toutes recherches" + (" ; semaine en cours incomplète" if en_cours else "")))
+        if graphes:
+            bloc.append(f'<div class="tb-graphes">{"".join(graphes)}</div>')
+
+        # Semaine après semaine, puis les recherches et les pages qui amènent le plus de clics.
+        colonnes = [(titre, g_semaines.get(type_) is not None or type_ in g_lus, par_type[type_],
+                     g_lus.get(type_) or {}) for type_, titre in TYPES_GOOGLE.items()]
+        colonnes.append(("Bing", bool(journal_bing.get(hote)) or b_lu is not None, b_semaines, b_lu or {}))
+        colonnes = [c for c in colonnes if c[1]]
+        if colonnes:
+            bloc.append('<h4>Semaine après semaine</h4><div class="tb-trio">'
+                        + "".join(case(titre, tableau_semaines(semaines)) for titre, _, semaines, _ in colonnes)
+                        + "</div>")
+            lues = [c for c in colonnes if c[3]]
+            if lues:
+                bloc.append('<h4>Les 10 recherches qui amènent le plus de clics</h4><div class="tb-trio">'
+                            + "".join(case(titre, tableau_premieres(lu.get("recherches"), "Recherche", e))
+                                      for titre, _, _, lu in lues) + "</div>")
+                bloc.append('<h4>Les 10 pages qui amènent le plus de clics</h4><div class="tb-trio">'
+                            + "".join(case(titre, tableau_premieres(lu.get("pages"), "Page",
+                                                                    lambda nom: libelle_page(nom, par_id, hote_photos)))
+                                      for titre, _, _, lu in lues) + "</div>")
+                bloc.append('<p class="tb-note">Google : sur les 28 derniers jours ; Bing : sur les quatre dernières '
+                            "semaines qu'il a comptées. Google tait les recherches trop rares, pour préserver "
+                            "l'anonymat de ceux qui les font.</p>")
+        blocs.append("".join(bloc))
+
+    if blocs:
+        corps = "".join(f'<p class="tb-alerte">{a}</p>' for a in alertes) + "".join(blocs)
+    else:
+        corps = ("<p>Les apparitions et les clics des deux sites dans Google et dans Bing s'affichent ici dès que "
+                 "Search Console et Bing Webmaster Tools sont reliés au tableau de bord (" + mode + ") ; en attendant, "
+                 'ils se lisent sur <a href="https://search.google.com/search-console">Google Search Console</a> et '
+                 '<a href="https://www.bing.com/webmasters">Bing Webmaster Tools</a>.</p>')
+    corps += ('<h3>Citations dans Copilot</h3><p>Le rapport AI Performance de Bing Webmaster Tools compte les '
+              "citations des pages dans les réponses de Copilot et des résumés IA de Bing. L'API de Bing ne les "
+              "fournit pas encore (vérifié en septembre 2026) : elles se lisent sur "
+              '<a href="https://www.bing.com/webmasters">Bing Webmaster Tools</a>, rapport AI Performance. Les clics '
+              "et les impressions que donne Bing comptent déjà ceux de Copilot.</p>")
+    return ('<section class="tb-section" id="moteurs" aria-labelledby="t-moteurs">'
+            '<h2 id="t-moteurs">Moteurs de recherche</h2>' + corps + "</section>"), rappels
+
+
+def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant, moteurs=None):
     """Tableau de bord : page française non référencée, et compteur de la barre des menus du Mac."""
     adr = g.adr
     chemin = adr.chemin("fr", "tableau")
@@ -3584,6 +4136,11 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
                         f'en attendant, ils se lisent sur <a href="https://{e(code)}.goatcounter.com">{e(code)}.goatcounter.com</a>.</p>'
                         "</section>")
 
+    # Moteurs de recherche : Google Search Console et Bing Webmaster Tools, pour les deux sites.
+    moteurs = moteurs or moteurs_non_lus(g.reglages)
+    section_recherche, rappels_moteurs = section_moteurs(g, moteurs, historique.get("moteurs", {}), par_id)
+    rappels += rappels_moteurs
+
     # Pinterest, relevé à la main chaque semaine.
     derniere_p = pinterest[-1]["date"] if pinterest else None
     en_retard(derniere_p, RETARD_SEMAINE, "Pinterest",
@@ -3618,8 +4175,10 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
     detail = [
         (f"https://{code}.goatcounter.com", "GoatCounter : visites et clics, en détail") if code else None,
         ("https://analytics.pinterest.com/", "Statistiques Pinterest"),
-        ("https://search.google.com/search-console", "Google Search Console : apparitions et clics dans Google"),
-        ("https://www.bing.com/webmasters", "Bing Webmaster Tools : Bing et Copilot"),
+        ("https://search.google.com/search-console/performance/search-analytics?resource_id="
+         + quote(moteurs["propriete"], safe="") if moteurs["propriete"] else "https://search.google.com/search-console",
+         "Google Search Console : apparitions et clics dans Google"),
+        ("https://www.bing.com/webmasters", "Bing Webmaster Tools : Bing, et les citations dans Copilot (AI Performance)"),
         (g.site.get("profil_pexels", ""), "Profil Pexels"),
         (f"{DEPOT}/tree/main/releves", "Les relevés sur GitHub"),
     ]
@@ -3634,9 +4193,9 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
            if rappels else "")
         + '<nav class="tb-sommaire" aria-label="Sections"><a href="#pexels">Pexels</a>'
         + ('<a href="#photos">Photos</a><a href="#toutes">Toutes les photos</a>' if releve else "")
-        + '<a href="#site">Site photo</a><a href="#pinterest">Pinterest</a><a href="#ia">Assistants IA</a>'
-        '<a href="#detail">Détail</a></nav></section>'
-        + section_pexels + section_photos + section_site
+        + '<a href="#site">Site photo</a><a href="#moteurs">Moteurs de recherche</a><a href="#pinterest">Pinterest</a>'
+        '<a href="#ia">Assistants IA</a><a href="#detail">Détail</a></nav></section>'
+        + section_pexels + section_photos + section_site + section_recherche
         + '<section class="tb-section" id="pinterest" aria-labelledby="t-pinterest"><h2 id="t-pinterest">Pinterest</h2>'
         + section_pinterest + "</section>"
         + '<section class="tb-section" id="ia" aria-labelledby="t-ia"><h2 id="t-ia">Assistants IA</h2>'
@@ -4074,9 +4633,10 @@ def main():
             gc = lire_goatcounter(code_gc, jeton, historique["goatcounter"], maintenant)
         except GoatCounterErreur as erreur:
             erreur_gc = str(erreur)
+    moteurs = lire_moteurs(reglages, historique["moteurs"], maintenant)
     if args.enregistrer_historique:
         enregistrer_historique(historique)
-    rappels = page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant)
+    rappels = page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant, moteurs)
     a_faire, validees, ecartees = ecrire_publications(adr, maintenant)
     # IndexNow : la clé, publique, est publiée à la racine du site ; les moteurs y vérifient
     # que les pages signalées viennent bien du propriétaire du site.
@@ -4110,6 +4670,13 @@ def main():
     print(f"Tableau de bord : relevé photo par photo du "
           f"{releve['date'] if releve else '(aucun)'}, GoatCounter {etat_gc}, {len(rappels)} rappel(s)"
           + (" ; historique enregistré." if args.enregistrer_historique else " (historique non enregistré)."))
+    for nom, lus, erreur, secret, manquants in (
+            ("Google Search Console", moteurs["google"], moteurs["erreur_google"], "pas de jeton SEARCH_CONSOLE_JETON", {}),
+            ("Bing Webmaster Tools", moteurs["bing"], moteurs["erreur_bing"], "pas de clé BING_WEBMASTER_CLE",
+             moteurs["manquants"])):
+        etat = (f"{len(lus)} site(s) lu(s)" + (f", sans chiffres pour {', '.join(manquants)}" if manquants else "") + "."
+                if lus is not None else erreur or f"non relié ({secret}).")
+        print(f"Moteurs de recherche, {nom} : {etat}")
     print(f"Publications pour Telepex : {a_faire} à faire, {validees} validée(s) depuis moins de "
           f"{VALIDEES_GARDEES} jours" + (f" ; laissées de côté (illisibles, incomplètes, ou ni RedNote ni "
                                         f"Facebook) : {', '.join(ecartees)}." if ecartees else "."))

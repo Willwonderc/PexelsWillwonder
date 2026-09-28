@@ -66,13 +66,17 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
 
 - [x] **HTTPS du site photo** : dépôt PexelsWillwonder, Settings → Pages → Enforce HTTPS.
   Fait le 27 septembre : http://photos.karlforterre.fr mène désormais à https.
-- [ ] **Google Search Console** (20 minutes) : une propriété de domaine `karlforterre.fr`,
-  validée par un enregistrement TXT chez OVH, qui couvre les deux sites ; y envoyer les
-  deux `sitemap.xml`, puis demander l'indexation de l'accueil du site photo, de
-  https://karlforterre.fr/en/ et de https://karlforterre.fr/zh/
-  ([pas à pas](#google-search-console-pas-à-pas)).
+- [x] **Google Search Console** : la propriété de domaine `karlforterre.fr`, validée chez
+  OVH, couvre les deux sites (fait en septembre 2026). Vérifier que les deux `sitemap.xml`
+  y sont envoyés et que l'indexation de l'accueil du site photo, de
+  https://karlforterre.fr/en/ et de https://karlforterre.fr/zh/ a été demandée
+  ([pas à pas](#google-search-console-pas-à-pas), étapes 5 et 6).
 - [ ] **Bing Webmaster Tools** (10 minutes) : importer les deux sites depuis Search Console
   ([partie 1](#1-bing-webmaster-tools)).
+- [ ] **Moteurs de recherche dans le tableau de bord** (20 minutes) : un compte de service
+  Google et la clé d'API de Bing, rangés dans les secrets du dépôt
+  ([pas à pas](../releves/README.md#relier-google-search-console-et-bing-webmaster-tools)) ;
+  la rubrique « Moteurs de recherche » du tableau de bord se remplit alors chaque nuit.
 - [x] **GoatCounter** : compte créé le 28 septembre, code `karlforterre`, inscrit après
   `goatcounter =` dans `vitrine/site.ini` ; le compteur est sur chaque page depuis le
   28 septembre. Il compte les visites et les clics vers Pexels
@@ -163,6 +167,10 @@ photos.karlforterre.fr, puis karlforterre.fr.
 3. Cocher les sites vérifiés dans Google (photos.karlforterre.fr, karlforterre.fr), puis
    **Importer**. Ils sont vérifiés d'office, avec leurs plans de site. Les données
    arrivent en 48 heures environ.
+4. Dans **Mes sites**, vérifier que les deux sites y figurent chacun : Search Console n'a
+   qu'une propriété « Domaine », quand Bing traite chaque sous-domaine à part. S'il en manque
+   un, l'ajouter à la main, comme ci-dessous. Le tableau de bord le signale aussi, une fois
+   relié à Bing ([releves/README.md](../releves/README.md#relier-google-search-console-et-bing-webmaster-tools)).
 
 **Sinon, à la main**, pour photos.karlforterre.fr :
 
@@ -640,9 +648,12 @@ Pexels », « utilisées sur CNN.com, d'après Pexels », la définition citée 
 
 ## 5. Suivre les résultats, une fois par mois
 
-Avec le relevé des vues Pexels, dix minutes :
+Clics, impressions, positions, recherches et pages de Google et de Bing se lisent chaque
+semaine sur le tableau de bord, rubrique « Moteurs de recherche ». Le reste, avec le relevé
+des vues Pexels, dix minutes par mois :
 
-1. **Bing Webmaster Tools**, rapport **AI Performance** : citations dans Copilot.
+1. **Bing Webmaster Tools**, rapport **AI Performance** : citations dans Copilot (l'API de
+   Bing ne les fournit pas encore au tableau de bord).
 2. **Google Search Console**, rapport **Generative AI performance** : apparitions dans
    les réponses IA de Google.
 3. **GoatCounter** (une fois son code dans `site.ini`), rubrique des sites de
