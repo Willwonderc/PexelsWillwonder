@@ -299,7 +299,7 @@ par le haut de sa ligne, puis le suivant y monte (sans JavaScript, ou si l'appar
 demande moins d'animations, ils s'affichent l'un sous l'autre). Au survol, la photo
 utilisée remplit la rubrique (elle ne se charge qu'au premier survol), et sur téléphone
 chaque bande a sa vignette. La page de chaque photo concernée le signale aussi, et les
-sites web figurent sur l'accueil (« Utilisées sur … ») et en fin de galerie et de série.
+sites web figurent en pied de page de l'accueil (« Utilisées sur … ») et en fin de galerie et de série.
 N'y noter que des usages avérés.
 
 ## Domaine personnel

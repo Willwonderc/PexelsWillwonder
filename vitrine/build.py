@@ -1123,13 +1123,15 @@ def date_usages(usages, langue):
     return entre_parentheses(mois_annee(max(dates), langue), langue) if dates else ""
 
 
-def ligne_usages(g, langue):
-    """« Utilisées sur CNN.com, … », lien vers la page des photos utilisées."""
+def ligne_usages(g, langue, classe="preuve"):
+    """« Utilisées sur CNN.com, … », lien vers la page des photos utilisées ; sans classe
+    dans le pied de page de l'accueil, dont elle prend l'allure discrète."""
     sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
     if not sites:
         return ""
     texte = TEXTES[langue]["usages_ligne"].format(sites=enumeration(sites, langue))
-    return f'<p class="preuve"><a href="{g.adr.chemin(langue, "galerie", CLE_USAGES)}">{e(texte)}</a></p>'
+    attribut = f' class="{classe}"' if classe else ""
+    return f'<p{attribut}><a href="{g.adr.chemin(langue, "galerie", CLE_USAGES)}">{e(texte)}</a></p>'
 
 
 def preuve_sociale(preuve, langue):
@@ -1313,9 +1315,10 @@ class Gabarit:
         )
 
     def page(self, langue, *, titre, description, chemins, contenu, image=None, donnees=None,
-             flux=None, classe="", titre_complet=False, series=True, prive=()):
+             flux=None, classe="", titre_complet=False, series=True, prive=(), pied_haut=""):
         """« prive » : feuilles de style et scripts d'une page non référencée (le tableau de
-        bord), qui n'a ni indexation, ni traductions, ni compteur GoatCounter."""
+        bord), qui n'a ni indexation, ni traductions, ni compteur GoatCounter. « pied_haut » :
+        paragraphe placé en tête du pied de page (les usages, sur l'accueil)."""
         t = TEXTES[langue]
         autre = SUIVANTE[langue]
         adr = self.adr
@@ -1350,7 +1353,8 @@ class Gabarit:
         annee = datetime.now(timezone.utc).year
         pied = (
             '<footer class="pied">'
-            f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
+            + pied_haut
+            + f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
             f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
             f' · <a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a>'
             f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
@@ -1513,7 +1517,6 @@ def ouverture_accueil(g, photos, langue):
         f'<a class="bouton bouton-contour" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-accueil">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
-        + ligne_usages(g, langue)
         + "</div></section>"
     )
 
@@ -1556,7 +1559,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=(ouverture or photos or [None])[0], donnees=donnees,
                    classe="accueil sur-photo" if ouverture else "accueil",
-                   titre_complet=True, series=bool(series))
+                   titre_complet=True, series=bool(series), pied_haut=ligne_usages(g, langue, classe=""))
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
