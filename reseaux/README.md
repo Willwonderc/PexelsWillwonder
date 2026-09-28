@@ -11,8 +11,9 @@ télécharge sur Pexels. Exemple :
 
     #Photography #Sky #CrescentMoon #Gradient #Twilight
 
-Sur Instagram, dont les légendes n'ont pas de liens cliquables, le lien est remplacé par
-un renvoi vers celui de la biographie (voir la partie 5, « Instagram »).
+Sur Instagram, tout est en français, avec une légende écrite dans le style de Karl ;
+les légendes n'y ont pas de liens cliquables, et le lien est remplacé par un renvoi vers
+celui de la biographie (voir la partie 5, « Instagram »).
 
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
   `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
@@ -128,10 +129,12 @@ La photo du jour part aussi sur le compte @karl_forterre, par l'API officielle d
 ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
 `reseaux/photo-du-jour.json` note chaque publication dans sa rubrique `instagram`.
 
-- **Légende** : le titre, puis « Royalty-free, free to download on Pexels: link in
-  bio. » (lien dans la bio), puis cinq hashtags : Instagram n'en accepte pas davantage
-  depuis décembre 2025. Les légendes n'ont pas de liens cliquables : c'est le lien de la
-  biographie qui mène au site.
+- **Légende**, toujours en français (règle de Karl du 28 septembre 2026) : un texte
+  écrit à l'avance dans son style (`reseaux/legendes-instagram.csv`, d'après le guide
+  `reseaux/style-karl.md`) ou, à défaut, le titre français de la photo ; puis « Libre de
+  droits, à télécharger gratuitement sur Pexels : lien dans la bio. », puis cinq
+  hashtags : Instagram n'en accepte pas davantage depuis décembre 2025. Les légendes
+  n'ont pas de liens cliquables : c'est le lien de la biographie qui mène au site.
 - **Image** : Instagram la télécharge lui-même chez Pexels, en JPEG de 1 440 pixels de
   large. Il n'accepte que les proportions comprises entre 4:5 (en hauteur) et 1,91:1
   (en largeur) : les photos en hauteur sont recadrées au centre en 4:5, les neuf
@@ -284,9 +287,14 @@ supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
 
 ## Réglages
 
-- **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`, ligne
-  `langue` : `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois). Titre,
-  hashtags et lien suivent cette langue, sur les trois réseaux.
+- **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`. Ligne
+  `langue` pour Bluesky et Mastodon : `en` (anglais, par défaut), `fr` (français) ou `zh`
+  (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_instagram` pour
+  Instagram : `fr`, à garder (règle de Karl).
+- **Légendes Instagram** : `reseaux/legendes-instagram.csv`, une ligne par photo (numéro
+  Pexels, légende), à corriger au besoin directement sur GitHub. L'essai (`--essai`)
+  indique pour combien des prochaines photos une légende est prête ; quand il en reste
+  moins de 14, la consigne L en fait écrire de nouvelles.
 - **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
   (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
   mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.

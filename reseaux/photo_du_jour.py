@@ -23,6 +23,7 @@ Options :
 """
 
 import argparse
+import csv
 import json
 import math
 import os
@@ -77,6 +78,9 @@ TEXTES_INSTAGRAM = {
     "en": "Royalty-free, free to download on Pexels: link in bio.",
     "zh": "免版税，可在 Pexels 免费下载：链接见主页简介。",
 }
+# Instagram est toujours en français, dans le style de Karl (reseaux/style-karl.md) :
+# légendes écrites à l'avance, une par photo ; sans légende prête, le titre français.
+LEGENDES_INSTAGRAM = ICI / "legendes-instagram.csv"
 
 
 # ---------------------------------------------------------------- choix et texte
@@ -300,10 +304,21 @@ def image_instagram(photo):
     return adresse
 
 
+def lire_legendes():
+    """Légendes Instagram écrites à l'avance : numéro de la photo → texte."""
+    if not LEGENDES_INSTAGRAM.exists():
+        return {}
+    with LEGENDES_INSTAGRAM.open(encoding="utf-8", newline="") as fichier:
+        return {ligne["photo"].strip(): ligne["legende"].strip()
+                for ligne in csv.DictReader(fichier) if (ligne.get("legende") or "").strip()}
+
+
 def legende_instagram(photo, langue):
-    """Titre, renvoi vers le lien du site dans la biographie et hashtags."""
+    """Légende écrite à l'avance (en français) ou titre, renvoi vers le lien du site dans
+    la biographie, et hashtags."""
     tags = hashtags(photo, langue)[:INSTAGRAM_HASHTAGS]
-    return f'{photo["titre"][langue]}\n\n{TEXTES_INSTAGRAM[langue]}\n\n' + " ".join("#" + t for t in tags)
+    texte = (lire_legendes().get(str(photo["id"])) if langue == "fr" else None) or photo["titre"][langue]
+    return f'{texte}\n\n{TEXTES_INSTAGRAM[langue]}\n\n' + " ".join("#" + t for t in tags)
 
 
 def api_instagram(methode, chemin, jeton, donnees=None):
@@ -418,8 +433,12 @@ def main():
 
     reglages = build.lire_ini("site.ini")
     langue = args.langue or reglages.get("photo_du_jour", "langue", fallback="en").strip() or "en"
-    if langue not in build.LANGUES:
-        sys.exit(f"Langue inconnue dans site.ini, rubrique [photo_du_jour] : {langue} (fr, en ou zh).")
+    # Instagram a sa propre langue : le français, règle de Karl (reseaux/style-karl.md).
+    langues = {"instagram": args.langue or reglages.get("photo_du_jour", "langue_instagram",
+                                                          fallback=langue).strip() or langue}
+    for choix in (langue, *langues.values()):
+        if choix not in build.LANGUES:
+            sys.exit(f"Langue inconnue dans site.ini, rubrique [photo_du_jour] : {choix} (fr, en ou zh).")
     adr = build.Adresses(reglages["site"]["adresse"])
     photos = lire_photos()
     journal = charger_journal()
@@ -435,17 +454,18 @@ def main():
             print(f"{nom} : photo du jour déjà publiée aujourd'hui.")
             continue
         photo = photo_suivante(photos, parues)
+        langue_reseau = langues.get(cle, langue)
         if not photo:
             print(f"{nom} : toutes les photos ont déjà été publiées.")
             continue
         if args.essai:
-            texte = texte_publie(photo, langue, adr)
+            texte = texte_publie(photo, langue_reseau, adr)
             print(f"--- {nom} : photo {photo['id']} ({photo['vues']} vues, {len(texte)} caractères)\n{texte}\n")
             if cle == "instagram":
                 print(f"Image téléchargée par Instagram : {image_instagram(photo)}\n")
             continue
         try:
-            lien = publier(photo, langue, adr, acces)
+            lien = publier(photo, langue_reseau, adr, acces)
         except (RuntimeError, OSError, KeyError, ValueError) as erreur:
             echecs += 1
             print(f"{nom} : échec de la publication de la photo {photo['id']} : {erreur}")
@@ -454,9 +474,14 @@ def main():
         enregistrer_journal(journal)
         print(f"{nom} : photo {photo['id']} publiée, {lien}")
 
+    legendes = lire_legendes()
     for cle, (nom, _, _, _) in RESEAUX.items():
-        print(f"{nom} : {len(journal.get(cle, {}))} photos publiées depuis le début, "
-              f"{sum(1 for p in photos if str(p['id']) not in journal.get(cle, {}))} à venir.")
+        a_venir = [p for p in photos if str(p["id"]) not in journal.get(cle, {})]
+        ligne = f"{nom} : {len(journal.get(cle, {}))} photos publiées depuis le début, {len(a_venir)} à venir."
+        if cle == "instagram":
+            pretes = next((i for i, p in enumerate(a_venir) if str(p["id"]) not in legendes), len(a_venir))
+            ligne += f" Légendes prêtes pour les {pretes} prochaines."
+        print(ligne)
     if echecs:
         sys.exit(1)
 

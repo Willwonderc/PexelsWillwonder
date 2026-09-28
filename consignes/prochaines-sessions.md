@@ -28,6 +28,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | F | Tableau de bord | fin octobre | T faite et une semaine de relevés publiés par Telepex ; GoatCounter : fait, il compte depuis le 28 septembre |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
+| L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
 | V3 | Studio vidéo : son et voix | après V2 | V2 fusionnée |
@@ -189,6 +190,17 @@ Session I de docs/plan-site-pro.md : une galerie de lieu dédiée à Niort, où 
 Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots en français, en anglais et en chinois, dans la ligne éditoriale de CLAUDE.md ; corrige les titres faux repérés en chemin ; donne-moi le nouveau flux Pinterest à relier. Vérifie que vitrine/build.py tourne, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
+## L — Légendes Instagram
+
+Sur Instagram, tout est en français, dans un style proche de l'expression de Karl
+(`reseaux/style-karl.md`). La photo du jour y prend la légende écrite à l'avance pour
+chaque photo dans `reseaux/legendes-instagram.csv` (14 écrites le 28 septembre) ; sans
+légende prête, elle garde le titre français.
+
+```text
+Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --essai : il indique pour combien des prochaines photos une légende est prête. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md : une à trois phrases, 300 caractères au plus, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
 ## V — Studio vidéo
 
 Plan complet et cahier des charges « agence » : [docs/plan-videos.md](../docs/plan-videos.md).
@@ -222,7 +234,7 @@ Session V3 de docs/plan-videos.md : son et voix (règles S du cahier des charges
 ### V4 — Formats natifs et diffusion
 
 ```text
-Session V4 de docs/plan-videos.md : formats natifs et diffusion (règles I, L et C du cahier des charges). Déclinaisons 9:16, 3:4, 1:1 et 16:9 d'un même montage, avec les zones de sécurité mesurées de chaque réseau et des durées par réseau ; kits de publication par réseau et par langue (titre, texte, hashtags, couverture, texte alternatif, heure conseillée) ; page d'aperçu où je valide chaque vidéo. Reels sur Instagram par l'API officielle, avec la connexion et le jeton de la photo du jour, seulement après mon accord ; YouTube Shorts par l'API officielle (vérifie sa documentation, le quota et l'audit nécessaire pour publier en public) ; une page par vidéo sur photos.karlforterre.fr avec le lecteur YouTube, des données VideoObject et un plan de site vidéo. Explique-moi d'abord pas à pas les accès à créer, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+Session V4 de docs/plan-videos.md : formats natifs et diffusion (règles I, L et C du cahier des charges). Déclinaisons 9:16, 3:4, 1:1 et 16:9 d'un même montage, avec les zones de sécurité mesurées de chaque réseau et des durées par réseau ; kits de publication par réseau et par langue (titre, texte, hashtags, couverture, texte alternatif, heure conseillée) ; page d'aperçu où je valide chaque vidéo. Reels sur Instagram par l'API officielle, avec la connexion et le jeton de la photo du jour, seulement après mon accord, tout en français et dans le style de reseaux/style-karl.md ; YouTube Shorts par l'API officielle (vérifie sa documentation, le quota et l'audit nécessaire pour publier en public) ; une page par vidéo sur photos.karlforterre.fr avec le lecteur YouTube, des données VideoObject et un plan de site vidéo. Explique-moi d'abord pas à pas les accès à créer, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
 ```
 
 ### V5 — Mesure et amélioration continue

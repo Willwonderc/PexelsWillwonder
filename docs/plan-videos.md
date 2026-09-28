@@ -106,6 +106,7 @@ session ou Karl.
 | C3 | Règles des réseaux : sur RedNote, ni lien ni invitation à quitter l'application (`docs/promotion-chine.md`). Côté Pexels, toute mention renvoie à la page de la photo. | automatique |
 | C4 | Licences : crédit des musiques CC BY ; mention de la licence de la vidéo quand la musique est CC BY-SA ; fichier « Musiques et licences ». | automatique |
 | C5 | Accessibilité : sous-titres toujours présents, texte alternatif dans le kit, pas de clignotement rapide. | automatique |
+| C6 | Instagram : tout en français (texte à l'écran, sous-titres, légende), dans un style proche de l'expression de Karl (`reseaux/style-karl.md`). | automatique (langue) et Karl |
 
 ### Livraison et suivi
 
@@ -243,7 +244,8 @@ lui demande pas plus d'un quart d'heure.
 
 - Déclinaisons 9:16, 3:4, 1:1 et 16:9 d'un même montage, avec les zones de sécurité
   mesurées de chaque réseau ; durées par réseau (15 s, 30 à 45 s, 60 à 90 s, 3 min).
-- Kits de publication par réseau et par langue, et page d'aperçu où Karl valide.
+- Kits de publication par réseau et par langue, et page d'aperçu où Karl valide. Sur
+  Instagram, tout est en français, dans le style de Karl (règle C6).
 - Instagram : Reels publiés par l'API officielle (conteneur « REELS », 100 publications
   par jour au plus), avec la connexion et le jeton de la photo du jour (session H),
   en file d'attente, seulement après accord de Karl.
