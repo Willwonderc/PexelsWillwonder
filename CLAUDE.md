@@ -27,7 +27,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
    déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
-   statistiques Pinterest, vues et téléchargements Pexels tirés des relevés de Karl.
+   statistiques Pinterest, vues et téléchargements Pexels tirés des relevés de Karl,
+   Google Search Console et Bing Webmaster Tools.
 
 ## Façon de travailler
 
@@ -153,10 +154,24 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   Il lit les relevés de `releves/` et GoatCounter par son API (clé en lecture seule du secret
   `GOATCOUNTER_JETON` ; sans elle, le site se construit quand même). Historique
   `vitrine/donnees/historique.json` (totaux de chaque relevé, photo par photo sur cinq
-  semaines, semaines de GoatCounter) : seule la tâche GitHub l'enregistre
+  semaines, semaines de GoatCounter, de Google et de Bing) : seule la tâche GitHub l'enregistre
   (`--enregistrer-historique`). Il publie aussi `/tableau-de-bord/compteur.json`, que relit toutes
   les heures le compteur de la barre des menus du MacBook M1 de Karl (SwiftBar,
   `releves/barre-des-menus/`) ; il remplace l'écran Turing du plan de départ, que Karl n'a pas.
+- Moteurs de recherche (rubrique du tableau de bord, session G) : pour chaque site de la
+  rubrique `[moteurs]` de `site.ini`, Google (recherche web et Google Images à part) et Bing
+  côte à côte, lus chaque nuit en lecture seule. Google : API Search Analytics sur la propriété
+  de domaine `sc-domain:karlforterre.fr`, chaque site filtré par ses pages ; compte de service
+  Google Cloud, utilisateur « Restreint » de la propriété, dont la clé JSON est le secret
+  `SEARCH_CONSOLE_CLE` ; la tâche Site en tire un jeton d'une heure par l'action officielle
+  `google-github-actions/auth` (le rôle « Créateur de jetons du compte de service » et l'API
+  « IAM Service Account Credentials » sont nécessaires), passé à `build.py` par
+  `SEARCH_CONSOLE_JETON`. Bing : API de Bing Webmaster Tools, clé du secret
+  `BING_WEBMASTER_CLE`, qui part dans l'adresse des demandes : ne jamais écrire ces adresses
+  dans un journal. Bing ne fournit pas encore par son API les citations dans Copilot (rapport
+  AI Performance, vérifié en septembre 2026), et donne ses positions multipliées par 10
+  (constat des développeurs, non documenté). Sans secrets, la rubrique le signale et le site se
+  construit quand même. Mode d'emploi : `releves/README.md`.
 - Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
   `llms-full.txt` (une version par langue), la page « Questions fréquentes »
   (`vitrine/questions.ini`) et les données Person de l'auteur, dont l'identifiant

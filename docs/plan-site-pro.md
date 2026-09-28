@@ -19,13 +19,15 @@ Chaque semaine, on relève cinq chiffres :
 |---|---|
 | Vues et abonnés Pexels | `releves/vues-pexels.csv`, tenu par Telepex (session T) ou à la main |
 | Clics du site vers Pexels | GoatCounter (événements `pexels-…`, `suivre-pexels`) |
-| Apparitions et clics dans Google | Google Search Console |
+| Apparitions et clics dans Google et dans Bing | Google Search Console et Bing Webmaster Tools |
 | Impressions et clics sortants | statistiques Pinterest |
 | Pages les plus vues | GoatCounter |
 | Téléchargements, photos retenues, photos les plus vues | fiche de suivi `releves/suivi-pexels.csv`, publiée par Telepex, l'application Mac de Karl |
 
-Tous, sauf Search Console, se lisent semaine après semaine sur le tableau de bord,
-https://photos.karlforterre.fr/tableau-de-bord/ (page non référencée, session F).
+Tous se lisent semaine après semaine sur le tableau de bord,
+https://photos.karlforterre.fr/tableau-de-bord/ (page non référencée, session F) ; Search
+Console et Bing Webmaster Tools depuis la session G, une fois leurs accès rangés dans les
+secrets du dépôt ([releves/README.md](../releves/README.md)).
 
 ## Ce que montre la fiche de suivi
 

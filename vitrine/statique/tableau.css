@@ -111,6 +111,22 @@
 .tb-vignette { width: 1%; }
 .tb-colonnes-texte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 0 28px; }
 
+/* Moteurs de recherche : un bloc par site ; Google (web, images) et Bing côte à côte. */
+
+.tb-section h3.tb-site { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--trait); font-size: 20px; }
+.tb-section h2 + h3.tb-site { margin-top: 0; padding-top: 0; border-top: 0; }
+.tb-section h4 { margin: 26px 0 6px; font-size: 15px; font-weight: 600; }
+.tb-note { max-width: 50rem; margin: 8px 0 0; color: var(--doux); font-size: 13px; }
+.tb-trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 0 24px; align-items: start; }
+.tb-case-titre { margin: 10px 0 0; font-size: 14px; font-weight: 600; }
+.tb-case .tb-defile { margin-top: 2px; }
+.tb-case .tb-table th, .tb-case .tb-table td { padding-inline: 6px; }
+.tb-liste td:first-child { min-width: 8rem; white-space: normal; overflow-wrap: anywhere; }
+.tb-resume thead th { color: var(--encre); font-size: 14px; text-align: right; white-space: normal; vertical-align: bottom; }
+.tb-resume thead .tb-sous { color: var(--doux); font-weight: 400; }
+.tb-resume tbody th { padding: 8px 10px; border-bottom: 1px solid var(--trait); color: var(--encre); font-size: 14px; font-weight: 400; white-space: normal; }
+.tb-resume td .tb-sous { font-size: 12px; }
+
 /* Toutes les photos : recherche, filtres et tri, comme dans Telepex. */
 
 .tb-filtres { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 16px; margin: 8px 0 4px; font-size: 14px; }

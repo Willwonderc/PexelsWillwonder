@@ -229,7 +229,10 @@ Une photo regardée dans la visionneuse compte comme une visite de sa page.
 Le tableau de bord (https://photos.karlforterre.fr/tableau-de-bord/, page non référencée,
 que GoatCounter ne compte pas) reprend ces chiffres semaine après semaine grâce à une clé
 d'API en lecture seule, rangée dans le secret `GOATCOUNTER_JETON` du dépôt ; il lit aussi
-les relevés de `releves/`. Mode d'emploi : [releves/README.md](../releves/README.md).
+les relevés de `releves/`, et, dans sa rubrique « Moteurs de recherche », les apparitions et
+les clics des deux sites dans Google et dans Bing (secrets `SEARCH_CONSOLE_CLE` et
+`BING_WEBMASTER_CLE`, sites suivis dans la rubrique `[moteurs]` de `site.ini`). Mode
+d'emploi : [releves/README.md](../releves/README.md).
 
 ## Référencement
 
