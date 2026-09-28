@@ -1,0 +1,51 @@
+{
+  "format": 1,
+  "id": "2026-10-02-rednote-03-normandie",
+  "reseau": "rednote",
+  "langue": "zh",
+  "forme": "carrousel",
+  "sujet": "Normandie et Bretagne",
+  "carrousel": "3 - Normandie et Bretagne",
+  "date_prevue": "2026-10-02",
+  "heure_conseillee": "entre 13 h et 15 h, heure de Paris (le soir en Chine)",
+  "etapes": [
+    "Envoyer les 9 images sur l'iPhone (AirDrop) : elles arrivent dans Photos.",
+    "Dans RedNote, toucher + et sélectionner les 9 images dans l'ordre : la 1 sert de couverture.",
+    "Copier le titre et le coller dans le champ du titre ; faire de même pour le texte.",
+    "Choisir le lieu (France) si l'application le propose, puis publier."
+  ],
+  "images": [
+    "images/01.jpg",
+    "images/02.jpg",
+    "images/03.jpg",
+    "images/04.jpg",
+    "images/05.jpg",
+    "images/06.jpg",
+    "images/07.jpg",
+    "images/08.jpg",
+    "images/09.jpg"
+  ],
+  "textes": [
+    {
+      "nom": "Titre",
+      "texte": "法国人的海边｜诺曼底与布列塔尼的灯塔🌊"
+    },
+    {
+      "nom": "Texte et hashtags",
+      "texte": "我是 Karl，一个法国摄影师🇫🇷 住在法国西部的尼奥尔，在拉罗谢尔和普瓦捷之间。\n夏天，很多法国人会去诺曼底和布列塔尼的海边。这里的海和南法蓝色的地中海完全不同：潮汐很大，雾说来就来，海岸上一座座灯塔守着航道。\n这组照片从格朗维尔出发，到只能坐船登岛的肖塞群岛，再到圣米歇尔山和圣马洛。圣米歇尔山所在的海湾，潮差是欧洲最大的之一，涨潮时山会变成一座岛🏝️\n\n🇫🇷 法语小课堂：\n灯塔叫 le phare，潮汐叫 la marée🌊\n\n📷 这组照片：\n1️⃣ 雾海中孤独伫立的 Le Loup 灯塔\n2️⃣ 圣米歇尔山修道院哥特拱顶与彩窗\n3️⃣ 格朗维尔多云天空下的灯塔\n4️⃣ 肖塞群岛绿荫中的石砌金字塔地标\n5️⃣ 肖塞群岛礁石上的海边小屋\n6️⃣ 诺曼底海岸壮丽礁石与海浪\n7️⃣ 圣普朗谢岩岸上的宁静灯塔\n8️⃣ 圣马洛古城，海港风光\n\n我的 900 多张照片都发布在 Pexels，免费下载、可商用，做壁纸、做设计都可以～\n在 Pexels 搜索「Karl Forterre」就能找到原图。\n\nA French photographer on the Normandy and Brittany coast: lighthouses, sea mist and Mont-Saint-Michel. Free to download on Pexels: search Karl Forterre.\n\n#法国摄影师 #诺曼底 #布列塔尼 #圣米歇尔山 #圣马洛 #灯塔 #法国旅行 #海边风景 #风光摄影 #免费素材 #摄影分享"
+    }
+  ],
+  "traduction": {
+    "langue": "fr",
+    "textes": [
+      {
+        "nom": "Titre",
+        "texte": "La mer des Français | Les phares de Normandie et de Bretagne 🌊"
+      },
+      {
+        "nom": "Texte",
+        "texte": "Je suis Karl, photographe français 🇫🇷 J'habite Niort, dans l'ouest de la France, entre La Rochelle et Poitiers.\nL'été, beaucoup de Français partent sur les côtes de Normandie et de Bretagne. Rien à voir avec la Méditerranée bleue du Sud : les marées y sont immenses, la brume arrive sans prévenir, et les phares veillent sur les passes.\nCes photos partent de Granville, passent par les îles Chausey, accessibles seulement en bateau, puis vont jusqu'au Mont-Saint-Michel et à Saint-Malo. La baie du Mont connaît l'un des plus grands marnages d'Europe : à marée haute, le Mont redevient une île 🏝️\n\n🇫🇷 Petit cours de français (pour le public chinois) :\nle phare (灯塔) et la marée (潮汐) 🌊\n\n📷 Les photos :\n1️⃣ Le phare du Loup, solitaire dans la brume marine\n2️⃣ Architecture gothique de l'abbaye du Mont-Saint-Michel, arches élancées et vitraux\n3️⃣ Phare pittoresque sur la côte rocheuse de Granville, sous un ciel nuageux\n4️⃣ Monument pyramidal en pierre entouré de verdure, à Chausey\n5️⃣ Maison sur les rochers de l'île de Chausey\n6️⃣ Formation rocheuse majestueuse sur la côte normande, battue par les vagues\n7️⃣ Phare sur un rivage rocheux à Saint-Planchers\n8️⃣ St-Malo\n\nMes plus de 900 photos sont publiées sur Pexels : gratuites, même pour un usage commercial, en fond d'écran comme en création graphique.\nCherchez « Karl Forterre » sur Pexels pour trouver les originaux.\n\n(Ligne en anglais, reprise telle quelle.)\n\nHashtags : photographe français, Normandie, Bretagne, Mont-Saint-Michel, Saint-Malo, phare, voyage en France, paysages de bord de mer, photo de paysage, images gratuites, partage photo"
+      }
+    ]
+  }
+}

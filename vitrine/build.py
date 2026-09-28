@@ -26,6 +26,8 @@ Options :
 
 Le tableau de bord (/tableau-de-bord/, non référencé) lit les relevés de releves/ et, si la
 variable d'environnement GOATCOUNTER_JETON contient une clé d'API, les chiffres de GoatCounter.
+À côté, /tableau-de-bord/publications.json liste pour Telepex, l'application Mac de Karl, les
+publications à faire à la main (reseaux/publications/).
 """
 
 import argparse
@@ -965,6 +967,9 @@ class Adresses:
             # Tableau de bord, page non référencée, en français seulement.
             "tableau": "/tableau-de-bord/",
             "compteur": "/tableau-de-bord/compteur.json",
+            # Publications à faire à la main, pour Telepex, et leurs images.
+            "publications": "/tableau-de-bord/publications.json",
+            "publication": f"/tableau-de-bord/publications/{cle}/",
         }
         return debut + chemins[genre]
 
@@ -3647,6 +3652,99 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
     return rappels
 
 
+# ---------------------------------------------------------------- publications à la main, pour Telepex
+
+# Publications que Karl fait à la main (RedNote, Facebook), préparées en session dans
+# reseaux/publications/<id>/ : publication.json et ses images (format : reseaux/README.md).
+# L'onglet « Publications » de Telepex, son application Mac, les lit dans
+# /tableau-de-bord/publications.json ; quand Karl en valide une, Telepex ajoute une ligne à
+# reseaux/publications-validees.csv, et la publication n'est plus proposée. Rien que de
+# public : ces textes et ces images sont faits pour être publiés.
+PUBLICATIONS = RACINE / "reseaux" / "publications"
+VALIDEES = RACINE / "reseaux" / "publications-validees.csv"
+RESEAUX_TELEPEX = ("rednote", "facebook")
+VALIDEES_GARDEES = 30  # jours pendant lesquels une publication validée reste dans la liste
+# Nom des vidéos de chaque langue, tel que l'écrit reseaux/videos/fabrique.py.
+SUFFIXE_VIDEO = {"zh": "chinois", "fr": "français", "en": "anglais"}
+
+
+def lire_validees():
+    """Date de validation de chaque publication, d'après le journal que tient Telepex."""
+    validees = {}
+    for ligne in lire_csv(VALIDEES) if VALIDEES.exists() else []:
+        ident, jour = (ligne.get("id") or "").strip(), (ligne.get("date") or "").strip()
+        if ident and jour:
+            validees[ident] = max(jour, validees.get(ident, jour))
+    return validees
+
+
+def publication_telepex(adr, dossier, validees):
+    """Une publication au format que lit Telepex, ou None si elle est incomplète. Ses images
+    sont publiées tant qu'elle reste à faire."""
+    pub = json.loads((dossier / "publication.json").read_text(encoding="utf-8"))
+    textes = [t for t in pub.get("textes") or [] if isinstance(t, dict) and (t.get("texte") or "").strip()]
+    titres = [t["texte"] for t in textes if (t.get("nom") or "").lower().startswith("titre")]
+    corps = [t["texte"] for t in textes if not (t.get("nom") or "").lower().startswith("titre")]
+    ident, langue = pub.get("id"), pub.get("langue")
+    if not (isinstance(ident, str) and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", ident)
+            and pub.get("reseau") in RESEAUX_TELEPEX and corps):
+        return None
+    validee = validees.get(ident)
+    entree = {"id": ident, "reseau": pub["reseau"], "langue": langue}
+    if titres:
+        entree["titre"] = titres[0]
+    entree["texte"] = corps[0]
+    traduction = [t.get("texte") for t in (pub.get("traduction") or {}).get("textes") or []
+                  if isinstance(t, dict) and (t.get("texte") or "").strip()]
+    if traduction:
+        entree["traduction"] = "\n\n".join(traduction)
+    entree["hashtags"] = list(dict.fromkeys(re.findall(r"#[^\s#]+", corps[0])))
+    # Images du dossier seulement, et rien d'autre : tout ce qui est copié ici devient public.
+    noms = [Path(nom) for nom in pub.get("images") or []]
+    if any(nom.is_absolute() or ".." in nom.parts or nom.suffix.lower() not in (".jpg", ".jpeg", ".png", ".webp")
+           or not (dossier / nom).is_file() for nom in noms):
+        return None
+    sources = [dossier / nom for nom in noms]
+    entree["images"] = []
+    for rang, source in enumerate([] if validee else sources, 1):
+        chemin = f"{adr.chemin('fr', 'publication', ident)}{rang:02d}{source.suffix.lower()}"
+        adr.fichier(chemin).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, adr.fichier(chemin))
+        entree["images"].append({"url": adr.absolue(chemin), "nom": chemin.rsplit("/", 1)[1]})
+    if pub.get("carrousel") and langue in SUFFIXE_VIDEO:
+        entree["video"] = f"{pub['carrousel']} ({SUFFIXE_VIDEO[langue]}).mp4"
+    for cle, champ in (("conseil", "heure_conseillee"), ("prevue", "date_prevue")):
+        if pub.get(champ):
+            entree[cle] = pub[champ]
+    entree["validee"] = validee
+    return entree
+
+
+def ecrire_publications(adr, maintenant):
+    """/tableau-de-bord/publications.json : les publications à faire, par date prévue, puis
+    celles validées depuis moins de VALIDEES_GARDEES jours. Rend (à faire, validées, écartées)."""
+    validees = lire_validees()
+    limite = (maintenant - timedelta(days=VALIDEES_GARDEES)).date().isoformat()
+    liste, ecartees = [], []
+    for dossier in sorted(PUBLICATIONS.iterdir()) if PUBLICATIONS.is_dir() else []:
+        if not (dossier / "publication.json").is_file():
+            continue
+        try:
+            entree = publication_telepex(adr, dossier, validees)
+        except (OSError, ValueError, TypeError, AttributeError):
+            entree = None
+        if entree is None:
+            ecartees.append(dossier.name)
+        elif not entree["validee"] or entree["validee"][:10] >= limite:
+            liste.append(entree)
+    liste.sort(key=lambda p: (bool(p["validee"]), p.get("prevue") or "9999-12-31", p["id"]))
+    ecrire(adr.fichier(adr.chemin("fr", "publications")), json.dumps(
+        {"genere": maintenant.strftime("%Y-%m-%dT%H:%M:%SZ"), "publications": liste},
+        ensure_ascii=False, indent=1) + "\n")
+    a_faire = sum(1 for p in liste if not p["validee"])
+    return a_faire, len(liste) - a_faire, ecartees
+
+
 # ---------------------------------------------------------------- llms.txt, pour les assistants IA
 
 
@@ -3957,6 +4055,7 @@ def main():
     if args.enregistrer_historique:
         enregistrer_historique(historique)
     rappels = page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant)
+    a_faire, validees, ecartees = ecrire_publications(adr, maintenant)
     # IndexNow : la clé, publique, est publiée à la racine du site ; les moteurs y vérifient
     # que les pages signalées viennent bien du propriétaire du site.
     cle = cle_indexnow(reglages)
@@ -3989,6 +4088,9 @@ def main():
     print(f"Tableau de bord : relevé photo par photo du "
           f"{releve['date'] if releve else '(aucun)'}, GoatCounter {etat_gc}, {len(rappels)} rappel(s)"
           + (" ; historique enregistré." if args.enregistrer_historique else " (historique non enregistré)."))
+    print(f"Publications pour Telepex : {a_faire} à faire, {validees} validée(s) depuis moins de "
+          f"{VALIDEES_GARDEES} jours" + (f" ; laissées de côté (illisibles, incomplètes, ou ni RedNote ni "
+                                        f"Facebook) : {', '.join(ecartees)}." if ecartees else "."))
     print(f"Assistants IA : llms.txt et llms-full.txt en {len(LANGUES)} langues"
           + (", questions fréquentes." if avec_faq else "."))
     print(f"Pages : {len(journal_pages)} au plan du site, {len(signaler)} nouvelles, modifiées ou supprimées"
