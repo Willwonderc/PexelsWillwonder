@@ -27,7 +27,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
 | U | Telepex : tableau de bord, publications et vidéos | onglet Publications fait le 28 septembre ; le reste après T | T faite ; elle se lance aussi sur le Mac, dans le dossier de Telepex (voir U) |
 | F | Tableau de bord | faite le 28 septembre | reste la clé GoatCounter (voir F) |
-| G | Moteurs de recherche dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
+| G | Google et Bing dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -196,11 +196,15 @@ et un jeton à renouveler. Reste à faire : la clé GoatCounter (pas à pas :
 choix de Karl, par un compteur des vues dans la barre des menus de son MacBook M1
 (SwiftBar ; mode d'emploi : `releves/barre-des-menus/README.md`).
 
-## G — Moteurs de recherche dans le tableau de bord
+## G — Google et Bing dans le tableau de bord
 
-La session G ajoute au tableau de bord, que Telepex affiche dans son onglet « Tableau de
-bord », une rubrique « Moteurs de recherche » : Google Search Console et Bing Webmaster Tools
-côte à côte, pour chacun des deux sites, lus chaque nuit par leurs API officielles.
+Ajoute au tableau de bord du site, que Telepex affiche dans son onglet « Tableau de bord »
+(session U), les chiffres de Google Search Console et de Bing Webmaster Tools. Google
+apporte l'essentiel des visiteurs ; Bing, peu de visiteurs mais l'index de Copilot,
+DuckDuckGo, Yahoo et d'une partie de ChatGPT, et un rapport des citations dans Copilot. À
+lancer quelques jours après la vérification des deux sites (`referencement/README.md`,
+« Reste à faire à la main »), pour que la session ait de vraies données à vérifier. Les
+clés restent dans les secrets du dépôt : rien n'est à régler sur le Mac.
 
 ```text
 Session G : Google Search Console et Bing Webmaster Tools dans le tableau de bord du site (que Telepex affiche dans son onglet « Tableau de bord »).
