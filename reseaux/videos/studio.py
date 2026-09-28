@@ -172,6 +172,12 @@ def video(travail):
     dossier = dossier_sortie(langue, fmt) if not apercu else atelier
     sortie = dossier + nom(c, langue) + (" (aperçu)" if apercu else "") + ".mp4"
     V.assembler(muette, wav, sortie)
+    for _ in range(2):  # l'encodage AAC peut relever une crête : baisser d'autant le son, puis réassembler
+        _, crete = Q.volume(sortie)
+        if crete <= -1.0:
+            break
+        V.baisser(wav, crete + 1.2)
+        V.assembler(muette, wav, sortie)
     if hq and not apercu:
         haute = atelier + "haute-qualite.mp4"
         V.rendre(R, atelier + "muette-hq.mp4", debit_k=25000, crf=16)

@@ -1363,6 +1363,14 @@ def son(musique, debut, duree, bouton, sortie_wav, cible=-14.0, crete=-1.0):
     os.remove(brut)
 
 
+def baisser(wav, db):
+    """Baisse de `db` décibels le volume d'un fichier son."""
+    provisoire = wav.replace(".wav", "-bas.wav")
+    subprocess.run([FF, "-y", "-loglevel", "error", "-i", wav, "-af", f"volume=-{db:.2f}dB",
+                    "-c:a", "pcm_s16le", provisoire], check=True)
+    os.replace(provisoire, wav)
+
+
 def assembler(muette, wav, sortie):
     subprocess.run([FF, "-y", "-loglevel", "error", "-i", muette, "-i", wav, "-map", "0:v", "-map", "1:a",
                     "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-shortest",
