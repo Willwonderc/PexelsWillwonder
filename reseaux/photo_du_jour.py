@@ -1,33 +1,42 @@
 #!/usr/bin/env python3
-"""Publie la « photo du jour » sur Bluesky et sur Mastodon (ou Pixelfed).
+"""Publie la « photo du jour » sur Bluesky, sur Mastodon (ou Pixelfed) et sur Instagram.
 
 Chaque matin, la tâche .github/workflows/photo-du-jour.yml publie sur chaque réseau
 l'image d'une photo, son titre, quelques mots-clés en hashtags et le lien vers sa page
-du site. Les photos passent des plus vues aux moins vues sur Pexels (fiche de suivi) ;
-le journal reseaux/photo-du-jour.json note, réseau par réseau, les photos publiées et
-leur date : aucune ne l'est deux fois, et un réseau ne reçoit qu'une photo par jour.
+du site (sur Instagram, dont les légendes n'ont pas de liens cliquables, un renvoi vers
+le lien de la biographie). Les photos passent des plus vues aux moins vues sur Pexels
+(fiche de suivi) ; le journal reseaux/photo-du-jour.json note, réseau par réseau, les
+photos publiées et leur date : aucune ne l'est deux fois, et un réseau ne reçoit qu'une
+photo par jour.
 
 Accès, lus dans les variables d'environnement (secrets du dépôt dans GitHub Actions) :
   BLUESKY_IDENTIFIANT, BLUESKY_MOT_DE_PASSE_APPLI   pour Bluesky
   MASTODON_INSTANCE, MASTODON_JETON                 pour Mastodon ou Pixelfed
+  INSTAGRAM_JETON                                   pour Instagram
 Un réseau sans ses accès est laissé de côté, sans erreur.
 
 Options :
-  --essai     affiche les publications du jour sans rien publier ni enregistrer
-  --langue L  langue des publications (fr, en ou zh), à la place du réglage de site.ini
+  --essai             affiche les publications du jour sans rien publier ni enregistrer
+  --langue L          langue des publications (fr, en ou zh), à la place du réglage de site.ini
+  --renouveler-jeton  renouvelle le jeton Instagram, valable 60 jours, et range le nouveau
+                      dans le secret INSTAGRAM_JETON du dépôt (tâche « Jeton Instagram »)
 """
 
 import argparse
 import json
+import math
 import os
 import re
+import shutil
+import subprocess
 import sys
 import time
 import urllib.error
 import urllib.request
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlencode
 
 ICI = Path(__file__).resolve().parent
 sys.path.insert(0, str(ICI.parent / "vitrine"))
@@ -51,6 +60,22 @@ TEXTES = {
     "fr": "Libre de droits, à télécharger gratuitement sur Pexels :",
     "en": "Royalty-free, free to download on Pexels:",
     "zh": "免版税，可在 Pexels 免费下载：",
+}
+
+# Instagram (API avec connexion Instagram, documentation de Meta vérifiée le 28 septembre
+# 2026) : image JPEG qu'Instagram télécharge lui-même à une adresse publique, de 320 à
+# 1440 pixels de large, rapport largeur/hauteur de 4:5 à 1,91:1 ; 100 publications par
+# 24 heures au plus ; 5 hashtags au plus par publication depuis décembre 2025.
+INSTAGRAM_API = "https://graph.instagram.com/v25.0"
+INSTAGRAM_RENOUVELLEMENT = "https://graph.instagram.com/refresh_access_token"
+INSTAGRAM_LARGEUR = 1440
+INSTAGRAM_RAPPORT_MIN = 4 / 5
+INSTAGRAM_RAPPORT_MAX = 1.91
+INSTAGRAM_HASHTAGS = 5
+TEXTES_INSTAGRAM = {
+    "fr": "Libre de droits, à télécharger gratuitement sur Pexels : lien dans la bio.",
+    "en": "Royalty-free, free to download on Pexels: link in bio.",
+    "zh": "免版税，可在 Pexels 免费下载：链接见主页简介。",
 }
 
 
@@ -140,14 +165,21 @@ def appel(methode, adresse, donnees=None, entetes=None, delai=60):
             return corps
     except urllib.error.HTTPError as erreur:
         detail = erreur.read().decode("utf-8", "replace")[:300]
-        raise RuntimeError(f"{methode} {adresse} : erreur {erreur.code} {detail}") from None
+        # L'adresse sans ses paramètres, où peut figurer un jeton d'accès.
+        raise RuntimeError(f"{methode} {adresse.split('?')[0]} : erreur {erreur.code} {detail}") from None
+
+
+IMAGES = {}  # images téléchargées, une seule fois par photo pour Bluesky et Mastodon
 
 
 def telecharger_image(photo):
     """Image JPEG de la photo, servie par Pexels, sous la limite de poids de Bluesky."""
+    if photo["id"] in IMAGES:
+        return IMAGES[photo["id"]]
     for largeur in LARGEURS:
         image = appel("GET", build.url_image(photo, largeur))
         if len(image) <= POIDS_MAX:
+            IMAGES[photo["id"]] = image
             return image
     raise RuntimeError(f"Photo {photo['id']} : image trop lourde, même en {LARGEURS[-1]} pixels de large.")
 
@@ -185,8 +217,9 @@ def facettes(texte, lien, tags):
     return trouvees
 
 
-def publier_bluesky(photo, image, langue, adr, acces):
+def publier_bluesky(photo, langue, adr, acces):
     identifiant, mot_de_passe = acces
+    image = telecharger_image(photo)
     session = appel("POST", f"{BLUESKY_SERVICE}/xrpc/com.atproto.server.createSession",
                     {"identifier": identifiant, "password": mot_de_passe})
     # Le serveur qui héberge le compte (PDS), indiqué par la session ; bsky.social sinon.
@@ -225,11 +258,11 @@ def instance(texte):
     return texte if texte.startswith(("https://", "http://")) else "https://" + texte
 
 
-def publier_mastodon(photo, image, langue, adr, acces):
+def publier_mastodon(photo, langue, adr, acces):
     serveur, jeton = instance(acces[0]), acces[1]
     auth = {"Authorization": f"Bearer {jeton}"}
     texte, _, _ = publication(photo, langue, adr)
-    corps, type_corps = formulaire({"description": photo["titre"][langue]}, image)
+    corps, type_corps = formulaire({"description": photo["titre"][langue]}, telecharger_image(photo))
     try:
         media = appel("POST", f"{serveur}/api/v2/media", corps, {**auth, "Content-Type": type_corps}, delai=120)
     except RuntimeError as erreur:
@@ -249,12 +282,127 @@ def publier_mastodon(photo, image, langue, adr, acces):
     return statut.get("url") or statut.get("uri") or ""
 
 
+# ---------------------------------------------------------------- Instagram
+
+
+def image_instagram(photo):
+    """Adresse de l'image qu'Instagram télécharge chez Pexels : JPEG imposé par fm=jpg
+    (images.pexels.com sert sinon de l'AVIF ou du WebP aux clients qui les acceptent),
+    1440 pixels de large, recadrée au centre quand elle sort des proportions permises :
+    en 4:5 pour les photos en hauteur, en 1,91:1 pour les panoramas."""
+    largeur = min(INSTAGRAM_LARGEUR, photo["largeur"])
+    adresse = f'{photo["image"]}?auto=compress&cs=tinysrgb&fm=jpg&w={largeur}'
+    rapport = photo["largeur"] / photo["hauteur"]
+    if rapport < INSTAGRAM_RAPPORT_MIN:
+        adresse += f"&fit=crop&h={math.floor(largeur / INSTAGRAM_RAPPORT_MIN)}"
+    elif rapport > INSTAGRAM_RAPPORT_MAX:
+        adresse += f"&fit=crop&h={math.ceil(largeur / INSTAGRAM_RAPPORT_MAX)}"
+    return adresse
+
+
+def legende_instagram(photo, langue):
+    """Titre, renvoi vers le lien du site dans la biographie et hashtags."""
+    tags = hashtags(photo, langue)[:INSTAGRAM_HASHTAGS]
+    return f'{photo["titre"][langue]}\n\n{TEXTES_INSTAGRAM[langue]}\n\n' + " ".join("#" + t for t in tags)
+
+
+def api_instagram(methode, chemin, jeton, donnees=None):
+    """Appel de l'API Instagram, le jeton dans l'en-tête et jamais dans l'adresse."""
+    reponse = appel(methode, f"{INSTAGRAM_API}/{chemin}", donnees, {"Authorization": f"Bearer {jeton}"}, delai=120)
+    return reponse if isinstance(reponse, dict) else json.loads(reponse or b"{}")
+
+
+def publier_instagram(photo, langue, adr, acces):
+    jeton = acces[0]
+    compte = api_instagram("GET", "me?fields=user_id,username", jeton)
+    compte = (compte.get("data") or [compte])[0]
+    profil = f'https://www.instagram.com/{compte.get("username", "")}/'
+    # 1. Le conteneur : Instagram télécharge l'image et la prépare. La documentation
+    # conseille d'interroger son état une fois par minute, cinq minutes au plus.
+    conteneur = api_instagram("POST", f'{compte["user_id"]}/media', jeton, {
+        "image_url": image_instagram(photo),
+        "caption": legende_instagram(photo, langue),
+        "alt_text": photo["titre"][langue],
+    })["id"]
+    etat = None
+    for attente in (5, 60, 60, 60, 60):
+        time.sleep(attente)
+        etat = api_instagram("GET", f"{conteneur}?fields=status_code", jeton).get("status_code")
+        if etat != "IN_PROGRESS":
+            break
+    if etat != "FINISHED":
+        try:
+            detail = api_instagram("GET", f"{conteneur}?fields=status", jeton).get("status", "")
+        except (RuntimeError, OSError, ValueError):
+            detail = ""
+        raise RuntimeError(f"image non préparée par Instagram : {etat} {detail}".strip())
+    # 2. La publication.
+    try:
+        media = api_instagram("POST", f'{compte["user_id"]}/media_publish', jeton, {"creation_id": conteneur})
+    except (RuntimeError, OSError):
+        # Instagram répond parfois par une erreur alors que la photo est bien publiée :
+        # l'état du conteneur le dit, et la photo n'est pas republiée le lendemain.
+        if api_instagram("GET", f"{conteneur}?fields=status_code", jeton).get("status_code") != "PUBLISHED":
+            raise
+        return profil
+    try:
+        return api_instagram("GET", f'{media["id"]}?fields=permalink', jeton).get("permalink") or profil
+    except (RuntimeError, OSError, KeyError):
+        return profil
+
+
+def renouveler_jeton():
+    """Échange le jeton Instagram (valable 60 jours) contre un neuf et range celui-ci dans
+    le secret INSTAGRAM_JETON du dépôt, avec l'outil gh de GitHub. Le jeton de la tâche
+    GitHub n'a pas le droit d'écrire les secrets : gh reçoit, dans GH_TOKEN, le jeton
+    GitHub personnel du secret JETON_GITHUB. Le nouveau jeton n'est jamais affiché."""
+    jeton = os.environ.get("INSTAGRAM_JETON", "").strip()
+    depot = os.environ.get("GITHUB_REPOSITORY", "")
+    if not jeton:
+        print("Instagram : secret INSTAGRAM_JETON absent, aucun jeton à renouveler.")
+        return
+    if not os.environ.get("GH_TOKEN", "").strip() or not depot:
+        sys.exit("Instagram : secret JETON_GITHUB absent, le jeton renouvelé ne pourrait pas être "
+                 "enregistré. Voir reseaux/README.md, rubrique « Instagram ».")
+    if not shutil.which("gh"):
+        sys.exit("Instagram : outil gh introuvable, installé d'office dans les tâches GitHub.")
+    # D'abord s'assurer que le jeton GitHub ouvre bien les secrets du dépôt.
+    essai = subprocess.run(["gh", "api", f"repos/{depot}/actions/secrets/public-key", "--silent"],
+                           capture_output=True, text=True)
+    if essai.returncode:
+        sys.exit(f"Instagram : le secret JETON_GITHUB ne donne pas accès aux secrets du dépôt "
+                 f"(droit « Secrets » en lecture et écriture) : {essai.stderr.strip()}")
+    try:
+        reponse = appel("GET", INSTAGRAM_RENOUVELLEMENT + "?"
+                        + urlencode({"grant_type": "ig_refresh_token", "access_token": jeton}))
+        if not isinstance(reponse, dict):
+            reponse = json.loads(reponse or b"{}")
+        nouveau = reponse["access_token"]
+    except (RuntimeError, OSError, KeyError, ValueError) as erreur:
+        sys.exit(f"Instagram : jeton non renouvelé ({erreur}). Un jeton se renouvelle 24 heures "
+                 "au moins après sa création et avant son expiration ; expiré, il faut en créer "
+                 "un neuf (reseaux/README.md, rubrique « Instagram »).")
+    enregistrement = subprocess.run(["gh", "secret", "set", "INSTAGRAM_JETON", "--repo", depot],
+                                    input=nouveau, capture_output=True, text=True)
+    if enregistrement.returncode:
+        sys.exit(f"Instagram : jeton renouvelé mais non enregistré : {enregistrement.stderr.strip()}")
+    duree = int(reponse.get("expires_in") or 0)
+    fin = datetime.now(timezone.utc) + timedelta(seconds=duree)
+    print("Instagram : jeton renouvelé et enregistré dans le secret INSTAGRAM_JETON"
+          + (f", valable jusqu'au {fin:%d/%m/%Y}." if duree else "."))
+
+
 # ---------------------------------------------------------------- programme
 
 
+# Pour chaque réseau : nom, secrets, publication, et texte publié (affiché par --essai).
 RESEAUX = {
-    "bluesky": ("Bluesky", ("BLUESKY_IDENTIFIANT", "BLUESKY_MOT_DE_PASSE_APPLI"), publier_bluesky, BLUESKY_LONGUEUR),
-    "mastodon": ("Mastodon", ("MASTODON_INSTANCE", "MASTODON_JETON"), publier_mastodon, None),
+    "bluesky": ("Bluesky", ("BLUESKY_IDENTIFIANT", "BLUESKY_MOT_DE_PASSE_APPLI"), publier_bluesky,
+                lambda photo, langue, adr: publication(photo, langue, adr, BLUESKY_LONGUEUR)[0]),
+    "mastodon": ("Mastodon", ("MASTODON_INSTANCE", "MASTODON_JETON"), publier_mastodon,
+                 lambda photo, langue, adr: publication(photo, langue, adr)[0]),
+    "instagram": ("Instagram", ("INSTAGRAM_JETON",), publier_instagram,
+                  lambda photo, langue, adr: legende_instagram(photo, langue)),
 }
 
 
@@ -262,7 +410,11 @@ def main():
     options = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     options.add_argument("--essai", action="store_true")
     options.add_argument("--langue", choices=build.LANGUES)
+    options.add_argument("--renouveler-jeton", action="store_true")
     args = options.parse_args()
+    if args.renouveler_jeton:
+        renouveler_jeton()
+        return
 
     reglages = build.lire_ini("site.ini")
     langue = args.langue or reglages.get("photo_du_jour", "langue", fallback="en").strip() or "en"
@@ -271,10 +423,9 @@ def main():
     adr = build.Adresses(reglages["site"]["adresse"])
     photos = lire_photos()
     journal = charger_journal()
-    images = {}
     echecs = 0
 
-    for cle, (nom, variables, publier, longueur) in RESEAUX.items():
+    for cle, (nom, variables, publier, texte_publie) in RESEAUX.items():
         acces = [os.environ.get(v, "").strip() for v in variables]
         parues = journal.get(cle, {})
         if not args.essai and not all(acces):
@@ -288,13 +439,13 @@ def main():
             print(f"{nom} : toutes les photos ont déjà été publiées.")
             continue
         if args.essai:
-            texte = publication(photo, langue, adr, longueur)[0]
+            texte = texte_publie(photo, langue, adr)
             print(f"--- {nom} : photo {photo['id']} ({photo['vues']} vues, {len(texte)} caractères)\n{texte}\n")
+            if cle == "instagram":
+                print(f"Image téléchargée par Instagram : {image_instagram(photo)}\n")
             continue
         try:
-            if photo["id"] not in images:
-                images[photo["id"]] = telecharger_image(photo)
-            lien = publier(photo, images[photo["id"]], langue, adr, acces)
+            lien = publier(photo, langue, adr, acces)
         except (RuntimeError, OSError, KeyError, ValueError) as erreur:
             echecs += 1
             print(f"{nom} : échec de la publication de la photo {photo['id']} : {erreur}")

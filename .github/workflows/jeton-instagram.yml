@@ -1,0 +1,29 @@
+# Renouvelle chaque semaine le jeton d'accès Instagram de la photo du jour, valable
+# 60 jours, et range le nouveau dans le secret INSTAGRAM_JETON du dépôt. Le jeton de la
+# tâche (GITHUB_TOKEN) n'a pas le droit d'écrire les secrets : l'outil gh reçoit le
+# jeton GitHub personnel du secret JETON_GITHUB, limité aux secrets de ce dépôt.
+# Sans le secret INSTAGRAM_JETON, rien n'est fait. Mode d'emploi : reseaux/README.md.
+name: Jeton Instagram
+
+on:
+  schedule:
+    # Le lundi à 5 h 23 UTC, avant la photo du jour.
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  renouveler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Renouveler le jeton Instagram
+        env:
+          INSTAGRAM_JETON: ${{ secrets.INSTAGRAM_JETON }}
+          GH_TOKEN: ${{ secrets.JETON_GITHUB }}
+        run: python3 reseaux/photo_du_jour.py --renouveler-jeton
