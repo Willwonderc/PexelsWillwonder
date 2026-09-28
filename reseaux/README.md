@@ -143,13 +143,15 @@ ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
   **Jeton Instagram** l'échange contre un neuf et le range elle-même dans les secrets du
   dépôt : il n'y a rien à refaire tant qu'elle passe au vert.
 - **Limite** : 100 publications par 24 heures au plus ; la tâche en fait une par jour.
-- **Sans Page Facebook ni examen de Meta** : l'application reste « en développement »
-  (Meta dit « Development mode »), réservée à votre propre compte, ce qui dispense de
-  l'examen des applications (App Review).
+- **Sans Page Facebook ni examen de Meta** : l'application reste « Non publiée » (en
+  développement), réservée à votre propre compte, ce qui dispense de l'examen des
+  applications (App Review). Ses photos sont pourtant visibles de tous : constaté à la
+  première publication, le 28 septembre 2026.
 
-Ces étapes suivent la documentation de Meta, vérifiée le 28 septembre 2026. Meta change
-parfois le nom de ses menus, et son site peut s'afficher en anglais : les libellés
-anglais sont donnés en italique ; si l'un d'eux diffère un peu, cherchez le plus proche.
+Ces étapes suivent la documentation de Meta, vérifiée le 28 septembre 2026, et les
+libellés relevés le même jour dans le tableau de bord en français. Meta change parfois
+le nom de ses menus, et son site peut s'afficher en anglais : les libellés anglais sont
+donnés en italique ; si l'un d'eux diffère un peu, cherchez le plus proche.
 Comptez une demi-heure en tout, sur un ordinateur. Comme pour les autres réseaux, un
 jeton se colle uniquement dans un secret du dépôt, jamais dans une conversation, un
 fichier ou un message.
@@ -169,40 +171,47 @@ adresse `https://photos.karlforterre.fr`, titre « Photos libres de droits ».
 
 ### 5.3 L'application
 
-1. **Mes apps** (*My Apps*) → **Créer une app** (*Create app*).
+1. **Mes applications** (*My Apps*) → **Créer une app** (*Create app*).
 2. Nom de l'application : par exemple `Photo du jour KF`. Meta refuse les noms qui
    contiennent Instagram, Insta, IG, Facebook ou Meta. Adresse de contact : la vôtre.
-3. Cas d'utilisation : **Gérer les messages et le contenu sur Instagram** (*Manage
+3. Cas d'utilisation : **Gérer les messages et les contenus sur Instagram** (*Manage
    messaging & content on Instagram*). S'il n'est pas proposé : **Autre** (*Other*),
    puis le type **Entreprise** (*Business*), puis, dans le tableau de bord, le produit
    **Instagram** → **Configurer** (*Set up*).
 4. Portefeuille business : **Je ne veux pas encore associer de portefeuille business**
    (*I don't want to connect a business portfolio yet*).
 5. Terminez la création. Meta peut redemander le mot de passe Facebook : tapez-le sur son
-   site, jamais ailleurs.
+   site, jamais ailleurs. Le tableau de bord s'ouvre, avec la mention « Non publiée » à
+   côté de **Publier** dans le menu de gauche : c'est normal, laissez-la ainsi. Le
+   produit *Facebook Login for Business*, ajouté d'office au menu, ne sert pas ici.
 
 ### 5.4 Le droit de publier
 
-1. Dans le tableau de bord de l'application : **Cas d'utilisation** (*Use cases*) →
-   **Personnaliser** (*Customize*) à côté du cas Instagram → **Autorisations et
-   fonctionnalités** (*Permissions and features*). Si ce chemin n'existe pas, cherchez
-   **Autorisations et fonctionnalités** dans le menu de gauche.
+1. Dans le tableau de bord de l'application : **Personnaliser le cas d'utilisation Gérer
+   les messages et les contenus sur Instagram** (ou menu de gauche **Cas
+   d'utilisation**, *Use cases*, puis **Personnaliser**, *Customize*) → **Autorisations
+   et fonctionnalités** (*Permissions and features*).
 2. Vérifiez que `instagram_business_basic` et `instagram_business_content_publish`
-   sont ajoutées (bouton **Ajouter**, *Add*, sinon). La seconde donne le droit de publier.
-   Faites-le **avant** de créer le jeton : un jeton garde les autorisations qu'il avait à
-   sa création.
+   sont ajoutées : elles portent alors la mention « Prête pour le test » et un bouton
+   **Actions** ; sinon, cliquez sur **Ajouter** (*Add*). La seconde donne le droit de
+   publier ; les autres autorisations ne servent pas. Faites-le **avant** de créer le
+   jeton : un jeton garde les autorisations qu'il avait à sa création.
 
 ### 5.5 @karl_forterre, testeur de l'application
 
 Une application en développement n'agit que sur les comptes qui y ont un rôle.
 
-1. Tableau de bord, menu de gauche : **Rôles de l'app** (*App roles*) → **Rôles** →
-   **Ajouter des personnes** (*Add People*) → **Testeur Instagram** (*Instagram
-   Tester*) → saisissez `karl_forterre` → **Ajouter**. Le rôle apparaît « En attente ».
+1. Tableau de bord, menu de gauche : **Rôles dans l'application** (*App roles*) →
+   **Rôles** → **Ajouter des personnes** (*Add People*) → **Testeur Instagram**
+   (*Instagram Tester*) → saisissez `karl_forterre` → **Ajouter**. Le rôle apparaît
+   « En attente ».
 2. Sur un ordinateur, connecté à @karl_forterre (l'application Instagram du téléphone
    n'affiche pas toujours l'invitation), ouvrez
-   https://www.instagram.com/accounts/manage_access/, onglet **Invitations de testeur**
-   (*Tester Invites*), puis **Accepter**.
+   https://www.instagram.com/accounts/manage_access/ (**Paramètres** → **Applications
+   et sites Web**), onglet **Invitations à tester** (*Tester Invites*), et acceptez
+   l'invitation. L'application y porte son nom suivi de « -IG » (« Photo du jour
+   KF-IG ») ; une fois l'invitation acceptée, elle affiche « Autorisée par vous le … »
+   et un bouton **Supprimer**, sur lequel il ne faut pas cliquer.
 
 ### 5.6 Le jeton Instagram, rangé dans les secrets du dépôt
 
@@ -249,10 +258,12 @@ secrets, seulement de les remplacer.
    ont déjà publié ce jour-là, seul Instagram publie. Après une à deux minutes, la ligne
    passe au vert : la photo la plus vue est sur Instagram, et le journal note le lien
    de la publication.
-2. Vérifiez qu'elle est visible de tous : ouvrez https://www.instagram.com/karl_forterre/
-   dans une fenêtre de navigation privée, sans être connecté. Si la photo n'y apparaît
-   pas, passez l'application « en ligne » (*Live*) : bouton **Publier** (*Publish*) du
-   tableau de bord. Meta demande alors une adresse de politique de confidentialité
+2. Vérifiez qu'elle est visible de tous : demandez à quelqu'un de regarder votre profil
+   depuis son compte, ou ouvrez https://www.instagram.com/karl_forterre/ dans une
+   fenêtre de navigation privée, sans être connecté. Au premier essai, le 28 septembre
+   2026, elle l'était, l'application restant « Non publiée ». Si ce n'était plus le
+   cas, passez l'application « en ligne » (*Live*) : menu de gauche **Publier**
+   (*Publish*). Meta demande alors une adresse de politique de confidentialité
    (`https://photos.karlforterre.fr/confidentialite/`), des instructions de suppression
    des données (la même adresse), une icône (le logo KF’ de
    `vitrine/statique/logo-kf.webp`) et une catégorie. L'accès « standard », qui suffit
@@ -280,8 +291,8 @@ la tâche le vérifie auprès d'Instagram avant de conclure, et ne la republie p
 
 ### 5.10 Couper l'accès
 
-Sur https://www.instagram.com/accounts/manage_access/, retirez l'application ; ou
-supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
+Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bouton
+**Supprimer**) ; ou supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
 `INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
 **Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
 
@@ -292,9 +303,12 @@ supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
   (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_instagram` pour
   Instagram : `fr`, à garder (règle de Karl).
 - **Légendes Instagram** : `reseaux/legendes-instagram.csv`, une ligne par photo (numéro
-  Pexels, légende), à corriger au besoin directement sur GitHub. L'essai (`--essai`)
-  indique pour combien des prochaines photos une légende est prête ; quand il en reste
-  moins de 14, la consigne L en fait écrire de nouvelles.
+  Pexels, légende, et, si l'on veut, les hashtags de la photo, cinq au plus, qui
+  remplacent alors ses hashtags automatiques), à corriger au besoin directement sur
+  GitHub. L'essai (`--essai`) indique pour combien des prochaines photos une légende est
+  prête, et `--a-venir 40` liste les 40 prochaines photos d'Instagram avec celles qui
+  attendent encore la leur ; quand il en reste moins de 14, la consigne L en fait écrire
+  de nouvelles.
 - **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
   (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
   mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.
@@ -318,8 +332,9 @@ supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
 
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
 enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram téléchargerait
-(recadrage compris). `--langue fr` essaie une autre langue. Ne jamais lancer
-`--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
+(recadrage compris). `--langue fr` essaie une autre langue. `--a-venir 40` liste les
+40 prochaines photos d'Instagram, dans l'ordre de parution, et dit si leur légende est
+prête. Ne jamais lancer `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
 
@@ -388,6 +403,10 @@ Souvenirs et repères de Karl pour les récits :
     de l'éclipse), Irun, le Béarn et Bordeaux (les fontaines de la place des
     Quinconces) ; presque rien de Bilbao (deux vues industrielles).
   - Ne citer ni les dépenses, ni les hébergements, ni d'autres proches.
+- Lieux confirmés par Karl le 28 septembre 2026 : le TGV vu d'en haut (photo 19047681)
+  est en gare de Poitiers ; le phare du Loup (34894953) et le phare de la Grande-Île
+  (34894970) sont aux îles Chausey. L'homme à lunettes du portrait 38536479 n'est pas à
+  nommer.
 
 Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
 Villandry, Normandie et Bretagne. Sur le site, ils ont rejoint les séries « Nuits

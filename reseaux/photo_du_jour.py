@@ -20,6 +20,8 @@ Options :
   --langue L          langue des publications (fr, en ou zh), à la place du réglage de site.ini
   --renouveler-jeton  renouvelle le jeton Instagram, valable 60 jours, et range le nouveau
                       dans le secret INSTAGRAM_JETON du dépôt (tâche « Jeton Instagram »)
+  --a-venir N         liste les N prochaines photos d'Instagram, dans l'ordre de parution,
+                      et dit si leur légende est prête (legendes-instagram.csv)
 """
 
 import argparse
@@ -305,20 +307,22 @@ def image_instagram(photo):
 
 
 def lire_legendes():
-    """Légendes Instagram écrites à l'avance : numéro de la photo → texte."""
+    """Légendes Instagram écrites à l'avance : numéro de la photo → (texte, hashtags). La
+    colonne hashtags est facultative : vide, la photo garde ses hashtags automatiques."""
     if not LEGENDES_INSTAGRAM.exists():
         return {}
     with LEGENDES_INSTAGRAM.open(encoding="utf-8", newline="") as fichier:
-        return {ligne["photo"].strip(): ligne["legende"].strip()
+        return {ligne["photo"].strip(): (ligne["legende"].strip(),
+                                         [m.lstrip("#") for m in (ligne.get("hashtags") or "").split() if m.lstrip("#")])
                 for ligne in csv.DictReader(fichier) if (ligne.get("legende") or "").strip()}
 
 
 def legende_instagram(photo, langue):
     """Légende écrite à l'avance (en français) ou titre, renvoi vers le lien du site dans
     la biographie, et hashtags."""
-    tags = hashtags(photo, langue)[:INSTAGRAM_HASHTAGS]
-    texte = (lire_legendes().get(str(photo["id"])) if langue == "fr" else None) or photo["titre"][langue]
-    return f'{texte}\n\n{TEXTES_INSTAGRAM[langue]}\n\n' + " ".join("#" + t for t in tags)
+    texte, tags = (lire_legendes().get(str(photo["id"])) if langue == "fr" else None) or (None, None)
+    tags = (tags or hashtags(photo, langue))[:INSTAGRAM_HASHTAGS]
+    return f'{texte or photo["titre"][langue]}\n\n{TEXTES_INSTAGRAM[langue]}\n\n' + " ".join("#" + t for t in tags)
 
 
 def api_instagram(methode, chemin, jeton, donnees=None):
@@ -426,6 +430,7 @@ def main():
     options.add_argument("--essai", action="store_true")
     options.add_argument("--langue", choices=build.LANGUES)
     options.add_argument("--renouveler-jeton", action="store_true")
+    options.add_argument("--a-venir", type=int, metavar="N")
     args = options.parse_args()
     if args.renouveler_jeton:
         renouveler_jeton()
@@ -443,6 +448,13 @@ def main():
     photos = lire_photos()
     journal = charger_journal()
     echecs = 0
+    if args.a_venir:
+        legendes = lire_legendes()
+        suite = [p for p in photos if str(p["id"]) not in journal.get("instagram", {})]
+        for p in suite[:args.a_venir]:
+            etat = "prête   " if str(p["id"]) in legendes else "à écrire"
+            print(f'{p["id"]:>9}  {p["vues"]:>6} vues  légende {etat}  {p["titre"]["fr"]}')
+        return
 
     for cle, (nom, variables, publier, texte_publie) in RESEAUX.items():
         acces = [os.environ.get(v, "").strip() for v in variables]
