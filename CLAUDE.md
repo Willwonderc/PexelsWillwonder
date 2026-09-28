@@ -138,6 +138,15 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
+- Tableau de bord : `/tableau-de-bord/`, page française non référencée (noindex, hors plan du
+  site, du journal des pages et de `llms.txt`, sans compteur GoatCounter), écrite par
+  `build.py` avec `statique/tableau.css` et `tableau.js` ; mode d'emploi : `releves/README.md`.
+  Il lit les relevés de `releves/` et GoatCounter par son API (clé en lecture seule du secret
+  `GOATCOUNTER_JETON` ; sans elle, le site se construit quand même). Historique
+  `vitrine/donnees/historique.json` (totaux de chaque relevé, photo par photo sur cinq
+  semaines, semaines de GoatCounter) : seule la tâche GitHub l'enregistre
+  (`--enregistrer-historique`). Il publie aussi `/tableau-de-bord/compteur.json` pour l'écran
+  Turing, dont le programme reste à installer (modèle de l'écran et système du PC à demander).
 - Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
   `llms-full.txt` (une version par langue), la page « Questions fréquentes »
   (`vitrine/questions.ini`) et les données Person de l'auteur, dont l'identifiant

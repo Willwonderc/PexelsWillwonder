@@ -21,6 +21,11 @@ Options :
                            à signaler, _indexnow/envoi.json (tâche de nuit)
   --envoyer-indexnow       envoie cette liste à IndexNow, une fois le site en ligne
                            (tâche de nuit), et ne fait rien d'autre
+  --enregistrer-historique enregistre l'historique du tableau de bord (relevés Pexels et
+                           semaines de GoatCounter, tâche de nuit)
+
+Le tableau de bord (/tableau-de-bord/, non référencé) lit les relevés de releves/ et, si la
+variable d'environnement GOATCOUNTER_JETON contient une clé d'API, les chiffres de GoatCounter.
 """
 
 import argparse
@@ -42,7 +47,7 @@ from collections import Counter
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
 
 ICI = Path(__file__).resolve().parent
 RACINE = ICI.parent
@@ -954,6 +959,9 @@ class Adresses:
             "flux": "/feed.xml" if en else "/flux.xml",
             "flux_galerie": f"/galleries/{cle}/feed.xml" if en else f"/galeries/{cle}/flux.xml",
             "flux_autres": "/more-photos/feed.xml" if en else "/autres-photos/flux.xml",
+            # Tableau de bord, page non référencée, en français seulement.
+            "tableau": "/tableau-de-bord/",
+            "compteur": "/tableau-de-bord/compteur.json",
         }
         return debut + chemins[genre]
 
@@ -1305,7 +1313,9 @@ class Gabarit:
         )
 
     def page(self, langue, *, titre, description, chemins, contenu, image=None, donnees=None,
-             flux=None, classe="", titre_complet=False, series=True):
+             flux=None, classe="", titre_complet=False, series=True, prive=()):
+        """« prive » : feuilles de style et scripts d'une page non référencée (le tableau de
+        bord), qui n'a ni indexation, ni traductions, ni compteur GoatCounter."""
         t = TEXTES[langue]
         autre = SUIVANTE[langue]
         adr = self.adr
@@ -1313,6 +1323,75 @@ class Gabarit:
         titre_page = titre if titre_complet else f"{titre} — {nom}"
         url = adr.absolue(chemins[langue])
         profil = e(pexels(self.site.get("profil_pexels", ""), langue))
+        if prive:
+            tete = self.tete_privee(titre_page, prive)
+        else:
+            tete = self.tete(langue, titre, titre_page, description, chemins, url, image, donnees, flux)
+
+        def lien_menu(genre, texte):
+            chemin = adr.chemin(langue, genre)
+            courant = ' aria-current="page"' if chemin == chemins[langue] else ""
+            return f'<a href="{chemin}"{courant}>{texte}</a>'
+
+        entete = (
+            f'<a class="evitement" href="#contenu">{t["evitement"]}</a>'
+            f'<header class="entete"><a class="marque" href="{adr.chemin(langue, "accueil")}">'
+            f'<span class="logo" aria-hidden="true"></span>{e(nom)}</a>'
+            f'<nav class="menu" aria-label="{t["menu"]}">'
+            + (lien_menu("series", t["series"]) if series else "")
+            + lien_menu("galeries", t["galeries"])
+            + lien_menu("apropos", t["a_propos"])
+            + ("" if prive else
+               f'<a class="langue" href="{chemins[autre]}" hreflang="{HREFLANG[autre]}" lang="{HREFLANG[autre]}">'
+               f'{t["autre_langue"]}</a>')
+            + f'<a class="suivre" href="{profil}" data-goatcounter-click="suivre-pexels">{t["suivre"]}</a>'
+            f"</nav></header>"
+        )
+        annee = datetime.now(timezone.utc).year
+        pied = (
+            '<footer class="pied">'
+            f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
+            f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
+            f' · <a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a>'
+            f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
+            f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
+            f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
+            f' · <a href="{e(self.site.get("site_personnel", ""))}">{e(urlparse(self.site.get("site_personnel", "")).netloc)}</a>'
+            + "".join(f' · <a rel="me" href="{e(adresse)}">{e(nom)}</a>' for nom, adresse in self.reseaux)
+            + (f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a>' if langue in LANGUES_FLUX else "")
+            + "</p></footer>"
+        )
+        visionneuse = self.visionneuse(langue) if 'class="grille' in contenu else ""
+        return (
+            f'<!doctype html>\n<html lang="{HREFLANG[langue]}"><head>' + "".join(tete) + "</head>"
+            f'<body class="{classe}">{entete}<main id="contenu">{contenu}</main>{pied}{visionneuse}</body></html>\n'
+        )
+
+    def tete_privee(self, titre_page, fichiers):
+        """En-tête d'une page non référencée : ni moteurs, ni traductions, ni GoatCounter, qui
+        compterait les visites de Karl."""
+        def version(nom):
+            return hashlib.md5((ICI / "statique" / nom).read_bytes()).hexdigest()[:8]
+
+        return [
+            '<meta charset="utf-8">',
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            f"<title>{e(titre_page)}</title>",
+            '<meta name="robots" content="noindex, nofollow">',
+            f'<link rel="preload" href="{self.statique("archivo.woff2")}" as="font" type="font/woff2" crossorigin>',
+            f'<link rel="stylesheet" href="{self.statique("style.css")}?v={self.version}">',
+            *(f'<link rel="stylesheet" href="{self.statique(nom)}?v={version(nom)}">'
+              for nom in fichiers if nom.endswith(".css")),
+            *(f'<script src="{self.statique(nom)}?v={version(nom)}" defer></script>'
+              for nom in fichiers if nom.endswith(".js")),
+            f'<link rel="icon" href="{self.statique("favicon.svg")}" type="image/svg+xml">',
+            f'<link rel="apple-touch-icon" href="{self.statique("icone-180.png")}">',
+        ]
+
+    def tete(self, langue, titre, titre_page, description, chemins, url, image, donnees, flux):
+        t = TEXTES[langue]
+        adr = self.adr
+        nom = self.site.get("nom", "Karl Forterre")
         tete = [
             f'<meta charset="utf-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -1358,44 +1437,7 @@ class Gabarit:
             tete.append(f'<script data-goatcounter="https://{e(code)}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>')
         for bloc in donnees or []:
             tete.append(jsonld(bloc))
-
-        def lien_menu(genre, texte):
-            chemin = adr.chemin(langue, genre)
-            courant = ' aria-current="page"' if chemin == chemins[langue] else ""
-            return f'<a href="{chemin}"{courant}>{texte}</a>'
-
-        entete = (
-            f'<a class="evitement" href="#contenu">{t["evitement"]}</a>'
-            f'<header class="entete"><a class="marque" href="{adr.chemin(langue, "accueil")}">'
-            f'<span class="logo" aria-hidden="true"></span>{e(nom)}</a>'
-            f'<nav class="menu" aria-label="{t["menu"]}">'
-            + (lien_menu("series", t["series"]) if series else "")
-            + lien_menu("galeries", t["galeries"])
-            + lien_menu("apropos", t["a_propos"])
-            + f'<a class="langue" href="{chemins[autre]}" hreflang="{HREFLANG[autre]}" lang="{HREFLANG[autre]}">'
-            f'{t["autre_langue"]}</a>'
-            f'<a class="suivre" href="{profil}" data-goatcounter-click="suivre-pexels">{t["suivre"]}</a>'
-            f"</nav></header>"
-        )
-        annee = datetime.now(timezone.utc).year
-        pied = (
-            '<footer class="pied">'
-            f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
-            f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
-            f' · <a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a>'
-            f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
-            f' · <a href="{adr.chemin(langue, "confidentialite")}">{t["confidentialite"]}</a></p>'
-            f'<p>© {annee} {e(nom)} · <a href="{profil}">{t["profil"]}</a>'
-            f' · <a href="{e(self.site.get("site_personnel", ""))}">{e(urlparse(self.site.get("site_personnel", "")).netloc)}</a>'
-            + "".join(f' · <a rel="me" href="{e(adresse)}">{e(nom)}</a>' for nom, adresse in self.reseaux)
-            + (f' · <a href="{adr.chemin(langue, "flux")}">{t["flux"]}</a>' if langue in LANGUES_FLUX else "")
-            + "</p></footer>"
-        )
-        visionneuse = self.visionneuse(langue) if 'class="grille' in contenu else ""
-        return (
-            f'<!doctype html>\n<html lang="{HREFLANG[langue]}"><head>' + "".join(tete) + "</head>"
-            f'<body class="{classe}">{entete}<main id="contenu">{contenu}</main>{pied}{visionneuse}</body></html>\n'
-        )
+        return tete
 
 
 # ---------------------------------------------------------------- pages
@@ -2778,6 +2820,745 @@ def envoyer_indexnow():
     return sortie
 
 
+# ---------------------------------------------------------------- tableau de bord
+
+# Page non référencée (/tableau-de-bord/) qui suit, semaine après semaine, les relevés de
+# releves/ (Pexels, par Telepex ou à la main ; Pinterest ; assistants IA) et GoatCounter.
+HISTORIQUE = ICI / "donnees" / "historique.json"
+DEPOT = "https://github.com/Willwonderc/PexelsWillwonder"
+# La fiche du 24 septembre 2026 n'a pas de colonne « releve » : Telepex l'ajoute à chaque
+# relevé depuis la session T.
+RELEVE_INITIAL = "2026-09-24T12:42:00+02:00"
+# Relevés photo par photo gardés dans l'historique, un par semaine : de quoi calculer les
+# gains de la semaine et du mois (quatre semaines).
+SEMAINES_GARDEES = 5
+# Jours avant de rappeler un relevé en retard.
+RETARD_SEMAINE = 8
+RETARD_MOIS = 35
+GOATCOUNTER_DEBUT = date(2026, 9, 28)  # premier jour compté, un lundi
+GOATCOUNTER_API = "https://{code}.goatcounter.com/api/v0"
+# Semaines relues au plus à chaque passage ; les semaines finies restent dans l'historique.
+GOATCOUNTER_SEMAINES = 8
+# Clics vers Pexels : bouton et image de chaque photo (« pexels-<numéro> »,
+# « pexels-image-<numéro> ») et boutons « Suivre sur Pexels » (vitrine/README.md).
+CLIC_PHOTO = re.compile(r"^pexels(?:-image)?(?:-(\d+))?$")
+CLIC_SUIVRE = re.compile(r"^suivre-pexels")
+# Provenance des visites, d'après le nom du site d'origine que donne GoatCounter. Les
+# assistants IA d'abord : gemini.google.com n'est pas une visite venue de Google.
+PROVENANCES = (
+    ("Assistants IA", ("chatgpt", "openai", "perplexity", "copilot", "gemini", "claude.ai")),
+    ("Google", ("google",)),
+    ("Bing", ("bing",)),
+    ("Pinterest", ("pinterest", "pin.it")),
+    ("Bluesky", ("bsky",)),
+    ("Mastodon et Pixelfed", ("mastodon", "pixelfed")),
+    ("Instagram", ("instagram",)),
+    ("Facebook", ("facebook", "fb.com")),
+    ("karlforterre.fr", ("karlforterre.fr",)),
+    ("Pexels", ("pexels",)),
+)
+MOIS_COURTS = ("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.",
+               "nov.", "déc.")
+
+
+def nombre_ou_rien(texte):
+    """Nombre d'un relevé, ou None pour une case vide : une valeur inconnue n'est pas zéro."""
+    chiffres = re.sub(r"\D", "", texte or "")
+    return int(chiffres) if chiffres else None
+
+
+def moment(texte):
+    """Date et heure d'un relevé (ISO 8601) ; sans fuseau, en UTC."""
+    quand = datetime.fromisoformat(texte.strip().replace("Z", "+00:00"))
+    return quand if quand.tzinfo else quand.replace(tzinfo=timezone.utc)
+
+
+def lundi(jour):
+    return jour - timedelta(days=jour.weekday())
+
+
+def date_fr(jour, courte=False, annee=False):
+    """« 1er octobre 2026 », « 24 septembre 2026 » ; courte : « 24 sept. », ou « 24 sept. 2026 »
+    avec l'année, pour les tableaux."""
+    if courte:
+        return f"{jour.day} {MOIS_COURTS[jour.month - 1]}" + (f" {jour.year}" if annee else "")
+    return f"{'1er' if jour.day == 1 else jour.day} {MOIS['fr'][jour.month - 1]} {jour.year}"
+
+
+def valeur(n):
+    return "—" if n is None else chiffre(n, "fr")
+
+
+def ecart(n):
+    """« +1 234 », « −56 » ou « 0 » ; vide si l'écart est inconnu."""
+    if n is None:
+        return ""
+    return ("+" if n > 0 else "−" if n < 0 else "") + chiffre(abs(n), "fr")
+
+
+def lire_releve_photos():
+    """Dernier relevé photo par photo (releves/suivi-pexels.csv, que Telepex remplace à chaque
+    relevé) : sa date et, pour chaque photo, statut, vues, téléchargements, J'aime…"""
+    chemin = RACINE / "releves" / "suivi-pexels.csv"
+    if not chemin.exists():
+        return None
+    lignes = lire_csv(chemin)
+    quand = next((l["releve"].strip() for l in lignes if (l.get("releve") or "").strip()), RELEVE_INITIAL)
+    photos = {}
+    for ligne in lignes:
+        cle = (ligne.get("photo") or "").strip()
+        if not cle.isdigit():
+            continue
+        titre = (ligne.get("titre") or "").strip()
+        photos[int(cle)] = {
+            "retenue": (ligne.get("moderation") or "").strip() == "retenue",
+            "import": (ligne.get("import") or "").strip(),
+            "vues": nombre_ou_rien(ligne.get("vues")),
+            "telechargements": nombre_ou_rien(ligne.get("telechargements")),
+            "jaime": nombre_ou_rien(ligne.get("jaime")),
+            "evenement": (ligne.get("evenement") or "").strip() == "oui",
+            # La fiche du 24 septembre reprend « Free stock photo of… » pour les photos sans titre.
+            "titre": "" if titre.lower().startswith("free stock photo") else titre,
+            "mots": [m for m in liste_mots(ligne.get("mots_cles")) if not ILLISIBLE.search(m)],
+        }
+    return {"date": quand, "photos": photos}
+
+
+def totaux_releve(releve):
+    photos = list(releve["photos"].values())
+
+    def somme(cle):
+        connues = [p[cle] for p in photos if p[cle] is not None]
+        return sum(connues) if connues else None
+
+    return {"vues": somme("vues"), "telechargements": somme("telechargements"), "jaime": somme("jaime"),
+            "photos": len(photos), "retenues": sum(p["retenue"] for p in photos),
+            "evenements": sum(p["evenement"] for p in photos)}
+
+
+def lire_releves_dates(nom, colonnes):
+    """Relevés datés de releves/ (vues-pexels.csv, pinterest.csv) : une ligne par jour, du plus
+    ancien au plus récent ; la dernière ligne d'un même jour l'emporte."""
+    chemin = RACINE / "releves" / nom
+    par_jour = {}
+    for ligne in lire_csv(chemin) if chemin.exists() else []:
+        try:
+            jour = date.fromisoformat((ligne.get("date") or "").strip())
+        except ValueError:
+            continue
+        par_jour[jour] = {"date": jour, **{c: nombre_ou_rien(ligne.get(c)) for c in colonnes},
+                          "remarque": (ligne.get("remarque") or "").strip()}
+    return [par_jour[j] for j in sorted(par_jour)]
+
+
+def lire_assistants():
+    """Réponses des assistants IA (releves/assistants-ia.csv), regroupées par date de relevé."""
+    chemin = RACINE / "releves" / "assistants-ia.csv"
+    par_jour = {}
+    for ligne in lire_csv(chemin) if chemin.exists() else []:
+        try:
+            jour = date.fromisoformat((ligne.get("date") or "").strip())
+        except ValueError:
+            continue
+        releve = par_jour.setdefault(jour, {"date": jour, "reponses": 0, "citent": 0, "assistants": set()})
+        releve["reponses"] += 1
+        releve["citent"] += (ligne.get("cite") or "").strip().lower() == "oui"
+        releve["assistants"].add((ligne.get("assistant") or "").strip())
+    return [par_jour[j] for j in sorted(par_jour)]
+
+
+def charger_historique():
+    historique = json.loads(HISTORIQUE.read_text(encoding="utf-8")) if HISTORIQUE.exists() else {}
+    for cle in ("releves", "semaines", "goatcounter"):
+        historique.setdefault(cle, {})
+    return historique
+
+
+def enregistrer_historique(historique):
+    texte = json.dumps(historique, ensure_ascii=False, indent=1, sort_keys=True)
+    # Une photo par ligne : [vues, téléchargements, J'aime, retenue].
+    texte = re.sub(r"\[\s+([^\[\]{}]*?)\s+\]",
+                   lambda m: "[" + ", ".join(v.strip() for v in m.group(1).split(",")) + "]", texte)
+    HISTORIQUE.write_text(texte + "\n", encoding="utf-8")
+
+
+def completer_historique(historique, releve):
+    """Ajoute le relevé photo par photo à l'historique : ses totaux, et les chiffres de chaque
+    photo pour sa semaine, où le dernier relevé de la semaine l'emporte. Seules les
+    SEMAINES_GARDEES dernières semaines gardent leurs chiffres photo par photo."""
+    if not releve:
+        return
+    historique["releves"][releve["date"]] = totaux_releve(releve)
+    semaine = lundi(moment(releve["date"]).date()).isoformat()
+    deja = historique["semaines"].get(semaine)
+    if not deja or moment(deja["releve"]) <= moment(releve["date"]):
+        historique["semaines"][semaine] = {
+            "releve": releve["date"],
+            "photos": {str(pid): [p["vues"], p["telechargements"], p["jaime"], int(p["retenue"])]
+                       for pid, p in sorted(releve["photos"].items())},
+        }
+    for cle in sorted(historique["semaines"])[:-SEMAINES_GARDEES]:
+        del historique["semaines"][cle]
+
+
+def references(historique, releve):
+    """Relevés photo par photo de la semaine précédente et d'il y a quatre semaines, qui
+    servent aux gains ; None tant qu'il n'y en a pas."""
+    semaine = lundi(moment(releve["date"]).date())
+    anciennes = sorted(k for k in historique["semaines"] if date.fromisoformat(k) < semaine)
+    mois = [k for k in anciennes if date.fromisoformat(k) <= semaine - timedelta(weeks=4)]
+    return (historique["semaines"][anciennes[-1]] if anciennes else None,
+            historique["semaines"][mois[-1]] if mois else None)
+
+
+def gain(pid, rang, actuel, reference):
+    """Écart d'un chiffre depuis un relevé de référence (rang : 0 vues, 1 téléchargements,
+    2 J'aime) ; None s'il est inconnu d'un côté ou de l'autre."""
+    ancien = reference["photos"].get(str(pid)) if reference else None
+    if actuel is None or not ancien or ancien[rang] is None:
+        return None
+    return actuel - ancien[rang]
+
+
+# GoatCounter : visites et clics vers Pexels, par son API (clé du secret GOATCOUNTER_JETON).
+
+
+class GoatCounterErreur(Exception):
+    pass
+
+
+def appel_goatcounter(base, jeton, chemin, **parametres):
+    """Un appel à l'API de GoatCounter, 4 par seconde au plus. La clé ne part que dans l'en-tête
+    Authorization : elle n'apparaît ni dans l'adresse ni dans les messages d'erreur."""
+    requete = urllib.request.Request(f"{base}{chemin}?{urlencode(parametres)}", headers={
+        "Authorization": f"Bearer {jeton}",
+        "Content-Type": "application/json",
+        "User-Agent": "photos.karlforterre.fr (tableau de bord)",
+    })
+    time.sleep(0.3)
+    try:
+        with urllib.request.urlopen(requete, timeout=30) as reponse:
+            return json.load(reponse)
+    except urllib.error.HTTPError as erreur:
+        if erreur.code in (401, 403):
+            raise GoatCounterErreur("GoatCounter refuse la clé du secret GOATCOUNTER_JETON : fausse, révoquée "
+                                    "ou sans le droit de lire les statistiques.") from None
+        raise GoatCounterErreur(f"GoatCounter a répondu par l'erreur {erreur.code}.") from None
+    except (urllib.error.URLError, OSError, ValueError):
+        raise GoatCounterErreur("GoatCounter n'a pas répondu.") from None
+
+
+def heure_utc(quand):
+    """Moment arrondi à l'heure, au format attendu par GoatCounter."""
+    return quand.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:00:00Z")
+
+
+def chemins_vus(base, jeton, debut, fin, lots=10):
+    """Pages et événements vus entre deux moments, avec leur nombre de visiteurs (par lots de
+    100, les chemins déjà reçus exclus du lot suivant)."""
+    vus, exclus = [], []
+    for _ in range(lots):
+        parametres = {"start": heure_utc(debut), "end": heure_utc(fin), "limit": 100}
+        if exclus:
+            parametres["exclude_paths"] = ",".join(map(str, exclus))
+        reponse = appel_goatcounter(base, jeton, "/stats/hits", **parametres)
+        lot = reponse.get("hits") or []
+        vus += lot
+        exclus += [h["path_id"] for h in lot if "path_id" in h]
+        if not reponse.get("more") or not lot:
+            break
+    return vus
+
+
+def clics(vus):
+    """Clics vers Pexels : sur les photos (bouton ou image) et sur « Suivre sur Pexels »."""
+    def compte(motif):
+        return sum(h.get("count", 0) for h in vus if h.get("event") and motif.match(h.get("path", "")))
+    return compte(CLIC_PHOTO), compte(CLIC_SUIVRE)
+
+
+def visites(base, jeton, debut, fin):
+    """Visiteurs des pages, sans les clics comptés comme événements."""
+    total = appel_goatcounter(base, jeton, "/stats/total", start=heure_utc(debut), end=heure_utc(fin))
+    return max(0, (total.get("total") or 0) - (total.get("total_events") or 0))
+
+
+def famille(nom):
+    nom = nom.lower()
+    if not nom:
+        return "Accès direct ou inconnu"
+    if nom.startswith("photos.karlforterre.fr"):
+        return None  # navigation à l'intérieur du site
+    return next((libelle for libelle, motifs in PROVENANCES if any(m in nom for m in motifs)), "Autres sites")
+
+
+def provenance(base, jeton, debut, fin):
+    """Sites d'où viennent les visites, regroupés par famille (Google, Pinterest…)."""
+    reponse = appel_goatcounter(base, jeton, "/stats/toprefs", start=heure_utc(debut), end=heure_utc(fin),
+                                limit=100)
+    familles = {}
+    for site in reponse.get("stats") or []:
+        libelle = famille(site.get("name") or "")
+        if libelle:
+            familles[libelle] = familles.get(libelle, 0) + (site.get("count") or 0)
+    return sorted(familles.items(), key=lambda f: -f[1])
+
+
+def lire_goatcounter(code, jeton, journal, maintenant):
+    """Chiffres de GoatCounter. Semaine par semaine depuis GOATCOUNTER_DEBUT : les semaines
+    finies restent dans le journal, la semaine en cours est relue à chaque passage. Puis les
+    7 derniers jours : pages les plus vues, photos les plus cliquées, provenance. Lève
+    GoatCounterErreur ; le journal garde les semaines déjà lues."""
+    base = GOATCOUNTER_API.format(code=code)
+    maintenant = maintenant.replace(minute=0, second=0, microsecond=0)
+    semaines = journal.setdefault("semaines", {})
+    lundis, jour = [], GOATCOUNTER_DEBUT
+    while jour <= maintenant.date():
+        lundis.append(jour)
+        jour += timedelta(days=7)
+    a_lire = [l for l in lundis if not semaines.get(l.isoformat(), {}).get("complete")]
+    for l in a_lire[-GOATCOUNTER_SEMAINES:]:
+        debut = datetime.combine(l, datetime.min.time(), timezone.utc)
+        fin = min(debut + timedelta(days=7), maintenant)
+        if fin <= debut:
+            semaines[l.isoformat()] = {"visites": 0, "clics_photos": 0, "clics_suivre": 0, "complete": False}
+            continue
+        photos, suivre = clics(chemins_vus(base, jeton, debut, fin))
+        semaines[l.isoformat()] = {"visites": visites(base, jeton, debut, fin), "clics_photos": photos,
+                                   "clics_suivre": suivre, "complete": fin == debut + timedelta(days=7)}
+    debut = maintenant - timedelta(days=7)
+    vus = chemins_vus(base, jeton, debut, maintenant)
+    photos, suivre = clics(vus)
+    par_photo = {}
+    for h in vus:
+        trouve = CLIC_PHOTO.match(h.get("path", ""))
+        if h.get("event") and trouve and trouve.group(1):
+            par_photo[int(trouve.group(1))] = par_photo.get(int(trouve.group(1)), 0) + (h.get("count") or 0)
+    pages = sorted((h for h in vus if not h.get("event")), key=lambda h: -(h.get("count") or 0))[:10]
+    return {
+        "visites": visites(base, jeton, debut, maintenant),
+        "clics_photos": photos,
+        "clics_suivre": suivre,
+        "photos": sorted(par_photo.items(), key=lambda p: (-p[1], -p[0]))[:10],
+        "pages": [(h.get("path", ""), h.get("title") or "", h.get("count") or 0) for h in pages],
+        "provenance": provenance(base, jeton, debut, maintenant),
+        "provenance_debut": provenance(base, jeton, datetime.combine(GOATCOUNTER_DEBUT, datetime.min.time(),
+                                                                     timezone.utc), maintenant),
+    }
+
+
+# Courbes et colonnes en SVG, tracées ici sans bibliothèque. Une série par graphique, traits
+# fins, graduations rondes, valeur de la dernière mesure ; statique/tableau.js ajoute le
+# survol et le clavier, et chaque graphique a son tableau de chiffres à côté.
+
+
+def graduations(bas, haut, nombre=4):
+    """Graduations rondes (1, 2 ou 5 × 10ⁿ) qui couvrent l'intervalle [bas, haut]."""
+    if haut <= bas:
+        haut = bas + 1
+    brut = (haut - bas) / nombre
+    puissance = 10 ** math.floor(math.log10(brut))
+    pas = max(1, round(next(m * puissance for m in (1, 2, 5, 10) if m * puissance >= brut)))
+    debut = int(bas // pas * pas)
+    return [debut + i * pas for i in range(math.ceil((haut - debut) / pas) + 1)]
+
+
+def graphe(titre, points, colonnes=False, note=""):
+    """points : [(date, nombre)] du plus ancien au plus récent. colonnes : totaux par semaine,
+    depuis zéro ; sinon une courbe, dont l'échelle suit les valeurs."""
+    points = [(jour, n) for jour, n in points if n is not None]
+    if not points:
+        return ""
+    largeur, hauteur, gauche, droite, haut, bas = 640, 220, 60, 76, 14, 28
+    zone_l, zone_h = largeur - gauche - droite, hauteur - haut - bas
+    nombres = [n for _, n in points]
+    if colonnes:
+        echelle = graduations(0, max(max(nombres), 1))
+    else:
+        mini, maxi = min(nombres), max(nombres)
+        jeu = (maxi - mini) * .15 or max(1, maxi * .005)
+        echelle = graduations(max(0, mini - jeu), maxi + jeu)
+    y0, y1 = echelle[0], echelle[-1]
+
+    def y(n):
+        return haut + zone_h * (1 - (n - y0) / (y1 - y0))
+
+    if colonnes:
+        pas = zone_l / len(points)
+        xs = [gauche + pas * (i + .5) for i in range(len(points))]
+    elif len(points) == 1:
+        xs = [gauche + zone_l]
+    else:
+        etendue = (points[-1][0] - points[0][0]).days or 1
+        xs = [gauche + zone_l * (jour - points[0][0]).days / etendue for jour, _ in points]
+    elements = []
+    for g in echelle:
+        elements.append(f'<line class="tb-grille" x1="{gauche}" x2="{largeur - droite}" y1="{y(g):.1f}" y2="{y(g):.1f}"/>'
+                        f'<text class="tb-axe" x="{gauche - 8}" y="{y(g) + 4:.1f}" text-anchor="end">{chiffre(g, "fr")}</text>')
+    etiquettes = {0, len(points) - 1} if len(points) < 12 or not colonnes else {0, len(points) // 2, len(points) - 1}
+    for i in sorted(etiquettes):
+        ancre = "middle" if colonnes else ("start" if i == 0 and len(points) > 1 else "end")
+        elements.append(f'<text class="tb-axe" x="{xs[i]:.1f}" y="{hauteur - 8}" text-anchor="{ancre}">'
+                        f'{date_fr(points[i][0], courte=True)}</text>')
+    if colonnes:
+        epaisseur = min(24, pas * .6)
+        for x, (_, n) in zip(xs, points):
+            gx, dx, haut_c, base = x - epaisseur / 2, x + epaisseur / 2, y(n), y(0)
+            r = min(4, base - haut_c, epaisseur / 2)
+            elements.append(f'<path class="tb-colonne" d="M{gx:.1f},{base:.1f}V{haut_c + r:.1f}'
+                            f'Q{gx:.1f},{haut_c:.1f} {gx + r:.1f},{haut_c:.1f}H{dx - r:.1f}'
+                            f'Q{dx:.1f},{haut_c:.1f} {dx:.1f},{haut_c + r:.1f}V{base:.1f}Z"/>')
+        derniere = (xs[-1], y(nombres[-1]) - 8, "middle")
+    else:
+        trace = " ".join(f"{'M' if i == 0 else 'L'}{x:.1f},{y(n):.1f}" for i, (x, (_, n)) in enumerate(zip(xs, points)))
+        elements.append(f'<path class="tb-ligne" d="{trace}"/>'
+                        f'<line class="tb-reticule" x1="0" x2="0" y1="{haut}" y2="{haut + zone_h}"/>'
+                        f'<circle class="tb-point" cx="{xs[-1]:.1f}" cy="{y(nombres[-1]):.1f}" r="5"/>')
+        derniere = (xs[-1] + 10, y(nombres[-1]) + 4, "start")
+    elements.append(f'<text class="tb-valeur" x="{derniere[0]:.1f}" y="{derniere[1]:.1f}" '
+                    f'text-anchor="{derniere[2]}">{chiffre(nombres[-1], "fr")}</text>')
+    donnees = [[round(x, 1), round(y(n), 1), date_fr(jour), chiffre(n, "fr")] for x, (jour, n) in zip(xs, points)]
+    resume_ = f"{titre} : {chiffre(nombres[-1], 'fr')} au {date_fr(points[-1][0])}"
+    return (
+        f'<figure class="tb-graphe{" tb-colonnes" if colonnes else ""}" tabindex="0" '
+        f'data-points="{e(json.dumps(donnees, ensure_ascii=False))}">'
+        f'<figcaption>{e(titre)}{f"<span>{e(note)}</span>" if note else ""}</figcaption>'
+        f'<svg viewBox="0 0 {largeur} {hauteur}" role="img" aria-label="{e(resume_)}">{"".join(elements)}</svg>'
+        '<p class="tb-bulle" hidden><strong></strong><span></span></p></figure>'
+    )
+
+
+def tableau_chiffres(entetes, lignes, classe=""):
+    """Tableau simple. En tête d'un en-tête : « # » pour une colonne de nombres, « ~ » pour une
+    colonne masquée sur les petits écrans."""
+    def attribut(t):
+        classes = " ".join(c for c, marque in (("n", "#"), ("tb-facultatif", "~")) if marque in t[:2])
+        return f' class="{classes}"' if classes else ""
+
+    tete = "".join(f'<th scope="col"{attribut(t)}>{e(t.lstrip("#~"))}</th>' for t in entetes)
+    corps = "".join(
+        "<tr>" + "".join(f'<td{attribut(t)}>{c}</td>' for t, c in zip(entetes, ligne)) + "</tr>"
+        for ligne in lignes)
+    return f'<div class="tb-defile"><table class="tb-table {classe}"><thead><tr>{tete}</tr></thead><tbody>{corps}</tbody></table></div>'
+
+
+def tuile(libelle, nombre, detail="", heros=False):
+    precision = f'<p class="tb-detail">{detail}</p>' if detail else ""
+    return (f'<div class="tb-tuile{" tb-heros" if heros else ""}"><p class="tb-libelle">{e(libelle)}</p>'
+            f'<p class="tb-nombre">{valeur(nombre)}</p>{precision}</div>')
+
+
+def depuis(n, jour):
+    """« +1 234 depuis le 24 septembre 2026 » ; vide si l'écart est inconnu."""
+    return f"{ecart(n)} depuis le {date_fr(jour)}" if n is not None else ""
+
+
+def lien_depot(chemin, texte):
+    return f'<a href="{DEPOT}/{chemin}">{e(texte)}</a>'
+
+
+def titre_photo(pid, releve_photo, par_id):
+    if pid in par_id:
+        return par_id[pid]["titre"]["fr"]
+    return (releve_photo or {}).get("titre") or "Sans titre"
+
+
+def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant):
+    """Tableau de bord : page française non référencée, et compteur de l'écran Turing."""
+    adr = g.adr
+    chemin = adr.chemin("fr", "tableau")
+    code = g.site.get("goatcounter", "").strip()
+    vues_pexels = lire_releves_dates("vues-pexels.csv", ("vues", "photos", "abonnes"))
+    pinterest = lire_releves_dates("pinterest.csv", ("impressions", "engagements", "clics_sortants",
+                                                     "enregistrements", "abonnes"))
+    assistants = lire_assistants()
+    releves = sorted(((moment(q), t) for q, t in historique["releves"].items()), key=lambda r: r[0])
+    rappels = []
+
+    def en_retard(jour, jours, quoi, comment):
+        if jour is None:
+            rappels.append(f"Aucun relevé {quoi} pour l'instant : {comment}")
+        elif (maintenant.date() - jour).days > jours:
+            rappels.append(f"Le dernier relevé {quoi} date du {date_fr(jour)} : {comment}")
+
+    # Pexels : totaux du profil, et relevé photo par photo.
+    derniere_vue = next((l for l in reversed(vues_pexels) if l["vues"] is not None), None)
+    abonnes = next((l for l in reversed(vues_pexels) if l["abonnes"] is not None), None)
+    en_retard(derniere_vue["date"] if derniere_vue else None, RETARD_SEMAINE, "des vues Pexels",
+              "Telepex l'envoie chaque semaine une fois la session T faite ; sinon, "
+              + lien_depot("edit/main/releves/vues-pexels.csv", "noter une ligne dans vues-pexels.csv") + ".")
+    tuiles, detail_vues = [], ""
+    if derniere_vue:
+        avant = [l for l in vues_pexels if l["vues"] is not None and l["date"] < derniere_vue["date"]]
+        if avant:
+            detail_vues = depuis(derniere_vue["vues"] - avant[-1]["vues"], avant[-1]["date"])
+        tuiles.append(tuile("Vues sur Pexels", derniere_vue["vues"],
+                            detail_vues or f"relevé du {date_fr(derniere_vue['date'])}", heros=True))
+    if abonnes:
+        tuiles.append(tuile("Abonnés", abonnes["abonnes"], f"relevé du {date_fr(abonnes['date'])}"))
+    if releves:
+        (quand, totaux), precedent = releves[-1], (releves[-2] if len(releves) > 1 else None)
+        for libelle, cle in (("Téléchargements", "telechargements"), ("J'aime", "jaime"),
+                             ("Photos retenues", "retenues")):
+            detail = (depuis(totaux[cle] - precedent[1][cle], precedent[0].date())
+                      if precedent and totaux[cle] is not None and precedent[1][cle] is not None
+                      else f"relevé du {date_fr(quand.date())}")
+            tuiles.append(tuile(libelle, totaux[cle], detail))
+    en_retard(moment(releve["date"]).date() if releve else None, RETARD_SEMAINE, "photo par photo",
+              "Telepex l'envoie après chaque scan (session T).")
+
+    # Semaine après semaine : la dernière valeur connue de chaque semaine.
+    semaines = {}
+    for l in vues_pexels:
+        s = semaines.setdefault(lundi(l["date"]), {})
+        s.update({k: l[k] for k in ("vues", "abonnes") if l[k] is not None})
+    for quand, totaux in releves:
+        s = semaines.setdefault(lundi(quand.date()), {})
+        s.update({k: totaux[k] for k in ("telechargements", "jaime", "retenues") if totaux[k] is not None})
+    lignes_semaines, precedente = [], {}
+    for s in sorted(semaines):
+        v = semaines[s]
+        lignes_semaines.append([
+            date_fr(s, courte=True, annee=True),
+            valeur(v.get("vues")) + (f' <span class="tb-ecart">{ecart(v["vues"] - precedente["vues"])}</span>'
+                                     if "vues" in v and "vues" in precedente else ""),
+            valeur(v.get("abonnes")),
+            valeur(v.get("telechargements")) + (
+                f' <span class="tb-ecart">{ecart(v["telechargements"] - precedente["telechargements"])}</span>'
+                if "telechargements" in v and "telechargements" in precedente else ""),
+            valeur(v.get("jaime")),
+            valeur(v.get("retenues")),
+        ])
+        precedente = {**precedente, **v}
+    graphes_pexels = (
+        graphe("Vues sur Pexels", [(l["date"], l["vues"]) for l in vues_pexels])
+        + graphe("Téléchargements", [(q.date(), t["telechargements"]) for q, t in releves],
+                 note="" if len(releves) > 1 else "un seul relevé pour l'instant")
+    )
+    section_pexels = (
+        '<section class="tb-section" id="pexels" aria-labelledby="t-pexels"><h2 id="t-pexels">Pexels</h2>'
+        f'<div class="tb-tuiles">{"".join(tuiles)}</div><div class="tb-graphes">{graphes_pexels}</div>'
+        '<h3>Semaine après semaine</h3>'
+        + tableau_chiffres(["Semaine du", "#Vues", "#Abonnés", "#Téléchargements", "~#J'aime", "~#Retenues"],
+                           list(reversed(lignes_semaines)))
+        + "</section>"
+    )
+
+    # Photos : les plus vues, les nouvelles retenues, et toutes, comme dans Telepex.
+    section_photos = ""
+    if releve:
+        semaine, mois = references(historique, releve)
+        photos = releve["photos"]
+        gains = {pid: gain(pid, 0, p["vues"], semaine) for pid, p in photos.items()}
+        ref = f"depuis le relevé du {date_fr(moment(semaine['releve']).date())}" if semaine else ""
+
+        def vignette(pid, taille=64):
+            fiche = fiches.get(str(pid)) or {}
+            image = fiche.get("image") or f"https://images.pexels.com/photos/{pid}/pexels-photo-{pid}.jpeg"
+            return (f'<img src="{e(image)}?auto=compress&amp;cs=tinysrgb&amp;w={taille * 2}" width="{taille}" '
+                    f'height="{round(taille * .75)}" alt="" loading="lazy" decoding="async">')
+
+        def lien(pid):
+            titre = titre_photo(pid, photos.get(pid), par_id)
+            cible = adr.chemin("fr", "photo", pid) if pid in par_id else f"https://www.pexels.com/photo/{pid}/"
+            return f'<a href="{e(cible)}">{e(titre)}</a>'
+
+        classees = sorted(photos, key=lambda pid: (-(photos[pid]["vues"] or -1), -pid))
+        meilleures = [[vignette(pid), lien(pid), valeur(photos[pid]["vues"]), ecart(gains[pid]) or "—",
+                       valeur(photos[pid]["telechargements"]), "retenue" if photos[pid]["retenue"] else "refusée"]
+                      for pid in classees[:10]]
+        if semaine:
+            nouvelles = [pid for pid, p in photos.items()
+                         if p["retenue"] and not (semaine["photos"].get(str(pid)) or [0, 0, 0, 0])[3]]
+            bloc_nouvelles = (
+                f'<p>{len(nouvelles)} {"photo retenue" if len(nouvelles) == 1 else "photos retenues"} {ref}'
+                + (" : " + ", ".join(lien(pid) for pid in sorted(nouvelles, reverse=True)) if nouvelles else "")
+                + ".</p>")
+        else:
+            bloc_nouvelles = "<p>Les photos nouvellement retenues par la modération apparaîtront au relevé suivant.</p>"
+        rangees = []
+        for pid in classees:
+            p = photos[pid]
+            mots = " ".join(p["mots"][:12])
+            recherche = plier(f"{titre_photo(pid, p, par_id)} {p['titre']} {pid} {mots}")
+            jour = p["import"].replace("-", "")
+            etat = ("r" if p["retenue"] else "x") + (" e" if p["evenement"] else "")
+            try:
+                importee = date_fr(date.fromisoformat(p["import"]))
+            except ValueError:
+                importee = ""
+            rangees.append(
+                f'<tr class="{etat}" data-v="{p["vues"] if p["vues"] is not None else -1}" '
+                f'data-g="{gains[pid] if gains[pid] is not None else -1}" '
+                f'data-t="{p["telechargements"] if p["telechargements"] is not None else -1}" '
+                f'data-j="{p["jaime"] if p["jaime"] is not None else -1}" data-d="{jour or 0}" '
+                f'data-s="{e(recherche)}">'
+                f'<td class="tb-vignette">{vignette(pid, 48)}</td>'
+                f'<td>{lien(pid)}<span class="tb-sous">n° {pid} · {"retenue" if p["retenue"] else "refusée"}'
+                f'{" · événement marquant" if p["evenement"] else ""}</span></td>'
+                f'<td class="n">{valeur(p["vues"])}</td><td class="n tb-facultatif">{ecart(gains[pid]) or "—"}</td>'
+                f'<td class="n">{valeur(p["telechargements"])}</td><td class="n tb-facultatif">{valeur(p["jaime"])}</td>'
+                f'<td class="tb-facultatif">{importee}</td>'
+                f'<td class="tb-facultatif"><a href="https://www.pexels.com/photo/{pid}/">Pexels</a></td></tr>')
+        section_photos = (
+            '<section class="tb-section" id="photos" aria-labelledby="t-photos"><h2 id="t-photos">Photos</h2>'
+            f'<p class="tb-doux">Relevé du {date_fr(moment(releve["date"]).date())}'
+            f'{" ; gains " + ref if ref else " ; les gains apparaîtront au relevé de la semaine prochaine"}.</p>'
+            '<h3>Les dix plus vues</h3>'
+            + tableau_chiffres(["Photo", "Titre", "#Vues", "#Gain de la semaine", "~#Téléchargements", "~Modération"],
+                               meilleures, "tb-meilleures")
+            + '<h3>Nouvelles photos retenues</h3>' + bloc_nouvelles
+            + '<h3 id="toutes">Toutes les photos</h3>'
+            '<form class="tb-filtres" hidden role="search" aria-label="Chercher dans les photos">'
+            '<label>Chercher <input type="search" name="texte" placeholder="Titre, mot-clé ou numéro"></label>'
+            '<label>Afficher <select name="filtre"><option value="">toutes</option>'
+            '<option value="r">retenues</option><option value="x">refusées</option>'
+            '<option value="e">événements marquants</option></select></label>'
+            '<label>Trier par <select name="tri"><option value="v">vues</option><option value="g">gain de la semaine</option>'
+            '<option value="t">téléchargements</option><option value="j">J\'aime</option>'
+            '<option value="d">date d\'import, récentes d\'abord</option>'
+            '<option value="-d">date d\'import, anciennes d\'abord</option></select></label>'
+            f'<output name="compte">{chiffre(len(rangees), "fr")} photos</output></form>'
+            '<div class="tb-defile"><table class="tb-table tb-photos"><thead><tr><th scope="col">Photo</th>'
+            '<th scope="col">Titre</th><th scope="col" class="n">Vues</th><th scope="col" class="n tb-facultatif">Gain</th>'
+            '<th scope="col" class="n">Téléch.</th><th scope="col" class="n tb-facultatif">J\'aime</th>'
+            '<th scope="col" class="tb-facultatif">Import</th><th scope="col" class="tb-facultatif">Lien</th></tr></thead>'
+            f'<tbody>{"".join(rangees)}</tbody></table></div></section>'
+        )
+
+    # Site photo : GoatCounter.
+    semaines_gc = sorted(historique["goatcounter"].get("semaines", {}).items())
+    if gc or semaines_gc:
+        blocs = []
+        if erreur_gc:
+            blocs.append(f'<p class="tb-alerte">{e(erreur_gc)} Chiffres du dernier passage réussi.</p>')
+        if gc:
+            blocs.append('<div class="tb-tuiles">'
+                         + tuile("Visites, 7 derniers jours", gc["visites"])
+                         + tuile("Clics vers les photos sur Pexels", gc["clics_photos"], "7 derniers jours")
+                         + tuile("Clics « Suivre sur Pexels »", gc["clics_suivre"], "7 derniers jours") + "</div>")
+        if semaines_gc:
+            blocs.append('<div class="tb-graphes">'
+                         + graphe("Visites par semaine", [(date.fromisoformat(s), v["visites"]) for s, v in semaines_gc],
+                                  colonnes=True, note="semaine en cours incomplète")
+                         + graphe("Clics vers Pexels par semaine",
+                                  [(date.fromisoformat(s), v["clics_photos"] + v["clics_suivre"]) for s, v in semaines_gc],
+                                  colonnes=True) + "</div>")
+            blocs.append('<h3>Semaine après semaine</h3>' + tableau_chiffres(
+                ["Semaine du", "#Visites", "#Clics vers les photos", "#Clics « Suivre »"],
+                [[date_fr(date.fromisoformat(s), courte=True, annee=True) + ("" if v.get("complete") else " (en cours)"),
+                  valeur(v["visites"]),
+                  valeur(v["clics_photos"]), valeur(v["clics_suivre"])] for s, v in reversed(semaines_gc)]))
+        if gc:
+            blocs.append('<div class="tb-colonnes-texte"><div><h3>Provenance, 7 derniers jours</h3>'
+                         + tableau_chiffres(["Venues de", "#Visites"], [[e(f), valeur(n)] for f, n in gc["provenance"]])
+                         + '</div><div><h3>Provenance depuis le 28 septembre</h3>'
+                         + tableau_chiffres(["Venues de", "#Visites"],
+                                            [[e(f), valeur(n)] for f, n in gc["provenance_debut"]]) + "</div></div>")
+            blocs.append('<h3>Photos les plus cliquées vers Pexels, 7 derniers jours</h3>' + (
+                tableau_chiffres(["Titre", "#Clics"], [[e(titre_photo(pid, (releve or {}).get("photos", {}).get(pid), par_id))
+                                                        + f' <span class="tb-sous">n° {pid}</span>', valeur(n)]
+                                                       for pid, n in gc["photos"]])
+                if gc["photos"] else "<p>Aucun clic cette semaine.</p>"))
+            blocs.append('<h3>Pages les plus vues, 7 derniers jours</h3>' + tableau_chiffres(
+                ["Page", "#Visites"], [[f'<a href="{e(p)}">{e(t or p)}</a>', valeur(n)] for p, t, n in gc["pages"]]))
+        section_site = ('<section class="tb-section" id="site" aria-labelledby="t-site"><h2 id="t-site">Site photo</h2>'
+                        + "".join(blocs) + "</section>")
+    else:
+        rappels.append(e(erreur_gc) if erreur_gc else (
+            "GoatCounter n'est pas encore relié au tableau de bord : il lui faut une clé d'API en lecture seule, "
+            "rangée dans le secret GOATCOUNTER_JETON du dépôt (" + lien_depot("blob/main/releves/README.md", "mode d'emploi")
+            + ")."))
+        section_site = ('<section class="tb-section" id="site" aria-labelledby="t-site"><h2 id="t-site">Site photo</h2>'
+                        f'<p>Les visites et les clics vers Pexels s\'affichent ici dès que GoatCounter est relié ; '
+                        f'en attendant, ils se lisent sur <a href="https://{e(code)}.goatcounter.com">{e(code)}.goatcounter.com</a>.</p>'
+                        "</section>")
+
+    # Pinterest, relevé à la main chaque semaine.
+    derniere_p = pinterest[-1]["date"] if pinterest else None
+    en_retard(derniere_p, RETARD_SEMAINE, "Pinterest",
+              lien_depot("edit/main/releves/pinterest.csv", "noter une ligne dans pinterest.csv")
+              + ", avec les chiffres des 7 derniers jours de Statistiques → Vue d'ensemble.")
+    if pinterest:
+        section_pinterest = (
+            '<div class="tb-graphes">'
+            + graphe("Impressions", [(l["date"], l["impressions"]) for l in pinterest])
+            + graphe("Clics sortants", [(l["date"], l["clics_sortants"]) for l in pinterest]) + "</div>"
+            + tableau_chiffres(["Relevé du", "#Impressions", "~#Engagements", "#Clics sortants", "~#Enregistrements",
+                                "~#Abonnés", "~Remarque"],
+                               [[date_fr(l["date"], courte=True, annee=True), valeur(l["impressions"]),
+                                 valeur(l["engagements"]),
+                                 valeur(l["clics_sortants"]), valeur(l["enregistrements"]), valeur(l["abonnes"]),
+                                 e(l["remarque"])] for l in reversed(pinterest)]))
+    else:
+        section_pinterest = ("<p>Aucun relevé pour l'instant. Chaque semaine, "
+                             + lien_depot("edit/main/releves/pinterest.csv", "une ligne dans pinterest.csv")
+                             + " : les chiffres des 7 derniers jours de Statistiques → Vue d'ensemble.</p>")
+
+    # Assistants IA, relevé chaque mois.
+    en_retard(assistants[-1]["date"] if assistants else None, RETARD_MOIS, "des assistants IA",
+              lien_depot("edit/main/releves/assistants-ia.csv", "les questions du mois dans assistants-ia.csv") + ".")
+    section_ia = (tableau_chiffres(["Relevé du", "#Réponses", "#Citent le site", "~Assistants"],
+                                   [[date_fr(r["date"], courte=True, annee=True), valeur(r["reponses"]),
+                                     valeur(r["citent"]),
+                                     e(", ".join(sorted(a for a in r["assistants"] if a)))] for r in reversed(assistants)])
+                  if assistants else "<p>Aucun relevé pour l'instant : une fois par mois, les mêmes questions aux "
+                  "assistants, notées dans " + lien_depot("edit/main/releves/assistants-ia.csv", "assistants-ia.csv") + ".</p>")
+
+    detail = [
+        (f"https://{code}.goatcounter.com", "GoatCounter : visites et clics, en détail") if code else None,
+        ("https://analytics.pinterest.com/", "Statistiques Pinterest"),
+        ("https://search.google.com/search-console", "Google Search Console : apparitions et clics dans Google"),
+        ("https://www.bing.com/webmasters", "Bing Webmaster Tools : Bing et Copilot"),
+        (g.site.get("profil_pexels", ""), "Profil Pexels"),
+        (f"{DEPOT}/tree/main/releves", "Les relevés sur GitHub"),
+    ]
+    maj = maintenant.astimezone(timezone.utc)
+    contenu = (
+        '<div class="tableau">'
+        '<section class="ouverture tb-tete"><p class="surtitre">Page non référencée</p><h1>Tableau de bord</h1>'
+        f'<p class="accroche">Mis à jour le {date_fr(maj.date())} à {maj:%H} h {maj:%M} (UTC), chaque nuit et après '
+        "chaque relevé. Les chiffres Pexels viennent des relevés de Telepex ou notés à la main ; rien n'est relevé "
+        "sur pexels.com par le site.</p>"
+        + (f'<ul class="tb-rappels" aria-label="Relevés à faire">{"".join(f"<li>{r}</li>" for r in rappels)}</ul>'
+           if rappels else "")
+        + '<nav class="tb-sommaire" aria-label="Sections"><a href="#pexels">Pexels</a>'
+        + ('<a href="#photos">Photos</a><a href="#toutes">Toutes les photos</a>' if releve else "")
+        + '<a href="#site">Site photo</a><a href="#pinterest">Pinterest</a><a href="#ia">Assistants IA</a>'
+        '<a href="#detail">Détail</a></nav></section>'
+        + section_pexels + section_photos + section_site
+        + '<section class="tb-section" id="pinterest" aria-labelledby="t-pinterest"><h2 id="t-pinterest">Pinterest</h2>'
+        + section_pinterest + "</section>"
+        + '<section class="tb-section" id="ia" aria-labelledby="t-ia"><h2 id="t-ia">Assistants IA</h2>'
+        + section_ia + "</section>"
+        + '<section class="tb-section" id="detail" aria-labelledby="t-detail"><h2 id="t-detail">Pour le détail</h2><ul>'
+        + "".join(f'<li><a href="{e(url)}">{e(texte)}</a></li>' for url, texte in filter(None, detail))
+        + "</ul></section></div>"
+    )
+    chemins = {l: chemin for l in LANGUES}
+    ecrire(adr.fichier(chemin), g.page("fr", titre="Tableau de bord", description="", chemins=chemins,
+                                       contenu=contenu, classe="page-tableau", prive=("tableau.css", "tableau.js")))
+
+    # Compteur de l'écran Turing : les derniers chiffres, relus toutes les heures sur le PC.
+    totaux = releves[-1][1] if releves else {}
+    compteur = {
+        "mis_a_jour": maj.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "pexels": {
+            "vues": derniere_vue["vues"] if derniere_vue else None,
+            "vues_releve": derniere_vue["date"].isoformat() if derniere_vue else None,
+            "abonnes": abonnes["abonnes"] if abonnes else None,
+            "telechargements": totaux.get("telechargements"),
+            "jaime": totaux.get("jaime"),
+            "retenues": totaux.get("retenues"),
+            "releve": releves[-1][0].isoformat() if releves else None,
+        },
+        "site_7_jours": ({"visites": gc["visites"], "clics_pexels": gc["clics_photos"] + gc["clics_suivre"]}
+                         if gc else None),
+    }
+    ecrire(adr.fichier(adr.chemin("fr", "compteur")), json.dumps(compteur, ensure_ascii=False, indent=1) + "\n")
+    return rappels
+
+
 # ---------------------------------------------------------------- llms.txt, pour les assistants IA
 
 
@@ -2986,6 +3767,7 @@ def main():
     options.add_argument("--enregistrer-parutions", action="store_true")
     options.add_argument("--indexnow", action="store_true")
     options.add_argument("--envoyer-indexnow", action="store_true")
+    options.add_argument("--enregistrer-historique", action="store_true")
     args = options.parse_args()
     if args.envoyer_indexnow:
         raise SystemExit(envoyer_indexnow())
@@ -3071,6 +3853,22 @@ def main():
     journal_pages, signaler = suivre_pages(adr, entrees, AUJOURDHUI)
     ecrire_plan(adr, entrees, journal_pages)
     ecrire_apercu(g, photos, galeries, series, selection, lire_libelles("selection.txt"), par_photo, par_serie)
+    # Tableau de bord (page non référencée) et compteur de l'écran Turing.
+    maintenant = datetime.now(timezone.utc)
+    releve = lire_releve_photos()
+    historique = charger_historique()
+    completer_historique(historique, releve)
+    gc, erreur_gc = None, None
+    jeton = os.environ.get("GOATCOUNTER_JETON", "").strip()
+    code_gc = reglages["site"].get("goatcounter", "").strip()
+    if jeton and code_gc:
+        try:
+            gc = lire_goatcounter(code_gc, jeton, historique["goatcounter"], maintenant)
+        except GoatCounterErreur as erreur:
+            erreur_gc = str(erreur)
+    if args.enregistrer_historique:
+        enregistrer_historique(historique)
+    rappels = page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant)
     # IndexNow : la clé, publique, est publiée à la racine du site ; les moteurs y vérifient
     # que les pages signalées viennent bien du propriétaire du site.
     cle = cle_indexnow(reglages)
@@ -3098,6 +3896,11 @@ def main():
     attente = sum(1 for cle, membres, _ in flux for p in membres if str(p["id"]) not in journal.get(cle, {}))
     print(f"Pinterest : {du_jour} parutions ajoutées aujourd'hui, {attente} en attente dans les files"
           + ("." if args.enregistrer_parutions else " (journal non enregistré)."))
+    etat_gc = ("relié" if gc else erreur_gc if erreur_gc else
+               "non relié (pas de clé GOATCOUNTER_JETON)" if not jeton else "non relié (pas de code dans site.ini)")
+    print(f"Tableau de bord : relevé photo par photo du "
+          f"{releve['date'] if releve else '(aucun)'}, GoatCounter {etat_gc}, {len(rappels)} rappel(s)"
+          + (" ; historique enregistré." if args.enregistrer_historique else " (historique non enregistré)."))
     print(f"Assistants IA : llms.txt et llms-full.txt en {len(LANGUES)} langues"
           + (", questions fréquentes." if avec_faq else "."))
     print(f"Pages : {len(journal_pages)} au plan du site, {len(signaler)} nouvelles, modifiées ou supprimées"

@@ -1,7 +1,9 @@
 # Construit le site de photographe et le publie sur GitHub Pages :
 # chaque nuit, après chaque modification de main, ou à la demande (Run workflow).
 # Chaque passage enregistre sur main les nouvelles fiches Pexels, le journal des
-# parutions Pinterest et le journal des pages (vitrine/donnees/). Une fois le site en
+# parutions Pinterest, le journal des pages et l'historique du tableau de bord
+# (vitrine/donnees/). Le tableau de bord lit GoatCounter avec la clé du secret
+# GOATCOUNTER_JETON ; sans elle, le site se construit quand même. Une fois le site en
 # ligne, les pages nouvelles, modifiées ou supprimées sont signalées aux moteurs de
 # recherche par IndexNow (referencement/README.md).
 name: Site
@@ -34,15 +36,16 @@ jobs:
       - name: Lire les nouvelles photos et construire le site
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-        run: python3 vitrine/build.py --enregistrer-parutions --indexnow
+          GOATCOUNTER_JETON: ${{ secrets.GOATCOUNTER_JETON }}
+        run: python3 vitrine/build.py --enregistrer-parutions --indexnow --enregistrer-historique
 
       - name: Enregistrer les fiches Pexels et les journaux
         run: |
           if [ -n "$(git status --porcelain vitrine/donnees)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add vitrine/donnees/fiches.json vitrine/donnees/parutions.json vitrine/donnees/pages.json
-            git commit -m "Fiches Pexels, parutions Pinterest et journal des pages mis à jour"
+            git add vitrine/donnees/fiches.json vitrine/donnees/parutions.json vitrine/donnees/pages.json vitrine/donnees/historique.json
+            git commit -m "Fiches Pexels, parutions Pinterest, journal des pages et historique mis à jour"
             git pull --rebase origin main
             git push origin HEAD:main
           fi

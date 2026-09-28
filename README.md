@@ -17,7 +17,7 @@ Plan détaillé : [docs/plan.md](docs/plan.md). Feuille de route du site et de l
 | 1 | Site de photographe, pensé pour le référencement | [vitrine/](vitrine/) | construit le 24 septembre | [mode d'emploi](vitrine/README.md) |
 | 2 | Pinterest automatique | [pinterest/](pinterest/) | 25 septembre | flux RSS en place, [démarche](pinterest/README.md) |
 | 3 | Atelier titres et mots-clés | [atelier/](atelier/) | en même temps que la 1 | [premier lot rédigé](atelier/resultats/ppex-photos-sans-titre.csv) |
-| 4 | Tableau de bord de campagne | [releves/](releves/) | fin octobre | relevés ouverts |
+| 4 | Tableau de bord de campagne | [releves/](releves/) | 28 septembre | [en ligne](https://photos.karlforterre.fr/tableau-de-bord/), page non référencée ; [mode d'emploi](releves/README.md) |
 
 ## Par où commencer
 

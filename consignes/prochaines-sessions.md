@@ -24,8 +24,8 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | C | Traductions françaises | mi-octobre | B fusionnée |
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
-| T | Telepex : relevés frais pour le tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
-| F | Tableau de bord | fin octobre | T faite et une semaine de relevés publiés par Telepex ; GoatCounter : fait, il compte depuis le 28 septembre |
+| T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
+| F | Tableau de bord | faite le 28 septembre | restent la clé GoatCounter (voir F) et l'écran Turing |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -92,28 +92,30 @@ Si le connecteur Typefully est branché (https://claude.ai/customize/connectors)
 ajouter à la fin : « Programme aussi un mois de publications sur X et Threads avec
 Typefully. »
 
-## T — Telepex : relevés frais pour le tableau de bord
+## T — Telepex : envoi automatique au tableau de bord
 
 Telepex est l'application Mac de Karl qui relève, pour chaque photo de son profil Pexels,
-les vues, les téléchargements, les J'aime et le statut de modération ; c'est d'elle que
-vient la fiche de suivi du 24 septembre. Elle reste sur le Mac, hors de ce dépôt public :
-ni son code ni sa méthode n'y figurent. La session T lui fait publier son relevé dans
-`releves/`, chaque semaine ou chaque jour, pour que le tableau de bord (F), la preuve
-sociale du site, les mots-clés des nouvelles photos, l'ordre des épingles et la photo du
-jour partent de chiffres frais. Chaque relevé publié reconstruit le site en quelques
-minutes.
+les vues, les téléchargements, les J'aime et le statut de modération, et qui en fait le
+classeur Excel « Suivi photos Pexels » ; c'est de lui que vient la fiche de suivi du
+24 septembre. Il reste sur le Mac, hors de ce dépôt public : ni son code ni sa méthode n'y
+figurent. La session T lui fait envoyer tout seul, après chaque relevé, la feuille des
+photos au tableau de bord : le site la traite automatiquement et se reconstruit en quelques
+minutes. Le tableau de bord (F), la preuve sociale du site, les mots-clés des nouvelles
+photos, l'ordre des épingles et la photo du jour partent alors de chiffres frais.
 
-Elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex, et non sur
-claude.ai/code : Telepex n'est pas sur GitHub et se compile avec Xcode. Une fois par
-semaine suffit aux courbes du tableau de bord et ménage le site de Pexels ; chaque jour
-reste possible.
+La feuille part en CSV, le format que lit le site : les mêmes lignes que les onglets
+« Publiées » et « Non publiées » du classeur, plus légères et lisibles sur GitHub ; le
+classeur Excel reste sur le Mac. La session se lance sur le Mac, dans Claude Code, dans le
+dossier de Telepex, et non sur claude.ai/code : Telepex n'est pas sur GitHub et se compile
+avec Xcode. Un envoi par semaine suffit aux courbes du tableau de bord et ménage le site de
+Pexels ; chaque jour reste possible.
 
 ```text
-Session T, dans le dossier de Telepex : fais alimenter par Telepex le tableau de bord du dépôt public Willwonderc/PexelsWillwonder en relevés frais. Rien de Telepex ne va dans ce dépôt, ni code, ni clé, ni adresse d'API : seulement le relevé.
-1. Après chaque scan complet, écris le relevé au format de releves/suivi-pexels.csv du dépôt (https://github.com/Willwonderc/PexelsWillwonder/blob/main/releves/README.md), en UTF-8 sans BOM : photo, moderation (retenue pour approved, refusée sinon), import (AAAA-MM-JJ), vues, telechargements, jaime, evenement (oui ou non), titre (le titre Pexels, vide pour une photo sans titre, jamais le texte « Free stock photo of… »), mots_cles (séparés par des virgules), puis une colonne releve (date et heure du relevé, ISO 8601). Un scan incomplet, où manquent des statistiques ou l'onglet Événements marquants, ne publie rien.
-2. Publie-le à la place de releves/suivi-pexels.csv par l'API de GitHub, en un commit « Relevé Telepex du AAAA-MM-JJ », puis ajoute à releves/vues-pexels.csv la ligne du relevé : date, total des vues, nombre de photos, abonnés si le profil les donne, remarque « Telepex ». Jeton à grain fin limité à ce dépôt (Contents en lecture et écriture), que je range moi-même dans le trousseau du Mac ; sans jeton, le relevé reste sur le Mac, prêt à déposer à la main.
-3. Un réglage de fréquence : chaque semaine, le lundi matin (par défaut), ou chaque jour, à heure fixe, même Telepex fermé (tâche launchd) ; un relevé par jour au plus ; et un bouton « Publier le relevé » pour le faire à la demande.
-4. Mets à jour CLAUDE.md et README.md de Telepex : le relevé CSV, et lui seul, est publié dans le dépôt. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
+Session T, dans le dossier de Telepex : Telepex doit envoyer tout seul, après chaque relevé, la feuille des photos au tableau de bord du site photo (dépôt public Willwonderc/PexelsWillwonder), qui la traite automatiquement. Rien de Telepex ne va dans ce dépôt, ni code, ni clé, ni adresse d'API : seulement la feuille du relevé.
+1. À la fin de chaque scan complet, lancé à la main ou par le réglage du point 3, écris la feuille au format de releves/suivi-pexels.csv du dépôt (colonnes décrites dans https://github.com/Willwonderc/PexelsWillwonder/blob/main/releves/README.md), en UTF-8 sans BOM : photo, moderation (retenue pour approved, refusée sinon), import (AAAA-MM-JJ), vues, telechargements, jaime, evenement (oui ou non), titre (le titre Pexels, vide pour une photo sans titre, jamais le texte « Free stock photo of… »), mots_cles (séparés par des virgules), puis releve (date et heure du relevé, ISO 8601). Ce sont les lignes des onglets « Publiées » et « Non publiées » du classeur, qui reste sur le Mac. Un scan incomplet, où manquent des statistiques ou l'onglet Événements marquants, n'envoie rien.
+2. Envoie-la par l'API de GitHub, en un seul commit « Relevé Telepex du AAAA-MM-JJ » qui remplace releves/suivi-pexels.csv et ajoute à releves/vues-pexels.csv la ligne du relevé : date, total des vues, nombre de photos, abonnés si le profil les donne, remarque « Telepex ». Jeton à grain fin limité à ce dépôt (Contents en lecture et écriture), que je range moi-même dans le trousseau du Mac. Si l'envoi échoue (pas de réseau, jeton expiré), Telepex le dit dans sa barre d'état et réessaie au relevé suivant ; il me prévient un mois avant l'expiration du jeton. Sans jeton, la feuille reste sur le Mac, prête à déposer à la main.
+3. Un réglage de fréquence : chaque semaine, le lundi matin (par défaut), ou chaque jour, à heure fixe, même Telepex fermé (tâche launchd) ; un envoi par jour au plus ; et un bouton « Envoyer au tableau de bord » pour le faire à la demande.
+4. Mets à jour CLAUDE.md et README.md de Telepex : la feuille du relevé, et elle seule, est envoyée au dépôt public. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
 ```
 
 ## F — Tableau de bord
@@ -161,6 +163,13 @@ Session F : chantier 4 de docs/plan.md, le tableau de bord. Commence par m'expli
 6. Écran Turing : build.py publie aussi /tableau-de-bord/compteur.json (vues et abonnés Pexels, téléchargements, visites et clics vers Pexels des 7 derniers jours, date de chaque relevé). Sur mon PC, le programme libre turing-smart-screen-python (https://github.com/mathoudebine/turing-smart-screen-python ; vérifie qu'il prend en charge mon modèle) le relit toutes les heures grâce à une source de données personnalisée et l'affiche avec un thème, rangés dans releves/ecran-turing/ avec un mode d'emploi pas à pas. Essaie-le en session avec son écran simulé et montre-moi une capture ; l'essai final se fera sur mon PC.
 Règles : Python sans dépendance pour le site ; ni la tâche de nuit ni toi n'allez chercher de chiffres sur pexels.com, ils viennent des relevés ; la clé n'apparaît ni dans le code ni dans les journaux ; garde apercu.json et son format ; essaie avec des chiffres fictifs que tu ne laisses pas dans le dépôt. Mets à jour releves/README.md (relevés de Telepex, relevés à la main, lecture du tableau de bord, écran Turing), README.md, docs/plan-site-pro.md et CLAUDE.md. Vérifie que vitrine/build.py tourne, que la page n'apparaît ni dans sitemap.xml, ni dans vitrine/donnees/pages.json, ni dans llms.txt, et son rendu sur ordinateur et sur téléphone ; puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
+
+Session faite le 28 septembre 2026, avant la session T : le tableau de bord est en ligne sur
+https://photos.karlforterre.fr/tableau-de-bord/ et se remplira des relevés de Telepex dès
+leur arrivée. Pinterest reste relevé à la main : son API demande une application approuvée
+et un jeton à renouveler. Restent à faire : la clé GoatCounter (pas à pas :
+`releves/README.md`, « Relier GoatCounter ») et le programme de l'écran Turing, pour
+lequel une prochaine session demandera le modèle de l'écran et le système du PC.
 
 ## H — Instagram
 

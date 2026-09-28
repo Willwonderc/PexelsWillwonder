@@ -1,0 +1,142 @@
+/* Tableau de bord (/tableau-de-bord/) : page non référencée, pour Karl. Chargée par cette
+   seule page, après style.css : les autres pages ne changent pas. */
+
+.tableau {
+  /* Une série par graphique : bleu validé sur le fond clair, et son pas pour le fond sombre. */
+  --serie: #2a78d6;
+  padding-bottom: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  .tableau { --serie: #3987e5; }
+}
+
+.tb-tete { padding-bottom: 0; }
+.tb-rappels { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 8px; max-width: 50rem; }
+.tb-rappels li {
+  position: relative;
+  padding: 10px 14px 10px 42px;
+  border: 1px solid var(--trait);
+  border-radius: 10px;
+  font-size: 15px;
+}
+.tb-rappels li::before {
+  content: "!";
+  position: absolute;
+  left: 14px;
+  top: 11px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+}
+.tb-sommaire { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 24px; font-size: 14px; }
+
+.tb-section { margin-top: clamp(44px, 6vw, 76px); }
+.tb-section h2 { margin: 0 0 18px; font-size: clamp(22px, 2.6vw, 30px); font-weight: 580; font-stretch: 108%; }
+.tb-section h3 { margin: 34px 0 12px; font-size: 17px; font-weight: 600; }
+.tb-section > p { max-width: 50rem; }
+.tb-doux, .tb-sous, .tb-detail, .tb-libelle, .tb-ecart, .tb-graphe figcaption span { color: var(--doux); }
+.tb-alerte { border-left: 2px solid currentColor; padding-left: 12px; }
+
+/* Chiffres */
+
+.tb-tuiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.tb-tuile { border: 1px solid var(--trait); border-radius: 12px; padding: 14px 16px; }
+.tb-tuile p { margin: 0; }
+.tb-libelle { font-size: 14px; }
+.tb-nombre { margin-top: 4px !important; font-size: 28px; font-weight: 600; line-height: 1.2; }
+.tb-detail { margin-top: 4px !important; font-size: 13px; }
+.tb-heros { grid-column: span 2; }
+.tb-heros .tb-nombre { font-size: clamp(48px, 6.4vw, 76px); letter-spacing: -.02em; line-height: 1.05; }
+
+/* Graphiques : traits fins, graduations discrètes ; le survol montre chaque mesure. */
+
+.tb-graphes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; margin-top: 16px; }
+.tb-graphe { position: relative; margin: 0; padding: 14px 12px 8px; border: 1px solid var(--trait); border-radius: 12px; }
+.tb-graphe:focus-visible { outline: 2px solid var(--encre); outline-offset: 2px; }
+.tb-graphe figcaption { margin: 0 4px 6px; font-size: 14px; font-weight: 600; }
+.tb-graphe figcaption span { margin-left: 8px; font-weight: 400; }
+.tb-graphe svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tb-grille { stroke: var(--trait); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.tb-axe { fill: var(--doux); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tb-valeur { fill: var(--encre); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tb-ligne { fill: none; stroke: var(--serie); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.tb-point { fill: var(--serie); stroke: var(--fond); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.tb-colonne { fill: var(--serie); }
+.tb-colonne.actif { opacity: .72; }
+.tb-reticule { visibility: hidden; stroke: var(--doux); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.tb-graphe.survol .tb-reticule { visibility: visible; }
+.tb-bulle {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  background: var(--fond);
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 12px));
+  box-shadow: 0 2px 12px rgb(0 0 0 / .1);
+}
+.tb-bulle strong { display: block; font-size: 15px; font-variant-numeric: tabular-nums; }
+.tb-bulle span { color: var(--doux); }
+
+/* Tableaux */
+
+.tb-defile { overflow-x: auto; margin-top: 8px; }
+.tb-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tb-table th {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--trait);
+  color: var(--doux);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+.tb-table td { padding: 8px 10px; border-bottom: 1px solid var(--trait); vertical-align: middle; }
+.tb-table td:first-child { white-space: nowrap; }
+.tb-photos td:nth-child(2), .tb-meilleures td:nth-child(2) { min-width: 9rem; white-space: normal; }
+.tb-table .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tb-ecart { margin-left: 4px; font-size: 12px; }
+.tb-sous { display: block; font-size: 12px; }
+.tb-table img { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; background: var(--trait); }
+.tb-photos img { width: 48px; height: 36px; }
+.tb-vignette { width: 1%; }
+.tb-colonnes-texte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 0 28px; }
+
+/* Toutes les photos : recherche, filtres et tri, comme dans Telepex. */
+
+.tb-filtres { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 16px; margin: 8px 0 4px; font-size: 14px; }
+.tb-filtres[hidden] { display: none; }
+.tb-filtres label { display: grid; gap: 4px; color: var(--doux); }
+.tb-filtres input,
+.tb-filtres select {
+  min-width: 12rem;
+  padding: 7px 10px;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  background: var(--fond);
+  color: var(--encre);
+  font: inherit;
+}
+.tb-filtres output { margin-left: auto; color: var(--doux); }
+
+@media (max-width: 700px) {
+  .tb-facultatif { display: none; }
+  .tb-heros { grid-column: 1 / -1; }
+  /* Le graphique rétrécit avec l'écran : ses textes grossissent d'autant pour rester lisibles. */
+  .tb-axe { font-size: 20px; }
+  .tb-valeur { font-size: 22px; }
+  .tb-point { r: 9px; }
+  .tb-tuiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .tb-table td, .tb-table th { padding-inline: 6px; }
+  .tb-filtres input, .tb-filtres select { min-width: 0; width: 100%; }
+  .tb-filtres label { flex: 1 1 100%; }
+}

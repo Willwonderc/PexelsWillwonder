@@ -216,6 +216,11 @@ photo) et `suivre-pexels` (bouton de l'en-tête), `suivre-pexels-accueil` (bouto
 l'ouverture) et `suivre-pexels-fin` (rappel en fin de galerie, de série et de page).
 Une photo regardée dans la visionneuse compte comme une visite de sa page.
 
+Le tableau de bord (https://photos.karlforterre.fr/tableau-de-bord/, page non référencée,
+que GoatCounter ne compte pas) reprend ces chiffres semaine après semaine grâce à une clé
+d'API en lecture seule, rangée dans le secret `GOATCOUNTER_JETON` du dépôt ; il lit aussi
+les relevés de `releves/`. Mode d'emploi : [releves/README.md](../releves/README.md).
+
 ## Référencement
 
 Démarches à faire à la main (Bing Webmaster Tools, Wikidata, Wikimedia Commons) et
