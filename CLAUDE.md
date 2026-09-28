@@ -27,7 +27,7 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 3. Atelier titres et mots-clés (`atelier/`) : photos reçues par lien SwissTransfer (ou
    déposées dans `atelier/a-traiter/`), tableaux rendus dans `atelier/resultats/`.
 4. Tableau de bord (`releves/` et une page non référencée du site) : clics vers Pexels,
-   statistiques Pinterest, vues Pexels relevées à la main.
+   statistiques Pinterest, vues et téléchargements Pexels tirés des relevés de Karl.
 
 ## Façon de travailler
 
@@ -69,8 +69,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   by Pexels » avec un lien, et vérifier la documentation officielle avant d'implémenter.
 - **Conditions Pexels** : chaque photo renvoie vers sa page Pexels, sans téléchargement
   direct ; ne pas reproduire les fonctions de base de Pexels ; aucune collecte
-  automatique sur les pages de pexels.com. Les vues, que l'API ne fournit pas, sont
-  notées à la main dans `releves/vues-pexels.csv`.
+  automatique sur pexels.com hors de l'API officielle, ni par les outils du dépôt, ni par
+  ses tâches GitHub, ni en session. Les vues et les téléchargements, que l'API ne fournit pas, viennent des
+  relevés de Karl, `releves/vues-pexels.csv` et `releves/suivi-pexels.csv` : notés à la
+  main, ou publiés par Telepex, son application Mac, qui reste hors du dépôt (session T
+  de `consignes/prochaines-sessions.md`).
 - **Vues Pexels** : Pexels compte une vue quand la photo apparaît dans ses résultats
   de recherche ou chez ses partenaires de l'API. Le site et Pinterest renvoient donc
   chaque photo vers sa page Pexels. Aucun procédé artificiel : ni appels répétés à
@@ -158,9 +161,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   (`<script data-page="app">`) avec les identifiants du lien et du fichier ;
   `GET https://www.swisstransfer.com/api/1/links/<lien>/files/<fichier>` renvoie une
   adresse de téléchargement valable une heure.
-- Fiche de suivi : `releves/suivi-pexels.csv` (relevé du 24 septembre 2026) donne pour
-  chaque photo vues, téléchargements, J'aime, statut de modération et mots-clés Pexels.
-  Les 89 photos retenues par la modération font 81 % des vues ; aucune photo importée
+- Fiche de suivi : `releves/suivi-pexels.csv` (relevé du 24 septembre 2026, que Telepex
+  remplacera à chaque relevé une fois la session T faite) donne pour chaque photo vues,
+  téléchargements, J'aime, statut de modération et mots-clés Pexels. Au 24 septembre, les
+  89 photos retenues par la modération faisaient 81 % des vues ; aucune photo importée
   sans titre n'a été retenue.
 - Usages par des tiers : `vitrine/usages.csv` (sites signalés par Pexels : CNN.com,
   NYTimes.com, Cambridge.org, Dictionary.com, TheFreeDictionary.com ; et la campagne
