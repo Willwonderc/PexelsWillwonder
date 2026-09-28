@@ -89,10 +89,10 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   le profil → Enregistrer, sans rien changer.
 - [x] **Chaque semaine** : une ligne de plus dans `releves/vues-pexels.csv` (date, vues,
   photos, abonnés). Telepex l'ajoute seul à chaque relevé depuis le 28 septembre (session T).
-- [ ] **Liens vers les sites** (15 minutes) : du profil Pexels vers
-  https://photos.karlforterre.fr ; de LinkedIn, Plume d'Argent et Facebook vers
+- [ ] **Liens vers les sites** (15 minutes) : de LinkedIn, Plume d'Argent et Facebook vers
   https://karlforterre.fr ; sur GitHub, la présentation du dépôt PexelsWillwonder
-  (aujourd'hui « Promotion de Pixels », sans site), par la roue dentée de « About ».
+  (aujourd'hui « Promotion de Pixels », sans site), par la roue dentée de « About ». Le
+  profil Pexels renvoie déjà vers https://photos.karlforterre.fr (28 septembre).
 - [ ] **Vitesse** (10 minutes) : mesurer les deux accueils sur https://pagespeed.web.dev,
   version mobile, et confier à une session tout score sous 90.
 - [ ] **Relire** (30 minutes) :
@@ -106,7 +106,7 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
 - [ ] **Wikimedia Commons** (2 heures) :
   [douze photos de lieux](#3-wikimedia-commons--douze-photos-de-lieux), avec le courriel
   d'autorisation envoyé depuis contact@karlforterre.fr. Le concours Wiki Loves Monuments
-  est ouvert jusqu'au 15 octobre 2026.
+  est ouvert jusqu'au 15 octobre 2026 en France, jusqu'au 30 septembre en Espagne.
 - [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
   fiche de l'auteur viendra plus tard.
 - [ ] **Dépôt du mémoire** (1 heure) :
@@ -348,10 +348,18 @@ illustrer les articles de Wikipédia dans toutes les langues, et la fiche Wikida
 mentionne l'auteur, sur la page de la photo. Compter deux heures pour douze photos, plus
 un courriel d'autorisation.
 
-**À saisir maintenant** : le concours Wiki Loves Monuments France court du 15 septembre
-au 15 octobre 2026. Les photos de monuments historiques (le château et les jardins de
-Villandry, par exemple) déposées par le formulaire du concours y participent :
-https://www.wikimedia.fr/wiki-loves-monuments-2026-concours-photo-patrimoine/
+**À saisir maintenant : le concours Wiki Loves Monuments.** Toute photo d'un monument
+protégé déposée pendant le concours y participe, quelle que soit sa date de prise de vue,
+si elle passe par l'assistant du concours (voir « Déposer les photos ») :
+
+- **France**, du 15 septembre au 15 octobre 2026 : monuments historiques, classés ou
+  inscrits, avec leur code Mérimée. Le jury juge la qualité technique, l'originalité et
+  l'intérêt documentaire ; un prix spécial récompense les photos qui documentent le mieux
+  un monument encore peu photographié ; les dix premières passent au concours
+  international. https://www.wikimedia.fr/wiki-loves-monuments-2026-concours-photo-patrimoine/
+- **Espagne**, du 1er au 30 septembre 2026 seulement : biens d'intérêt culturel (BIC),
+  biens liés au chemin de Saint-Jacques et, cette année, hôtels de ville.
+  https://commons.wikimedia.org/wiki/Commons:Wiki_Loves_Monuments_2026_in_Spain
 
 ### D'abord, la licence : une décision de Karl
 
@@ -414,8 +422,15 @@ permanente, qui vaut pour toutes les photos déposées depuis le compte.
 
 ### Déposer les photos
 
-Dans l'assistant d'import (https://commons.wikimedia.org/wiki/Special:UploadWizard, ou
-menu de gauche → **Importer un fichier**), qui compte six étapes :
+Pour le concours, ouvrir l'assistant par le lien du concours, qui y inscrit d'office les
+photos : en France, https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-fr,
+qui demande le code Mérimée du monument (colonne « Concours » du tableau ci-dessous) ; en
+Espagne, avant le 30 septembre, https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-es,
+qui demande l'identifiant donné par la liste des monuments ou des hôtels de ville
+(https://es.wikipedia.org/wiki/Wikiproyecto:Patrimonio_hist%C3%B3rico/Casas_consistoriales).
+Le compte Commons doit avoir une adresse électronique confirmée. Pour les autres photos,
+l'assistant ordinaire (https://commons.wikimedia.org/wiki/Special:UploadWizard, ou menu de
+gauche → **Importer un fichier**). L'un et l'autre comptent six étapes :
 
 1. **Téléverser** : **Sélectionnez les fichiers multimédias à partager**, choisir les
    douze fichiers, puis **Continuer**.
@@ -448,30 +463,39 @@ La page de chaque photo indique ensuite comment la créditer : « Karl Forterre,
 
 ### Les douze photos proposées
 
-Choisies pour la qualité, la netteté du sujet et l'absence de problème de droits, en
-privilégiant les lieux encore peu photographiés sur Commons (nombre de fichiers relevé le
-27 septembre 2026). Chaque identification est à confirmer par Karl, qui sait ce qu'il a
-photographié.
+Revues le 28 septembre 2026 pour leurs chances au concours et sur Wikipédia : un monument
+protégé (condition du concours), une photo nette et fidèle, sans filtre marqué, et de
+préférence un lieu encore peu photographié sur Commons (nombre de fichiers relevé le
+28 septembre), ce que récompense le prix spécial. Chaque identification est à confirmer
+par Karl, qui sait ce qu'il a photographié.
 
-| # | Photo (page du site) | Nom de fichier proposé (ajouter l'année de la prise de vue) | Catégorie Commons | À savoir |
-|---|---|---|---|---|
-| 1 | [38694057](https://photos.karlforterre.fr/photo/38694057/) | Villandry - jardins du château vus du ciel | Gardens of the Château de Villandry (119 fichiers) | sur Pexels depuis 2026 ; jardins recréés à partir de 1906 par Joachim Carvallo, mort en 1936 |
-| 2 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - flèches de l'église Saint-André au-dessus de la ville | Église Saint-André (Niort) (27) | sur Pexels depuis 2024 ; église néogothique de 1855-1863 ; Pexels la nomme à tort Notre-Dame, le site dit Saint-André |
-| 3 | [10187432](https://photos.karlforterre.fr/photo/10187432/) | Marais poitevin - barques amarrées le long d'un canal | Marais Poitevin | sur Pexels depuis 2021 ; préciser la commune si Karl la connaît |
-| 4 | [34500384](https://photos.karlforterre.fr/photo/34500384/) | Cognac - hôtel de ville | Town hall of Cognac (10) | sur Pexels depuis 2025 ; bâtiment de 1840 |
-| 5 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Granville - phare du cap Lihou | Phare du cap Lihou (18) | sur Pexels depuis 2025 |
-| 6 | [34939450](https://photos.karlforterre.fr/photo/34939450/) | Îles Chausey - phare vu de la mer | Phare de Chausey (13) | sur Pexels depuis 2025 |
-| 7 | [13087478](https://photos.karlforterre.fr/photo/13087478/) | Moyemont - chemin bordé d'arbres en été | Moyemont (14) | sur Pexels depuis 2022 ; la photo la plus vue du compte après la Lune et la Voie lactée |
-| 8 | [13041935](https://photos.karlforterre.fr/photo/13041935/) | Xonrupt-Longemer - chapelle Saint-Florent | Chapelle Saint-Florent (Xonrupt-Longemer) (5) | sur Pexels depuis 2022 ; chapelle de 1727, au bord du lac de Longemer |
-| 9 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, génie de la Liberté | Monument aux Girondins | sur Pexels depuis 2026 ; monument de 1894-1901, sculptures d'Alphonse Dumilâtre |
-| 10 | [39564918](https://photos.karlforterre.fr/photo/39564918/) | Ribadeo - plage des Cathédrales, arches rocheuses | As Catedrais beach (161) | sur Pexels depuis 2026 ; Espagne |
-| 11 | [39423921](https://photos.karlforterre.fr/photo/39423921/) | Irun - hôtel de ville | Town hall of Irun (22) | sur Pexels depuis 2026 ; Espagne |
-| 12 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, église et tour | Universidad Laboral de Gijón, Tower of Universidad Laboral de Gijón | sur Pexels depuis 2026 ; Espagne ; photographiée depuis l'espace public |
+| # | Photo (page du site) | Titre proposé (ajouter l'année de la prise de vue) | Concours | Catégorie Commons | Pourquoi |
+|---|---|---|---|---|---|
+| 1 | [39423921](https://photos.karlforterre.fr/photo/39423921/) | Irun - hôtel de ville | Espagne, avant le 30 septembre (hôtels de ville admis en 2026) | Town hall of Irun (22 fichiers) | façade entière, de face ; retenue par la modération de Pexels |
+| 2 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, la tour et l'église elliptique | Espagne, avant le 30 septembre (BIC) | Universidad Laboral de Gijón | point de vue peu courant ; bâtie par le régime franquiste, à décrire sobrement |
+| 3 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - église Saint-André au-dessus de la ville | France, PA79000044 | Église Saint-André (Niort) (27) | la plus téléchargée de la sélection (123 téléchargements sur Pexels) |
+| 4 | [33035661](https://photos.karlforterre.fr/photo/33035661/) | Niort - flèches de l'église Saint-André dans la verdure | France, PA79000044 | Église Saint-André (Niort) (27) | vue en hauteur, 57 téléchargements |
+| 5 | [38279508](https://photos.karlforterre.fr/photo/38279508/) | Niort - hôtel de préfecture des Deux-Sèvres | France, PA00101291 | Hôtel de préfecture des Deux-Sèvres (4) | façade de face ; quatre photos seulement sur Commons |
+| 6 | [38279504](https://photos.karlforterre.fr/photo/38279504/) | Niort - hôtel de ville | France, PA79000045 | Hôtel de ville de Niort (8) | huit photos seulement ; déposer si possible une version moins retouchée |
+| 7 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, la Liberté brisant ses chaînes | France, PA33000074 | Monument aux Girondins | la statue qui couronne la colonne, seule sur le ciel ; sculptures d'Alphonse Dumilatre, mort en 1928 |
+| 8 | [38694047](https://photos.karlforterre.fr/photo/38694047/) | Villandry - jardins du château vus d'en haut | France, PA00098286 | Gardens of the Château de Villandry | la plus téléchargée des vues de Villandry (51) ; lieu déjà très photographié |
+| 9 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Îles Chausey - le phare vu de la mer | France, PA50000061 | Phare de Chausey (13) | c'est le phare de Chausey (commune de Granville), et non celui du cap Lihou |
+| 10 | [34894959](https://photos.karlforterre.fr/photo/34894959/) | Îles Chausey - la tour du phare | France, PA50000061 | Phare de Chausey (13) | la tour et sa lanterne de près |
+| 11 | [39182179](https://photos.karlforterre.fr/photo/39182179/) | Buzy - dolmen | France, PA00084369 | Dolmen de Buzy (7) | sept photos seulement ; déposer la version couleur d'origine, recadrée pour ôter le visiteur |
+| 12 | [13087478](https://photos.karlforterre.fr/photo/13087478/) | Moyemont - chemin bordé d'arbres | hors concours | Moyemont (14) | la photo la plus vue du compte, pour l'article de Wikipédia sur la commune |
 
-En plus, si Karl le souhaite : [38995522](https://photos.karlforterre.fr/photo/38995522/),
-l'éclipse totale du 12 août 2026 vue de Galice, dans la catégorie « Solar eclipse of 2026
-August 12 », qui ne compte encore qu'une photo et quelques sous-catégories : une vue de
-la totalité y serait précieuse pour les articles de Wikipédia sur cette éclipse.
+En plus, hors concours : [38995522](https://photos.karlforterre.fr/photo/38995522/),
+l'éclipse totale du 12 août 2026 vue de Galice (catégorie « Solar eclipse of 2026
+August 12 », où une vue de la totalité servirait aux articles de Wikipédia sur cette
+éclipse) ; [34500384](https://photos.karlforterre.fr/photo/34500384/), l'hôtel de ville
+de Cognac, et [13041935](https://photos.karlforterre.fr/photo/13041935/), la chapelle
+Saint-Florent de Xonrupt-Longemer, bâtiments non protégés, peu photographiés sur Commons
+(10 et 5 fichiers).
+
+Écartées : les vues très retouchées (fisheye, teintes forcées) de Notre-Dame-la-Grande,
+de la cathédrale et de l'hôtel de ville de Poitiers ; les monuments déjà couverts de
+centaines de photos (Mont-Saint-Michel, château de Fougères, cathédrale de
+Saint-Jacques-de-Compostelle).
 
 ### Ensuite
 
