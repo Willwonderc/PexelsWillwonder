@@ -87,8 +87,8 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   (https://karlforterre.fr) ont leur coche verte depuis les 27 et 28 septembre ; les deux
   sites renvoient vers le profil (`rel="me"`). Si un jour une coche disparaît : Modifier
   le profil → Enregistrer, sans rien changer.
-- [ ] **Chaque semaine** (2 minutes) : une ligne de plus dans `releves/vues-pexels.csv`
-  (date, vues, photos, abonnés). Un seul relevé à ce jour, celui du 24 septembre.
+- [x] **Chaque semaine** : une ligne de plus dans `releves/vues-pexels.csv` (date, vues,
+  photos, abonnés). Telepex l'ajoute seul à chaque relevé depuis le 28 septembre (session T).
 - [ ] **Liens vers les sites** (15 minutes) : du profil Pexels vers
   https://photos.karlforterre.fr ; de LinkedIn, Plume d'Argent et Facebook vers
   https://karlforterre.fr ; sur GitHub, la présentation du dépôt PexelsWillwonder

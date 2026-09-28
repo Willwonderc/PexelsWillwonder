@@ -19,17 +19,17 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 
 | Ordre | Session | Quand | Avant de la lancer |
 |---|---|---|---|
-| A | Site professionnel | semaine du 29 septembre | la pull request de ces consignes est fusionnée |
-| B | Classement et file Pinterest | début octobre | A fusionnée |
-| C | Traductions françaises | mi-octobre | B fusionnée |
-| D | Atelier et modération | mi-octobre | C fusionnée |
-| E | Réseaux : photo du jour | fin octobre | D fusionnée |
+| A | Site professionnel | faite le 25 septembre | — |
+| B | Classement et file Pinterest | faite le 25 septembre | — |
+| C | Traductions françaises | faite le 25 septembre | — |
+| D | Atelier et modération | faite le 26 septembre | — |
+| E | Réseaux : photo du jour | faite le 26 septembre | — |
 | T | Telepex : envoi automatique au tableau de bord | faite le 28 septembre | premier relevé envoyé le 28 septembre (voir T) |
 | U | Telepex : tableau de bord, publications et vidéos | faite le 28 septembre | Telepex 1.2 (voir U) |
 | F | Tableau de bord | faite le 28 septembre | GoatCounter relié le 28 septembre (voir F) |
 | G | Google et Bing dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
-| I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
+| I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |

@@ -129,8 +129,8 @@ galeries.
 | Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
 | Niort | 42 | `https://photos.karlforterre.fr/en/galleries/niort/feed.xml` | oui |
 | Poitiers and its surroundings | 65 | `https://photos.karlforterre.fr/en/galleries/poitiers/feed.xml` | oui |
-| Marais Poitevin wetlands | 17 | `https://photos.karlforterre.fr/en/galleries/marais-poitevin/feed.xml` | non : à relier |
-| Niort and Poitou (ancien tableau, figé) | — | ancien flux `niort-poitou`, supprimé : retirer sa publication automatique | non |
+| Marais Poitevin wetlands | 17 | `https://photos.karlforterre.fr/en/galleries/marais-poitevin/feed.xml` | oui |
+| Niort and Poitou (ancien tableau, figé) | — | ancien flux `niort-poitou`, supprimé et retiré de la publication automatique | non |
 | Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | oui |
 | Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | oui |
 | Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | oui |
@@ -138,16 +138,16 @@ galeries.
 | Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | oui |
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
-43 des 44 flux sont reliés : reste celui du Marais poitevin. Les tableaux des 19 galeries créées par la session B (septembre
+Les 44 flux sont reliés. Les tableaux des 19 galeries créées par la session B (septembre
 2026) sont nés d'un import le 26 septembre ; leurs flux ont été reliés le 27 au soir, et
 tous figurent dans Paramètres → Importer du contenu → Publication automatique (vérifié le
 28 septembre). Pinterest peut mettre jusqu'à 24 heures à lire un flux qu'on vient de
 relier. Les tableaux des 8 galeries ajoutées le 28 septembre 2026 d'après la fiche de suivi
 (Night photography, Mist and fog, Villages, Autumn, Bridges, Birds, Cats, Coffee and café
-terraces) et ceux de Niort et de Poitiers (session I) sont nés le même jour d'un import
-d'une épingle chacun (`--tableaux`, étape 5), puis leurs flux ont été reliés. Ces
-10 épingles mènent à pexels.com : si l'une paraît un jour deux fois dans son tableau,
-supprimer celle-là.
+terraces), ceux de Niort et de Poitiers (session I) et celui du Marais poitevin sont nés le
+même jour d'un import d'une épingle chacun (`--tableaux`, étape 5), puis leurs flux ont été
+reliés. Ces 11 épingles mènent à pexels.com : si l'une paraît un jour deux fois dans son
+tableau, supprimer celle-là.
 
 Le 28 septembre 2026 (session I), la galerie « Niort et le Poitou » a été partagée en trois :
 « Niort » et « Poitiers et son pays pictave », nouvelles, dont les flux sont reliés à deux
@@ -155,10 +155,10 @@ nouveaux tableaux (« Niort » et « Poitiers and its surroundings »), et « Ma
 qui a d'abord gardé l'adresse `niort-poitou` et son flux. Plutôt que de renommer le tableau
 « Niort and Poitou », Karl a préféré le même jour un tableau à part : la galerie a pris
 l'adresse `marais-poitevin` (les adresses de `niort-poitou` y renvoient) et un flux neuf,
-à relier au nouveau tableau « Marais Poitevin wetlands ». L'ancien tableau « Niort and
-Poitou » garde ses épingles de Niort et de Poitiers, qui paraissent aussi dans les
-tableaux « Niort » et « Poitiers and its surroundings » ; son flux n'existe plus : le
-retirer de Paramètres → Importer du contenu → Publication automatique.
+relié le même jour au nouveau tableau « Marais Poitevin wetlands ». L'ancien tableau
+« Niort and Poitou » garde ses épingles de Niort et de Poitiers, qui paraissent aussi dans
+les tableaux « Niort » et « Poitiers and its surroundings » ; son flux, qui n'existe plus,
+a été retiré de Paramètres → Importer du contenu → Publication automatique.
 
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
 reçoit plus rien ; il reste relié pour les photos à venir qui n'entreraient dans aucune.
