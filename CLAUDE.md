@@ -103,10 +103,17 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   renvoyé aucune photo du propriétaire. Le site s'appuie donc sur la liste des photos,
   pas sur les collections.
 - Photo du jour : `reseaux/photo_du_jour.py`, lancé chaque matin par
-  `.github/workflows/photo-du-jour.yml`, publie sur Bluesky et Mastodon (ou Pixelfed) la
-  photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`, tenu par
-  cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique `[photo_du_jour]`.
-  Essai sans publier : `--essai`.
+  `.github/workflows/photo-du-jour.yml`, publie sur Bluesky, Mastodon (ou Pixelfed) et
+  Instagram la photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`,
+  tenu par cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique
+  `[photo_du_jour]`. Essai sans publier : `--essai`. Instagram (@karl_forterre, compte
+  « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
+  téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG
+  (sinon AVIF ou WebP selon le client), recadrée au centre entre 4:5 et 1,91:1 ;
+  5 hashtags au plus ; légende sans lien (« link in bio »). Jeton de 60 jours renouvelé
+  chaque lundi par `.github/workflows/jeton-instagram.yml`, qui réécrit le secret
+  `INSTAGRAM_JETON` grâce au jeton GitHub du secret `JETON_GITHUB` ; ne jamais lancer
+  `--renouveler-jeton` en session.
 - RedNote (小红书) : carrousels préparés en session et envoyés par courriel, publiés à la
   main par Karl sur le compte « Soviet Croissant » (rednote ID 26225410141) ; récit de
   photographe français, au ton léger, version française à côté. Règles et souvenirs de
@@ -119,9 +126,7 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   carrousel peut aussi devenir une vidéo diaporama en chinois, français et anglais, avec
   musique libre de droits : classique en chinois et en anglais, pop en français
   (`reseaux/README.md`, « Vidéos diaporama des carrousels »).
-  Instagram : compte
-  professionnel existant, publication automatique prévue (consigne H de
-  `consignes/prochaines-sessions.md`).
+  Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut).
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
@@ -136,7 +141,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Galeries : les mots-clés Pexels de la fiche de suivi comptent pour les règles `mots` de
   `vitrine/galeries.ini`, qui les emploient souvent à tort (« portrait » pour un format
   vertical, « pau » ajouté par lots) ; les lignes `ajouter` et `retirer` gardent le
-  classement photo par photo fait en session B.
+  classement photo par photo fait en session B. Depuis la session I, Niort, Poitiers
+  (« Poitiers et son pays pictave ») et le Marais poitevin ont chacun leur galerie de lieu ;
+  `[niort-poitou]` est devenue « Marais poitevin » sans changer d'identifiant (adresse et flux
+  Pinterest gardés). Classement et raisons : `atelier/resultats/niort-classement.csv` et
+  `poitiers-marais-classement.csv`.
 - Titres et mots-clés : Pexels ne permet guère de les modifier après publication.
   L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
 - Photos sans titre : leur adresse Pexels ne contient que le numéro

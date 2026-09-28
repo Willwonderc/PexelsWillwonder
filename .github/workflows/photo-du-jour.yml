@@ -1,7 +1,8 @@
-# Publie chaque matin la « photo du jour » sur Bluesky et sur Mastodon (ou Pixelfed),
-# puis enregistre sur main le journal des publications (reseaux/photo-du-jour.json).
-# Sans les secrets d'un réseau, ce réseau est laissé de côté, sans erreur.
-# Mode d'emploi : reseaux/README.md.
+# Publie chaque matin la « photo du jour » sur Bluesky, sur Mastodon (ou Pixelfed) et
+# sur Instagram, puis enregistre sur main le journal des publications
+# (reseaux/photo-du-jour.json). Sans les secrets d'un réseau, ce réseau est laissé de
+# côté, sans erreur. Le jeton Instagram est renouvelé chaque semaine par la tâche
+# « Jeton Instagram » (jeton-instagram.yml). Mode d'emploi : reseaux/README.md.
 name: Photo du jour
 
 on:
@@ -32,9 +33,10 @@ jobs:
           BLUESKY_MOT_DE_PASSE_APPLI: ${{ secrets.BLUESKY_MOT_DE_PASSE_APPLI }}
           MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
           MASTODON_JETON: ${{ secrets.MASTODON_JETON }}
+          INSTAGRAM_JETON: ${{ secrets.INSTAGRAM_JETON }}
         run: python3 reseaux/photo_du_jour.py
 
-      # Même si un réseau a échoué, garder la trace de ce que l'autre a publié.
+      # Même si un réseau a échoué, garder la trace de ce que les autres ont publié.
       - name: Enregistrer le journal des publications
         if: always()
         run: |

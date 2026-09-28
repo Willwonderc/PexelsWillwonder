@@ -1,15 +1,18 @@
-# Photo du jour sur Bluesky et Mastodon — mode d'emploi
+# Photo du jour sur Bluesky, Mastodon et Instagram — mode d'emploi
 
-Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky et sur
-Mastodon (ou Pixelfed) : l'image, son titre, le hashtag #Photography suivi de quatre
-mots-clés en hashtags, et le lien
-vers sa page du site, d'où elle se télécharge sur Pexels. Exemple :
+Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky, sur
+Mastodon (ou Pixelfed) et sur Instagram : l'image, son titre, le hashtag #Photography
+suivi de quatre mots-clés en hashtags, et le lien vers sa page du site, d'où elle se
+télécharge sur Pexels. Exemple :
 
     Beautiful twilight sky with a crescent moon and serene gradient of colors
 
     Royalty-free, free to download on Pexels: https://photos.karlforterre.fr/en/photo/13102252/
 
     #Photography #Sky #CrescentMoon #Gradient #Twilight
+
+Sur Instagram, dont les légendes n'ont pas de liens cliquables, le lien est remplacé par
+un renvoi vers celui de la biographie (voir la partie 5, « Instagram »).
 
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
   `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
@@ -19,7 +22,7 @@ vers sa page du site, d'où elle se télécharge sur Pexels. Exemple :
   est relancée.
 - **Heure** : 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47 UTC).
 - **Sans accès** : un réseau dont les secrets ne sont pas renseignés est simplement
-  laissé de côté. On peut donc commencer par un seul des deux.
+  laissé de côté. On peut donc commencer par un seul réseau.
 
 Ne collez jamais un mot de passe ou un jeton dans une conversation avec Claude, dans un
 fichier du dépôt ou dans un message : uniquement dans les secrets du dépôt, comme
@@ -118,31 +121,197 @@ de Mastodon.
 Ensuite, la tâche tourne seule chaque matin. Relancée le même jour, elle ne publie rien
 de plus.
 
+## 5. Instagram
+
+La photo du jour part aussi sur le compte @karl_forterre, par l'API officielle de Meta
+« avec connexion Instagram », qui ne demande pas de Page Facebook. Elle suit le même
+ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
+`reseaux/photo-du-jour.json` note chaque publication dans sa rubrique `instagram`.
+
+- **Légende** : le titre, puis « Royalty-free, free to download on Pexels: link in
+  bio. » (lien dans la bio), puis cinq hashtags : Instagram n'en accepte pas davantage
+  depuis décembre 2025. Les légendes n'ont pas de liens cliquables : c'est le lien de la
+  biographie qui mène au site.
+- **Image** : Instagram la télécharge lui-même chez Pexels, en JPEG de 1 440 pixels de
+  large. Il n'accepte que les proportions comprises entre 4:5 (en hauteur) et 1,91:1
+  (en largeur) : les photos en hauteur sont recadrées au centre en 4:5, les neuf
+  panoramas en 1,91:1 ; les autres restent entières.
+- **Jeton** : l'accès se fait par un jeton valable 60 jours. Chaque lundi, la tâche
+  **Jeton Instagram** l'échange contre un neuf et le range elle-même dans les secrets du
+  dépôt : il n'y a rien à refaire tant qu'elle passe au vert.
+- **Limite** : 100 publications par 24 heures au plus ; la tâche en fait une par jour.
+- **Sans Page Facebook ni examen de Meta** : l'application reste « en développement »
+  (Meta dit « Development mode »), réservée à votre propre compte, ce qui dispense de
+  l'examen des applications (App Review).
+
+Ces étapes suivent la documentation de Meta, vérifiée le 28 septembre 2026. Meta change
+parfois le nom de ses menus, et son site peut s'afficher en anglais : les libellés
+anglais sont donnés en italique ; si l'un d'eux diffère un peu, cherchez le plus proche.
+Comptez une demi-heure en tout, sur un ordinateur. Comme pour les autres réseaux, un
+jeton se colle uniquement dans un secret du dépôt, jamais dans une conversation, un
+fichier ou un message.
+
+### 5.1 Le lien de la biographie
+
+Sur Instagram : **Modifier le profil** → **Liens** → **Ajouter un lien externe** :
+adresse `https://photos.karlforterre.fr`, titre « Photos libres de droits ».
+
+### 5.2 Le compte de développeur Meta
+
+1. Ouvrez https://developers.facebook.com, cliquez sur **Commencer** (*Get Started*) et
+   connectez-vous avec votre compte Facebook personnel : il sert seulement à gérer
+   l'application, rien n'est publié sur Facebook.
+2. Acceptez les conditions de Meta et confirmez votre adresse électronique ou votre
+   numéro de téléphone si Meta le demande.
+
+### 5.3 L'application
+
+1. **Mes apps** (*My Apps*) → **Créer une app** (*Create app*).
+2. Nom de l'application : par exemple `Photo du jour KF`. Meta refuse les noms qui
+   contiennent Instagram, Insta, IG, Facebook ou Meta. Adresse de contact : la vôtre.
+3. Cas d'utilisation : **Gérer les messages et le contenu sur Instagram** (*Manage
+   messaging & content on Instagram*). S'il n'est pas proposé : **Autre** (*Other*),
+   puis le type **Entreprise** (*Business*), puis, dans le tableau de bord, le produit
+   **Instagram** → **Configurer** (*Set up*).
+4. Portefeuille business : **Je ne veux pas encore associer de portefeuille business**
+   (*I don't want to connect a business portfolio yet*).
+5. Terminez la création. Meta peut redemander le mot de passe Facebook : tapez-le sur son
+   site, jamais ailleurs.
+
+### 5.4 Le droit de publier
+
+1. Dans le tableau de bord de l'application : **Cas d'utilisation** (*Use cases*) →
+   **Personnaliser** (*Customize*) à côté du cas Instagram → **Autorisations et
+   fonctionnalités** (*Permissions and features*). Si ce chemin n'existe pas, cherchez
+   **Autorisations et fonctionnalités** dans le menu de gauche.
+2. Vérifiez que `instagram_business_basic` et `instagram_business_content_publish`
+   sont ajoutées (bouton **Ajouter**, *Add*, sinon). La seconde donne le droit de publier.
+   Faites-le **avant** de créer le jeton : un jeton garde les autorisations qu'il avait à
+   sa création.
+
+### 5.5 @karl_forterre, testeur de l'application
+
+Une application en développement n'agit que sur les comptes qui y ont un rôle.
+
+1. Tableau de bord, menu de gauche : **Rôles de l'app** (*App roles*) → **Rôles** →
+   **Ajouter des personnes** (*Add People*) → **Testeur Instagram** (*Instagram
+   Tester*) → saisissez `karl_forterre` → **Ajouter**. Le rôle apparaît « En attente ».
+2. Sur un ordinateur, connecté à @karl_forterre (l'application Instagram du téléphone
+   n'affiche pas toujours l'invitation), ouvrez
+   https://www.instagram.com/accounts/manage_access/, onglet **Invitations de testeur**
+   (*Tester Invites*), puis **Accepter**.
+
+### 5.6 Le jeton Instagram, rangé dans les secrets du dépôt
+
+1. Tableau de bord : **Cas d'utilisation** → **Personnaliser** à côté du cas Instagram →
+   **Configuration de l'API avec la connexion Instagram** (*API setup with Instagram
+   login*) ; ou, dans le menu de gauche, **Instagram** → *API setup with Instagram
+   business login*.
+2. Rubrique **Générer des tokens d'accès** (*Generate access tokens*) : **Ajouter un
+   compte** (*Add account*), puis connectez-vous à @karl_forterre dans la fenêtre qui
+   s'ouvre (autorisez les fenêtres surgissantes si le navigateur les bloque) et acceptez
+   les autorisations demandées.
+3. Le compte apparaît dans la liste : cliquez sur **Générer un token** (*Generate
+   token*). Meta affiche un long jeton, valable 60 jours, **une seule fois** : laissez la
+   fenêtre ouverte.
+4. Dans un autre onglet, sur GitHub, dépôt `willwonderc/PexelsWillwonder` : **Settings**
+   → **Secrets and variables** → **Actions** → **New repository secret**. Nom :
+   `INSTAGRAM_JETON` ; valeur : copiez le jeton depuis la fenêtre de Meta et collez-le
+   directement ici ; **Add secret**. Fermez ensuite la fenêtre de Meta.
+
+### 5.7 Le jeton GitHub qui renouvelle le jeton Instagram
+
+La tâche **Jeton Instagram** doit pouvoir réécrire le secret `INSTAGRAM_JETON` chaque
+lundi. Le jeton que GitHub donne à ses tâches n'a pas ce droit : il lui faut un jeton
+GitHub personnel, limité aux secrets de ce seul dépôt. Il ne permet pas de lire les
+secrets, seulement de les remplacer.
+
+1. Sur GitHub, votre photo de profil (en haut à droite) → **Settings** → tout en bas
+   à gauche **Developer settings** → **Personal access tokens** → **Fine-grained
+   tokens** → **Generate new token**.
+2. **Token name** : `Jeton Instagram`. **Expiration** : **No expiration** (sinon,
+   GitHub prévient par courriel avant l'échéance et il faut le refaire). **Resource
+   owner** : Willwonderc.
+3. **Repository access** : **Only select repositories** → `Willwonderc/PexelsWillwonder`.
+4. **Permissions** → **Repository permissions** → **Secrets** : **Read and write**
+   (GitHub ajoute de lui-même **Metadata** en lecture). Rien d'autre.
+5. **Generate token** : GitHub l'affiche une seule fois. Dans un autre onglet :
+   **Settings** du dépôt → **Secrets and variables** → **Actions** → **New repository
+   secret** ; nom : `JETON_GITHUB` ; valeur : le jeton, collé directement ;
+   **Add secret**.
+
+### 5.8 Premier essai
+
+1. Onglet **Actions** → **Photo du jour** → **Run workflow**. Si Bluesky et Mastodon
+   ont déjà publié ce jour-là, seul Instagram publie. Après une à deux minutes, la ligne
+   passe au vert : la photo la plus vue est sur Instagram, et le journal note le lien
+   de la publication.
+2. Vérifiez qu'elle est visible de tous : ouvrez https://www.instagram.com/karl_forterre/
+   dans une fenêtre de navigation privée, sans être connecté. Si la photo n'y apparaît
+   pas, passez l'application « en ligne » (*Live*) : bouton **Publier** (*Publish*) du
+   tableau de bord. Meta demande alors une adresse de politique de confidentialité
+   (`https://photos.karlforterre.fr/confidentialite/`), des instructions de suppression
+   des données (la même adresse), une icône (le logo KF’ de
+   `vitrine/statique/logo-kf.webp`) et une catégorie. L'accès « standard », qui suffit
+   pour votre propre compte, ne demande pas d'examen.
+3. Le renouvellement se fait seul le lundi suivant. Pour l'essayer sans attendre, au
+   moins 24 heures après la création du jeton : **Actions** → **Jeton Instagram** →
+   **Run workflow**. Au vert, le jeton est renouvelé et rangé dans `INSTAGRAM_JETON`
+   (la date du secret change dans **Settings** → **Secrets and variables** →
+   **Actions**).
+
+### 5.9 En cas de croix rouge
+
+Ouvrez la tâche, puis l'étape en rouge : le message indique le réseau et l'erreur.
+
+| Message | Cause et remède |
+|---|---|
+| `erreur 400` et `"code": 190` (*Invalid OAuth access token*, *Session has expired*) | Jeton expiré ou révoqué : refaites l'étape 5.6 et remplacez le secret `INSTAGRAM_JETON` (**Update secret**). |
+| `"code": 10` ou `permission` | L'autorisation de publier manque : refaites l'étape 5.4, puis 5.6 (nouveau jeton). |
+| `image non préparée par Instagram` (*Media download has failed*, 2207052, 9004) | Instagram n'a pas pu télécharger l'image chez Pexels : la même photo sera retentée le lendemain. Si cela se répète, signalez-le dans une session Claude. |
+| `secret JETON_GITHUB absent` ou `ne donne pas accès aux secrets` | Refaites l'étape 5.7 : dépôt PexelsWillwonder, droit **Secrets** en **Read and write**. |
+| `jeton non renouvelé` | Jeton créé depuis moins de 24 heures (réessayez le lendemain) ou déjà expiré (étape 5.6). |
+
+Instagram peut aussi, rarement, répondre par une erreur alors que la photo est publiée :
+la tâche le vérifie auprès d'Instagram avant de conclure, et ne la republie pas.
+
+### 5.10 Couper l'accès
+
+Sur https://www.instagram.com/accounts/manage_access/, retirez l'application ; ou
+supprimez-la dans le tableau de bord de Meta. Supprimez ensuite les secrets
+`INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
+**Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
+
 ## Réglages
 
 - **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`, ligne
   `langue` : `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois). Titre,
-  hashtags et lien suivent cette langue.
+  hashtags et lien suivent cette langue, sur les trois réseaux.
 - **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
   (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
-  mots-clés de la photo.
+  mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.
+- **Phrase de la légende Instagram** : `TEXTES_INSTAGRAM` dans
+  `reseaux/photo_du_jour.py`, une par langue.
 - **Heure** : ligne `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
   (minute, puis heure). Évitez la minute 0, souvent retardée par GitHub.
 - **Faire une pause** : onglet **Actions** → **Photo du jour** → bouton **…** →
   **Disable workflow** ; **Enable workflow** pour reprendre là où la tâche s'était
-  arrêtée.
+  arrêtée. Laissez la tâche **Jeton Instagram** active pendant la pause : elle garde le
+  jeton Instagram valable.
 - **Remettre une photo en file** : dans `reseaux/photo-du-jour.json`, supprimez sa ligne
   (numéro, date et lien) dans la rubrique du réseau.
 - **Couper l'accès** : supprimez le mot de passe d'application dans Bluesky ou
   l'application dans Mastodon, puis les secrets de ce réseau sur GitHub ; sans eux, la
-  tâche laisse ce réseau de côté.
+  tâche laisse ce réseau de côté. Pour Instagram, voir la partie 5.10.
 
 ## Essai en session
 
     python3 reseaux/photo_du_jour.py --essai
 
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
-enregistrer, et sans secrets. `--langue fr` essaie une autre langue.
+enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram téléchargerait
+(recadrage compris). `--langue fr` essaie une autre langue. Ne jamais lancer
+`--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
 
@@ -273,12 +442,11 @@ français (voir ci-dessus) : les images françaises des carrousels RedNote, fait
 que Karl comprenne ce qu'il publie, portent encore « d'un photographe français » sur la
 couverture et sont donc à refaire. Rythme et forme des textes restent à fixer avec lui.
 
-## Instagram, à venir
-
-Karl a déjà un compte Instagram professionnel. Sa publication automatique, sur le modèle
-de la photo du jour, est la consigne H de `consignes/prochaines-sessions.md`.
-
 ## Contenu du dossier
 
-    photo_du_jour.py     choisit la photo, publie sur Bluesky et Mastodon, tient le journal
+    photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
+                         le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
+
+Tâches GitHub : `.github/workflows/photo-du-jour.yml` (chaque matin) et
+`.github/workflows/jeton-instagram.yml` (chaque lundi).
