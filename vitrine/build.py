@@ -1581,13 +1581,14 @@ def bandeau_index(elements):
 
 def ouverture_accueil(g, photos, langue):
     """Ouverture plein écran : fondu lent entre quelques photos, nom, accroche,
-    bouton « Voir les galeries » et « Suivre sur Pexels » avec la preuve sociale."""
+    boutons « Voir les galeries » et « Suivre sur Pexels ». Sans les chiffres de Pexels,
+    qui donnaient au premier écran un air prétentieux : ils restent en fin de galerie,
+    de série et de page."""
     adr = g.adr
     t = TEXTES[langue]
     accroche = traduit(g.reglages["accueil"], "accroche", langue)
     if not photos:
         return f'<section class="ouverture"><h1>{t["accueil"]}</h1><p class="accroche">{e(accroche)}</p></section>'
-    preuve = preuve_sociale(g.preuve, langue)
     diapos = diapo(photos[0], langue, adr, True) + "".join(
         f"<template>{diapo(p, langue, adr, False)}</template>" for p in photos[1:]
     )
@@ -1597,8 +1598,7 @@ def ouverture_accueil(g, photos, langue):
         f'<p class="actions"><a class="bouton" href="{adr.chemin(langue, "galeries")}">{t["voir_galeries"]}</a>'
         f'<a class="bouton bouton-contour" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-accueil">{t["suivre"]}</a></p>'
-        + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
-        + "</div></section>"
+        "</div></section>"
     )
 
 

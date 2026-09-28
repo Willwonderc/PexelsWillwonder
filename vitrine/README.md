@@ -47,7 +47,8 @@ Dans `vitrine/photos.txt`, placez un `#` au début de sa ligne.
   sélection fixe). `selection.txt` reste la sélection que voient les moteurs de
   recherche et les navigateurs sans JavaScript, et celle de karlforterre.fr.
 - **Preuve sociale** : « 878 500 vues et 3 950 téléchargements sur Pexels » s'affiche
-  près des boutons « Suivre sur Pexels ». Les chiffres viennent des relevés de
+  près du bouton « Suivre sur Pexels » en fin de galerie, de série et de page, mais pas
+  sur le premier écran de l'accueil, où il faisait prétentieux. Les chiffres viennent des relevés de
   `releves/` : la dernière ligne de `vues-pexels.csv` pour les vues, le total de la
   fiche de suivi (`suivi-pexels.csv`, ou toute autre `suivi-….csv` déposée au même
   format) pour les téléchargements. Rien à faire de plus : un nouveau relevé met la
