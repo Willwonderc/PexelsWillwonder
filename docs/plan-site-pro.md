@@ -244,6 +244,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Mi-octobre | Session D | Atelier : titres des 196 photos sans titre |
 | Fin octobre | Session E | Photo du jour sur Bluesky et Mastodon ou Pixelfed ; Typefully si connecté |
 | Octobre, avant F | Session T, sur le Mac | Telepex publie ses relevés (vues, téléchargements, J'aime, modération) chaque semaine ou chaque jour |
+| Après T | Session U, sur le Mac | Telepex affiche le tableau de bord, les publications à faire à la main (RedNote, Facebook), à copier et valider, et les vidéos des carrousels |
 | Fait le 28 septembre | Session F | Tableau de bord (chantier 4 de `docs/plan.md`) ; reste la clé GoatCounter ; compteur des vues dans la barre des menus du Mac |
 | Dès que possible | Session H | Instagram : photo du jour sur le compte professionnel |
 
