@@ -344,8 +344,8 @@ regroupe les images et des boutons pour copier les textes. Karl les publie depui
 l'application, deux ou trois fois par semaine, entre 13 h et 15 h à Paris (le soir en
 Chine), sur le compte « Soviet Croissant » (rednote ID 26225410141,
 https://www.xiaohongshu.com/user/profile/678629da000000000801aa88), au ton léger
-et sympathique. Chaque carrousel part aussi en paquet de publication pour Telepex (voir
-« Paquets de publication pour Telepex », plus bas). Règles de chaque carrousel :
+et sympathique. Chaque carrousel rejoint aussi l'onglet « Publications » de Telepex (voir
+« Publications à la main, dans Telepex », plus bas). Règles de chaque carrousel :
 
 - **Récit** : à la première personne et sur un ton léger, comme le compte, il met en
   avant que Karl est un photographe français et relie chaque image à la France (lieu,
@@ -468,24 +468,24 @@ niveau d'une agence est dans `docs/plan-videos.md`. Règles actuelles :
 
 Karl publie lui-même les carrousels sur son profil Facebook personnel : Meta ne permet
 aucune publication automatique sur un profil, seulement sur une Page. Les sessions
-préparent la version française (images, vidéo et texte, en paquet de publication pour
+préparent la version française (images, vidéo et texte, dans `reseaux/publications/` pour
 Telepex), sans mettre en avant le côté
 français (voir ci-dessus) : les images françaises des carrousels RedNote, faites pour
 que Karl comprenne ce qu'il publie, portent encore « d'un photographe français » sur la
 couverture et sont donc à refaire. Rythme et forme des textes restent à fixer avec lui.
 
-## Paquets de publication pour Telepex
+## Publications à la main, dans Telepex
 
-Chaque publication à faire à la main (carrousel RedNote, publication Facebook, vidéo)
-part aussi en **paquet de publication**, pour l'onglet « Publications » de Telepex,
-l'application Mac de Karl (session U de `consignes/prochaines-sessions.md`) : images dans
-l'ordre, textes à copier, bouton de validation. Le paquet est un fichier
-`publication-<id>.zip`, envoyé comme fichier de la session : Karl le télécharge sur son
-Mac, où Telepex le trouve dans Téléchargements. Jamais dans le dépôt : les images d'un
-carrousel pèsent de 1 à 3 Mo.
+Chaque publication à faire à la main, RedNote ou Facebook, a son dossier
+`reseaux/publications/<id>/` : `publication.json`, en UTF-8, et ses images. La tâche de
+nuit, comme chaque modification de `main`, en tire
+https://photos.karlforterre.fr/tableau-de-bord/publications.json et publie les images à
+côté : l'onglet « Publications » de Telepex, l'application Mac de Karl, les y lit (textes à
+copier, images dans l'ordre, vidéo du même sujet, validation). Ce fichier n'apparaît ni dans
+le plan du site, ni dans `llms.txt`, ni dans IndexNow, et ne contient que ce qui est fait
+pour être publié.
 
-Le zip contient un dossier `publication-<id>/` : `publication.json`, en UTF-8, et les
-images qu'il cite. Exemple, textes abrégés :
+Exemple de `publication.json`, textes abrégés :
 
     {
       "format": 1,
@@ -509,37 +509,46 @@ images qu'il cite. Exemple, textes abrégés :
       ]}
     }
 
-- `id` : date prévue, réseau et sujet, en minuscules sans accents. Un paquet refait garde
-  son `id` : il remplace l'ancien dans Telepex, qui garde sa validation.
-- `reseau` : `rednote`, `facebook`, `instagram`, `youtube` ou `autre` ; `langue` : `zh`,
-  `fr` ou `en` ; `forme` : `carrousel`, `video` ou `texte`.
-- `sujet` : en français, pour la liste de Telepex et le journal des publications.
+- `id` : date prévue, réseau et sujet, en minuscules sans accents ; c'est aussi le nom du
+  dossier. Une publication refaite garde son `id`.
+- `reseau` : `rednote` ou `facebook`, les deux que montre Telepex ; `langue` : `zh`, `fr`
+  ou `en` ; `forme` : `carrousel`, `video` ou `texte`.
+- `sujet` : en français, pour s'y retrouver.
 - `carrousel` (facultatif) : le nom des vidéos du même sujet, sans la langue (champ
-  `fichier` de `videos/donnees.py`) ; Telepex les montre à côté.
+  `fichier` de `videos/donnees.py`) ; Telepex reçoit le nom du fichier de la langue, par
+  exemple « 4 - Road trip d'août (chinois).mp4 ».
 - `date_prevue` et `heure_conseillee` (facultatifs) : le jour et le moment conseillés.
-- `etapes` (facultatif) : le pas à pas, affiché au-dessus.
+- `etapes` (facultatif) : le pas à pas.
 - `images` : dans l'ordre de publication, la première en couverture ; aucune pour une
   vidéo seule ou un texte.
-- `textes` : chacun reçoit un bouton « Copier » et se colle tel quel. La `traduction`,
-  facultative, s'affiche à côté, sans bouton : elle sert à comprendre, pas à publier ;
-  elle peut avoir ses `images`.
+- `textes` : le titre, pour RedNote (nom commençant par « Titre »), puis le texte à
+  publier, hashtags compris, que Telepex propose de copier tels quels. La `traduction`,
+  facultative, sert à comprendre : Telepex l'affiche à côté.
 
-`python3 reseaux/paquet.py <dossier>` contrôle le paquet (champs, images, limites de
-RedNote : titre de 20 caractères, texte de 1 000, un émoji comptant pour deux) et écrit le
-zip à côté du dossier ; `--verifier` contrôle seulement. Premiers paquets : les cinq
-carrousels RedNote prévus du 28 septembre au 7 octobre 2026, envoyés à Karl le
-28 septembre.
+`python3 reseaux/publications.py` contrôle toutes les publications (champs, images, limites
+de RedNote : titre de 20 caractères, texte de 1 000, un émoji comptant pour deux) : à lancer
+avant de pousser. `build.py` laisse de côté une publication illisible ou incomplète, et le
+signale dans son journal.
 
-Quand Karl valide une publication dans Telepex, elle rejoint le journal
-`releves/publications.csv` (voir `releves/README.md`) : les sessions y voient ce qui est
-paru.
+Quand Karl valide une publication dans Telepex, Telepex ajoute une ligne à
+`publications-validees.csv` (colonnes `date,id,reseau,langue,remarque`, remarque
+« Telepex »), en un commit « Publication validée : <id> » ; seul Telepex tient ce journal.
+La publication n'est plus proposée : elle reste 30 jours dans la liste, marquée validée,
+sans ses images. Celles-ci ne servent plus : une session peut alors les retirer du dépôt,
+en gardant `publication.json` pour mémoire.
+
+Premières publications : les cinq carrousels RedNote prévus du 28 septembre au
+7 octobre 2026.
 
 ## Contenu du dossier
 
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
-    paquet.py            contrôle et ferme un paquet de publication pour Telepex
+    publications/        publications à faire à la main, une par dossier, lues par Telepex
+    publications.py      contrôle ces publications
+    publications-validees.csv
+                         publications validées dans Telepex, journal tenu par Telepex
     videos/              programme des vidéos diaporama des carrousels (mode d'emploi :
                          videos/README.md ; plan d'amélioration : docs/plan-videos.md)
 

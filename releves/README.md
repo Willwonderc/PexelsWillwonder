@@ -88,30 +88,6 @@ chiffres fictifs :
 - `abonnes` : facultatif ;
 - `remarque` : facultative.
 
-## Journal des publications faites à la main
-
-[publications.csv](publications.csv) garde les publications faites à la main (RedNote,
-Facebook, vidéos…), une ligne par publication, pour que les sessions sachent ce qui est
-paru. Une fois la session U faite ([consignes](../consignes/prochaines-sessions.md)),
-Telepex l'écrit lui-même quand Karl valide une publication dans son onglet
-« Publications » ; une ligne notée à la main, au même format, est gardée. Exemple de
-ligne, fictive :
-
-    2026-09-28,13:40,rednote,zh,carrousel,Ciels et nuits étoilées,2026-09-28-rednote-01-ciel,
-
-- `date` : jour de la publication, au format AAAA-MM-JJ ;
-- `heure` : heure de Paris, au format HH:MM, facultative ;
-- `reseau` : `rednote`, `facebook`, `instagram`, `youtube` ou `autre` ;
-- `langue` : `zh`, `fr` ou `en` ;
-- `forme` : `carrousel`, `video` ou `texte` ;
-- `sujet` : en français ;
-- `publication` : l'`id` du paquet de publication, s'il y en a un (voir
-  [reseaux/README.md](../reseaux/README.md), « Paquets de publication pour Telepex ») ;
-- `remarque` : facultative.
-
-Aucun lien : ceux des publications restent dans Telepex, sur le Mac, le profil Facebook de
-Karl étant personnel.
-
 ## Relier GoatCounter, une fois
 
 GoatCounter compte les visites du site et les clics vers Pexels depuis le 28 septembre 2026

@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
-"""Contrôle et ferme un paquet de publication pour Telepex.
+"""Contrôle les publications à faire à la main, avant de les pousser sur main.
 
-Un paquet réunit une publication à faire à la main (carrousel RedNote, publication
-Facebook, vidéo) : le fichier publication.json et ses images, dans un dossier. Telepex,
-l'application Mac de Karl, l'affiche dans son onglet « Publications » : images dans
-l'ordre, textes à copier, validation. Format : reseaux/README.md, « Paquets de
-publication pour Telepex ». Les paquets ne vont jamais dans le dépôt.
+Chaque publication (carrousel RedNote, publication Facebook) a son dossier
+reseaux/publications/<id>/ : publication.json et ses images. build.py en tire
+/tableau-de-bord/publications.json, que lit l'onglet « Publications » de Telepex,
+l'application Mac de Karl : images dans l'ordre, textes à copier, validation. Format :
+reseaux/README.md, « Publications à la main, dans Telepex ».
 
-  python3 reseaux/paquet.py DOSSIER [DOSSIER…]   contrôle chaque dossier et écrit
-                                                publication-<id>.zip à côté
-  python3 reseaux/paquet.py --verifier DOSSIER   contrôle seulement
+  python3 reseaux/publications.py              contrôle toutes les publications
+  python3 reseaux/publications.py DOSSIER…     contrôle ces dossiers seulement
 """
 
 import argparse
 import json
+import os
 import re
 import struct
 import sys
-import zipfile
 from datetime import date
 from pathlib import Path
 
+PUBLICATIONS = Path(__file__).resolve().parent / "publications"
 RESEAUX = ("rednote", "facebook", "instagram", "youtube", "autre")
+RESEAUX_TELEPEX = ("rednote", "facebook")
 LANGUES = ("zh", "fr", "en")
 FORMES = ("carrousel", "video", "texte")
 CHAMPS = {"format", "id", "reseau", "langue", "forme", "sujet", "carrousel", "date_prevue",
@@ -90,7 +91,7 @@ def images_valides(liste, dossier, ou, erreurs, avis, rednote):
 
 
 def verifier(dossier):
-    """Contrôle le paquet ; rend (publication, liste des fichiers, erreurs, avis)."""
+    """Contrôle une publication ; rend (publication, liste des fichiers, erreurs, avis)."""
     erreurs, avis = [], []
     try:
         pub = json.loads((dossier / "publication.json").read_text(encoding="utf-8"))
@@ -105,6 +106,8 @@ def verifier(dossier):
     ident = pub.get("id")
     if not isinstance(ident, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", ident):
         erreurs.append("« id » : minuscules sans accents, chiffres et tirets")
+    elif ident != dossier.name:
+        avis.append(f"le dossier devrait porter le nom de l'« id » : {ident}")
     for champ, permis in (("reseau", RESEAUX), ("langue", LANGUES), ("forme", FORMES)):
         if pub.get(champ) not in permis:
             erreurs.append(f"« {champ} » : {', '.join(permis)}")
@@ -120,13 +123,18 @@ def verifier(dossier):
             avis.append("l'« id » commence d'ordinaire par la date prévue")
     for champ in sorted(set(pub) - CHAMPS):
         avis.append(f"champ inconnu : « {champ} »")
+    if pub.get("reseau") in RESEAUX and pub["reseau"] not in RESEAUX_TELEPEX:
+        avis.append("Telepex ne montre que les publications RedNote et Facebook")
     rednote = pub.get("reseau") == "rednote"
     fichiers = images_valides(pub.get("images", []), dossier, "images", erreurs, avis, rednote)
     if pub.get("forme") == "carrousel" and not fichiers:
         erreurs.append("un carrousel a au moins une image")
     if rednote and pub.get("forme") == "carrousel" and len(fichiers) != 9:
         avis.append(f"RedNote : {len(fichiers)} images, 9 d'ordinaire")
-    for t in textes_valides(pub.get("textes"), "textes", erreurs):
+    textes = textes_valides(pub.get("textes"), "textes", erreurs)
+    if textes and all(t["nom"].lower().startswith("titre") for t in textes):
+        erreurs.append("« textes » : il faut un texte à publier en plus du titre")
+    for t in textes:
         if rednote:
             n = longueur_rednote(t["texte"])
             limite = REDNOTE_TITRE if t["nom"].lower().startswith("titre") else REDNOTE_TEXTE
@@ -147,37 +155,23 @@ def verifier(dossier):
     return pub, fichiers, erreurs, avis
 
 
-def fermer(dossier, pub, fichiers, sortie):
-    nom = f"publication-{pub['id']}"
-    zip_ = sortie / f"{nom}.zip"
-    with zipfile.ZipFile(zip_, "w") as z:
-        z.write(dossier / "publication.json", f"{nom}/publication.json", zipfile.ZIP_DEFLATED)
-        for f in dict.fromkeys(fichiers):
-            z.write(dossier / f, f"{nom}/{f}", zipfile.ZIP_STORED)
-    return zip_
-
-
 def main():
     options = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    options.add_argument("dossiers", nargs="+", type=Path, metavar="DOSSIER")
-    options.add_argument("--verifier", action="store_true", help="contrôle sans écrire le zip")
-    options.add_argument("--sortie", type=Path, help="dossier du zip (par défaut, à côté du dossier)")
+    options.add_argument("dossiers", nargs="*", type=Path, metavar="DOSSIER")
     args = options.parse_args()
+    dossiers = args.dossiers or sorted(d for d in PUBLICATIONS.iterdir() if d.is_dir())
     echecs = 0
-    for dossier in args.dossiers:
+    for dossier in dossiers:
         pub, fichiers, erreurs, avis = verifier(dossier)
+        nom = os.path.relpath(dossier)
         for a in avis:
-            print(f"{dossier} : attention, {a}")
+            print(f"{nom} : attention, {a}")
         if erreurs:
             echecs += 1
             for e in erreurs:
-                print(f"{dossier} : ERREUR, {e}")
+                print(f"{nom} : ERREUR, {e}")
             continue
-        if args.verifier:
-            print(f"{dossier} : paquet valide ({len(fichiers)} images)")
-            continue
-        zip_ = fermer(dossier, pub, fichiers, args.sortie or dossier.resolve().parent)
-        print(f"{zip_} : {len(fichiers)} images, {zip_.stat().st_size / 1e6:.1f} Mo")
+        print(f"{nom} : publication valide ({len(fichiers)} images)")
     sys.exit(1 if echecs else 0)
 
 
