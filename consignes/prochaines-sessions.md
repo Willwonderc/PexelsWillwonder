@@ -27,6 +27,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
 | U | Telepex : tableau de bord, publications et vidéos | onglet Publications fait le 28 septembre ; le reste après T | T faite ; elle se lance aussi sur le Mac, dans le dossier de Telepex (voir U) |
 | F | Tableau de bord | faite le 28 septembre | reste la clé GoatCounter (voir F) |
+| G | Google et Bing dans le tableau de bord | quelques jours après la vérification des deux sites | Search Console et Bing Webmaster Tools vérifiés (voir G) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -194,6 +195,26 @@ et un jeton à renouveler. Reste à faire : la clé GoatCounter (pas à pas :
 `releves/README.md`, « Relier GoatCounter »). L'écran Turing prévu au départ est remplacé, au
 choix de Karl, par un compteur des vues dans la barre des menus de son MacBook M1
 (SwiftBar ; mode d'emploi : `releves/barre-des-menus/README.md`).
+
+## G — Google et Bing dans le tableau de bord
+
+Ajoute au tableau de bord du site, que Telepex affiche dans son onglet « Tableau de bord »
+(session U), les chiffres de Google Search Console et de Bing Webmaster Tools. Google
+apporte l'essentiel des visiteurs ; Bing, peu de visiteurs mais l'index de Copilot,
+DuckDuckGo, Yahoo et d'une partie de ChatGPT, et un rapport des citations dans Copilot. À
+lancer quelques jours après la vérification des deux sites (`referencement/README.md`,
+« Reste à faire à la main »), pour que la session ait de vraies données à vérifier. Les
+clés restent dans les secrets du dépôt : rien n'est à régler sur le Mac.
+
+```text
+Session G : Google Search Console et Bing Webmaster Tools dans le tableau de bord du site (que Telepex affiche dans son onglet « Tableau de bord »).
+Les deux sites (photos.karlforterre.fr et karlforterre.fr) sont vérifiés dans Search Console, par la propriété de domaine karlforterre.fr. Si Bing Webmaster Tools n'est pas encore branché, guide-moi d'abord pas à pas (referencement/README.md, partie 1 : import depuis Search Console).
+Ajoute ensuite au tableau de bord (/tableau-de-bord/, écrit par vitrine/build.py) une rubrique « Moteurs de recherche », remplie chaque nuit par la tâche GitHub, Google et Bing côte à côte :
+1. Google, par l'API officielle de Search Console (Search Analytics, lecture seule), pour chaque site séparément : clics, impressions, taux de clic et position moyenne sur 28 jours et semaine par semaine, recherche web et recherche d'images à part ; les 10 recherches et les 10 pages qui amènent le plus de clics. Accès : un compte de service Google Cloud ajouté comme utilisateur « Restreint » de la propriété, sa clé JSON dans un secret du dépôt ; jeton obtenu dans la tâche GitHub par l'action officielle google-github-actions/auth, puis appels par urllib, sans dépendance Python.
+2. Bing, par l'API officielle de Bing Webmaster Tools (clé API dans un secret du dépôt), pour chaque site : clics, impressions et position semaine par semaine, les 10 recherches et les 10 pages qui amènent le plus de clics, et les citations des pages dans Copilot (rapport AI Performance) si l'API les fournit.
+3. Garde l'historique des semaines dans vitrine/donnees/historique.json, comme les autres chiffres. Aucune clé dans le code ni dans les journaux ; sans les secrets, le site se construit quand même et la rubrique le signale.
+Vérifie la documentation officielle des deux API avant d'écrire le code (quotas, délai des données). Explique-moi d'abord pas à pas la création du compte de service Google, de sa clé, de la clé API Bing et des secrets, sans jamais me demander de coller une clé dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+```
 
 ## H — Instagram
 
