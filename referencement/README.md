@@ -77,9 +77,10 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   https://www.goatcounter.com/signup avec le code `karlforterre`, puis écrire ce code après
   `goatcounter =` dans `vitrine/site.ini`. Il compte les visites et les clics vers Pexels ;
   la session F (tableau de bord) en a besoin.
-- [ ] **Mastodon** (1 minute) : Modifier le profil → Enregistrer, sans rien changer, pour
-  que le champ « Site » (https://karlforterre.fr) prenne sa coche verte, maintenant que
-  karlforterre.fr renvoie vers le profil. Le champ « Photos » l'a depuis le 27 septembre.
+- [x] **Mastodon** : les champs « Photos » (https://photos.karlforterre.fr) et « Site »
+  (https://karlforterre.fr) ont leur coche verte depuis les 27 et 28 septembre ; les deux
+  sites renvoient vers le profil (`rel="me"`). Si un jour une coche disparaît : Modifier
+  le profil → Enregistrer, sans rien changer.
 - [ ] **Chaque semaine** (2 minutes) : une ligne de plus dans `releves/vues-pexels.csv`
   (date, vues, photos, abonnés). Un seul relevé à ce jour, celui du 24 septembre.
 - [ ] **Liens vers les sites** (15 minutes) : du profil Pexels vers
