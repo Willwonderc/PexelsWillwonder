@@ -936,15 +936,26 @@ class Rendu:
         elif p.genre == "fin":
             self.textes_fin(p)
 
-    def voile_adapte(self, p, boite, cible=5.2):
-        """Assombrissement juste suffisant pour un contraste d'au moins `cible` : 1 (WCAG)."""
-        img = self.base(p, (p.debut + p.fin) / 2)
+    def voile_adapte(self, p, boite, cible=5.2, plancher=4.7):
+        """Assombrissement juste suffisant pour un contraste d'au moins `cible` : 1 (WCAG),
+        mesuré au milieu du plan, puis renforcé si le mouvement amène ailleurs un fond plus
+        clair sous le texte (contraste sous `plancher`)."""
         x0, y0, x1, y1 = (int(v) for v in boite)
-        zone = img[max(0, y0):y1, max(0, x0):x1]
-        lum = float(np.percentile(luminance(zone), 90))
         lmax = 1.05 / cible - 0.05
-        force = 0.35 if lum <= lmax else 1 - (lmax / lum) ** (1 / 2.2)
-        force = borne(force + 0.04, 0.35, 0.85)
+
+        def clarte(k):
+            zone = self.base(p, p.debut + k * p.duree)[max(0, y0):y1, max(0, x0):x1]
+            return float(np.percentile(luminance(zone), 90))
+
+        def force_pour(lum):
+            f = 0.35 if lum <= lmax else 1 - (lmax / lum) ** (1 / 2.2)
+            return borne(f + 0.04, 0.35, 0.85)
+
+        force = force_pour(clarte(0.5))
+        for k in (0.05, 0.25, 0.75, 0.97):
+            lum = clarte(k)
+            if 1.05 / (lum * (1 - force) ** 2.2 + 0.05) < plancher:
+                force = max(force, force_pour(lum))
         return (y0, force)
 
     def textes_accroche(self, p):
@@ -1430,15 +1441,18 @@ def mesurer(R):
         if p.cadrage == "plein":
             s = R.sujets[p.photo]
             p.sujet = [R.sujet_a_l_image(p, s, p.duree * k) for k in (0.5, 1.0)]
-        if p.boite_texte:
-            t = min(p.fin - 0.05, max(u.t0 for u in p.unites) + 0.4)
-            img = R.base(p, t)
-            if p.voile is not None:
-                R.voiler(img, p.voile)
+        if p.boite_texte:  # le plus faible contraste, une fois le texte écrit, jusqu'à la fin du plan
+            t0 = min(p.fin - 0.05, max(u.t0 for u in p.unites) + 0.4)
             x0, y0, x1, y1 = (int(v) for v in p.boite_texte)
-            zone = img[max(0, y0):y1, max(0, x0):x1]
-            lum = float(np.percentile(luminance(np.clip(zone, 0, 1)), 90))
-            p.contraste = round(1.05 / (lum + 0.05), 2)
+            contrastes = []
+            for t in np.linspace(t0, p.fin - 0.05, 4):
+                img = R.base(p, t)
+                if p.voile is not None:
+                    R.voiler(img, p.voile)
+                zone = img[max(0, y0):y1, max(0, x0):x1]
+                lum = float(np.percentile(luminance(np.clip(zone, 0, 1)), 90))
+                contrastes.append(1.05 / (lum + 0.05))
+            p.contraste = round(min(contrastes), 2)
         liberer(p)
 
 
