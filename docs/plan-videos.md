@@ -121,8 +121,12 @@ session ou Karl.
 ## Où en est le programme
 
 Le studio (`reseaux/videos/studio.py`, 28 septembre 2026) a refait les cinq carrousels
-en vidéos rythmées, en trois langues, en 9:16 et en 3:4, et les a toutes fait passer par
-le contrôle qualité. Acquis :
+en vidéos rythmées, en trois langues, au format 9:16, toutes validées par le contrôle
+qualité. **Pause demandée à ce stade** : les déclinaisons 3:4 (RedNote, grille
+Instagram) se feront à la reprise, dans une session, par
+`python3 reseaux/videos/studio.py preparer` puis
+`python3 reseaux/videos/studio.py videos --formats=3x4` (environ 25 minutes pour les
+quinze). Acquis :
 
 - **Accroche** : photo en plein cadre déjà en mouvement, promesse écrite mot à mot dès
   0,3 s (A1, A2) ; couvertures à part en 3:4 et en 9:16 (A4) ; structure accroche,
