@@ -163,6 +163,11 @@ qu'à partir de 4 photos (réglage `galerie_min` de `vitrine/site.ini`).
 - **Ajouter, retirer** : les photos déjà en ligne ont été rangées une à une ; les lignes
   `ajouter` et `retirer` gardent ce classement. Pour déplacer une photo, ajoutez son numéro
   à la ligne `ajouter` d'une galerie ou à la ligne `retirer` d'une autre.
+- **Anciennes adresses** : pour changer l'identifiant d'une galerie déjà en ligne, noter
+  l'ancien sur la ligne `anciennes` : ses adresses renvoient alors vers la nouvelle, dans
+  les trois langues, sans figurer au plan du site. Le flux Pinterest repart de zéro à la
+  nouvelle adresse : le relier à un tableau, et retirer l'ancien de la publication
+  automatique.
 - **Texte** : `texte_fr` et `texte_en`, de 150 à 300 mots, s'affichent sous les photos
   de la galerie. Décaler les lignes suivantes de quelques espaces ; une ligne vide sépare
   deux paragraphes.
