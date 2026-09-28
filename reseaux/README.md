@@ -241,12 +241,21 @@ premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglai
     au domaine public : Chopin par Musopen (https://archive.org/details/musopen-chopin),
     Bach par Kimiko Ishizaka (https://archive.org/details/bach-well-tempered-clavier-book-1) ;
   - en français, de la pop instrumentale, choisie parmi des artistes qui publient
-    eux-mêmes tout leur catalogue en CC0, comme Loyalty Freak Music.
+    eux-mêmes tout leur catalogue en CC0 (Loyalty Freak Music) ou parmi les morceaux
+    très diffusés de Kevin MacLeod (CC BY), sauf quand le sujet appelle autre chose : les
+    jardins à la française de Villandry ont « Le Printemps » de Vivaldi (John Harrison et
+    le Wichita State University Chamber Players, CC BY-SA), la Normandie et la Bretagne
+    un air celtique (« Thatched Villagers », Kevin MacLeod, CC BY).
 
-  Se méfier des fichiers d'Internet Archive marqués « domaine public » par n'importe
-  qui : beaucoup sont des disques du commerce. Chaque dossier contient un fichier
-  « Musiques et licences ». Sur RedNote, Karl peut aussi remplacer la musique par un
-  morceau de la bibliothèque de l'application (配乐).
+  Privilégier les morceaux les plus employés dans la publicité et les médias. Une licence
+  CC BY ou CC BY-SA impose un crédit, écrit en petit sur l'image de fin ; avec CC BY-SA,
+  la vidéo passe sous la même licence. Se méfier des fichiers d'Internet Archive marqués
+  « domaine public » par n'importe qui : beaucoup sont des disques du commerce. Chaque
+  dossier contient un fichier « Musiques et licences ». Sur RedNote, Karl peut aussi
+  remplacer la musique par un morceau de la bibliothèque de l'application (配乐).
+- **Version française** : pas de « photographe français » ni de « en France, on… », et
+  « Maëlle » plutôt que « ma fiancée ». Ligne politique de tous les textes : `CLAUDE.md`,
+  « Ligne éditoriale des textes ».
 - **Envoi** : un fichier par vidéo (30 Mo au plus par fichier), la langue dans le nom.
   Karl les range sur son Mac dans `Documents Locaux/Caroussels`, en trois dossiers :
   « Chinois (RedNote) », « Français » et « Anglais ».

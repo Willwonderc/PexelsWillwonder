@@ -37,6 +37,23 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Tout doit rester simple à utiliser et à maintenir sans compétences de développement :
   peu de dépendances, aucun service payant, modes d'emploi pas à pas.
 - S'en tenir à la consigne de la session : le crédit est un budget compté.
+
+## Ligne éditoriale des textes
+
+- **Politique** : Karl est communiste. Aucun texte (carrousels, vidéos, séries, galeries,
+  titres) ne doit laisser croire à une sympathie monarchiste, conservatrice ou de droite.
+  Un monument ou un lieu chargé d'histoire se présente par ce qu'il célèbre de
+  républicain, de populaire ou d'ouvrier, avec le contexte utile, sans jamais célébrer
+  rois, Girondins ou dictatures. Ainsi le monument dit « aux Girondins », à Bordeaux,
+  figure le Triomphe de la République et de la Concorde (ses bronzes, déposés en 1943
+  pour être fondus au profit de l'occupant, n'ont été remis en place qu'en 1983) ; et
+  l'Universidad Laboral de Gijón a été bâtie par le régime franquiste.
+- **Public français** (vidéos, Facebook personnel) : ne pas mettre en avant le
+  « photographe français » ni les « en France, on… », que Karl trouve peu sérieux ; dire
+  « Maëlle », pas « ma fiancée ».
+- **Musique des vidéos** : libre de droits (CC0 de préférence ; CC BY ou CC BY-SA avec le
+  crédit exigé), en privilégiant les morceaux les plus employés dans la publicité et les
+  médias (grands classiques, pop instrumentale connue).
 - `main` est la branche publiée ; chaque session travaille sur sa branche et propose
   une pull request vers `main`.
 

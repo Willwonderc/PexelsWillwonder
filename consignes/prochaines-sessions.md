@@ -25,7 +25,8 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
 | F | Tableau de bord | fin octobre | GoatCounter créé, quelques relevés notés |
-| H | Instagram | dès que possible | nom du compte Instagram professionnel noté dans la consigne |
+| H | Instagram | dès que possible | compte @karl_forterre passé en compte professionnel « Créateur » |
+| I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 
 Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
 `https://photos.karlforterre.fr/apercu.json`, écrit par `vitrine/build.py` : une session
@@ -92,9 +93,21 @@ Session F : chantier 4 de docs/plan.md, le tableau de bord. Une page du site non
 
 ## H — Instagram
 
-Avant de lancer la session, remplacer `@compte` par le nom du compte Instagram
-professionnel.
+Avant de lancer la session, passer le compte Instagram @karl_forterre en compte
+professionnel : dans l'application Instagram, profil, menu ☰, « Type de compte et
+outils », « Passer à un compte professionnel », catégorie « Photographe », puis
+« Créateur ». C'est gratuit et réversible ; le compte doit rester public.
 
 ```text
-Session H de docs/plan-site-pro.md, promotion automatique sur Instagram : j'ai déjà un compte Instagram professionnel, @compte. Ajoute Instagram à la tâche « Photo du jour » (reseaux/photo_du_jour.py, .github/workflows/photo-du-jour.yml), par l'API officielle de Meta avec connexion Instagram, qui ne demande pas de Page Facebook. Vérifie d'abord sa documentation : image JPEG à une adresse publique (celle de images.pexels.com convient), rapport largeur/hauteur entre 4:5 et 1,91:1 (recadre les photos en hauteur en 4:5), 100 publications par 24 heures au plus, jeton valable 60 jours à renouveler automatiquement. Légende : titre, hashtags et renvoi vers le lien du site dans la biographie, puisque les légendes n'ont pas de liens cliquables. Tiens le journal reseaux/photo-du-jour.json comme pour les autres réseaux. Explique-moi d'abord pas à pas comment créer l'application Meta et le jeton, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+Session H de docs/plan-site-pro.md, promotion automatique sur Instagram : mon compte Instagram @karl_forterre est un compte professionnel « Créateur ». Ajoute Instagram à la tâche « Photo du jour » (reseaux/photo_du_jour.py, .github/workflows/photo-du-jour.yml), par l'API officielle de Meta avec connexion Instagram, qui ne demande pas de Page Facebook. Vérifie d'abord sa documentation : image JPEG à une adresse publique (celle de images.pexels.com convient), rapport largeur/hauteur entre 4:5 et 1,91:1 (recadre les photos en hauteur en 4:5), 100 publications par 24 heures au plus, jeton valable 60 jours à renouveler automatiquement. Légende : titre, hashtags et renvoi vers le lien du site dans la biographie, puisque les légendes n'ont pas de liens cliquables. Tiens le journal reseaux/photo-du-jour.json comme pour les autres réseaux. Explique-moi d'abord pas à pas comment créer l'application Meta et le jeton, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
+```
+
+## I — Galerie Niort
+
+```text
+Session I de docs/plan-site-pro.md : une galerie de lieu dédiée à Niort, où j'habite. Aujourd'hui, Niort partage la galerie « Niort et le Poitou » ([niort-poitou] de vitrine/galeries.ini) avec Poitiers. Crée une galerie [niort] qui rassemble toutes mes photos prises à Niort, et garde [niort-poitou] pour le reste du Poitou. Mène une recherche consciencieuse, photo par photo, sur les 919 photos :
+1. Mots-clés Pexels (releves/suivi-pexels.csv), titres et mots-clés de l'atelier (atelier/resultats/*.csv), titres français et chinois (vitrine/donnees/textes-fr.csv, textes-zh.csv), inventaire (atelier/inventaire.csv) et textes alternatifs des fiches (vitrine/donnees/fiches.json) : niort, niortais, deux-sèvres, sèvre niortaise, et les lieux de la ville (donjon, église Saint-André, Notre-Dame, les Halles, le Pilori, l'hôtel de ville, Port Boinot, la Brèche, la Coulée verte, le Moulin du Roc, les quais, le Vieux-Pont, le jardin des plantes…). Méfie-toi des mots-clés ajoutés par lots, souvent faux (voir CLAUDE.md).
+2. Les photos d'un même import qu'une photo de Niort confirmée (numéros Pexels voisins, même date de publication) : regarde-les une à une en petite taille (adresse « image » de la fiche, suivie de ?auto=compress&cs=tinysrgb&w=500), par lots avec des agents.
+3. Range le résultat dans un fichier de atelier/resultats/ en trois colonnes (sûre, probable, écartée) avec la raison de chaque choix, et montre-moi les photos « probables » sur une planche d'images avant de les ranger.
+Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots en français, en anglais et en chinois, dans la ligne éditoriale de CLAUDE.md ; corrige les titres faux repérés en chemin ; donne-moi le nouveau flux Pinterest à relier. Vérifie que vitrine/build.py tourne, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
