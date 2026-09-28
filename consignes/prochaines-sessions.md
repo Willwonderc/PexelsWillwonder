@@ -94,9 +94,12 @@ Session F : chantier 4 de docs/plan.md, le tableau de bord. Une page du site non
 ## H — Instagram
 
 Avant de lancer la session, passer le compte Instagram @karl_forterre en compte
-professionnel : dans l'application Instagram, profil, menu ☰, « Type de compte et
-outils », « Passer à un compte professionnel », catégorie « Photographe », puis
-« Créateur ». C'est gratuit et réversible ; le compte doit rester public.
+professionnel. Sur instagram.com : « Plus », « Paramètres », puis, dans la colonne des
+paramètres, rubrique « Pour les professionnels », « Type de compte et outils »,
+« Passer à un compte professionnel ». Si la rubrique manque sur le web, dans
+l'application : profil, menu ☰, même rubrique. Choisir « Créateur », puis la catégorie
+« Photographe ». C'est gratuit et réversible, sans Page Facebook ; le compte doit
+rester public.
 
 ```text
 Session H de docs/plan-site-pro.md, promotion automatique sur Instagram : mon compte Instagram @karl_forterre est un compte professionnel « Créateur ». Ajoute Instagram à la tâche « Photo du jour » (reseaux/photo_du_jour.py, .github/workflows/photo-du-jour.yml), par l'API officielle de Meta avec connexion Instagram, qui ne demande pas de Page Facebook. Vérifie d'abord sa documentation : image JPEG à une adresse publique (celle de images.pexels.com convient), rapport largeur/hauteur entre 4:5 et 1,91:1 (recadre les photos en hauteur en 4:5), 100 publications par 24 heures au plus, jeton valable 60 jours à renouveler automatiquement. Légende : titre, hashtags et renvoi vers le lien du site dans la biographie, puisque les légendes n'ont pas de liens cliquables. Tiens le journal reseaux/photo-du-jour.json comme pour les autres réseaux. Explique-moi d'abord pas à pas comment créer l'application Meta et le jeton, sans jamais me demander de coller un mot de passe ou un jeton dans la conversation. Ouvre ensuite une pull request vers main et demande-moi avant de la fusionner.
