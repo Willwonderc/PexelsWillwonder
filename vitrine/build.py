@@ -1559,8 +1559,8 @@ def cadrage(photo):
 def index_usages(g, par_id, langue):
     """Rubrique de la page des galeries, sur fond noir : une bande par photo utilisée, avec
     le nom du site ou de la campagne en très grand, lien vers la page de la photo. Quand
-    plusieurs l'ont utilisée, leurs noms partagent la bande : statique/site.js les fait
-    alterner, en respiration (sans lui, ils s'y suivent l'un sous l'autre). Au survol ou au
+    plusieurs l'ont utilisée, leurs noms partagent la bande : statique/site.js les y fait
+    défiler comme au générique (sans lui, ils s'y suivent l'un sous l'autre). Au survol ou au
     clavier, la photo remplit la rubrique : statique/site.js ne la charge qu'au premier
     passage (modèle <template>). Sur un écran tactile ou étroit, chaque bande a sa vignette."""
     utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]

@@ -94,8 +94,8 @@
   }
 
   /* Une bande par photo : quand plusieurs sites ou campagnes ont utilisé la même photo,
-     leurs noms (et le mois du signalement, s'il diffère) s'y relaient, en respiration.
-     Les bandes respirent chacune à son tour ; tout s'arrête quand l'index sort de l'écran
+     leurs noms (et le mois du signalement, s'il diffère) y défilent comme au générique.
+     Les bandes défilent chacune à son tour ; tout s'arrête quand l'index sort de l'écran
      ou que la page est cachée. Sans script, ou si l'appareil demande moins d'animations,
      les noms restent l'un sous l'autre. */
 
@@ -116,14 +116,18 @@
         return suite[0];
       });
     });
-    /* Relais d'une bande ; un mois identique au précédent reste en place. */
+    /* Relais d'une bande : le nom affiché sort, le suivant entre ; un mois identique au
+       précédent reste en place. */
     var relayer = function () {
       var b = bandes[tour++ % bandes.length];
       b.rang = (b.rang + 1) % b.suites[0].length;
       b.suites.forEach(function (suite, k) {
         var avant = b.montres[k], apres = suite[b.rang];
         if (apres.textContent === avant.textContent) return;
+        avant.parentNode.classList.add("demarre");
         avant.classList.remove("actif");
+        avant.classList.add("sortant");
+        apres.classList.remove("sortant");
         apres.classList.add("actif");
         b.montres[k] = apres;
       });

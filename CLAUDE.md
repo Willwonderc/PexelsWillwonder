@@ -134,7 +134,7 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   (`/galeries/photos-utilisees/`), présentée comme une exposition (les photos accrochées
   côte à côte à l'ouverture, puis une photo par écran, avec son cartel), et annoncée en
   tête de la page des galeries par un index des noms en très grand, une bande par photo
-  où se relaient, en respiration, les sites qui l'ont utilisée (la photo au survol) ;
+  où défilent comme au générique les sites qui l'ont utilisée (la photo au survol) ;
   ligne sur la page de chaque photo ; les sites web
   aussi sur l'accueil et en fin de galerie et de série. Noms des sites en texte, sans
   logo ni chiffre d'audience.
