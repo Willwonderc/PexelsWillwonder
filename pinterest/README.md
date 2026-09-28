@@ -123,7 +123,9 @@ galeries.
 | Camino de Santiago | 15 | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` | oui |
 | Pyrenees | 47 | `https://photos.karlforterre.fr/en/galleries/pyrenees/feed.xml` | oui |
 | Bordeaux | 6 | `https://photos.karlforterre.fr/en/galleries/bordeaux/feed.xml` | oui |
-| Niort and Poitou | 45 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
+| Niort | 42 | `https://photos.karlforterre.fr/en/galleries/niort/feed.xml` | non : à relier |
+| Poitiers and its surroundings | 65 | `https://photos.karlforterre.fr/en/galleries/poitiers/feed.xml` | non : à relier |
+| Marais Poitevin wetlands (ancien tableau « Niort and Poitou », à renommer) | 17 | `https://photos.karlforterre.fr/en/galleries/niort-poitou/feed.xml` | oui |
 | Loire Valley | 33 | `https://photos.karlforterre.fr/en/galleries/val-de-loire/feed.xml` | oui |
 | Charente: Cognac and Angoulême | 17 | `https://photos.karlforterre.fr/en/galleries/charente/feed.xml` | oui |
 | Paris | 12 | `https://photos.karlforterre.fr/en/galleries/paris/feed.xml` | oui |
@@ -131,7 +133,7 @@ galeries.
 | Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | oui |
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
-34 flux sont reliés. Les tableaux des 19 galeries créées par la session B (septembre
+34 des 44 flux sont reliés. Les tableaux des 19 galeries créées par la session B (septembre
 2026) sont nés d'un import le 26 septembre ; leurs flux ont été reliés le 27 au soir, et
 tous figurent dans Paramètres → Importer du contenu → Publication automatique (vérifié le
 28 septembre). Pinterest peut mettre jusqu'à 24 heures à lire un flux qu'on vient de
@@ -140,6 +142,15 @@ photography, Mist and fog, Villages, Autumn, Bridges, Birds, Cats, Coffee and ca
 terraces) attendent leur tableau. Pour une nouvelle galerie, créer son tableau à la main
 avec le titre anglais de la galerie, puis y relier son flux (étape 5), de préférence le
 jour de sa mise en ligne.
+
+Le 28 septembre 2026 (session I), la galerie « Niort et le Poitou » a été partagée en trois :
+« Niort » et « Poitiers et son pays pictave », nouvelles, dont les flux sont à relier à deux
+nouveaux tableaux (« Niort » et « Poitiers and its surroundings »), et « Marais poitevin »,
+qui garde l'adresse `niort-poitou` et son flux déjà relié : renommer ce tableau « Niort and
+Poitou » en « Marais Poitevin wetlands » (ouvrir le tableau → … → Modifier). Les épingles
+de Niort et de Poitiers déjà parues dans ce tableau y restent ; elles paraîtront aussi dans
+les nouveaux tableaux, une photo pouvant figurer dans plusieurs.
+
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
 reçoit plus rien ; il reste relié pour les photos à venir qui n'entreraient dans aucune.
 Une galerie qui compte moins de 4 photos, comme Toulouse aujourd'hui, n'a pas encore de

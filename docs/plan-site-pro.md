@@ -84,6 +84,10 @@ partage.
 Fait en session B (25 septembre 2026) : journal des parutions, 19 nouvelles galeries
 (33 en tout), chaque photo publiée rangée dans au moins une, pages par couleur et photos
 proches.
+Fait en session I (28 septembre 2026) : « Niort et le Poitou » partagée en trois galeries de lieu,
+« Niort » (42 photos), « Poitiers et son pays pictave » (65) et « Marais poitevin » (17, à
+l'adresse `niort-poitou`), après une recherche photo par photo sur les 919 photos
+(`atelier/resultats/niort-classement.csv` et `poitiers-marais-classement.csv`).
 - **Journal des parutions**, avant tout reclassement. Aujourd'hui, le compte-gouttes
   calcule la date de chaque épingle d'après le rang de la photo dans son flux. Une
   photo ajoutée à une galerie, ou une photo sans titre qui en reçoit un, change ces
