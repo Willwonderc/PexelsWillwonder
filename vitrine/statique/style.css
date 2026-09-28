@@ -681,6 +681,28 @@ html.v-ouverte { overflow: hidden; }
 .index-anime .index-liste li:nth-child(7) { transition-delay: .48s; }
 .index-anime .index-liste li:nth-child(n + 8) { transition-delay: .56s; }
 
+/* Une bande par photo. Quand plusieurs sites ou campagnes ont utilisé la même photo, leurs
+   noms s'y suivent l'un sous l'autre ; avec site.js (classe index-relais), ils défilent au
+   même endroit, comme au générique : le nom sort par le haut de sa ligne, puis le suivant
+   y monte, avec la courbe de l'entrée de l'index. Chaque nom ne se voit que dans sa ligne
+   (clip-path), à peine élargie pour les accents et les jambages : un nom sur deux lignes
+   défile aussi proprement. Le mois du signalement, s'il diffère d'un nom à l'autre,
+   défile avec eux. Les animations ne jouent qu'à partir du premier relais (demarre). */
+.index-nom > span, .index-quand > span { display: block; }
+.index-relais { display: grid; align-items: center; }
+.index-relais > span { grid-area: 1 / 1; visibility: hidden; }
+.index-relais > .actif, .index-relais > .sortant { visibility: visible; }
+.index-relais.demarre > .actif { animation: relais-entre 1.1s cubic-bezier(.2, .7, .2, 1) .12s both; }
+.index-relais.demarre > .sortant { animation: relais-sort .6s cubic-bezier(.45, 0, .55, 1) both; }
+@keyframes relais-entre {
+  from { transform: translateY(calc(100% + .15em)); clip-path: inset(-.1em -.1em calc(100% + .1em)); }
+  to { transform: none; clip-path: inset(-.1em -.1em -.05em); }
+}
+@keyframes relais-sort {
+  from { transform: none; clip-path: inset(-.1em -.1em -.05em); }
+  to { transform: translateY(calc(-100% - .15em)); clip-path: inset(calc(100% + .05em) -.1em -.05em); }
+}
+
 .index-ligne:focus-visible { outline: 2px solid #f2f2f2; outline-offset: -2px; }
 .index-ligne:focus-visible .index-fond.pret { opacity: 1; }
 .index-ligne:focus-visible .index-fond img { transform: scale(1); }
@@ -690,6 +712,7 @@ html.v-ouverte { overflow: hidden; }
   .index-vignette { display: block; grid-row: 1 / 3; width: 64px; height: 64px; overflow: hidden; background: var(--c); }
   .index-vignette img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center); }
   .index-nom { font-size: clamp(28px, 8.4vw, 56px); }
+  .index-nom.index-relais { align-items: end; }
   .index-infos { justify-items: start; text-align: left; font-size: 12.5px; }
   .index-titre { -webkit-line-clamp: 1; }
 }
@@ -860,11 +883,17 @@ html.v-ouverte { overflow: hidden; }
   .accrochee { animation: none; }
   .salles-animees .salle:not(.vue) .salle-oeuvre, .salles-animees .salle:not(.vue) .salle-cartel > *,
   .index-anime:not(.vu) .index-liste li { opacity: 1; transform: none; }
+  .index-relais { display: block; }
+  .index-relais > span, .index-relais.demarre > .actif, .index-relais.demarre > .sortant {
+    visibility: visible; animation: none; transform: none; clip-path: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .accrochee { animation: none; }
   .accrochee img, .accrochee-noms { transition: none; }
   .index-nom, .index-infos, .index-titre, .index-fond, .index-fond img { transition: none; }
+  .index-relais.demarre > .actif, .index-relais.demarre > .sortant { animation: none; }
+  .index-relais > .sortant { visibility: hidden; }
   .index-fond img { transform: none; }
 }
