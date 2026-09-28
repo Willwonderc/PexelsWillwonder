@@ -216,7 +216,8 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | 500px | communauté de photographes, paysages | compte gratuit, quelques photos par semaine |
 | Behance | relié à Adobe Portfolio | une série par projet, avec le lien vers le site |
 | Pixelfed, Bluesky, Mastodon | réseaux ouverts, sans algorithme payant | automatique : photo du jour ([reseaux/](../reseaux/README.md)) |
-| Instagram | la plus grande audience photo | à la main ou par Metricool |
+| Instagram | la plus grande audience photo | compte professionnel existant : publication automatique par l'API officielle de Meta, à brancher sur la photo du jour (session H) ; le connecteur Metricool, lui, demande une offre payante |
+| Facebook (profil personnel) | proches et public local | à la main : carrousels et vidéos en français préparés en session ([reseaux/](../reseaux/README.md)) ; aucune publication automatique possible sur un profil |
 | X, Threads, LinkedIn | audience générale et professionnelle | par le connecteur Typefully |
 | Groupes Facebook | groupes locaux (Poitou, Pays basque, Galice) et de photographes | à la main, selon les règles de chaque groupe |
 | Reddit, forums photo | grandes audiences par sujet | à la main, en participant plus qu'en publiant ses liens |
@@ -236,6 +237,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Mi-octobre | Session D | Atelier : titres des 196 photos sans titre |
 | Fin octobre | Session E | Photo du jour sur Bluesky et Mastodon ou Pixelfed ; Typefully si connecté |
 | Fin octobre | Session F | Tableau de bord (chantier 4 de `docs/plan.md`) |
+| Dès que possible | Session H | Instagram : photo du jour sur le compte professionnel |
 
 Chaque session s'ouvre **dans une nouvelle session**, qui coûte bien moins cher qu'une
 longue conversation : `CLAUDE.md` lui donne le contexte. Une seule à la fois, et sa pull

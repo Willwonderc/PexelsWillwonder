@@ -170,8 +170,9 @@ et sympathique. Règles de chaque carrousel :
   S'il manque une photo, une image du petit cours de français complète les neuf.
 - **Texte** : titre de 20 caractères au plus ; récit, petit cours de français, liste des
   photos, invitation à les télécharger sur Pexels, une ligne en anglais et une dizaine
-  de hashtags chinois, dont #法国摄影师. Pas de lien : RedNote ne les rend pas
-  cliquables et pénalise les publications qui renvoient ailleurs.
+  de hashtags chinois, dont #法国摄影师. En tout, hashtags compris, 1 000 caractères au
+  plus (un émoji peut compter pour deux) : viser 950. Pas de lien : RedNote
+  ne les rend pas cliquables et pénalise les publications qui renvoient ailleurs.
 - **Choix des photos** : par série, galerie ou lieu, en commençant par les plus vues ;
   titres et mots-clés chinois dans `vitrine/donnees/textes-zh.csv`.
 - **Sur le site photo** : chaque carrousel rejoint aussi la série de son sujet, dans
@@ -206,8 +207,9 @@ Souvenirs et repères de Karl pour les récits :
     sur le chemin de Saint-Jacques, inscrite au patrimoine mondial de l'UNESCO.
   - **Bordeaux**, le 19 août, sur la route du retour : la Cité du Vin, son exposition
     permanente sur l'histoire et les cultures du vin, et la dégustation qui la termine.
-  - Photos sur Pexels : Gijón (la Laboral), la Galice, Irun, le Béarn et Bordeaux (le
-    monument aux Girondins) ; presque rien de Bilbao (deux vues industrielles).
+  - Photos sur Pexels : Gijón (la Laboral), la Galice (dont le coucher de soleil du soir
+    de l'éclipse), Irun, le Béarn et Bordeaux (les fontaines de la place des
+    Quinconces) ; presque rien de Bilbao (deux vues industrielles).
   - Ne citer ni les dépenses, ni les hébergements, ni d'autres proches.
 
 Premiers carrousels, envoyés le 27 septembre 2026 : ciels et nuits étoilées, jardins de
@@ -217,8 +219,64 @@ Galice » (récit), « Les jardins de Villandry » (récit et petit cours de fra
 nouvelle série « Phares et marées, de Granville à Saint-Malo ».
 
 Deuxième envoi, le même jour : le road trip d'août et Bordeaux, devenus sur le site les
-séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et le
-monument aux Girondins ».
+séries « Dix jours de route, de Niort au nord de l'Espagne » et « Bordeaux et les
+fontaines des Quinconces ». Le 28 septembre, à la demande de Karl, le coucher de soleil
+du soir de l'éclipse (photo 39236039) a pris dans le road trip la place de l'hôtel de
+ville d'Irun (image 4), dans le carrousel comme dans les vidéos, et rejoint la série.
+
+## Vidéos diaporama des carrousels
+
+Chaque carrousel peut aussi devenir une vidéo, à publier à sa place ou en plus. Les cinq
+premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais :
+
+- **Format** : 3:4 (1080 × 1440 pixels), comme les carrousels, de 40 à 70 secondes.
+- **Déroulé** : la couverture du carrousel, puis chaque photo originale avec un zoom
+  lent (en paysage, entière sur fond flou) et le récit en sous-titres ; le petit cours
+  de français (versions chinoise et anglaise seulement) et l'image de fin.
+- **Textes** : les sous-titres reprennent les textes validés, mot pour mot en chinois ;
+  l'anglais est traduit du français. Chinois et anglais présentent Karl en photographe
+  français. La version française, destinée à un public français (son Facebook
+  personnel), ne met pas en avant ce côté français, que Karl trouve peu sérieux : ni
+  « photographe français », ni « en France, on… ». Couvertures et fins française et
+  anglaise sont refaites dans le style des carrousels, sans ce sous-titre.
+- **Musique**, libre de droits, fondue au début et à la fin, au volume conseillé pour
+  les réseaux (−16 LUFS) :
+  - en chinois et en anglais, de la musique classique dans des enregistrements dédiés
+    au domaine public : Chopin par Musopen (https://archive.org/details/musopen-chopin),
+    Bach par Kimiko Ishizaka (https://archive.org/details/bach-well-tempered-clavier-book-1) ;
+  - en français, de la pop instrumentale, choisie parmi des artistes qui publient
+    eux-mêmes tout leur catalogue en CC0 (Loyalty Freak Music) ou parmi les morceaux
+    très diffusés de Kevin MacLeod (CC BY), sauf quand le sujet appelle autre chose : les
+    jardins à la française de Villandry ont « Le Printemps » de Vivaldi (John Harrison et
+    le Wichita State University Chamber Players, CC BY-SA), la Normandie et la Bretagne
+    un air celtique (« Thatched Villagers », Kevin MacLeod, CC BY).
+
+  Privilégier les morceaux les plus employés dans la publicité et les médias. Une licence
+  CC BY ou CC BY-SA impose un crédit, écrit en petit sur l'image de fin ; avec CC BY-SA,
+  la vidéo passe sous la même licence. Se méfier des fichiers d'Internet Archive marqués
+  « domaine public » par n'importe qui : beaucoup sont des disques du commerce. Chaque
+  dossier contient un fichier « Musiques et licences ». Sur RedNote, Karl peut aussi
+  remplacer la musique par un morceau de la bibliothèque de l'application (配乐).
+- **Version française** : pas de « photographe français » ni de « en France, on… », et
+  « Maëlle » plutôt que « ma fiancée ». Ligne politique de tous les textes : `CLAUDE.md`,
+  « Ligne éditoriale des textes ».
+- **Envoi** : un fichier par vidéo (30 Mo au plus par fichier), la langue dans le nom.
+  Karl les range sur son Mac dans `Documents Locaux/Caroussels`, en trois dossiers :
+  « Chinois (RedNote) », « Français » et « Anglais ».
+
+## Facebook personnel, à la main
+
+Karl publie lui-même les carrousels sur son profil Facebook personnel : Meta ne permet
+aucune publication automatique sur un profil, seulement sur une Page. Les sessions
+préparent la version française (images, vidéo et texte), sans mettre en avant le côté
+français (voir ci-dessus) : les images françaises des carrousels RedNote, faites pour
+que Karl comprenne ce qu'il publie, portent encore « d'un photographe français » sur la
+couverture et sont donc à refaire. Rythme et forme des textes restent à fixer avec lui.
+
+## Instagram, à venir
+
+Karl a déjà un compte Instagram professionnel. Sa publication automatique, sur le modèle
+de la photo du jour, est la consigne H de `consignes/prochaines-sessions.md`.
 
 ## Contenu du dossier
 

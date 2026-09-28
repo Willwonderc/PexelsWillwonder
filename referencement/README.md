@@ -73,10 +73,12 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   ([pas à pas](#google-search-console-pas-à-pas)).
 - [ ] **Bing Webmaster Tools** (10 minutes) : importer les deux sites depuis Search Console
   ([partie 1](#1-bing-webmaster-tools)).
-- [ ] **GoatCounter** (10 minutes) : créer le compte gratuit sur
-  https://www.goatcounter.com/signup avec le code `karlforterre`, puis écrire ce code après
-  `goatcounter =` dans `vitrine/site.ini`. Il compte les visites et les clics vers Pexels ;
-  la session F (tableau de bord) en a besoin.
+- [x] **GoatCounter** : compte créé le 28 septembre, code `karlforterre`, inscrit après
+  `goatcounter =` dans `vitrine/site.ini` ; le compteur est sur chaque page depuis le
+  28 septembre. Il compte les visites et les clics vers Pexels
+  (https://karlforterre.goatcounter.com) ; la session F (tableau de bord) s'en servira.
+  Pour ne pas compter ses propres visites : ouvrir une fois
+  https://photos.karlforterre.fr/#toggle-goatcounter dans chaque navigateur.
 - [x] **Mastodon** : les champs « Photos » (https://photos.karlforterre.fr) et « Site »
   (https://karlforterre.fr) ont leur coche verte depuis les 27 et 28 septembre ; les deux
   sites renvoient vers le profil (`rel="me"`). Si un jour une coche disparaît : Modifier
