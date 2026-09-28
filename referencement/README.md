@@ -292,8 +292,8 @@ Quand une source indépendante existe (notice BnF, dépôt DUMAS, article), la f
 de la BnF y sont régulièrement reprises). Karl peut ensuite la compléter. S'il décide de
 la créer lui-même, qu'il le fasse seulement à ce moment-là, en citant ces sources.
 
-**Créer un compte** : https://www.wikidata.org → **Créer un compte**. Le même compte sert
-sur Wikimedia Commons et Wikipédia ; nom d'utilisateur conseillé : `KarlForterre`.
+**Le compte** : `Karl Forterre`, créé sur Wikimedia Commons le 28 septembre 2026. Le même
+compte sert sur Wikidata et Wikipédia : il suffit de s'y connecter.
 
 **Créer une fiche** : menu de gauche → **Créer un nouvel élément** ; champs **Langue**,
 **Libellé**, **Description**, **Alias**, puis **Créer**. Pour un nom de personne, le
@@ -322,7 +322,7 @@ Propriétés vérifiées pour sa fiche :
 | identifiant d'un profil LinkedIn (P6634) | `karl-forterre-720b61220` |
 | identifiant de profil REDnote (P12038) | les 24 caractères qui suivent `xiaohongshu.com/user/profile/` dans l'adresse du profil |
 | a un compte sur (P553) | Pexels (Q101240504), avec le qualificatif nom du compte (P554) : `karl-forterre-28489473` (il n'existe pas de propriété propre à Pexels) |
-| nom d'utilisateur Wikimédia (P4174) | `KarlForterre` |
+| nom d'utilisateur Wikimédia (P4174) | `Karl Forterre` |
 | identifiants BnF (P268), ISNI (P213), IdRef (P269), ORCID (P496) | quand ils existent |
 | thèse académique (P1026) | la fiche du mémoire |
 | décrit à l'URL (P973) | `https://photos.karlforterre.fr/a-propos/` |
@@ -414,17 +414,17 @@ Compter une heure et demie. Les photos d'Espagne d'abord : le concours espagnol 
 **A. Le compte** (10 minutes, une fois pour toutes)
 
 1. https://commons.wikimedia.org/wiki/Special:CreateAccount : nom d'utilisateur
-   `KarlForterre`, un mot de passe, l'adresse contact@karlforterre.fr. Le même compte
-   sert sur Wikidata et Wikipédia.
+   `Karl Forterre`, un mot de passe, l'adresse contact@karlforterre.fr. Le même compte
+   sert sur Wikidata et Wikipédia. Fait le 28 septembre 2026.
 2. Cliquer sur le lien du courriel de confirmation : le concours exige une adresse
    confirmée (à défaut : **Préférences** → **Confirmer votre adresse de courriel**).
-3. Page utilisateur : https://commons.wikimedia.org/wiki/User:KarlForterre → **Créer** →
+3. Page utilisateur : https://commons.wikimedia.org/wiki/User:Karl_Forterre → **Créer** →
    coller le texte suivant → **Publier la page** :
    `Je suis Karl Forterre, photographe. Mes photos sont aussi publiées sur Pexels
    (https://www.pexels.com/@karl-forterre-28489473) et sur https://photos.karlforterre.fr.`
 4. Ajouter à la rubrique `[reseaux]` de `vitrine/site.ini` la ligne
-   `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:KarlForterre`, ou le
-   demander à une session Claude : le site renvoie alors au compte, preuve de plus.
+   `Wikimedia Commons = https://commons.wikimedia.org/wiki/User:Karl_Forterre` : le site
+   renvoie alors au compte, preuve de plus (fait le 28 septembre 2026).
 
 Un compte de moins de quatre jours doit recopier un code de vérification à chaque dépôt :
 rien de grave.
@@ -494,11 +494,11 @@ mot le modèle officiel de Commons (« Déclaration de consentement »), mis au 
 ajoute la déclaration du compte. Remplacer la liste et la date :
 
 ```text
-Objet : Autorisation de publication : photographies de Karl Forterre, compte Commons KarlForterre
+Objet : Autorisation de publication : photographies de Karl Forterre, compte Commons Karl Forterre
 
 Bonjour,
 
-Je confirme par la présente être l'auteur et le titulaire unique et exclusif des droits d'auteur des photographies suivantes, que j'ai moi-même déposées sur Wikimedia Commons depuis mon compte KarlForterre (https://commons.wikimedia.org/wiki/User:KarlForterre) :
+Je confirme par la présente être l'auteur et le titulaire unique et exclusif des droits d'auteur des photographies suivantes, que j'ai moi-même déposées sur Wikimedia Commons depuis mon compte « Karl Forterre » (https://commons.wikimedia.org/wiki/User:Karl_Forterre) :
 
 - https://commons.wikimedia.org/wiki/File:…
 - https://commons.wikimedia.org/wiki/File:…
@@ -515,7 +515,7 @@ Je suis conscient qu'une licence libre concerne seulement les droits patrimoniau
 
 Je comprends que je ne peux pas retirer cette licence, et que les images sont susceptibles d'être conservées de manière permanente par n'importe quel projet de la fondation Wikimedia.
 
-Enfin, comme je publie régulièrement mes photographies sur Pexels et sur mon site, je déclare que le compte Wikimedia Commons KarlForterre est le mien, et qu'il est autorisé à placer sous licence CC BY-SA 4.0 celles de mes photographies publiées sur ces deux sites qu'il déposera à l'avenir. Mes autres photographies restent sous la seule licence Pexels.
+Enfin, comme je publie régulièrement mes photographies sur Pexels et sur mon site, je déclare que le compte Wikimedia Commons « Karl Forterre » est le mien, et qu'il est autorisé à placer sous licence CC BY-SA 4.0 celles de mes photographies publiées sur ces deux sites qu'il déposera à l'avenir. Mes autres photographies restent sous la seule licence Pexels.
 
 Le … (date)
 Karl Forterre, auteur des photographies
