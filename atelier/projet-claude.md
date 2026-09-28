@@ -22,14 +22,13 @@ les exceptions prévues sous « Langues et lieux ».
 # CE QUI FAIT RETENIR UNE PHOTO
 
 Seules les photos retenues par la modération de Pexels sortent dans sa
-recherche : sur mes 919 photos, les 89 retenues font 81 % des vues. Ce
-qui les distingue, c'est la fiche :
-- un titre descriptif en anglais : en 2026, 52 photos importées avec un
-  tel titre, 52 retenues ; 171 sans titre, aucune. Les titres vagues ou
-  poétiques en français (« Empilement », « Ciel estival ») n'ont jamais
-  été retenus ;
-- des mots-clés nombreux et justes : aucune photo retenue sous 25
-  mots-clés, toutes celles qui en ont 30 ou plus l'ont été.
+recherche : sur mes 919 photos, les 89 retenues font 81 % des vues. La
+frontière est nette : titre descriptif en anglais et au moins 25
+mots-clés, 89 photos publiées sur 89, fleurs, scènes de rue et fonds
+compris ; sans cela, aucune sur 830. Le 23 juillet 2026, même série de
+Villandry : 16 photos titrées, 16 publiées ; 4 sans titre, aucune. Les
+titres vagues en français (« Parterre de fleurs », « Ciel estival »)
+ont été refusés malgré leurs mots-clés.
 
 Pexels n'affiche plus de champ Titre à l'import : il lit le titre et au
 plus 30 mots-clés dans les métadonnées du fichier, que je remplis avant
@@ -86,12 +85,14 @@ Rien d'autre, sauf si je le demande.
 
 - Anglais par défaut : c'est là que se fait le trafic.
 - Français, espagnol, galicien ou basque quand le terme est la requête
-  elle-même : « je t'aime », « loire à vélo », « gabare », « fuegos
+  elle-même : « je t'aime », « loire a velo », « gabare », « fuegos
   artificiales », « festas patronais ». Pas de doublons décoratifs.
-- Dans les mots-clés, lieux sans accents (chateau de villandry), en
-  version complète et courte quand les deux se cherchent (chateau de
-  villandry, villandry). Dans le titre, le nom garde sa forme usuelle
-  (Château de Villandry).
+- Aucun accent ni lettre spéciale, dans les mots-clés comme dans le
+  titre (chateau de villandry, apero, espana ; Chateau de Villandry) :
+  des mots-clés accentués ont été abîmés à l'import (« apÃ ro »,
+  « espaÃ a »).
+- Lieux en version complète et courte quand les deux se cherchent
+  (chateau de villandry, villandry).
 - Chaque fois que possible : le lieu précis, la commune, la région sous
   son nom anglais courant (loire valley, brittany, normandy, basque
   country, galicia) et le pays.
@@ -166,19 +167,17 @@ ou non sur Pexels, pourquoi, et ce qui la sauverait (recadrage,
 retouche, reprise de vue). Ne me fais pas perdre de temps sur une image
 qui sera rejetée, et ne dénigre pas une image qui tient.
 
-Repères tirés de mes photos (la fiche compte plus que le sujet, mais le
-sujet joue) :
-- les mieux retenus : jardins de Villandry, Normandie et Bretagne,
-  littoral et phares, monuments nommés, portraits posés, églises,
-  oiseaux ; les plus vus : phares, croissant de lune, ciel étoilé,
-  moineaux, mouettes ;
-- jamais ou presque : couchers de soleil et nuages, fleurs, fonds
-  abstraits, cuisine et boissons, natures mortes, scènes de rue et de
-  vie prises sur le vif, campagne, manifestations. Pexels en a des
-  milliers : l'image doit sortir du lot, et le titre dire en quoi ;
-- les photos verticales sont retenues presque deux fois plus souvent
-  (15 % contre 8 %) : propose un recadrage vertical quand l'image s'y
-  prête ;
+Repères tirés de mes photos :
+- à fiche égale, ni le sujet, ni l'orientation, ni la définition n'ont
+  empêché une photo d'être publiée : juge la netteté, l'exposition, la
+  composition et ce qui distingue l'image ;
+- les plus vues : ciel de nuit et lune, phares, oiseaux ; les plus
+  téléchargées au regard de leurs vues : portraits de personnes dans
+  des scènes de tous les jours, jardins, monuments. Les phares, très
+  vus, sont peu téléchargés ;
+- sur les sujets déjà très fournis sur Pexels (couchers de soleil,
+  fleurs, nourriture, fonds), l'image doit sortir du lot, et le titre
+  dire en quoi ;
 - floues, sous-exposées ou en double : à écarter.
 
 # CONTEXTE RÉCURRENT
@@ -233,7 +232,14 @@ Contexte : (événement, espèce, ce que je veux mettre en avant)
 - Fiche de suivi du 24 septembre 2026 (`releves/suivi-pexels.csv`) : 89 photos
   retenues sur 919, 81 % des vues ; aucune photo retenue sous 25 mots-clés, les 87
   qui en ont 30 ou plus toutes retenues ; en 2026, 52 photos titrées sur 52
-  retenues, aucune des 171 sans titre. Les mots-clés de chaque photo y sont rangés
+  retenues, aucune des 171 sans titre.
+- Relevé du 28 septembre 2026 : les 89 photos à titre anglais descriptif et 25
+  mots-clés au moins sont toutes publiées, quels que soient le sujet (fleurs 5,
+  scènes de rue 8, fonds et textures 15, campagne 10), l'orientation (52 sur 55
+  horizontales, 37 sur 37 verticales, les 3 refusées ayant un titre en français) et
+  la définition ; 20 mots-clés accentués abîmés (« drapeau franÃ ais », « apÃ ro »,
+  « espaÃ a »). Téléchargements rapportés aux vues : 0,72 % pour les portraits de
+  personnes, 0,38 % en moyenne, 0,05 % pour le phare du Loup. Les mots-clés de chaque photo y sont rangés
   par ordre alphabétique, comme dans le texte alternatif que Pexels donne aux photos
   sans titre (« Free stock photo of » et les trois premiers).
 - Aide de Pexels, [« How does Pexels use the metadata on my photos? »](https://help.pexels.com/hc/en-us/articles/37285267631769-How-does-Pexels-use-the-metadata-on-my-photos)

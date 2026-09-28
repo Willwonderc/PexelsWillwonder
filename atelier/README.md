@@ -72,6 +72,12 @@ Le sujet joue aussi, mais bien moins : à fiche soignée, presque tout passe.
 
 ### Sujets et formats
 
+À fiche égale, ni le sujet ni le format ne jouent (relevé du 28 septembre 2026) :
+les 89 photos à titre descriptif en anglais et 25 mots-clés au moins ont toutes été
+retenues, fleurs, scènes de rue, fonds et campagne compris, horizontales (52 sur 55)
+comme verticales (37 sur 37) ; les trois refusées ont un titre en français. Les écarts
+ci-dessous tiennent surtout à la part de fiches soignées dans chaque galerie.
+
 Part des photos retenues par galerie du site (toutes fiches confondues) :
 
 - **Bien retenus** : jardins de Villandry (67 %), Normandie et Bretagne (62 %), mer et
