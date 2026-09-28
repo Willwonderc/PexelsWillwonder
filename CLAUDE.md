@@ -145,8 +145,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   `GOATCOUNTER_JETON` ; sans elle, le site se construit quand même). Historique
   `vitrine/donnees/historique.json` (totaux de chaque relevé, photo par photo sur cinq
   semaines, semaines de GoatCounter) : seule la tâche GitHub l'enregistre
-  (`--enregistrer-historique`). Il publie aussi `/tableau-de-bord/compteur.json` pour l'écran
-  Turing, dont le programme reste à installer (modèle de l'écran et système du PC à demander).
+  (`--enregistrer-historique`). Il publie aussi `/tableau-de-bord/compteur.json`, que relit toutes
+  les heures le compteur de la barre des menus du MacBook M1 de Karl (SwiftBar,
+  `releves/barre-des-menus/`) ; il remplace l'écran Turing du plan de départ, que Karl n'a pas.
 - Référencement IA (`referencement/README.md`) : `build.py` écrit `llms.txt` et
   `llms-full.txt` (une version par langue), la page « Questions fréquentes »
   (`vitrine/questions.ini`) et les données Person de l'auteur, dont l'identifiant

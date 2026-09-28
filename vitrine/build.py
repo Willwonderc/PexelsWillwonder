@@ -3264,7 +3264,7 @@ def titre_photo(pid, releve_photo, par_id):
 
 
 def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenant):
-    """Tableau de bord : page française non référencée, et compteur de l'écran Turing."""
+    """Tableau de bord : page française non référencée, et compteur de la barre des menus du Mac."""
     adr = g.adr
     chemin = adr.chemin("fr", "tableau")
     code = g.site.get("goatcounter", "").strip()
@@ -3287,11 +3287,12 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
     en_retard(derniere_vue["date"] if derniere_vue else None, RETARD_SEMAINE, "des vues Pexels",
               "Telepex l'envoie chaque semaine une fois la session T faite ; sinon, "
               + lien_depot("edit/main/releves/vues-pexels.csv", "noter une ligne dans vues-pexels.csv") + ".")
-    tuiles, detail_vues = [], ""
+    tuiles, detail_vues, vue_precedente = [], "", None
     if derniere_vue:
         avant = [l for l in vues_pexels if l["vues"] is not None and l["date"] < derniere_vue["date"]]
         if avant:
-            detail_vues = depuis(derniere_vue["vues"] - avant[-1]["vues"], avant[-1]["date"])
+            vue_precedente = avant[-1]
+            detail_vues = depuis(derniere_vue["vues"] - vue_precedente["vues"], vue_precedente["date"])
         tuiles.append(tuile("Vues sur Pexels", derniere_vue["vues"],
                             detail_vues or f"relevé du {date_fr(derniere_vue['date'])}", heros=True))
     if abonnes:
@@ -3539,13 +3540,17 @@ def page_tableau(g, releve, historique, gc, erreur_gc, par_id, fiches, maintenan
     ecrire(adr.fichier(chemin), g.page("fr", titre="Tableau de bord", description="", chemins=chemins,
                                        contenu=contenu, classe="page-tableau", prive=("tableau.css", "tableau.js")))
 
-    # Compteur de l'écran Turing : les derniers chiffres, relus toutes les heures sur le PC.
+    # Compteur de la barre des menus du Mac (releves/barre-des-menus/) : les derniers chiffres,
+    # relus toutes les heures.
     totaux = releves[-1][1] if releves else {}
     compteur = {
         "mis_a_jour": maj.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "pexels": {
             "vues": derniere_vue["vues"] if derniere_vue else None,
             "vues_releve": derniere_vue["date"].isoformat() if derniere_vue else None,
+            # Écart des vues depuis le relevé précédent, et sa date.
+            "vues_gain": derniere_vue["vues"] - vue_precedente["vues"] if vue_precedente else None,
+            "vues_gain_depuis": vue_precedente["date"].isoformat() if vue_precedente else None,
             "abonnes": abonnes["abonnes"] if abonnes else None,
             "telechargements": totaux.get("telechargements"),
             "jaime": totaux.get("jaime"),
@@ -3853,7 +3858,7 @@ def main():
     journal_pages, signaler = suivre_pages(adr, entrees, AUJOURDHUI)
     ecrire_plan(adr, entrees, journal_pages)
     ecrire_apercu(g, photos, galeries, series, selection, lire_libelles("selection.txt"), par_photo, par_serie)
-    # Tableau de bord (page non référencée) et compteur de l'écran Turing.
+    # Tableau de bord (page non référencée) et compteur de la barre des menus du Mac.
     maintenant = datetime.now(timezone.utc)
     releve = lire_releve_photos()
     historique = charger_historique()
