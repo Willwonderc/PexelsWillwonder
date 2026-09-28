@@ -17,12 +17,12 @@ Chaque semaine, on relève cinq chiffres :
 
 | Indicateur | Où le lire |
 |---|---|
-| Vues et abonnés Pexels | profil Pexels, noté dans `releves/vues-pexels.csv` |
+| Vues et abonnés Pexels | `releves/vues-pexels.csv`, tenu par Telepex (session T) ou à la main |
 | Clics du site vers Pexels | GoatCounter (événements `pexels-…`, `suivre-pexels`) |
 | Apparitions et clics dans Google | Google Search Console |
 | Impressions et clics sortants | statistiques Pinterest |
 | Pages les plus vues | GoatCounter |
-| Téléchargements, photos retenues, photos les plus vues | fiche de suivi, déposée dans `releves/` |
+| Téléchargements, photos retenues, photos les plus vues | fiche de suivi `releves/suivi-pexels.csv`, publiée par Telepex, l'application Mac de Karl |
 
 ## Ce que montre la fiche de suivi
 
@@ -240,6 +240,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Mi-octobre | Session C | Traduction française d'environ 517 titres |
 | Mi-octobre | Session D | Atelier : titres des 196 photos sans titre |
 | Fin octobre | Session E | Photo du jour sur Bluesky et Mastodon ou Pixelfed ; Typefully si connecté |
+| Octobre, avant F | Session T, sur le Mac | Telepex publie ses relevés (vues, téléchargements, J'aime, modération) chaque semaine ou chaque jour |
 | Fin octobre | Session F | Tableau de bord (chantier 4 de `docs/plan.md`) |
 | Dès que possible | Session H | Instagram : photo du jour sur le compte professionnel |
 
