@@ -348,8 +348,11 @@ def couper_latin(mots, f, largeur, max_car):
     return lignes + [cur] if cur else lignes
 
 
+# mots qui ouvrent un groupe : jamais en fin de ligne ni de sous-titre
 PETITS_MOTS = {"de", "la", "le", "les", "l’", "un", "une", "des", "du", "à", "au", "aux", "et", "en", "par",
-               "pour", "sur", "dans", "the", "a", "an", "of", "to", "and", "in", "on", "at", "by", "for"}
+               "pour", "sur", "dans", "que", "qui", "où", "se", "ce", "son", "sa", "ses", "ne", "avec",
+               "the", "a", "an", "of", "to", "and", "in", "on", "at", "by", "for", "with", "from", "that",
+               "my", "our", "its"}
 
 
 def repartir(mots, f, largeur, max_car, n):
@@ -403,6 +406,9 @@ def decouper_latin(texte, f, largeur, max_car):
                 if mots[k - 1][-1] in ".:;!?," or mots[k - 1].endswith("»"):
                     j = k
                     break
+            else:  # pas de ponctuation : ne pas finir sur un petit mot (« …le ciel de »)
+                while j - 1 > i and mots[j - 1].lower() in PETITS_MOTS:
+                    j -= 1
         morceaux.append(equilibrer(mots[i:j], f, largeur, max_car))
         i = j
     return morceaux
