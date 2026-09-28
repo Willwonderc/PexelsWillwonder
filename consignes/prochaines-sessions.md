@@ -114,8 +114,10 @@ Session T, dans le dossier de Telepex : fais alimenter par Telepex le tableau de
 
 La session F construit une page de suivi sur le site photo, que Karl garde dans ses
 favoris et qu'aucune autre page ne mentionne, ainsi que le compteur du petit écran Turing
-branché sur son PC. La page se met à jour chaque nuit, et quelques minutes après chaque
-relevé enregistré sur GitHub :
+branché sur son PC. La page reprend aussi la consultation de Telepex (toutes les photos,
+avec recherche, filtres et tri), depuis n'importe quel appareil ; la collecte des
+chiffres, elle, reste sur le Mac. La page se met à jour chaque nuit, et quelques minutes
+après chaque relevé enregistré sur GitHub :
 
 | Chiffres | Source | Relevés par |
 |---|---|---|
@@ -143,6 +145,7 @@ Session F : chantier 4 de docs/plan.md, le tableau de bord. Commence par m'expli
 2. Pour chaque source, les derniers chiffres et leur évolution semaine après semaine (du lundi au dimanche), en tableau et en courbes SVG tracées par build.py, sans bibliothèque ; la date du dernier relevé, avec un rappel quand celui d'une source a plus de huit jours (Telepex arrêté, relevé oublié) ; un lien vers le détail (karlforterre.goatcounter.com, statistiques Pinterest, Google Search Console).
    - Vues et abonnés Pexels : releves/vues-pexels.csv.
    - Téléchargements, J'aime, photos retenues par la modération (dont les nouvelles de la semaine), dix photos les plus vues et leur gain de la semaine : releves/suivi-pexels.csv et son historique.
+   - Toutes les photos, comme dans Telepex : vignette, titre, vues, téléchargements, J'aime, statut de modération, événement marquant, date d'import, gain de la semaine et lien vers sa page Pexels ; recherche par titre, mot-clé ou numéro, filtres (retenues, refusées, événements marquants) et tri (date, vues, téléchargements, J'aime, gain), en JavaScript léger sans bibliothèque, les vignettes chargées seulement à l'affichage.
    - Visites, provenance (Google, Bing, Pinterest, Bluesky, Mastodon, karlforterre.fr, assistants IA : chatgpt.com, perplexity.ai, copilot.microsoft.com, gemini.google.com, claude.ai), pages les plus vues, clics vers Pexels (événements pexels-<numéro>, pexels-image-<numéro> et suivre-pexels… de vitrine/README.md, « Mesure d'audience ») et dix photos les plus cliquées : GoatCounter.
    - Impressions, clics sortants, enregistrements et abonnés Pinterest.
    - Citations du site par les assistants IA : releves/assistants-ia.csv, relevé une fois par mois.
