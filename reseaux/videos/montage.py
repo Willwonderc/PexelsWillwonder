@@ -793,6 +793,9 @@ class Rendu:
                 if getattr(p, "echelle", "large") == "serre":  # plan serré, sans jamais agrandir la photo
                     zb = borne(cam.bw / W / ((1 + dz) * 1.05), 1.0, 1.45)
                 a, b = trajectoire(cam, p.mouvement, s["centre"], dz, ys, sens, zb)
+                # jamais au-delà de la résolution de la photo, impulsions comprises (règle I5)
+                zlim = max(1.0, cam.bw / W / (1.04 if vif else 1.015))
+                a, b = (a[0], a[1], min(a[2], zlim)), (b[0], b[1], min(b[2], zlim))
                 zmax = max(a[2], b[2]) * (1.04 if vif else 1.015)
                 # photo réduite une fois pour toutes à la taille utile (au plus la taille réelle)
                 ech = min(1.0, W * zmax / cam.bw * 1.02)
