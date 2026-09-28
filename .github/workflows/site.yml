@@ -3,9 +3,11 @@
 # Chaque passage enregistre sur main les nouvelles fiches Pexels, le journal des
 # parutions Pinterest, le journal des pages et l'historique du tableau de bord
 # (vitrine/donnees/). Le tableau de bord lit GoatCounter avec la clé du secret
-# GOATCOUNTER_JETON ; sans elle, le site se construit quand même. Une fois le site en
-# ligne, les pages nouvelles, modifiées ou supprimées sont signalées aux moteurs de
-# recherche par IndexNow (referencement/README.md).
+# GOATCOUNTER_JETON, Google Search Console avec la clé du compte de service du secret
+# SEARCH_CONSOLE_CLE et Bing Webmaster Tools avec celle du secret BING_WEBMASTER_CLE ;
+# sans elles, le site se construit quand même. Une fois le site en ligne, les pages
+# nouvelles, modifiées ou supprimées sont signalées aux moteurs de recherche par IndexNow
+# (referencement/README.md).
 name: Site
 
 on:
@@ -33,10 +35,35 @@ jobs:
         with:
           ref: main
 
+      # Google Search Console (releves/README.md) : la clé du compte de service donne un jeton
+      # d'accès d'une heure, en lecture seule, masqué dans les journaux. Sans clé, l'étape est
+      # sautée ; si Google la refuse, le site se construit quand même et le tableau de bord le
+      # signale. Aucun fichier de clé n'est écrit sur le disque.
+      - name: "Google Search Console : clé présente ?"
+        id: google
+        env:
+          CLE: ${{ secrets.SEARCH_CONSOLE_CLE }}
+        run: if [ -n "$CLE" ]; then echo "cle=oui" >> "$GITHUB_OUTPUT"; fi
+
+      - name: "Google Search Console : jeton d'accès"
+        id: jeton_google
+        if: steps.google.outputs.cle == 'oui'
+        continue-on-error: true
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.SEARCH_CONSOLE_CLE }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/webmasters.readonly
+          create_credentials_file: false
+          export_environment_variables: false
+
       - name: Lire les nouvelles photos et construire le site
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           GOATCOUNTER_JETON: ${{ secrets.GOATCOUNTER_JETON }}
+          SEARCH_CONSOLE_JETON: ${{ steps.jeton_google.outputs.access_token }}
+          SEARCH_CONSOLE_ETAT: ${{ steps.jeton_google.outcome }}
+          BING_WEBMASTER_CLE: ${{ secrets.BING_WEBMASTER_CLE }}
         run: python3 vitrine/build.py --enregistrer-parutions --indexnow --enregistrer-historique
 
       - name: Enregistrer les fiches Pexels et les journaux
