@@ -41,6 +41,11 @@ Dans `vitrine/photos.txt`, placez un `#` au début de sa ligne.
   d'un commentaire) ; un `#` en début de ligne la retire. Le début du commentaire,
   jusqu'au tiret long (« Voie lactée — 74 188 vues »), sert de titre court en français
   dans le carrousel de karlforterre.fr : pensez à l'écrire pour chaque photo ajoutée.
+  À chaque visite, un petit script remplace ces 24 photos par un tirage au sort parmi
+  les 100 plus vues sur Pexels, au plus deux d'un même jour d'import pour varier les
+  sujets (ligne `tirage` de la rubrique `[accueil]` de `site.ini` ; 0 pour garder la
+  sélection fixe). `selection.txt` reste la sélection que voient les moteurs de
+  recherche et les navigateurs sans JavaScript, et celle de karlforterre.fr.
 - **Preuve sociale** : « 878 500 vues et 3 950 téléchargements sur Pexels » s'affiche
   près des boutons « Suivre sur Pexels ». Les chiffres viennent des relevés de
   `releves/` : la dernière ligne de `vues-pexels.csv` pour les vues, le total de la
@@ -299,7 +304,7 @@ par le haut de sa ligne, puis le suivant y monte (sans JavaScript, ou si l'appar
 demande moins d'animations, ils s'affichent l'un sous l'autre). Au survol, la photo
 utilisée remplit la rubrique (elle ne se charge qu'au premier survol), et sur téléphone
 chaque bande a sa vignette. La page de chaque photo concernée le signale aussi, et les
-sites web figurent sur l'accueil (« Utilisées sur … ») et en fin de galerie et de série.
+sites web figurent en pied de page de l'accueil (« Utilisées sur … ») et en fin de galerie et de série.
 N'y noter que des usages avérés.
 
 ## Domaine personnel

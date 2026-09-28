@@ -5,6 +5,10 @@
 # ajouter une, collez son lien sur une nouvelle ligne. Seules les photos publiées
 # sur le site (avec un titre) apparaissent.
 #
+# À chaque visite, l'accueil remplace ces photos par un tirage au sort parmi les 100
+# plus vues (réglage tirage de site.ini) : cette liste reste celle des moteurs de
+# recherche, des navigateurs sans JavaScript et du carrousel de karlforterre.fr.
+#
 # Proposition du 25 septembre 2026, d'après la fiche de suivi
 # (releves/suivi-pexels.csv) : les photos les plus vues et les plus téléchargées,
 # en variant sujets et lieux. Chiffres du relevé du 24 septembre.

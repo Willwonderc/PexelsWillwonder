@@ -595,6 +595,8 @@ def lire_suivi():
                 continue
             fiche = suivi.setdefault(int(cle), {"vues": 0, "mots": []})
             fiche["vues"] = max(fiche["vues"], entier(ligne.get("vues")))
+            if (ligne.get("import") or "").strip():
+                fiche["import"] = ligne["import"].strip()
             mots = corriger_mots(m for m in liste_mots(ligne.get("mots_cles")) if not ILLISIBLE.search(m))
             if mots:
                 fiche["mots"] = mots
@@ -753,6 +755,7 @@ def assembler_photos(ids, fiches, anglais, francais, suivi=None, chinois=None):
             "couleur": fiche.get("couleur") or "#8a8a8a",
             "vue_le": fiche.get("vue_le") or AUJOURDHUI,
             "vues": suivi.get(pid, {}).get("vues", 0),
+            "jour": suivi.get(pid, {}).get("import", ""),
             "titre": {"en": titre_en, "fr": fr.get("titre") or titre_en, "zh": zh.get("titre") or titre_en},
             # Sans mots-clés traduits, les pages française et chinoise affichent les mots anglais.
             "mots": {"en": affiches, "fr": mots_fr or affiches, "zh": mots_zh or affiches},
@@ -1123,13 +1126,15 @@ def date_usages(usages, langue):
     return entre_parentheses(mois_annee(max(dates), langue), langue) if dates else ""
 
 
-def ligne_usages(g, langue):
-    """« Utilisées sur CNN.com, … », lien vers la page des photos utilisées."""
+def ligne_usages(g, langue, classe="preuve"):
+    """« Utilisées sur CNN.com, … », lien vers la page des photos utilisées ; sans classe
+    dans le pied de page de l'accueil, dont elle prend l'allure discrète."""
     sites = list(dict.fromkeys(u["site"] for usages in g.usages.values() for u in usages if u["type"] == "site"))
     if not sites:
         return ""
     texte = TEXTES[langue]["usages_ligne"].format(sites=enumeration(sites, langue))
-    return f'<p class="preuve"><a href="{g.adr.chemin(langue, "galerie", CLE_USAGES)}">{e(texte)}</a></p>'
+    attribut = f' class="{classe}"' if classe else ""
+    return f'<p{attribut}><a href="{g.adr.chemin(langue, "galerie", CLE_USAGES)}">{e(texte)}</a></p>'
 
 
 def preuve_sociale(preuve, langue):
@@ -1141,6 +1146,75 @@ def preuve_sociale(preuve, langue):
     if preuve["vues"]:
         return t["preuve_vues"].format(vues=chiffre(preuve["vues"], langue))
     return ""
+
+
+# Tirage de la rubrique « Sélection » de l'accueil, à chaque visite : autant de photos que
+# la sélection fixe, prises au hasard parmi les plus vues sur Pexels, au plus deux d'un même
+# jour d'import (une même sortie), pour varier les sujets. Placé juste après la grille, le
+# script la remplace avant que ses images, chargées à la demande, ne partent ; sans
+# JavaScript, la sélection fixe de selection.txt reste affichée.
+TIRAGE_JS = """(function () {
+  var source = document.getElementById("tirage-selection");
+  var grille = document.querySelector("#selection .grille");
+  if (!source || !grille || !window.JSON) return;
+  var photos = JSON.parse(source.textContent), n = grille.children.length;
+  for (var i = photos.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1)), x = photos[i];
+    photos[i] = photos[j];
+    photos[j] = x;
+  }
+  var parJour = {}, choix = [];
+  for (var k = 0; k < photos.length && choix.length < n; k++) {
+    var jour = photos[k].g;
+    if ((parJour[jour] || 0) < 2) {
+      parJour[jour] = (parJour[jour] || 0) + 1;
+      choix.push(photos[k]);
+    }
+  }
+  if (choix.length < n) return;
+  var largeurs = [300, 600, 900, 1300], morceau = document.createDocumentFragment();
+  choix.forEach(function (p) {
+    var lien = document.createElement("a"), img = document.createElement("img");
+    var base = p.i + "?auto=compress&cs=tinysrgb&w=";
+    lien.className = "carreau";
+    lien.href = p.h;
+    lien.setAttribute("data-pexels", p.x);
+    lien.style.setProperty("--r", p.r);
+    lien.style.backgroundColor = p.c;
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.width = p.l;
+    img.height = p.u;
+    img.alt = p.t;
+    img.sizes = "(max-width: 640px) 60vw, 30vw";
+    img.srcset = largeurs.map(function (l) { return base + l + " " + l + "w"; }).join(", ");
+    img.src = base + 600;
+    lien.appendChild(img);
+    morceau.appendChild(lien);
+  });
+  while (grille.firstChild) grille.removeChild(grille.firstChild);
+  grille.appendChild(morceau);
+})();"""
+
+
+def tirage_selection(g, photos, nombre, langue):
+    """Données et script du tirage de la « Sélection » (TIRAGE_JS) : les « nombre » photos
+    les plus vues sur Pexels, avec ce qu'il faut pour en faire des vignettes."""
+    adr = g.adr
+    plus_vues = [p for p in sorted(photos, key=lambda p: (-p["vues"], -p["id"])) if p["vues"]][:nombre]
+    donnees = [{
+        "h": adr.chemin(langue, "photo", p["id"]),
+        "x": pexels(p["page"], langue),
+        "r": f'{p["largeur"] / p["hauteur"]:.3f}',
+        "c": p["couleur"],
+        "i": p["image"],
+        "l": p["largeur"],
+        "u": p["hauteur"],
+        "t": p["titre"][langue],
+        "g": p.get("jour") or str(p["id"]),
+    } for p in plus_vues]
+    texte = json.dumps(donnees, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    return f'<script type="application/json" id="tirage-selection">{texte}</script><script>{TIRAGE_JS}</script>'
 
 
 def rappel(g, langue, usages=True):
@@ -1313,9 +1387,10 @@ class Gabarit:
         )
 
     def page(self, langue, *, titre, description, chemins, contenu, image=None, donnees=None,
-             flux=None, classe="", titre_complet=False, series=True, prive=()):
+             flux=None, classe="", titre_complet=False, series=True, prive=(), pied_haut=""):
         """« prive » : feuilles de style et scripts d'une page non référencée (le tableau de
-        bord), qui n'a ni indexation, ni traductions, ni compteur GoatCounter."""
+        bord), qui n'a ni indexation, ni traductions, ni compteur GoatCounter. « pied_haut » :
+        paragraphe placé en tête du pied de page (les usages, sur l'accueil)."""
         t = TEXTES[langue]
         autre = SUIVANTE[langue]
         adr = self.adr
@@ -1350,7 +1425,8 @@ class Gabarit:
         annee = datetime.now(timezone.utc).year
         pied = (
             '<footer class="pied">'
-            f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
+            + pied_haut
+            + f'<p><a href="{pexels("https://www.pexels.com/", langue)}">Photos provided by Pexels</a></p>'
             f'<p><a href="{adr.chemin(langue, "utiliser")}">{t["utiliser"]}</a>'
             f' · <a href="{adr.chemin(langue, "faq")}">{t["faq"]}</a>'
             f' · <a href="{adr.chemin(langue, "mentions")}">{t["mentions"]}</a>'
@@ -1513,7 +1589,6 @@ def ouverture_accueil(g, photos, langue):
         f'<a class="bouton bouton-contour" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-accueil">{t["suivre"]}</a></p>'
         + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
-        + ligne_usages(g, langue)
         + "</div></section>"
     )
 
@@ -1526,11 +1601,19 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     # [accueil]) ; à défaut, le titre du site et l'accroche.
     titre = traduit(g.reglages["accueil"], "titre", langue, t["accueil"])
     description = traduit(g.reglages["accueil"], "description", langue, accroche)
+    tirage = entier(g.reglages["accueil"].get("tirage"))
+    rubrique_selection = ""
+    if selection:
+        rubrique_selection = (
+            f'<section class="bloc" id="selection"><h2 class="surtitre">{t["selection"]}</h2>'
+            + grille(selection, langue, adr)
+            + (tirage_selection(g, photos, tirage, langue) if tirage else "")
+            + "</section>"
+        )
     contenu = (
         ouverture_accueil(g, ouverture, langue)
         + '<div class="enveloppe">'
-        + (f'<section class="bloc" id="selection"><h2 class="surtitre">{t["selection"]}</h2>'
-           f"{grille(selection, langue, adr)}</section>" if selection else "")
+        + rubrique_selection
         + cartes_series(series, langue, adr)
         + cartes(galeries, langue, adr, "theme")
         + cartes(galeries, langue, adr, "lieu")
@@ -1556,7 +1639,7 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=(ouverture or photos or [None])[0], donnees=donnees,
                    classe="accueil sur-photo" if ouverture else "accueil",
-                   titre_complet=True, series=bool(series))
+                   titre_complet=True, series=bool(series), pied_haut=ligne_usages(g, langue, classe=""))
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
