@@ -2,6 +2,9 @@
 """Prépare les fichiers d'import d'épingles pour Pinterest et prévoit le calendrier des flux.
 
   python3 pinterest/epingles.py --essai        une épingle par galerie : crée les tableaux
+  python3 pinterest/epingles.py --tableaux niort,poitiers
+                                               une épingle par nouvelle galerie : crée
+                                               leurs tableaux, sans doublon avec le flux
   python3 pinterest/epingles.py --calendrier   épingles par flux et date de la dernière
 
 Chaque épingle mène à la page Pexels de sa photo ; l'image est donnée par son adresse
@@ -11,6 +14,7 @@ pinterest/imports/, au format du modèle d'import de Pinterest.
 
 import argparse
 import csv
+import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -46,6 +50,16 @@ def epingle(photo, tableau, quand=""):
         "Publish date": quand,
         "Keywords": ", ".join(mots),
     }
+
+
+def derniere_de_la_file(galerie, parues):
+    """Photo que le flux d'une galerie publiera en dernier (le fonds passe par vues
+    décroissantes), parmi celles qui ont un titre anglais : l'épingle d'import qui crée le
+    tableau ne fera pas doublon avec celles du flux avant longtemps."""
+    def anglais(titre):
+        return len(titre.split()) >= 4 and re.search(r"\b(of|in|on|the|a|with|and|at|by|under|over)\b", titre)
+    reste = [p for p in galerie["photos"] if str(p["id"]) not in parues and anglais(p["titre"]["en"])]
+    return min(reste, key=lambda p: (p["vues"], p["id"])) if reste else galerie["couverture"]
 
 
 def ecrire(nom, lignes):
@@ -93,10 +107,23 @@ def main():
     options = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     options.add_argument("--essai", action="store_true", help="une épingle par galerie, pour créer les tableaux")
     options.add_argument("--calendrier", action="store_true", help="calendrier prévu des flux Pinterest")
+    options.add_argument("--tableaux", metavar="GALERIES",
+                         help="identifiants de galeries séparés par des virgules : une épingle par "
+                              "nouveau tableau, pour les créer avant d'y relier leurs flux")
     args = options.parse_args()
     photos, galeries = charger()
     if args.essai:
         ecrire("essai-2-une-epingle-par-galerie.csv", [epingle(g["couverture"], g["titre"]["en"]) for g in galeries])
+    elif args.tableaux:
+        par_cle = {g["cle"]: g for g in galeries}
+        cles = [c.strip() for c in args.tableaux.split(",") if c.strip()]
+        inconnues = [c for c in cles if c not in par_cle]
+        if inconnues:
+            raise SystemExit("Galeries inconnues ou de moins de 4 photos : " + ", ".join(inconnues))
+        parutions = build.charger_parutions()
+        ecrire(f"tableaux-{date.today().isoformat()}.csv",
+               [epingle(derniere_de_la_file(par_cle[c], set(parutions.get(c, {}))), par_cle[c]["titre"]["en"])
+                for c in cles])
     elif args.calendrier:
         calendrier(photos, galeries)
     else:
