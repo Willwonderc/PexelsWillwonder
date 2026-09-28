@@ -204,11 +204,11 @@ Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots 
 
 Sur Instagram, tout est en français, dans un style proche de l'expression de Karl
 (`reseaux/style-karl.md`). La photo du jour y prend la légende écrite à l'avance pour
-chaque photo dans `reseaux/legendes-instagram.csv` (14 écrites le 28 septembre) ; sans
-légende prête, elle garde le titre français.
+chaque photo dans `reseaux/legendes-instagram.csv` (30 prêtes le 28 septembre, soit
+jusque vers le 28 octobre) ; sans légende prête, elle garde le titre français.
 
 ```text
-Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --essai : il indique pour combien des prochaines photos une légende est prête. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md : une à trois phrases, 300 caractères au plus, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --a-venir 90 : il liste la file Instagram et les légendes qui restent à écrire. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md (et les précisions de Karl qui y sont notées) : une à trois phrases, 300 caractères au plus, avec dans la colonne hashtags cinq hashtags choisis, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
 ## V — Studio vidéo

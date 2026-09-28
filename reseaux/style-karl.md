@@ -49,23 +49,42 @@ tout texte signé Karl. La ligne éditoriale de `CLAUDE.md` s'applique aussi.
 - **Typographie française** : guillemets « », espace avant les deux-points, le
   point-virgule, les points d'interrogation et d'exclamation.
 
+Précisions données par Karl le 28 septembre 2026, en réponse à un questionnaire :
+- **ni tutoiement ni vouvoiement** : des tournures neutres (« on le suivrait
+  volontiers », « elle se télécharge ») ;
+- **aucun émoji** ;
+- **le lieu et le moment** quand ils sont connus (titre, galerie, série, saison visible
+  sur la photo) ;
+- **un peu de contexte** : une phrase sur l'histoire du lieu, la nature ou l'astronomie,
+  dans la ligne éditoriale de `CLAUDE.md` ;
+- **ses souvenirs**, seulement ceux qu'il a confiés (`reseaux/README.md`, « Souvenirs et
+  repères de Karl ») ; les reprises de ses photos par des tiers (`vitrine/usages.csv`)
+  peuvent aussi être citées.
+
+Pour ne rien inventer : regarder chaque photo en petite taille avant d'écrire (un
+« goéland » n'est pas une « mouette ») ; un lieu douteux ne se nomme pas, il se demande
+à Karl, et sa réponse rejoint les repères de `reseaux/README.md`.
+
 ## Exemples
 
 Tirés de `reseaux/legendes-instagram.csv`, à valider par Karl :
 
 - Nuit étoilée : « Il suffit d'éteindre la ville pour allumer les étoiles. Cette nuit-là,
   la Voie lactée coulait comme une rivière de lait sur l'encre du ciel. »
-- Train en gare, vu d'en haut : « Vu d'en haut, un train en gare ressemble à une ligne
-  d'écriture qui attend son point. Chaque matin s'y écrivent les trajets de celles et
-  ceux qui font tourner le pays. »
+- Train en gare, vu d'en haut : « À Poitiers, vu d'en haut, un TGV en gare ressemble à
+  une ligne d'écriture qui attend son point. Chaque matin s'y écrivent les trajets de
+  celles et ceux qui font tourner le pays. »
 - Mairie de Cognac : « À Cognac, la mairie se dresse au milieu de son jardin public,
   sous le drapeau tricolore. Une maison commune au sens premier : elle appartient à tout
   le monde. »
 
 ## Où vivent les légendes
 
-`reseaux/legendes-instagram.csv` : une ligne par photo (numéro Pexels, légende). La
-photo du jour prend la légende de la photo publiée ; sans légende prête, elle garde le
-titre français de la photo. Karl peut corriger une légende directement sur GitHub : ouvrir
+`reseaux/legendes-instagram.csv` : une ligne par photo (numéro Pexels, légende, et, si
+l'on veut, cinq hashtags au plus, qui remplacent alors ceux de la photo). La photo du
+jour prend la légende de la photo publiée ; sans légende prête, elle garde le titre
+français de la photo. `python3 reseaux/photo_du_jour.py --a-venir 60` liste les
+prochaines photos d'Instagram, dans l'ordre de parution, et celles dont la légende reste
+à écrire. Karl peut corriger une légende directement sur GitHub : ouvrir
 le fichier, cliquer sur le crayon (*Edit*), modifier, puis *Commit changes*. Une session
 en écrit de nouvelles par lots (consigne L de `consignes/prochaines-sessions.md`).
