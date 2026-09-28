@@ -1,0 +1,51 @@
+{
+  "format": 1,
+  "id": "2026-09-28-rednote-01-ciel",
+  "reseau": "rednote",
+  "langue": "zh",
+  "forme": "carrousel",
+  "sujet": "Ciels et nuits étoilées",
+  "carrousel": "1 - Ciels et nuits étoilées",
+  "date_prevue": "2026-09-28",
+  "heure_conseillee": "entre 13 h et 15 h, heure de Paris (le soir en Chine)",
+  "etapes": [
+    "Envoyer les 9 images sur l'iPhone (AirDrop) : elles arrivent dans Photos.",
+    "Dans RedNote, toucher + et sélectionner les 9 images dans l'ordre : la 1 sert de couverture.",
+    "Copier le titre et le coller dans le champ du titre ; faire de même pour le texte.",
+    "Choisir le lieu (France) si l'application le propose, puis publier."
+  ],
+  "images": [
+    "images/01.jpg",
+    "images/02.jpg",
+    "images/03.jpg",
+    "images/04.jpg",
+    "images/05.jpg",
+    "images/06.jpg",
+    "images/07.jpg",
+    "images/08.jpg",
+    "images/09.jpg"
+  ],
+  "textes": [
+    {
+      "nom": "Titre",
+      "texte": "法国人拍的星空｜银河、新月和日全食🌌"
+    },
+    {
+      "nom": "Texte et hashtags",
+      "texte": "我是 Karl，一个法国摄影师🇫🇷 住在法国西部的尼奥尔，在拉罗谢尔和普瓦捷之间。\n在法国，只要离开城市的灯光，乡村的夜空就会亮起满天星星。这组照片拍在法国乡村和西班牙北部的加利西亚：银河、新月，还有 2026 年 8 月 12 日的日全食。\n上一次在法国看到日全食，还是 1999 年。这一次，我去了加利西亚追日食🌑\n日全食来临的那一刻，天色骤暗，整片风景仿佛被这个罕见的时刻压住了。那种感觉，我至今难忘。\n\n🇫🇷 法语小课堂：\n银河叫 la Voie lactée，直译是「牛奶之路」🥛\n新月叫 le croissant de lune：没错，就是可颂面包的那个 croissant🥐\n\n📷 这组照片：\n1️⃣ 浩瀚繁星与银河夜空\n2️⃣ 加利西亚壮丽银河与星空\n3️⃣ 黄昏新月，渐变天空\n4️⃣ 繁星如纱的银河夜空\n5️⃣ 村庄上空的璀璨星空\n6️⃣ 紫色夜空下，满月升起于屋顶烟囱间\n7️⃣ 加利西亚日全食，日冕清晰可见\n8️⃣ 电线新月，夜色微光\n\n我的 900 多张照片都发布在 Pexels，免费下载、可商用，做壁纸、做设计都可以～\n在 Pexels 搜索「Karl Forterre」就能找到原图。\n\nA French photographer's night skies: Milky Way, crescent moon and the 2026 total solar eclipse in Galicia. Free to download on Pexels: search Karl Forterre.\n\n#法国摄影师 #星空摄影 #银河 #新月 #夜空壁纸 #天文摄影 #日全食 #法国旅行 #西班牙旅行 #免费素材 #摄影分享"
+    }
+  ],
+  "traduction": {
+    "langue": "fr",
+    "textes": [
+      {
+        "nom": "Titre",
+        "texte": "Le ciel vu par un Français | Voie lactée, croissant de lune et éclipse totale 🌌"
+      },
+      {
+        "nom": "Texte",
+        "texte": "Je suis Karl, photographe français 🇫🇷 J'habite Niort, dans l'ouest de la France, entre La Rochelle et Poitiers.\nEn France, il suffit de quitter les lumières de la ville pour que le ciel de campagne se couvre d'étoiles. Ces photos ont été prises dans la campagne française et en Galice, au nord de l'Espagne : la Voie lactée, le croissant de lune, et l'éclipse totale du 12 août 2026.\nLa dernière éclipse totale visible en France remonte à 1999. Cette fois, je suis allé la chercher en Galice 🌑\nAu moment de la totalité, la lumière est tombée d'un coup et tout le paysage m'a semblé écrasé par cet événement singulier. Une sensation que je n'oublie pas.\n\n🇫🇷 Petit cours de français (pour le public chinois) :\nla Voie lactée (银河), littéralement « le chemin de lait » 🥛\nle croissant de lune (新月) : oui, le même mot que la viennoiserie 🥐\n\n📷 Les photos :\n1️⃣ Un ciel nocturne sombre et immense, empli d'innombrables étoiles et de la voie lactée\n2️⃣ Voie lactée et ciel étoilé à couper le souffle, en Galice\n3️⃣ Croissant de lune dans un ciel crépusculaire aux dégradés sereins\n4️⃣ Voile d'étoile\n5️⃣ Ciel étoilé\n6️⃣ Pleine lune se levant derrière des cheminées, ciel nocturne violet\n7️⃣ L'éclipse solaire totale révèle la couronne solaire au-dessus de la Galice\n8️⃣ Lune électrique\n\nMes plus de 900 photos sont publiées sur Pexels : gratuites, même pour un usage commercial, en fond d'écran comme en création graphique.\nCherchez « Karl Forterre » sur Pexels pour trouver les originaux.\n\n(Ligne en anglais, reprise telle quelle.)\n\nHashtags : photographe français, astrophotographie, Voie lactée, croissant de lune, fond d'écran ciel nocturne, astronomie, éclipse totale, voyage en France, voyage en Espagne, images gratuites, partage photo"
+      }
+    ]
+  }
+}
