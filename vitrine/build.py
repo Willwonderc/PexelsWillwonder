@@ -1557,10 +1557,12 @@ def cadrage(photo):
 
 
 def index_usages(g, par_id, langue):
-    """Rubrique de la page des galeries, sur fond noir : le nom de chaque site ou campagne
-    en très grand, lien vers la page de la photo utilisée. Au survol ou au clavier, cette
-    photo remplit la rubrique : statique/site.js ne la charge qu'au premier passage (modèle
-    <template>). Sur un écran tactile ou étroit, chaque nom a sa vignette."""
+    """Rubrique de la page des galeries, sur fond noir : une bande par photo utilisée, avec
+    le nom du site ou de la campagne en très grand, lien vers la page de la photo. Quand
+    plusieurs l'ont utilisée, leurs noms partagent la bande : statique/site.js les y fait
+    défiler comme au générique (sans lui, ils s'y suivent l'un sous l'autre). Au survol ou au
+    clavier, la photo remplit la rubrique : statique/site.js ne la charge qu'au premier
+    passage (modèle <template>). Sur un écran tactile ou étroit, chaque bande a sa vignette."""
     utilisees = [(par_id[i], u) for i, u in g.usages.items() if i in par_id]
     if not utilisees:
         return ""
@@ -1568,23 +1570,32 @@ def index_usages(g, par_id, langue):
     adr = g.adr
     lignes = []
     for p, usages in utilisees:
-        titre = e(p["titre"][langue])
         fond = (f'<img src="{url_image(p, 1600)}" srcset="{srcset(p, (1200, 1600, 2200))}" '
                 f'sizes="(min-width: 1800px) 100vw, 50vw" '
                 f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="" decoding="async">')
-        for u in usages:
-            infos = f'{e(t["campagne_court"])} · {titre}' if u["type"] == "campagne" else titre
-            lignes.append(
-                f'<li><a class="index-ligne" href="{adr.chemin(langue, "photo", p["id"])}" '
-                f'style="--pos:{cadrage(p)};--c:{e(p["couleur"])}">'
-                f'<span class="index-fond"><template>{fond}</template></span>'
-                f'<span class="index-vignette"><img src="{url_image(p, 240)}" width="{p["largeur"]}" '
-                f'height="{p["hauteur"]}" alt="" loading="lazy" decoding="async"></span>'
-                f'<span class="index-nom">{nom_usage(u, langue)}</span>'
-                f'<span class="index-infos"><span class="index-titre">{infos}</span>'
-                + (f'<span>{mois_annee(u["date"], langue)}</span>' if u["date"] else "")
-                + "</span></a></li>"
-            )
+        campagnes = all(u["type"] == "campagne" for u in usages)
+        titre = e(p["titre"][langue])
+        infos = f'{e(t["campagne_court"])} · {titre}' if campagnes else titre
+        # Mois du signalement : une fois s'il est le même pour toute la bande, sinon celui
+        # de chaque nom, qui alterne avec lui ; « Campagne » le précède dans une bande mêlée.
+        quand = [" · ".join(([t["campagne_court"]] if u["type"] == "campagne" and not campagnes else [])
+                            + ([mois_annee(u["date"], langue)] if u["date"] else []))
+                 for u in usages]
+        if len(set(quand)) == 1:
+            quand = quand[:1]
+        noms = " ".join(f"<span>{nom_usage(u, langue)}</span>" for u in usages)
+        mois = "".join(f"<span>{e(q)}</span>" for q in quand)
+        lignes.append(
+            f'<li><a class="index-ligne" href="{adr.chemin(langue, "photo", p["id"])}" '
+            f'style="--pos:{cadrage(p)};--c:{e(p["couleur"])}">'
+            f'<span class="index-fond"><template>{fond}</template></span>'
+            f'<span class="index-vignette"><img src="{url_image(p, 240)}" width="{p["largeur"]}" '
+            f'height="{p["hauteur"]}" alt="" loading="lazy" decoding="async"></span>'
+            f'<span class="index-nom">{noms}</span>'
+            f'<span class="index-infos"><span class="index-titre">{infos}</span>'
+            + (f'<span class="index-quand">{mois}</span>' if any(quand) else "")
+            + "</span></a></li>"
+        )
     n = len(utilisees)
     suite = t["voir_usages"].format(n=n) if n > 1 else t["voir_usage"]
     return (

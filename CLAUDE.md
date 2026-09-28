@@ -132,8 +132,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   NYTimes.com, Cambridge.org, Dictionary.com, TheFreeDictionary.com ; et la campagne
   « Niort à Gauche », type `campagne`) : page dédiée « Utilisées dans des projets »
   (`/galeries/photos-utilisees/`), présentée comme une exposition (les photos accrochées
-  côte à côte à l'ouverture, puis une photo par écran, avec son cartel), et annoncée en tête de la page des galeries par un index des noms en
-  très grand (la photo au survol) ; ligne sur la page de chaque photo ; les sites web
+  côte à côte à l'ouverture, puis une photo par écran, avec son cartel), et annoncée en
+  tête de la page des galeries par un index des noms en très grand, une bande par photo
+  où défilent comme au générique les sites qui l'ont utilisée (la photo au survol) ;
+  ligne sur la page de chaque photo ; les sites web
   aussi sur l'accueil et en fin de galerie et de série. Noms des sites en texte, sans
   logo ni chiffre d'audience.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et

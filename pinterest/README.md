@@ -131,10 +131,13 @@ galeries.
 | Vosges, Lorraine and Alsace | 15 | `https://photos.karlforterre.fr/en/galleries/vosges-lorraine-alsace/feed.xml` | oui |
 | Photos by Karl Forterre | 0 | `https://photos.karlforterre.fr/en/more-photos/feed.xml` | oui |
 
-34 flux sont reliés, dont les 19 des galeries créées par la session B (septembre 2026).
-Les 8 galeries ajoutées le 28 septembre 2026 d'après la fiche de suivi (Night photography,
-Mist and fog, Villages, Autumn, Bridges, Birds, Cats, Coffee and café terraces) attendent
-leur tableau. Pour une nouvelle galerie, créer son tableau à la main
+34 flux sont reliés. Les tableaux des 19 galeries créées par la session B (septembre
+2026) sont nés d'un import le 26 septembre ; leurs flux ont été reliés le 27 au soir, et
+tous figurent dans Paramètres → Importer du contenu → Publication automatique (vérifié le
+28 septembre). Pinterest peut mettre jusqu'à 24 heures à lire un flux qu'on vient de
+relier. Les 8 galeries ajoutées le 28 septembre 2026 d'après la fiche de suivi (Night
+photography, Mist and fog, Villages, Autumn, Bridges, Birds, Cats, Coffee and café
+terraces) attendent leur tableau. Pour une nouvelle galerie, créer son tableau à la main
 avec le titre anglais de la galerie, puis y relier son flux (étape 5), de préférence le
 jour de sa mise en ligne.
 Tant que toutes les photos sont rangées dans une galerie, le flux « More photos » ne
