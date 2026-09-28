@@ -28,6 +28,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | F | Tableau de bord | fin octobre | T faite et une semaine de relevés publiés par Telepex ; GoatCounter : fait, il compte depuis le 28 septembre |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
+| J | Légendes Instagram | chaque mois, vers le 20 octobre pour la première fois | la tâche « Photo du jour » annonce moins de 7 légendes rédigées d'avance |
 
 Le site d'auteur karlforterre.fr (dépôt Willwonderc/karlforterre.fr) lit chaque visite
 `https://photos.karlforterre.fr/apercu.json`, écrit par `vitrine/build.py` : une session
@@ -182,4 +183,17 @@ Session I de docs/plan-site-pro.md : une galerie de lieu dédiée à Niort, où 
 2. Les photos d'un même import qu'une photo de Niort confirmée (numéros Pexels voisins, même date de publication) : regarde-les une à une en petite taille (adresse « image » de la fiche, suivie de ?auto=compress&cs=tinysrgb&w=500), par lots avec des agents.
 3. Range le résultat dans un fichier de atelier/resultats/ en trois colonnes (sûre, probable, écartée) avec la raison de chaque choix, et montre-moi les photos « probables » sur une planche d'images avant de les ranger.
 Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots en français, en anglais et en chinois, dans la ligne éditoriale de CLAUDE.md ; corrige les titres faux repérés en chemin ; donne-moi le nouveau flux Pinterest à relier. Vérifie que vitrine/build.py tourne, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+## J — Légendes Instagram (chaque mois)
+
+La tâche « Photo du jour » publie sur Instagram la légende rédigée d'avance de chaque
+photo, dans `reseaux/legendes-instagram.ini`. Les trente premières, écrites le
+28 septembre 2026, couvrent la Voie lactée (29 septembre) et les photos suivantes,
+jusque vers le 28 octobre. Le compte rendu de la tâche (onglet **Actions**, étape
+« Publier la photo du jour ») indique combien il en reste : en dessous de sept, lancer
+cette session.
+
+```text
+Session J : rédige les légendes Instagram des 30 prochaines photos de la photo du jour, dans reseaux/legendes-instagram.ini, à la suite de celles qui restent, en respectant les règles de style de reseaux/README.md (partie 5.11) : en français, à la première personne, sobre, sans tutoiement ni vouvoiement, sans émoji ; le lieu et le moment quand ils sont connus, un peu de contexte dans la ligne éditoriale de CLAUDE.md, mes souvenirs seulement s'ils sont notés dans le dépôt, les reprises par des tiers de vitrine/usages.csv. Uniquement des faits vrais : regarde chaque photo en petite taille (adresse « image » de sa fiche, suivie de ?auto=compress&cs=tinysrgb&fm=jpg&w=400) et ne nomme pas un lieu douteux. L'ordre de parution et les légendes à écrire se lisent avec python3 reseaux/photo_du_jour.py --a-venir 40. Montre-moi les légendes, avec la liste des lieux ou des faits dont tu doutes, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```

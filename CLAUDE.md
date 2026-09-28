@@ -113,7 +113,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
   téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG
   (sinon AVIF ou WebP selon le client), recadrée au centre entre 4:5 et 1,91:1 ;
-  5 hashtags au plus ; légende sans lien (« link in bio »). Jeton de 60 jours renouvelé
+  légende toujours en français (`langue_instagram = fr` de `site.ini`), sans lien (« le
+  lien est dans ma bio »), 5 hashtags au plus : texte rédigé d'avance dans le style de
+  Karl, dans `reseaux/legendes-instagram.ini` (règles : `reseaux/README.md`, partie
+  5.11 ; consigne J pour en ajouter), sinon le titre français. Jeton de 60 jours renouvelé
   chaque lundi par `.github/workflows/jeton-instagram.yml`, qui réécrit le secret
   `INSTAGRAM_JETON` grâce au jeton GitHub du secret `JETON_GITHUB` ; ne jamais lancer
   `--renouveler-jeton` en session.

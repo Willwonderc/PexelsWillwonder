@@ -128,10 +128,12 @@ La photo du jour part aussi sur le compte @karl_forterre, par l'API officielle d
 ordre que les autres réseaux, à partir de la photo la plus vue, et le journal
 `reseaux/photo-du-jour.json` note chaque publication dans sa rubrique `instagram`.
 
-- **Légende** : le titre, puis « Royalty-free, free to download on Pexels: link in
-  bio. » (lien dans la bio), puis cinq hashtags : Instagram n'en accepte pas davantage
+- **Légende**, toujours en français, à la demande de Karl : un texte rédigé d'avance
+  dans son style (voir « Légendes rédigées d'avance », ci-dessous), puis « Comme toutes
+  mes photos, elle est libre de droits et se télécharge gratuitement sur Pexels : le
+  lien est dans ma bio. », puis cinq hashtags : Instagram n'en accepte pas davantage
   depuis décembre 2025. Les légendes n'ont pas de liens cliquables : c'est le lien de la
-  biographie qui mène au site.
+  biographie qui mène au site. Une photo sans texte rédigé reçoit son titre français.
 - **Image** : Instagram la télécharge lui-même chez Pexels, en JPEG de 1 440 pixels de
   large. Il n'accepte que les proportions comprises entre 4:5 (en hauteur) et 1,91:1
   (en largeur) : les photos en hauteur sont recadrées au centre en 4:5, les neuf
@@ -293,11 +295,50 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
 `INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
 **Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
 
+### 5.11 Légendes rédigées d'avance
+
+Karl veut sur Instagram des légendes en français, proches de sa façon de s'exprimer.
+Elles sont écrites à l'avance, photo par photo, dans `reseaux/legendes-instagram.ini`,
+dans l'ordre où les photos paraîtront (des plus vues aux moins vues). Chaque matin, la
+tâche prend celle de la photo du jour ; faute de texte rédigé, elle met le titre
+français de la photo. Son compte rendu indique combien de légendes rédigées restent :
+quand il en reste moins d'une semaine, lancer la consigne J de
+`consignes/prochaines-sessions.md`, qui en fait rédiger trente de plus.
+
+Format, une rubrique par photo, une ligne chacune :
+
+    [27116682]
+    texte = La Voie lactée au-dessus d'une ligne d'arbres. …
+    hashtags = #VoieLactée #CielÉtoilé #Astrophotographie #Nuit #Étoiles
+
+La ligne `hashtags` est facultative : sans elle, la photo garde ses hashtags
+automatiques. Pour corriger une légende, modifier sa ligne sur GitHub (icône crayon du
+fichier) avant le jour de sa parution.
+
+Style, choisi par Karl le 28 septembre 2026, à suivre par toute session qui rédige :
+
+- à la première personne, sobre, comme ses textes de karlforterre.fr : « Niort, où
+  j'habite », « comme toutes mes photos » ;
+- ni tutoiement ni vouvoiement : des tournures neutres (« elle se télécharge ») ;
+- aucun émoji ;
+- le lieu et le moment quand ils sont connus (titre, galerie, série, saison visible) ;
+- un peu de contexte : histoire du lieu, nature, astronomie, dans la ligne éditoriale
+  de `CLAUDE.md` (un monument par ce qu'il a de républicain, de populaire ou d'ouvrier) ;
+- ses souvenirs, seulement ceux qu'il a confiés (rubrique « RedNote » ci-dessous) ;
+- les reprises par des tiers (`vitrine/usages.csv`) et les vues Pexels, quand elles
+  comptent ;
+- uniquement des faits vrais : regarder chaque photo en petite taille, ne jamais
+  inventer d'anecdote ni affirmer un lieu douteux ;
+- public surtout français : pas de « photographe français » ; « Maëlle », pas « ma
+  fiancée ».
+
 ## Réglages
 
 - **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`, ligne
   `langue` : `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois). Titre,
-  hashtags et lien suivent cette langue, sur les trois réseaux.
+  hashtags et lien suivent cette langue. Une ligne `langue_bluesky`, `langue_mastodon`
+  ou `langue_instagram` donne à un réseau sa propre langue : Instagram est en français
+  (`langue_instagram = fr`), et les légendes rédigées d'avance ne servent qu'en français.
 - **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
   (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
   mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.
@@ -321,7 +362,9 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
 
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
 enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram téléchargerait
-(recadrage compris). `--langue fr` essaie une autre langue. Ne jamais lancer
+(recadrage compris), et si sa légende est rédigée d'avance. `--langue fr` essaie une autre
+langue. `--a-venir 40` liste les 40 prochaines photos d'Instagram, dans l'ordre de
+parution, et dit lesquelles attendent encore leur légende. Ne jamais lancer
 `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
@@ -458,6 +501,7 @@ couverture et sont donc à refaire. Rythme et forme des textes restent à fixer 
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
+    legendes-instagram.ini  légendes Instagram rédigées d'avance, dans le style de Karl
 
 Tâches GitHub : `.github/workflows/photo-du-jour.yml` (chaque matin) et
 `.github/workflows/jeton-instagram.yml` (chaque lundi).
