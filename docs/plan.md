@@ -82,8 +82,9 @@ Pour savoir ce qui marche, une page du site, non référencée, rassemble trois 
 les clics envoyés vers Pexels par la vitrine, les statistiques Pinterest et le total de
 vues Pexels. Ce dernier chiffre est noté à la main une fois par semaine : les conditions
 de Pexels interdisent strictement la collecte automatique de données sur leurs pages, et
-l'API ne fournit pas les vues. Ce même relevé peut alimenter le compteur prévu sur le
-petit écran Turing ; seul l'essai final se fera sur le PC où l'écran est branché.
+l'API ne fournit pas les vues. Ce même relevé alimente un compteur des vues dans la barre
+des menus du Mac de Karl (`releves/barre-des-menus/`), d'abord prévu sur un petit écran
+Turing.
 
 ## Calendrier
 

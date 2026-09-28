@@ -65,7 +65,7 @@ Une fois la session T faite, Telepex ajoute lui-même sa ligne à chaque relevé
 « Telepex ») : ne noter à la main que ce qu'il ne relève pas, comme les abonnés s'il ne
 les lit pas.
 
-Ce relevé alimente le tableau de bord et le compteur de l'écran Turing.
+Ce relevé alimente le tableau de bord et le compteur de la barre des menus du Mac.
 
 Chaque relevé compte aussi comme une activité du dépôt. GitHub suspend les tâches
 planifiées d'un dépôt public resté 60 jours sans activité : un relevé par semaine garde
@@ -109,14 +109,15 @@ Ne jamais coller cette clé dans une conversation, un fichier du dépôt ou un m
 secret de GitHub suffit. Si GoatCounter la refuse un jour, le tableau de bord le signale en
 tête, et le reste du site se construit comme d'habitude.
 
-## Compteur de l'écran Turing
+## Compteur dans la barre des menus du Mac
 
 Chaque passage publie aussi
-[https://photos.karlforterre.fr/tableau-de-bord/compteur.json](https://photos.karlforterre.fr/tableau-de-bord/compteur.json),
-que le petit écran Turing du PC relira toutes les heures : vues Pexels, abonnés,
-téléchargements, J'aime et photos retenues, avec la date de chaque relevé, puis visites et
-clics vers Pexels des 7 derniers jours. Le programme de l'écran reste à installer : il
-dépend du modèle de l'écran et du système du PC.
+[https://photos.karlforterre.fr/tableau-de-bord/compteur.json](https://photos.karlforterre.fr/tableau-de-bord/compteur.json) :
+vues Pexels et leur progression depuis le relevé précédent, abonnés, téléchargements,
+J'aime et photos retenues, avec la date de chaque relevé, puis visites et clics vers Pexels
+des 7 derniers jours. Le petit programme de [barre-des-menus/](barre-des-menus/README.md)
+le relit toutes les heures et affiche le nombre de vues dans la barre des menus du
+MacBook, avec le détail au clic (installation pas à pas dans son mode d'emploi).
 
 ## Réponses des assistants IA
 

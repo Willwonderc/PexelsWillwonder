@@ -25,7 +25,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
 | T | Telepex : envoi automatique au tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
-| F | Tableau de bord | faite le 28 septembre | restent la clé GoatCounter (voir F) et l'écran Turing |
+| F | Tableau de bord | faite le 28 septembre | reste la clé GoatCounter (voir F) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
@@ -167,9 +167,10 @@ Règles : Python sans dépendance pour le site ; ni la tâche de nuit ni toi n'a
 Session faite le 28 septembre 2026, avant la session T : le tableau de bord est en ligne sur
 https://photos.karlforterre.fr/tableau-de-bord/ et se remplira des relevés de Telepex dès
 leur arrivée. Pinterest reste relevé à la main : son API demande une application approuvée
-et un jeton à renouveler. Restent à faire : la clé GoatCounter (pas à pas :
-`releves/README.md`, « Relier GoatCounter ») et le programme de l'écran Turing, pour
-lequel une prochaine session demandera le modèle de l'écran et le système du PC.
+et un jeton à renouveler. Reste à faire : la clé GoatCounter (pas à pas :
+`releves/README.md`, « Relier GoatCounter »). L'écran Turing prévu au départ est remplacé, au
+choix de Karl, par un compteur des vues dans la barre des menus de son MacBook M1
+(SwiftBar ; mode d'emploi : `releves/barre-des-menus/README.md`).
 
 ## H — Instagram
 
