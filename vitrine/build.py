@@ -805,6 +805,7 @@ def composer_galeries(conf, photos, minimum):
             "photos": membres,
             "couverture": couverture,
             "bandeau": photo_bandeau(reglage, membres, couverture),
+            "anciennes": liste_mots(reglage.get("anciennes")),
         })
     return galeries
 
@@ -1840,6 +1841,26 @@ def page_usages(g, par_id, series, langue):
     texte = g.page(langue, titre=titre, description=t["usages_intro"], chemins=chemins, contenu=contenu,
                    image=photos[0], donnees=donnees, series=bool(series), classe="sur-photo exposition")
     ecrire(adr.fichier(chemins[langue]), texte)
+
+
+def ecrire_renvois(g, galeries, langue):
+    """Pages de renvoi des anciennes adresses d'une galerie (réglage « anciennes ») dans
+    une langue : elles mènent aussitôt à la nouvelle adresse et la donnent pour adresse de
+    référence. Elles restent hors du plan du site et du journal des pages."""
+    adr = g.adr
+    actuelles = {gal["cle"] for gal in galeries}
+    for gal in galeries:
+        for ancienne in gal["anciennes"]:
+            if ancienne in actuelles:
+                continue
+            nouvelle = adr.chemin(langue, "galerie", gal["cle"])
+            titre = e(f'{gal["titre"][langue]} — {g.site.get("nom", "Karl Forterre")}')
+            ecrire(adr.fichier(adr.chemin(langue, "galerie", ancienne)),
+                   f'<!doctype html>\n<html lang="{HREFLANG[langue]}"><head><meta charset="utf-8">'
+                   f"<title>{titre}</title>"
+                   f'<link rel="canonical" href="{e(adr.absolue(nouvelle))}">'
+                   f'<meta http-equiv="refresh" content="0; url={e(nouvelle)}">'
+                   f'</head><body><p><a href="{e(nouvelle)}">{titre}</a></p></body></html>\n')
 
 
 def page_galerie(g, galerie, series, langue):
@@ -4015,6 +4036,7 @@ def main():
         avec_faq = page_questions(g, photos, galeries, series, langue)
         for gal in galeries:
             page_galerie(g, gal, series, langue)
+        ecrire_renvois(g, galeries, langue)
         for rang, p in enumerate(photos):
             precedente = photos[rang - 1] if rang > 0 else None
             suivante = photos[rang + 1] if rang + 1 < len(photos) else None

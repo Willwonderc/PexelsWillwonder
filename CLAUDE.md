@@ -169,9 +169,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   vertical, « pau » ajouté par lots) ; les lignes `ajouter` et `retirer` gardent le
   classement photo par photo fait en session B. Depuis la session I, Niort, Poitiers
   (« Poitiers et son pays pictave ») et le Marais poitevin ont chacun leur galerie de lieu ;
-  `[niort-poitou]` est devenue « Marais poitevin » sans changer d'identifiant (adresse et flux
-  Pinterest gardés). Classement et raisons : `atelier/resultats/niort-classement.csv` et
-  `poitiers-marais-classement.csv`.
+  l'ancienne `[niort-poitou]`, devenue « Marais poitevin », a pris l'identifiant
+  `[marais-poitevin]` (ligne `anciennes` : les anciennes adresses y renvoient) et un flux
+  Pinterest neuf ; l'ancien tableau « Niort and Poitou » est figé. Classement et raisons :
+  `atelier/resultats/niort-classement.csv` et `poitiers-marais-classement.csv`.
 - Titres et mots-clés : Pexels ne permet guère de les modifier après publication.
   L'atelier sert donc avant chaque import, et ses tableaux alimentent le site.
 - Photos sans titre : leur adresse Pexels ne contient que le numéro
