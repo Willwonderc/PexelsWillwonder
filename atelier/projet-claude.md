@@ -89,7 +89,7 @@ Rien d'autre, sauf si je le demande.
   artificiales », « festas patronais ». Pas de doublons décoratifs.
 - Aucun accent ni lettre spéciale, dans les mots-clés comme dans le
   titre (chateau de villandry, apero, espana ; Chateau de Villandry) :
-  des mots-clés accentués ont été abîmés à l'import (« apÃ ro »,
+  des mots-clés accentués ressortent abîmés de Pexels (« apÃ ro »,
   « espaÃ a »).
 - Lieux en version complète et courte quand les deux se cherchent
   (chateau de villandry, villandry).
