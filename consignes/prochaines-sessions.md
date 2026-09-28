@@ -24,7 +24,8 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | C | Traductions françaises | mi-octobre | B fusionnée |
 | D | Atelier et modération | mi-octobre | C fusionnée |
 | E | Réseaux : photo du jour | fin octobre | D fusionnée |
-| F | Tableau de bord | fin octobre | GoatCounter : fait, il compte depuis le 28 septembre ; reste à noter trois ou quatre relevés hebdomadaires et à déposer le dernier classeur de suivi (voir F) |
+| T | Telepex : relevés frais pour le tableau de bord | octobre, avant F | rien ; elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex (voir T) |
+| F | Tableau de bord | fin octobre | T faite et une semaine de relevés publiés par Telepex ; GoatCounter : fait, il compte depuis le 28 septembre |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | quand vous voulez | la pull request précédente fusionnée |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
@@ -90,32 +91,54 @@ Si le connecteur Typefully est branché (https://claude.ai/customize/connectors)
 ajouter à la fin : « Programme aussi un mois de publications sur X et Threads avec
 Typefully. »
 
+## T — Telepex : relevés frais pour le tableau de bord
+
+Telepex est l'application Mac de Karl qui relève, pour chaque photo de son profil Pexels,
+les vues, les téléchargements, les J'aime et le statut de modération ; c'est d'elle que
+vient la fiche de suivi du 24 septembre. Elle reste sur le Mac, hors de ce dépôt public :
+ni son code ni sa méthode n'y figurent. La session T lui fait publier son relevé dans
+`releves/`, chaque semaine ou chaque jour, pour que le tableau de bord (F), la preuve
+sociale du site, les mots-clés des nouvelles photos, l'ordre des épingles et la photo du
+jour partent de chiffres frais. Chaque relevé publié reconstruit le site en quelques
+minutes.
+
+Elle se lance sur le Mac, dans Claude Code, dans le dossier de Telepex, et non sur
+claude.ai/code : Telepex n'est pas sur GitHub et se compile avec Xcode. Une fois par
+semaine suffit aux courbes du tableau de bord et ménage le site de Pexels ; chaque jour
+reste possible.
+
+```text
+Session T, dans le dossier de Telepex : fais alimenter par Telepex le tableau de bord du dépôt public Willwonderc/PexelsWillwonder en relevés frais. Rien de Telepex ne va dans ce dépôt, ni code, ni clé, ni adresse d'API : seulement le relevé.
+1. Après chaque scan complet, écris le relevé au format de releves/suivi-pexels.csv du dépôt (https://github.com/Willwonderc/PexelsWillwonder/blob/main/releves/README.md), en UTF-8 sans BOM : photo, moderation (retenue pour approved, refusée sinon), import (AAAA-MM-JJ), vues, telechargements, jaime, evenement (oui ou non), titre (le titre Pexels, vide pour une photo sans titre, jamais le texte « Free stock photo of… »), mots_cles (séparés par des virgules), puis une colonne releve (date et heure du relevé, ISO 8601). Un scan incomplet, où manquent des statistiques ou l'onglet Événements marquants, ne publie rien.
+2. Publie-le à la place de releves/suivi-pexels.csv par l'API de GitHub, en un commit « Relevé Telepex du AAAA-MM-JJ », puis ajoute à releves/vues-pexels.csv la ligne du relevé : date, total des vues, nombre de photos, abonnés si le profil les donne, remarque « Telepex ». Jeton à grain fin limité à ce dépôt (Contents en lecture et écriture), que je range moi-même dans le trousseau du Mac ; sans jeton, le relevé reste sur le Mac, prêt à déposer à la main.
+3. Un réglage de fréquence : chaque semaine, le lundi matin (par défaut), ou chaque jour, à heure fixe, même Telepex fermé (tâche launchd) ; un relevé par jour au plus ; et un bouton « Publier le relevé » pour le faire à la demande.
+4. Mets à jour CLAUDE.md et README.md de Telepex : le relevé CSV, et lui seul, est publié dans le dépôt. Vérifie sans prendre le contrôle de mon écran, et explique-moi pas à pas la création du jeton et le réglage, sans jamais me demander de coller le jeton dans la conversation.
+```
+
 ## F — Tableau de bord
 
 La session F construit une page de suivi sur le site photo, que Karl garde dans ses
 favoris et qu'aucune autre page ne mentionne, ainsi que le compteur du petit écran Turing
-branché sur son PC. La page se met à jour chaque nuit, et quelques minutes après chaque
-relevé enregistré sur GitHub :
+branché sur son PC. La page reprend aussi la consultation de Telepex (toutes les photos,
+avec recherche, filtres et tri), depuis n'importe quel appareil ; la collecte des
+chiffres, elle, reste sur le Mac. La page se met à jour chaque nuit, et quelques minutes
+après chaque relevé enregistré sur GitHub :
 
 | Chiffres | Source | Relevés par |
 |---|---|---|
-| Vues et abonnés Pexels | profil Pexels | Karl, chaque semaine, dans `releves/vues-pexels.csv` |
-| Téléchargements, photos retenues par la modération, photos les plus vues | classeur « Suivi des photos Pexels » | Karl, qui le dépose dans `releves/` à chaque nouveau relevé |
+| Vues, téléchargements, J'aime, photos retenues par la modération, photos les plus vues | Telepex, l'application Mac de Karl | Telepex, chaque semaine ou chaque jour : il remplace `releves/suivi-pexels.csv` et ajoute une ligne à `releves/vues-pexels.csv` (session T) |
+| Abonnés Pexels | profil Pexels | Telepex, si le profil les donne ; sinon Karl, dans `releves/vues-pexels.csv` |
 | Visites, provenance, pages vues, clics vers Pexels | GoatCounter, qui compte depuis le 28 septembre | la tâche de nuit, par l'API de GoatCounter |
 | Impressions, clics sortants, enregistrements, abonnés Pinterest | statistiques Pinterest | Karl, chaque semaine, dans `releves/pinterest.csv`, à moins que l'API de Pinterest se révèle simple (la session compare) |
 | Citations du site par les assistants IA | `releves/assistants-ia.csv` | Karl, une fois par mois (déjà prévu) |
 
-Rien n'est relevé automatiquement sur pexels.com : les conditions de Pexels l'interdisent,
-et son API ne donne ni les vues ni les téléchargements.
+Ni le dépôt, ni ses tâches GitHub, ni la session ne vont chercher de chiffres sur
+pexels.com : ils viennent des relevés de Telepex, et l'API officielle de Pexels, qui sert
+aux fiches des photos, ne donne ni les vues ni les téléchargements.
 
 Avant de la lancer :
-1. Noter trois ou quatre relevés hebdomadaires dans `releves/vues-pexels.csv`.
-2. Déposer dans `releves/` le dernier classeur « Suivi des photos Pexels », renommé
-   `suivi-AAAA-MM-JJ.xlsx` d'après la date du relevé (mode d'emploi :
-   [releves/README.md](../releves/README.md)) : la session doit voir ses colonnes pour
-   apprendre à le lire. Le dépôt est public : le classeur ne doit contenir que les
-   statistiques des photos.
-3. Connaître le modèle de l'écran Turing (sa taille en pouces) et le système du PC où il
+1. Session T faite, et au moins une semaine de relevés publiés par Telepex.
+2. Connaître le modèle de l'écran Turing (sa taille en pouces) et le système du PC où il
    est branché (Windows, Linux ou macOS) : la session les demandera.
 
 La clé GoatCounter se crée pendant la session, qui explique comment la ranger dans les
@@ -124,17 +147,18 @@ secrets du dépôt.
 ```text
 Session F : chantier 4 de docs/plan.md, le tableau de bord. Commence par m'expliquer pas à pas les accès à créer, sans jamais me demander de coller une clé ou un jeton dans la conversation, et par me demander le modèle de mon écran Turing et le système de mon PC ; construis la suite sans attendre ces accès.
 1. Page https://photos.karlforterre.fr/tableau-de-bord/, en français seulement, écrite par vitrine/build.py à chaque passage, dans le style sobre du site : noindex, sans hreflang ni compteur GoatCounter, qu'aucune page ne mentionne, absente du plan du site, du journal des pages (donc d'IndexNow) et de llms.txt. Elle reste publique : rien de confidentiel dessus.
-2. Pour chaque source, les derniers chiffres et leur évolution semaine après semaine (du lundi au dimanche), en tableau et en courbes SVG tracées par build.py, sans bibliothèque ; la date du dernier relevé, avec un rappel quand un relevé à la main a plus de huit jours ; un lien vers le détail (karlforterre.goatcounter.com, statistiques Pinterest, Google Search Console).
+2. Pour chaque source, les derniers chiffres et leur évolution semaine après semaine (du lundi au dimanche), en tableau et en courbes SVG tracées par build.py, sans bibliothèque ; la date du dernier relevé, avec un rappel quand celui d'une source a plus de huit jours (Telepex arrêté, relevé oublié) ; un lien vers le détail (karlforterre.goatcounter.com, statistiques Pinterest, Google Search Console).
    - Vues et abonnés Pexels : releves/vues-pexels.csv.
-   - Téléchargements, photos retenues par la modération (dont les nouvelles depuis la fiche précédente), dix photos les plus vues et leur gain depuis la fiche précédente : fiches de suivi.
+   - Téléchargements, J'aime, photos retenues par la modération (dont les nouvelles de la semaine), dix photos les plus vues et leur gain de la semaine : releves/suivi-pexels.csv et son historique.
+   - Toutes les photos, comme dans Telepex : vignette, titre, vues, téléchargements, J'aime, statut de modération, événement marquant, date d'import, gain de la semaine et lien vers sa page Pexels ; recherche par titre, mot-clé ou numéro, filtres (retenues, refusées, événements marquants) et tri (date, vues, téléchargements, J'aime, gain), en JavaScript léger sans bibliothèque, les vignettes chargées seulement à l'affichage.
    - Visites, provenance (Google, Bing, Pinterest, Bluesky, Mastodon, karlforterre.fr, assistants IA : chatgpt.com, perplexity.ai, copilot.microsoft.com, gemini.google.com, claude.ai), pages les plus vues, clics vers Pexels (événements pexels-<numéro>, pexels-image-<numéro> et suivre-pexels… de vitrine/README.md, « Mesure d'audience ») et dix photos les plus cliquées : GoatCounter.
    - Impressions, clics sortants, enregistrements et abonnés Pinterest.
    - Citations du site par les assistants IA : releves/assistants-ia.csv, relevé une fois par mois.
-3. Fiches de suivi : releves/suivi-*.csv, au format de suivi-pexels.csv (relevé du 24 septembre 2026), et les classeurs .xlsx déposés dans releves/ sans conversion, lus sans dépendance (zipfile et xml.etree de Python) d'après les en-têtes de leurs colonnes (statuts « approved » et « rejected »), datés par leur nom (suivi-AAAA-MM-JJ.xlsx) ou, à défaut, par la date qu'ils portent. lire_suivi et lire_releves de build.py (preuve sociale, mots-clés, ordre des épingles et de la photo du jour) lisent aussi les classeurs et tiennent pour la plus récente la fiche la plus récemment datée.
+3. Relevés de Telepex (session T) : releves/suivi-pexels.csv, remplacé à chaque relevé, chaque semaine ou chaque jour (colonne releve : date et heure), et releves/vues-pexels.csv, qui reçoit une ligne par relevé. Tiens-en un historique compact : les totaux de chaque relevé et, par photo, de quoi calculer les gains de la semaine et du mois, dans un journal amorcé en session avec la fiche du 24 septembre 2026 (historique git de suivi-pexels.csv), puis enregistré par la seule tâche de nuit, comme parutions.json, et qui ne grossit que de quelques centaines de Ko par an. Une photo absente d'un relevé ou sans statistiques compte comme inconnue, jamais comme zéro.
 4. GoatCounter : son API (vérifie d'abord sa documentation, https://www.goatcounter.com/help/api), avec une clé qui ne fait que lire les statistiques, rangée dans le secret du dépôt GOATCOUNTER_JETON et passée à build.py par .github/workflows/site.yml. Chiffres recalculés chaque nuit depuis le 28 septembre 2026, ou gardés dans un journal que seule la tâche de nuit enregistre, comme parutions.json. Sans clé, ou si GoatCounter ne répond pas, le site se construit et se publie quand même, et la page le signale.
 5. Pinterest : compare le relevé à la main (releves/pinterest.csv, une ligne par semaine, lue dans Statistiques → Vue d'ensemble, ou l'export CSV de ces statistiques s'il existe) et l'API v5 (GET /v5/user_account/analytics : application à faire approuver par Pinterest, 90 jours d'historique au plus, jeton à renouveler au moins tous les 60 jours). Recommande-moi la solution la plus simple, gratuite et durable avant de la programmer.
 6. Écran Turing : build.py publie aussi /tableau-de-bord/compteur.json (vues et abonnés Pexels, téléchargements, visites et clics vers Pexels des 7 derniers jours, date de chaque relevé). Sur mon PC, le programme libre turing-smart-screen-python (https://github.com/mathoudebine/turing-smart-screen-python ; vérifie qu'il prend en charge mon modèle) le relit toutes les heures grâce à une source de données personnalisée et l'affiche avec un thème, rangés dans releves/ecran-turing/ avec un mode d'emploi pas à pas. Essaie-le en session avec son écran simulé et montre-moi une capture ; l'essai final se fera sur mon PC.
-Règles : Python sans dépendance pour le site ; aucune collecte sur pexels.com ; la clé n'apparaît ni dans le code ni dans les journaux ; garde apercu.json et son format ; essaie avec des chiffres fictifs que tu ne laisses pas dans le dépôt. Mets à jour releves/README.md (relevé de la semaine, dépôt d'une fiche, lecture du tableau de bord, écran Turing), README.md, docs/plan-site-pro.md et CLAUDE.md. Vérifie que vitrine/build.py tourne, que la page n'apparaît ni dans sitemap.xml, ni dans vitrine/donnees/pages.json, ni dans llms.txt, et son rendu sur ordinateur et sur téléphone ; puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+Règles : Python sans dépendance pour le site ; ni la tâche de nuit ni toi n'allez chercher de chiffres sur pexels.com, ils viennent des relevés ; la clé n'apparaît ni dans le code ni dans les journaux ; garde apercu.json et son format ; essaie avec des chiffres fictifs que tu ne laisses pas dans le dépôt. Mets à jour releves/README.md (relevés de Telepex, relevés à la main, lecture du tableau de bord, écran Turing), README.md, docs/plan-site-pro.md et CLAUDE.md. Vérifie que vitrine/build.py tourne, que la page n'apparaît ni dans sitemap.xml, ni dans vitrine/donnees/pages.json, ni dans llms.txt, et son rendu sur ordinateur et sur téléphone ; puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
 ## H — Instagram

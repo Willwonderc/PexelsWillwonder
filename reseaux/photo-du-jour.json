@@ -7,6 +7,10 @@
   "27116682": {
    "date": "2026-09-27",
    "lien": "https://bsky.app/profile/karlforterre.bsky.social/post/3mwiejetp4l2i"
+  },
+  "13087478": {
+   "date": "2026-09-28",
+   "lien": "https://bsky.app/profile/karlforterre.bsky.social/post/3mwkyrgjcnz26"
   }
  },
  "mastodon": {
@@ -17,6 +21,16 @@
   "27116682": {
    "date": "2026-09-27",
    "lien": "https://mastodon.social/@KarlForterre/117342025858234729"
+  },
+  "13087478": {
+   "date": "2026-09-28",
+   "lien": "https://mastodon.social/@KarlForterre/117347954572253031"
+  }
+ },
+ "instagram": {
+  "13102252": {
+   "date": "2026-09-28",
+   "lien": "https://www.instagram.com/p/Dd03NzCFsGb/"
   }
  }
 }

@@ -504,7 +504,9 @@ def lire_photos():
 
 
 def lire_csv(chemin):
-    with open(chemin, encoding="utf-8", newline="") as f:
+    # utf-8-sig : un CSV enregistré par Excel commence par un BOM, qui changerait sinon le
+    # nom de la première colonne (« photo » deviendrait illisible).
+    with open(chemin, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
 
