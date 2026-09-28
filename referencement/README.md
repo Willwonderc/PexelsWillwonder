@@ -123,8 +123,10 @@ réglage `google_verification` de `vitrine/site.ini` reste alors vide.
    copier.
 3. Dans un autre onglet, espace client OVH (https://www.ovh.com/manager/) → **Web Cloud**
    → **Noms de domaine** → `karlforterre.fr` → onglet **Zone DNS** → **Ajouter une
-   entrée** → **TXT** : laisser **Sous-domaine** vide, coller l'enregistrement dans
-   **Valeur**, puis **Suivant** → **Valider**.
+   entrée** → **TXT** : saisir `@` dans **Sous-domaine** (la racine du domaine ; surtout
+   pas « google », qui créerait l'entrée sur google.karlforterre.fr), coller
+   l'enregistrement dans **Valeur**, vérifier que l'aperçu commence par
+   `karlforterre.fr. IN TXT`, puis **Ajouter**.
 4. Revenir à Search Console et cliquer sur **Valider**. Si Google ne trouve pas encore
    l'enregistrement, réessayer une heure plus tard : la zone DNS met parfois du temps à se
    propager.
