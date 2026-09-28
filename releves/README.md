@@ -21,9 +21,12 @@ photo, de la plus vue à la moins vue :
 - `titre` : titre sur Pexels, vide pour une photo sans titre ;
 - `mots_cles` : mots-clés saisis à l'import.
 
-Pour un nouveau relevé, déposer le nouveau classeur, ou un fichier au même format, dans
-ce dossier (Add file → Upload files). La session du tableau de bord en prévoit la
-lecture.
+Pour un nouveau relevé, renommer d'abord le classeur sur l'ordinateur d'après la date du
+relevé, `suivi-AAAA-MM-JJ.xlsx` (par exemple `suivi-2026-10-26.xlsx`), puis le déposer
+dans ce dossier (Add file → Upload files). Le dépôt est public : le classeur ne doit
+contenir que les statistiques des photos. Un fichier au format de `suivi-pexels.csv`,
+nommé de même en `.csv`, convient aussi : le site le lit déjà. La session F (tableau de
+bord) apprendra à lire les classeurs.
 
 ## Ajouter un relevé
 
@@ -37,7 +40,7 @@ puis « Commit changes ». Exemple de ligne, chiffres fictifs :
 - `photos` et `abonnes` : facultatifs, laisser vide au besoin ;
 - `remarque` : facultative, pour noter un événement de la semaine.
 
-Ce relevé alimentera la page de tableau de bord du site (session 4) et le compteur de
+Ce relevé alimentera la page de tableau de bord du site (session F) et le compteur de
 l'écran Turing.
 
 Chaque relevé compte aussi comme une activité du dépôt. GitHub suspend les tâches
