@@ -122,9 +122,10 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   chaque lundi par `.github/workflows/jeton-instagram.yml`, qui réécrit le secret
   `INSTAGRAM_JETON` grâce au jeton GitHub du secret `JETON_GITHUB` ; ne jamais lancer
   `--renouveler-jeton` en session.
-- RedNote (小红书) : carrousels préparés en session et envoyés par courriel, publiés à la
-  main par Karl sur le compte « Soviet Croissant » (rednote ID 26225410141) ; récit de
-  photographe français, au ton léger, version française à côté. Règles et souvenirs de
+- RedNote (小红书) : carrousels préparés en session et envoyés par courriel (avec leur
+  paquet de publication pour Telepex, voir plus bas), publiés à la main par Karl sur le
+  compte « Soviet Croissant » (rednote ID 26225410141) ; récit de photographe français,
+  au ton léger, version française à côté. Règles et souvenirs de
   Karl : `reseaux/README.md`, rubrique « RedNote ». Chaque carrousel rejoint aussi la
   série de son sujet (`vitrine/series.ini`) : le récit dans les trois langues
   (`recit_*`), le petit cours de français sur les pages anglaises et chinoises
@@ -135,7 +136,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   musique libre de droits : classique en chinois et en anglais, pop en français
   (`reseaux/README.md`, « Vidéos diaporama des carrousels ») ; programme de session
   `reseaux/videos/`, plan pour atteindre le niveau d'une agence `docs/plan-videos.md`.
-  Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut).
+  Instagram reçoit, lui, la photo du jour automatiquement (voir plus haut). Chaque
+  publication à faire à la main part aussi en paquet de publication (`reseaux/paquet.py`,
+  format dans `reseaux/README.md`), envoyé comme fichier de la session, jamais dans le
+  dépôt : Telepex l'affiche à Karl, qui y valide ce qu'il publie (session U) ; le journal
+  `releves/publications.csv` garde ce qui est paru.
 - Journal des parutions : seule la tâche GitHub l'enregistre (`build.py
   --enregistrer-parutions`) ; un essai de `build.py` en session le lit sans le modifier.
 - Tableau de bord : `/tableau-de-bord/`, page française non référencée (noindex, hors plan du
