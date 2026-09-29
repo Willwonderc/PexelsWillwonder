@@ -32,7 +32,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
-| W | Photos d'origine pour Wikimedia Commons, sur le Mac | avant le dépôt sur Commons : dès maintenant pour les deux photos d'Espagne (concours clos le 30 septembre) | aucune pull request : la session copie des fichiers sur le Mac (voir W) |
+| W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
 | V3 | Studio vidéo : son et voix | après V2 | V2 fusionnée |
