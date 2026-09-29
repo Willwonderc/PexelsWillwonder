@@ -106,8 +106,9 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
 - [x] **Wikimedia Commons** : 15 photos déposées le 29 septembre 2026 depuis le compte
   « Karl Forterre », dont 11 au concours Wiki Loves Monuments (2 en Espagne, 9 en France)
   et 4 hors concours, chacune avec le bandeau « autorisation en cours »
-  ([liste](#déposées-le-29-septembre-2026)). Reste : le courriel d'autorisation depuis
-  contact@karlforterre.fr, s'il n'est pas encore parti (partie 3, étape D), et la photo du
+  ([liste](#déposées-le-29-septembre-2026)). Courriel d'autorisation envoyé le même jour
+  depuis contact@karlforterre.fr à permissions-fr@wikimedia.org, avec les 15 adresses :
+  un bénévole remplacera chaque bandeau par le numéro du dossier. Reste : la photo du
   dolmen de Buzy à remplacer par une version recadrée sans le visiteur (**Upload a new
   version of this file**, sur la page du fichier), avant le 15 octobre.
 - [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
