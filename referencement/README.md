@@ -103,10 +103,13 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
     facultatifs) et `[a-propos]` (portrait, matériel).
 - [ ] **Brave Search** (5 minutes) :
   [proposer quelques adresses](#être-présent-dans-les-trois-index-qui-comptent).
-- [ ] **Wikimedia Commons** (2 heures) :
-  [douze photos de lieux](#3-wikimedia-commons--douze-photos-de-lieux), avec le courriel
-  d'autorisation envoyé depuis contact@karlforterre.fr. Le concours Wiki Loves Monuments
-  est ouvert jusqu'au 15 octobre 2026 en France, jusqu'au 30 septembre en Espagne.
+- [x] **Wikimedia Commons** : 15 photos déposées le 29 septembre 2026 depuis le compte
+  « Karl Forterre », dont 11 au concours Wiki Loves Monuments (2 en Espagne, 9 en France)
+  et 4 hors concours, chacune avec le bandeau « autorisation en cours »
+  ([liste](#déposées-le-29-septembre-2026)). Reste : le courriel d'autorisation depuis
+  contact@karlforterre.fr, s'il n'est pas encore parti (partie 3, étape D), et la photo du
+  dolmen de Buzy à remplacer par une version recadrée sans le visiteur (**Upload a new
+  version of this file**, sur la page du fichier), avant le 15 octobre.
 - [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
   fiche de l'auteur viendra plus tard.
 - [ ] **Dépôt du mémoire** (1 heure) :
@@ -564,6 +567,41 @@ Saint-Florent de Xonrupt-Longemer, bâtiments non protégés, peu photographiés
 de la cathédrale et de l'hôtel de ville de Poitiers ; les monuments déjà couverts de
 centaines de photos (Mont-Saint-Michel, château de Fougères, cathédrale de
 Saint-Jacques-de-Compostelle).
+
+### Déposées le 29 septembre 2026
+
+Vérifiées une à une après le dépôt : auteur, licence CC BY-SA 4.0, descriptions avec le
+lien Pexels, date de l'appareil, position, catégories, identifiant du concours et bandeau
+« autorisation en cours ». Les n° 12 à 15, passés par l'assistant du concours français,
+en ont été retirés à la main (modèle et catégorie du concours supprimés).
+
+| # | Fichier sur Commons | Concours |
+|---|---|---|
+| 1 | [Irun - hôtel de ville (Casa consistorial) - 2026](https://commons.wikimedia.org/wiki/File:Irun_-_h%C3%B4tel_de_ville_(Casa_consistorial)_-_2026.jpg) | Espagne, `Q20492832` |
+| 2 | [Gijón - Universidad Laboral, tour et église - 2026](https://commons.wikimedia.org/wiki/File:Gij%C3%B3n_-_Universidad_Laboral,_tour_et_%C3%A9glise_-_2026.jpg) | Espagne, `Q5196648` |
+| 3 | [Niort - église Saint-André au-dessus de la ville - 2024](https://commons.wikimedia.org/wiki/File:Niort_-_%C3%A9glise_Saint-Andr%C3%A9_au-dessus_de_la_ville_-_2024.jpg) | France, PA79000044 |
+| 4 | [Niort - flèches de l'église Saint-André dans la verdure - 2025](https://commons.wikimedia.org/wiki/File:Niort_-_fl%C3%A8ches_de_l%27%C3%A9glise_Saint-Andr%C3%A9_dans_la_verdure_-_2025.jpg) | France, PA79000044 |
+| 5 | [Niort - hôtel de préfecture des Deux-Sèvres - 2026](https://commons.wikimedia.org/wiki/File:Niort_-_h%C3%B4tel_de_pr%C3%A9fecture_des_Deux-S%C3%A8vres_-_2026.jpg) | France, PA00101291 |
+| 6 | [Niort - hôtel de ville - 2026](https://commons.wikimedia.org/wiki/File:Niort_-_h%C3%B4tel_de_ville_-_2026.jpg) | France, PA79000045 |
+| 7 | [Bordeaux - monument aux Girondins, Génie de la Liberté - 2026](https://commons.wikimedia.org/wiki/File:Bordeaux_-_monument_aux_Girondins,_G%C3%A9nie_de_la_Libert%C3%A9_-_2026.jpg) | France, PA33000074 |
+| 8 | [Villandry - jardins du château vus d'en haut - 2026](https://commons.wikimedia.org/wiki/File:Villandry_-_jardins_du_ch%C3%A2teau_vus_d%27en_haut_-_2026.jpg) | France, PA00098286 |
+| 9 | [Îles Chausey - le phare vu de la mer - 2025](https://commons.wikimedia.org/wiki/File:%C3%8Eles_Chausey_-_le_phare_vu_de_la_mer_-_2025.jpg) | France, PA50000061 |
+| 10 | [Îles Chausey - la tour du phare - 2025](https://commons.wikimedia.org/wiki/File:%C3%8Eles_Chausey_-_la_tour_du_phare_-_2025.jpg) | France, PA50000061 |
+| 11 | [Buzy - dolmen - 2026](https://commons.wikimedia.org/wiki/File:Buzy_-_dolmen_-_2026.jpg) | France, PA00084369 ; version recadrée à venir |
+| 12 | [Moyemont - chemin bordé d'arbres - 2022](https://commons.wikimedia.org/wiki/File:Moyemont_-_chemin_bord%C3%A9_d%27arbres_-_2022.jpg) | hors concours |
+| 13 | [Éclipse totale de Soleil du 12 août 2026 vue de Galice](https://commons.wikimedia.org/wiki/File:%C3%89clipse_totale_de_Soleil_du_12_ao%C3%BBt_2026_vue_de_Galice.jpg) | hors concours |
+| 14 | [Cognac - hôtel de ville - 2025](https://commons.wikimedia.org/wiki/File:Cognac_-_h%C3%B4tel_de_ville_-_2025.jpg) | hors concours |
+| 15 | [Xonrupt-Longemer - chapelle Saint-Florent - 2022](https://commons.wikimedia.org/wiki/File:Xonrupt-Longemer_-_chapelle_Saint-Florent_-_2022.jpg) | hors concours |
+
+À retenir pour les prochains dépôts :
+
+- **Copier les informations** d'une fiche à l'autre, dans l'assistant du concours
+  français, a enregistré le code Mérimée avec `%7C` à la place du trait vertical
+  (`{{Mérimée%7CPA…}}`) : vérifier chaque page après le dépôt et remettre `|`.
+- `{{subst:PP}}` se colle tout en haut, puis Entrée, sans espace : une ligne qui
+  commence par une espace s'affiche comme un bloc de code et casse le titre qui suit.
+- Une photo hors concours se dépose par l'assistant ordinaire ; passée par celui d'un
+  concours, il faut en retirer le modèle et la catégorie du concours.
 
 ### Ensuite
 
