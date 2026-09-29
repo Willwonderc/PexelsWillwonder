@@ -440,7 +440,8 @@ la version la moins retouchée. À défaut d'original, le fichier de Pexels rest
 la date se saisit alors à la main. Une session Claude Code sur le Mac retrouve et copie les
 originaux : consigne W de `consignes/prochaines-sessions.md`.
 
-**C. Le dépôt**, par l'assistant d'import, ouvert par le bon lien :
+**C. Le dépôt**, par l'assistant d'import, ouvert par le bon lien. Les valeurs à coller, photo
+par photo, sont dans [commons-fiches.md](commons-fiches.md) :
 
 - concours de France, jusqu'au 15 octobre :
   https://commons.wikimedia.org/wiki/Special:UploadWizard?campaign=wlm-fr, qui demande le
@@ -539,12 +540,12 @@ par Karl, qui sait ce qu'il a photographié.
 | # | Photo (page du site) | Titre proposé (ajouter l'année de la prise de vue) | Concours | Catégorie Commons | Pourquoi |
 |---|---|---|---|---|---|
 | 1 | [39423921](https://photos.karlforterre.fr/photo/39423921/) | Irun - hôtel de ville | Espagne, avant le 30 septembre (hôtels de ville admis en 2026) | Town hall of Irun (22 fichiers) | façade entière, de face ; retenue par la modération de Pexels |
-| 2 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, la tour et l'église elliptique | Espagne, avant le 30 septembre (BIC) | Universidad Laboral de Gijón | point de vue peu courant ; bâtie par le régime franquiste, à décrire sobrement |
+| 2 | [39228699](https://photos.karlforterre.fr/photo/39228699/) | Gijón - Universidad Laboral, tour et église | Espagne, avant le 30 septembre (BIC) | Tower of Universidad Laboral de Gijón (12), Church of Universidad Laboral de Gijón (22) | point de vue peu courant ; bâtie par le régime franquiste, à décrire sobrement |
 | 3 | [23414381](https://photos.karlforterre.fr/photo/23414381/) | Niort - église Saint-André au-dessus de la ville | France, PA79000044 | Église Saint-André (Niort) (27) | la plus téléchargée de la sélection (123 téléchargements sur Pexels) |
 | 4 | [33035661](https://photos.karlforterre.fr/photo/33035661/) | Niort - flèches de l'église Saint-André dans la verdure | France, PA79000044 | Église Saint-André (Niort) (27) | vue en hauteur, 57 téléchargements |
 | 5 | [38279508](https://photos.karlforterre.fr/photo/38279508/) | Niort - hôtel de préfecture des Deux-Sèvres | France, PA00101291 | Hôtel de préfecture des Deux-Sèvres (4) | façade de face ; quatre photos seulement sur Commons |
 | 6 | [38279504](https://photos.karlforterre.fr/photo/38279504/) | Niort - hôtel de ville | France, PA79000045 | Hôtel de ville de Niort (8) | huit photos seulement ; déposer si possible une version moins retouchée |
-| 7 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, la Liberté brisant ses chaînes | France, PA33000074 | Monument aux Girondins | la statue qui couronne la colonne, seule sur le ciel ; sculptures d'Alphonse Dumilatre, mort en 1928 |
+| 7 | [39376205](https://photos.karlforterre.fr/photo/39376205/) | Bordeaux - monument aux Girondins, Génie de la Liberté | France, PA33000074 | Genius of Liberty (Monument to the Girondins) (23) | la statue qui couronne la colonne, seule sur le ciel ; sculptures d'Alphonse Dumilatre, mort en 1928 |
 | 8 | [38694047](https://photos.karlforterre.fr/photo/38694047/) | Villandry - jardins du château vus d'en haut | France, PA00098286 | Gardens of the Château de Villandry | la plus téléchargée des vues de Villandry (51) ; lieu déjà très photographié |
 | 9 | [34894970](https://photos.karlforterre.fr/photo/34894970/) | Îles Chausey - le phare vu de la mer | France, PA50000061 | Phare de Chausey (13) | c'est le phare de Chausey (commune de Granville), et non celui du cap Lihou |
 | 10 | [34894959](https://photos.karlforterre.fr/photo/34894959/) | Îles Chausey - la tour du phare | France, PA50000061 | Phare de Chausey (13) | la tour et sa lanterne de près |
