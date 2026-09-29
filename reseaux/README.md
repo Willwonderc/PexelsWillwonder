@@ -424,22 +424,31 @@ ville d'Irun (image 4), dans le carrousel comme dans les vidéos, et rejoint la 
 ## Vidéos diaporama des carrousels
 
 Chaque carrousel peut aussi devenir une vidéo, à publier à sa place ou en plus. Les cinq
-premiers l'ont été le 27 septembre 2026, en chinois, en français et en anglais, avec le
-programme de `reseaux/videos/` (mode d'emploi dans son README). Le plan pour l'amener au
-niveau d'une agence est dans `docs/plan-videos.md`. Règles actuelles :
+premiers l'ont été le 27 septembre 2026 en diaporamas 3:4, puis refaits le 28 septembre
+par le studio de `reseaux/videos/` (`studio.py`, mode d'emploi dans son README) : vidéos
+rythmées, calées sur la musique, contrôlées automatiquement. Cahier des charges et
+suite du travail : `docs/plan-videos.md`. Règles actuelles :
 
-- **Format** : 3:4 (1080 × 1440 pixels), comme les carrousels, de 40 à 70 secondes.
-- **Déroulé** : la couverture du carrousel, puis chaque photo originale avec un zoom
-  lent (en paysage, entière sur fond flou) et le récit en sous-titres ; le petit cours
-  de français (versions chinoise et anglaise seulement) et l'image de fin.
+- **Formats** : 9:16 (1080 × 1920 pixels : Reels, TikTok, YouTube Shorts, RedNote) et
+  3:4 (1080 × 1440 : RedNote, grille du profil Instagram, Facebook), sans bandes noires,
+  rien d'important sous les boutons des applications ; de 40 à 75 secondes selon la
+  longueur du récit.
+- **Déroulé** : une accroche de 3 secondes (une photo déjà en mouvement et la promesse
+  du titre, écrite mot à mot), puis chaque photo avec son récit en sous-titres de deux
+  lignes au plus ; le petit cours de français (versions chinoise et anglaise
+  seulement) et une fin courte : logo KF’, appel à chercher « Karl Forterre » sur Pexels.
+- **Rythme** : les coupes tombent sur les temps forts de la musique (ou sur ses notes
+  les plus fortes pour le piano), les mots des sous-titres sur les notes ; une barre de
+  progression et un compteur (« 03 / 08 ») avancent au même rythme. Couverture à part,
+  en 3:4 et en 9:16, et sous-titres en fichier SRT pour YouTube et Facebook.
 - **Textes** : les sous-titres reprennent les textes validés, mot pour mot en chinois ;
   l'anglais est traduit du français. Chinois et anglais présentent Karl en photographe
   français. La version française, destinée à un public français (son Facebook
   personnel), ne met pas en avant ce côté français, que Karl trouve peu sérieux : ni
   « photographe français », ni « en France, on… ». Couvertures et fins française et
   anglaise sont refaites dans le style des carrousels, sans ce sous-titre.
-- **Musique**, libre de droits, fondue au début et à la fin, au volume conseillé pour
-  les réseaux (−16 LUFS) :
+- **Musique**, libre de droits, au volume conseillé pour les réseaux (−14 LUFS, crêtes à
+  −1 dBTP), qui finit sur une note forte puis en fondu :
   - en chinois et en anglais, de la musique classique dans des enregistrements dédiés
     au domaine public : Chopin par Musopen (https://archive.org/details/musopen-chopin),
     Bach par Kimiko Ishizaka (https://archive.org/details/bach-well-tempered-clavier-book-1) ;
