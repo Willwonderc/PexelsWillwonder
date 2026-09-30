@@ -12,6 +12,332 @@
  "moteurs": {
   "bing": {
    "karlforterre.fr": {}
+  },
+  "google": {
+   "karlforterre.fr": {
+    "image": {
+     "2026-07-06": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-13": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-20": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-27": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-03": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-10": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-17": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-24": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-31": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-07": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-14": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-21": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-28": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     }
+    },
+    "web": {
+     "2026-07-06": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-13": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-20": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-27": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-03": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-10": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-17": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-24": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-31": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-07": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-14": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-21": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 3,
+      "position": 7.7
+     },
+     "2026-09-28": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     }
+    }
+   },
+   "photos.karlforterre.fr": {
+    "image": {
+     "2026-07-06": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-13": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-20": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-27": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-03": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-10": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-17": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-24": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-31": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-07": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-14": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-21": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-28": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     }
+    },
+    "web": {
+     "2026-07-06": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-13": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-20": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-07-27": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-03": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-10": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-17": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-24": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-08-31": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-07": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-14": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-21": {
+      "clics": 0,
+      "complete": true,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-09-28": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     }
+    }
+   }
   }
  },
  "releves": {
