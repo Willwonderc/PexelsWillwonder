@@ -32,7 +32,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | plus nécessaire : la session M écrit aussi les légendes, chaque mois | — |
-| M | Messages du mois : Bluesky, Mastodon, Instagram | automatique, le 26 de chaque mois (session programmée) ; octobre 2026 écrit en session le 30 septembre | rien ; ensuite, Karl fusionne sa pull request d'un clic (voir M) |
+| M | Messages du mois : Bluesky, Mastodon, Instagram | automatique, le 26 de chaque mois, dans la conversation de Karl (Opus) ; octobre 2026 écrit le 30 septembre | rien : elle vérifie et fusionne elle-même, avec l'accord de Karl (voir M) |
 | W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
@@ -326,21 +326,21 @@ Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo
 
 Règle de Karl, 30 septembre 2026 : aucune partie à la main ; des messages humains, dans
 son style ; pour chaque message, le français ou l'anglais selon l'audience qu'il peut
-toucher. Cette session, lancée seule le 26 de chaque mois à 9 h 13 (session programmée de
-Claude Code, « Messages du mois », avec le modèle Opus), tire les leçons des messages du
-mois écoulé et écrit ceux des six semaines suivantes sur les trois réseaux, pour gagner le
-plus d'audience possible ; elle les vérifie et ouvre une pull request ; Karl n'a qu'à la
-fusionner, d'un clic.
-Une routine qui fusionnerait elle-même, sans relecture humaine, est refusée par les
-garde-fous de Claude Code. Octobre 2026 a été écrit en session le 30 septembre. Fonctionnement :
-`reseaux/README.md`, « Des messages écrits à l'avance ».
+toucher. Le 26 de chaque mois à 9 h 13, la routine « Messages du mois, dans la
+conversation de Karl » relance la conversation Claude Code où ce système a été construit
+(Opus, effort maximal), avec cette consigne : elle tire les leçons des messages du mois
+écoulé et écrit ceux des six semaines suivantes sur les trois réseaux, pour gagner le plus
+d'audience possible ; elle les vérifie, ouvre une pull request et la fusionne elle-même,
+avec l'accord donné par Karl le 30 septembre 2026. Si une vérification échoue, elle ne
+fusionne pas et le prévient. Octobre 2026 a été écrit dans cette conversation le
+30 septembre. Fonctionnement : `reseaux/README.md`, « Des messages écrits à l'avance ».
 
-Pour que la session programmée trouve le dépôt, Karl ajoute une fois, sur claude.ai,
-dans la page des routines, le dépôt Willwonderc/PexelsWillwonder à la routine « Messages
-du mois » ; sans cela, la session le rattache elle-même (étape 0).
+En secours, la routine « Messages du mois : Bluesky, Mastodon, Instagram (consigne M) »
+reste en pause : elle part d'une session neuve (étape 0 pour rattacher le dépôt) et laisse
+la fusion à Karl.
 
 ```text
-Session M, programmée : écris les messages de la photo du jour des six prochaines semaines (Bluesky, Mastodon, Instagram) dans le dépôt Willwonderc/PexelsWillwonder, pour gagner le plus d'audience possible, vérifie-les et propose-les en pull request. Tout se fait sans Karl, sauf la fusion, qu'il fait d'un clic.
+Session M, programmée : écris les messages de la photo du jour des six prochaines semaines (Bluesky, Mastodon, Instagram) dans le dépôt Willwonderc/PexelsWillwonder, pour gagner le plus d'audience possible, vérifie-les et fusionne la pull request toi-même : Karl l'a autorisé le 30 septembre 2026, rien ne reste à la main.
 
 0. Si le dépôt n'est pas dans la session : rattache-le avec l'outil add_repo (propriétaire Willwonderc, dépôt PexelsWillwonder, accès push), clone-le comme l'outil l'indique, puis appelle register_repo_root. Travaille sur une nouvelle branche partie de main. Lis CLAUDE.md, puis dans reseaux/ : README.md (« Des messages écrits à l'avance », « Souvenirs et repères de Karl »), style-karl.md et audience.md.
 
@@ -367,7 +367,7 @@ Une ligne par jour et par réseau dans reseaux/calendrier.csv (date, reseau, pho
 
 7. Vérifie : python3 reseaux/photo_du_jour.py --calendrier doit finir par « Calendrier prêt. » ; --essai --jour sur trois jours ; --a-venir 45 : aucune légende « à écrire ». Relis chaque texte : faits, orthographe, typographie, longueur, langue.
 
-8. Ne modifie que reseaux/calendrier.csv, reseaux/legendes-instagram.csv et reseaux/audience.md. Commit en français, pousse la branche, ouvre une pull request vers main : en tête, les leçons du mois et ce qui change ; puis le calendrier jour par jour (date, réseau, langue, photo avec son lien https://photos.karlforterre.fr/photo/NUMÉRO/, début du texte), la liste des défis et sa source, les légendes Instagram ajoutées. Si les mesures montrent qu'une autre heure de publication gagnerait du public sur un réseau, propose-la en tête (elle se règle dans .github/workflows/photo-du-jour.yml : Bluesky et Instagram à 6 h 47 UTC, Mastodon à 15 h 47 UTC), sans la changer toi-même. Ne fusionne pas : Karl fusionne d'un clic ; tant que la pull request attend, les photos du jour partent avec le texte automatique. Si une vérification échoue et que tu ne peux pas la corriger, dis-le en tête de la pull request.
+8. Ne modifie que reseaux/calendrier.csv, reseaux/legendes-instagram.csv et reseaux/audience.md. Commit en français, pousse la branche, ouvre une pull request vers main : en tête, les leçons du mois et ce qui change ; puis le calendrier jour par jour (date, réseau, langue, photo avec son lien https://photos.karlforterre.fr/photo/NUMÉRO/, début du texte), la liste des défis et sa source, les légendes Instagram ajoutées. Si les mesures montrent qu'une autre heure de publication gagnerait du public sur un réseau, propose-la en tête (elle se règle dans .github/workflows/photo-du-jour.yml : Bluesky et Instagram à 6 h 47 UTC, Mastodon à 15 h 47 UTC), sans la changer toi-même. Puis fusionne-la toi-même (squash). Si une vérification échoue et que tu ne peux pas la corriger, ne fusionne pas, dis-le en tête de la pull request et préviens Karl : les photos du jour partent quand même, avec le texte automatique.
 
 Jamais : publier toi-même sur un réseau ; aimer, suivre ou répondre à qui que ce soit ; collecter quoi que ce soit sur pexels.com ; lancer --renouveler-jeton ou --envoyer-indexnow ; écrire un secret où que ce soit.
 ```

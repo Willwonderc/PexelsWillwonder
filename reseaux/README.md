@@ -4,8 +4,8 @@ Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky, s
 Mastodon (ou Pixelfed) et sur Instagram, avec un texte écrit à l'avance dans le style de
 Karl (`reseaux/style-karl.md`) et le lien vers sa page du site, d'où elle se télécharge
 sur Pexels. Une session Claude programmée écrit chaque mois les textes du mois suivant,
-les vérifie et les propose en pull request ; le seul geste de Karl est de la fusionner,
-d'un clic (voir « Des messages écrits à l'avance », plus bas).
+les vérifie et les range elle-même dans le dépôt, avec l'accord de Karl : il n'a rien à
+faire (voir « Des messages écrits à l'avance », plus bas).
 
 - **Bluesky**, en français le plus souvent, à la manière de la communauté
   #UnJourUnePhoto ; le lien part en réponse sous la photo. Exemple :
@@ -381,8 +381,10 @@ Instagram garde ses légendes, une par photo, dans `reseaux/legendes-instagram.c
 
 ### Qui les écrit
 
-Une session Claude programmée, avec le modèle Opus, le 26 de chaque mois à 9 h 13
-(consigne M de `consignes/prochaines-sessions.md`) :
+Une session Claude programmée, le 26 de chaque mois à 9 h 13 : la routine « Messages du
+mois, dans la conversation de Karl » relance la conversation Claude Code où ce système a
+été construit (Opus, effort maximal), qui suit la consigne M de
+`consignes/prochaines-sessions.md` :
 
 1. fait le bilan du mois écoulé : les résultats de chaque message de Karl (API publiques
    de Bluesky et de mastodon.social, en lecture), rapprochés de sa photo, de son sujet, de
@@ -398,15 +400,18 @@ Une session Claude programmée, avec le modèle Opus, le 26 de chaque mois à 9 
    d'image ; elle peut réécrire les sept jours déjà écrits le mois précédent, avant la
    liste des défis ; elle complète aussi les légendes Instagram des six semaines
    suivantes ;
-5. vérifie le tout (`--calendrier`, `--essai`) et ouvre une pull request, avec en tête
+5. vérifie le tout (`--calendrier`, `--essai`), ouvre une pull request, avec en tête
    les leçons du mois et, si les mesures le justifient, une meilleure heure de
-   publication à régler.
+   publication à régler, puis la fusionne elle-même.
 
-Karl la fusionne d'un clic (*Merge pull request*, puis *Confirm*) : une routine qui
-fusionnerait elle-même, sans relecture humaine, est refusée par les garde-fous de
-Claude Code. Tant qu'elle attend, rien ne casse : les photos du jour partent avec le
-texte automatique. Pour corriger un message, il suffit de modifier sa ligne sur GitHub
-(crayon, *Edit*, puis *Commit changes*) ; pour le retirer, de la supprimer.
+Karl l'a autorisé le 30 septembre 2026 (« Je t'autorise à fusionner les modifications… »,
+puis « Tu peux modifier le garde-fou avec mon autorisation, et fusionner également ») :
+il n'a rien à relire ni à fusionner. Si une vérification échoue, la session ne fusionne
+pas et le prévient ; les photos du jour partent quand même, avec le texte automatique.
+En secours, la routine « Messages du mois : Bluesky, Mastodon, Instagram (consigne M) »,
+qui part d'une session neuve et laisse la fusion à Karl, reste en pause. Pour corriger
+un message, il suffit de modifier sa ligne sur GitHub (crayon, *Edit*, puis *Commit
+changes*) ; pour le retirer, de la supprimer.
 
 ### Ce que le programme ne fait jamais
 
