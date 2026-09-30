@@ -1,5 +1,6 @@
-# Publie chaque matin la « photo du jour » sur Bluesky, sur Mastodon (ou Pixelfed) et
-# sur Instagram, puis enregistre sur main le journal des publications
+# Publie chaque jour la « photo du jour » : le matin sur Bluesky et sur Instagram,
+# l'après-midi sur Mastodon (ou Pixelfed), quand son public anglophone, européen et
+# américain, est éveillé ; puis enregistre sur main le journal des publications
 # (reseaux/photo-du-jour.json). Sans les secrets d'un réseau, ce réseau est laissé de
 # côté, sans erreur. Le jeton Instagram est renouvelé chaque semaine par la tâche
 # « Jeton Instagram » (jeton-instagram.yml). Mode d'emploi : reseaux/README.md.
@@ -7,8 +8,10 @@ name: Photo du jour
 
 on:
   schedule:
-    # 6 h 47 UTC : 8 h 47 à Paris en été, 7 h 47 en hiver.
+    # 6 h 47 UTC : 8 h 47 à Paris en été, 7 h 47 en hiver (Bluesky et Instagram).
     - cron: "47 6 * * *"
+    # 15 h 47 UTC : 17 h 47 à Paris en été, 11 h 47 à New York (Mastodon).
+    - cron: "47 15 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +37,15 @@ jobs:
           MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
           MASTODON_JETON: ${{ secrets.MASTODON_JETON }}
           INSTAGRAM_JETON: ${{ secrets.INSTAGRAM_JETON }}
-        run: python3 reseaux/photo_du_jour.py
+          PASSAGE: ${{ github.event.schedule }}
+        # Lancée à la main (Run workflow), la tâche publie sur tous les réseaux qui n'ont
+        # pas encore eu leur photo du jour.
+        run: |
+          case "$PASSAGE" in
+            "47 6 * * *") python3 reseaux/photo_du_jour.py --reseaux bluesky,instagram ;;
+            "47 15 * * *") python3 reseaux/photo_du_jour.py --reseaux mastodon ;;
+            *) python3 reseaux/photo_du_jour.py ;;
+          esac
 
       # Même si un réseau a échoué, garder la trace de ce que les autres ont publié.
       - name: Enregistrer le journal des publications

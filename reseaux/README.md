@@ -41,7 +41,10 @@ d'un clic (voir « Des messages écrits à l'avance », plus bas).
   (réglage `rediffusion_jours`) : quand le calendrier la choisit, ou, une fois toutes les
   photos publiées, par ordre d'ancienneté. Le journal garde alors la trace de
   la publication précédente (`precedentes`).
-- **Heure** : 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47 UTC).
+- **Heure** : Bluesky et Instagram à 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47
+  UTC), au plus fort de la communauté #UnJourUnePhoto ; Mastodon à 17 h 47 en été,
+  16 h 47 en hiver (15 h 47 UTC), quand son public anglophone est éveillé des deux côtés
+  de l'Atlantique (11 h 47 à New York).
 - **Sans accès** : un réseau dont les secrets ne sont pas renseignés est simplement
   laissé de côté. On peut donc commencer par un seul réseau.
 
@@ -356,15 +359,19 @@ Chaque message finit donc par quatre ou cinq hashtags choisis parmi les plus sui
 (`#Photography`, `#Nature`, `#Architecture`, `#BirdsOfMastodon`…), et suit les jours à
 thème : un chat le samedi (`#Caturday`, `#CatsOfMastodon`), du noir et blanc le lundi
 (`#MonochromeMonday`), une fenêtre le vendredi (`#FensterFreitag`). Le lien vers la
-page de la photo s'insère avant les hashtags.
+page de la photo s'insère avant les hashtags. Chaque image y a une vraie description
+(colonne `alt`) : sur Mastodon, beaucoup ne partagent que les images décrites. Le
+message part l'après-midi, à 15 h 47 UTC, pour toucher l'Europe et l'Amérique.
 
 ### Le calendrier
 
 `reseaux/calendrier.csv` : une ligne par jour et par réseau (`bluesky` ou `mastodon`),
 colonnes `date` (AAAA-MM-JJ), `reseau`, `photo` (numéro Pexels), `langue` (`fr` ou `en`),
-`theme` (pour mémoire : défi du jour, jour à thème) et `texte` (le message complet,
+`theme` (pour mémoire : défi du jour, jour à thème), `texte` (le message complet,
 hashtags compris, sans le lien ; `\n` pour aller à la ligne ; 300 caractères au plus sur
-Bluesky, 500 sur Mastodon avec le lien). Les hashtags deviennent cliquables tout seuls.
+Bluesky, 500 sur Mastodon avec le lien) et `alt` (description de l'image pour qui ne la
+voit pas ; vide, le titre de la photo en tient lieu). Les hashtags deviennent cliquables
+tout seuls.
 Une photo prévue par le calendrier ne part pas avant son jour dans la file ordinaire.
 Une ligne inutilisable (photo absente, parue il y a moins de 180 jours, langue inconnue)
 laisse partir la file ordinaire ce jour-là, avec son texte automatique (hashtags et
@@ -374,17 +381,26 @@ Instagram garde ses légendes, une par photo, dans `reseaux/legendes-instagram.c
 
 ### Qui les écrit
 
-Une session Claude programmée, le 26 de chaque mois à 9 h 13 (consigne M de
-`consignes/prochaines-sessions.md`) :
+Une session Claude programmée, avec le modèle Opus, le 26 de chaque mois à 9 h 13
+(consigne M de `consignes/prochaines-sessions.md`) :
 
-1. mesure l'audience (API publiques de Bluesky et de mastodon.social, en lecture) et
-   complète `reseaux/audience.md` ;
-2. cherche la liste des défis du mois suivant ;
-3. choisit les photos : celles des défis, puis la file ordinaire (les plus vues pas
-   encore publiées sur ce réseau), avec les jours à thème de Mastodon ;
-4. écrit chaque message dans la langue retenue, dans le style de Karl, sans rien
-   inventer, et complète les légendes Instagram des six semaines suivantes ;
-5. vérifie le tout (`--calendrier`, `--essai`) et ouvre une pull request.
+1. fait le bilan du mois écoulé : les résultats de chaque message de Karl (API publiques
+   de Bluesky et de mastodon.social, en lecture), rapprochés de sa photo, de son sujet, de
+   sa langue et de ses hashtags, et l'audience des communautés ; leçons et choix vont
+   dans `reseaux/audience.md` ;
+2. relève les rendez-vous de la période : la liste des défis du mois suivant, les fêtes,
+   les saisons, les rendez-vous du ciel, les journées qui ont une photo sur le site ;
+3. choisit les photos pour l'audience : celles des défis et des jours à thème, puis, parmi
+   les photos pas encore publiées sur le réseau, les sujets qui ont le mieux marché ; la
+   file ordinaire (les plus vues sur Pexels) départage ;
+4. écrit six semaines de messages, du 1er du mois suivant au 7 du mois d'après, dans la
+   langue retenue, dans le style de Karl, sans rien inventer, avec leur description
+   d'image ; elle peut réécrire les sept jours déjà écrits le mois précédent, avant la
+   liste des défis ; elle complète aussi les légendes Instagram des six semaines
+   suivantes ;
+5. vérifie le tout (`--calendrier`, `--essai`) et ouvre une pull request, avec en tête
+   les leçons du mois et, si les mesures le justifient, une meilleure heure de
+   publication à régler.
 
 Karl la fusionne d'un clic (*Merge pull request*, puis *Confirm*) : une routine qui
 fusionnerait elle-même, sans relecture humaine, est refusée par les garde-fous de
@@ -428,8 +444,10 @@ Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
   tout.
 - **Phrase de la légende Instagram** : `TEXTES_INSTAGRAM` dans
   `reseaux/photo_du_jour.py`, une par langue.
-- **Heure** : ligne `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
-  (minute, puis heure). Évitez la minute 0, souvent retardée par GitHub.
+- **Heure** : lignes `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
+  (minute, puis heure) : `47 6` pour Bluesky et Instagram, `47 15` pour Mastodon ; les
+  lignes `case` juste en dessous, qui répartissent les réseaux, doivent porter les mêmes
+  heures. Évitez la minute 0, souvent retardée par GitHub.
 - **Faire une pause** : onglet **Actions** → **Photo du jour** → bouton **…** →
   **Disable workflow** ; **Enable workflow** pour reprendre là où la tâche s'était
   arrêtée. Laissez la tâche **Jeton Instagram** active pendant la pause : elle garde le

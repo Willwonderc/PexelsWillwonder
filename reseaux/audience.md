@@ -79,3 +79,14 @@ partages.
   (#Caturday), du noir et blanc le lundi (#MonochromeMonday), une fenêtre le vendredi
   2 (#FensterFreitag). #SilentSunday, qui veut des photos sans texte, est laissé de côté.
 - **Instagram : français** (règle de Karl).
+
+### Heure de publication sur Mastodon
+
+1 200 messages #photography de mastodon.social, du 29 septembre (18 h 51 UTC) au
+30 septembre (20 h 24 UTC), classés par heure de parution : les messages de l'après-midi
+(16 h et 17 h UTC), vieux de trois ou quatre heures seulement, avaient déjà autant de
+réactions en médiane (5 à 6) que ceux de 6 h UTC au bout de quatorze heures (5). À
+6 h 47 UTC, l'Amérique dort. D'où, à partir d'octobre, Mastodon à 15 h 47 UTC (17 h 47 à
+Paris, 11 h 47 à New York) ; Bluesky et Instagram restent à 6 h 47 UTC, au plus fort de
+la communauté #UnJourUnePhoto. Une seule journée de mesure : à confirmer par le bilan de
+fin octobre.
