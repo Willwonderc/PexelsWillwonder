@@ -113,7 +113,13 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   `.github/workflows/photo-du-jour.yml`, publie sur Bluesky, Mastodon (ou Pixelfed) et
   Instagram la photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`,
   tenu par cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique
-  `[photo_du_jour]`. Essai sans publier : `--essai`. Instagram (@karl_forterre, compte
+  `[photo_du_jour]`. Une photo ne revient sur un réseau qu'après `rediffusion_jours` (180).
+  Bluesky (`langue_bluesky = fr`) suit la communauté #UnJourUnePhoto : hashtags de la
+  communauté, titre, lien en réponse ; les jours de défi du mois (#PhotoOctober…), photo
+  et texte viennent de `reseaux/calendrier.csv`, préparé le 26 de chaque mois par une
+  session programmée (consigne M) et fusionné par Karl. Jamais de « j'aime » ni
+  d'abonnements automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`).
+  Instagram (@karl_forterre, compte
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
   téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG
   (sinon AVIF ou WebP selon le client), recadrée au centre entre 4:5 et 1,91:1 ;

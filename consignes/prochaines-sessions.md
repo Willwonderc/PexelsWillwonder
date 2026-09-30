@@ -32,6 +32,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
+| M | Calendrier Bluesky des défis du mois | automatique, le 26 de chaque mois (session programmée) ; la première a préparé octobre 2026 | Karl relit et fusionne la pull request avant le 1er (voir M) |
 | W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
@@ -317,6 +318,25 @@ jusque vers le 28 octobre) ; sans légende prête, elle garde le titre français
 
 ```text
 Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --a-venir 90 : il liste la file Instagram et les légendes qui restent à écrire. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md (et les précisions de Karl qui y sont notées) : une à trois phrases, 300 caractères au plus, avec dans la colonne hashtags cinq hashtags choisis, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
+
+## M — Calendrier Bluesky des défis du mois
+
+Sur Bluesky, la photo du jour suit la communauté #UnJourUnePhoto (`reseaux/README.md`,
+« Bluesky : la communauté #UnJourUnePhoto »). Chaque mois, la communauté publie vers le 25
+la liste des thèmes du mois suivant, un par jour. Cette session, lancée seule le 26 de
+chaque mois (session programmée de Claude Code), prépare le calendrier de ces défis ; Karl
+relit la pull request et la fusionne. Octobre 2026 a été préparé en session le
+30 septembre (26 jours sur 31).
+
+```text
+Session M, programmée : prépare le calendrier Bluesky des défis #UnJourUnePhoto du mois prochain, dans le dépôt Willwonderc/PexelsWillwonder. Lis d'abord CLAUDE.md et la rubrique « Bluesky : la communauté #UnJourUnePhoto » de reseaux/README.md.
+1. Trouve la liste des thèmes du mois prochain : cherche sur Bluesky par l'API publique en lecture (https://api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=%23UnJourUnePhoto&sort=latest&limit=100, puis avec le hashtag du mois : #PhotoNovember, #Photovember, #PhotoNovembre… selon le mois) le message qui publie la liste, souvent une image : ouvre l'image et lis les thèmes. Garde le hashtag du mois tel que la liste l'écrit. Si aucune liste n'est publiée, arrête-toi et dis-le, sans rien inventer.
+2. Pour chaque jour, cherche parmi les photos du site (reseaux/photo_du_jour.py, fonction lire_photos : titres et mots-clés français) celles qui répondent au thème, regarde-les en petite taille (https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=300, téléchargée par curl) et ne garde qu'une photo qui y répond vraiment ; sinon, laisse le jour sans ligne (la photo du jour ordinaire partira). Varie les sujets et les lieux, préfère les photos retenues par la modération de Pexels (releves/suivi-pexels.csv), pas de visage reconnaissable en gros plan.
+3. Ajoute une ligne par jour retenu à reseaux/calendrier.csv (date AAAA-MM-JJ, photo, theme, bluesky), le texte bluesky au format : « #UnJourUnePhoto #HashtagDuMois » (plus #FleurisTonFil pour des fleurs ou #NoirEtBlanc pour du noir et blanc), \n, « J/MM : Thème », \n\n, puis le titre français de la photo, sans rien y ajouter d'inventé ; ligne éditoriale de CLAUDE.md.
+4. Vérifie : python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-01 doit dire « Calendrier prêt » (aucune photo parue sur Bluesky depuis moins de 180 jours) ; regarde deux ou trois jours avec --essai --jour.
+5. Sur une nouvelle branche, ouvre une pull request vers main : tableau des jours (date, thème, photo avec le lien https://photos.karlforterre.fr/photo/NUMÉRO/, titre), jours laissés à la photo ordinaire, et le message source de la liste. Ne la fusionne pas : Karl la relit et la fusionne avant le 1er.
+Ne publie rien toi-même, ne lance jamais --renouveler-jeton ni --envoyer-indexnow, aucun « j'aime » ni abonnement automatique, aucune collecte sur pexels.com.
 ```
 
 ## W — Photos d'origine pour Wikimedia Commons, sur le Mac

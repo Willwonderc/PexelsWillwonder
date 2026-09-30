@@ -15,12 +15,27 @@ Sur Instagram, tout est en français, avec une légende écrite dans le style de
 les légendes n'y ont pas de liens cliquables, et le lien est remplacé par un renvoi vers
 celui de la biographie (voir la partie 5, « Instagram »).
 
+Sur Bluesky, depuis le 1er octobre 2026, la photo part en français, à la manière de la
+communauté #UnJourUnePhoto : hashtags de la communauté, titre, et le lien en réponse sous
+la photo. Les jours de défi, le calendrier `reseaux/calendrier.csv` fixe la photo et le
+texte (voir « Bluesky : la communauté #UnJourUnePhoto », plus bas). Exemple :
+
+    #UnJourUnePhoto #PhotoOctober
+    1/10 : Orange
+
+    Chaton roux se faufilant dans les hautes herbes sèches
+
+      ↳ en réponse : Libre de droits, à télécharger gratuitement sur Pexels : https://photos.karlforterre.fr/photo/10405558/
+
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
   `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
-- **Jamais deux fois la même** : le journal `reseaux/photo-du-jour.json`, enregistré sur
+- **Pas de répétition** : le journal `reseaux/photo-du-jour.json`, enregistré sur
   `main` après chaque passage, note pour chaque réseau les photos publiées, leur date et
   le lien de la publication. Un réseau ne reçoit qu'une photo par jour, même si la tâche
-  est relancée.
+  est relancée. Une photo ne revient sur un même réseau qu'après 180 jours au moins
+  (réglage `rediffusion_jours`) : quand le calendrier d'un défi la choisit, ou, une fois
+  toutes les photos publiées, par ordre d'ancienneté. Le journal garde alors la trace de
+  la publication précédente (`precedentes`).
 - **Heure** : 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47 UTC).
 - **Sans accès** : un réseau dont les secrets ne sont pas renseignés est simplement
   laissé de côté. On peut donc commencer par un seul réseau.
@@ -296,12 +311,54 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
 `INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
 **Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
 
+## Bluesky : la communauté #UnJourUnePhoto
+
+Mesuré le 30 septembre 2026 sur les 100 derniers messages de chaque hashtag, sur Bluesky :
+#UnJourUnePhoto réunit 65 messages par jour, 91 % en français, avec 14 « j'aime » en
+médiane ; #FleurisTonFil (fleurs), 15 ; les défis du mois (#PhotoSeptember), 16. Les
+mots-clés que la photo du jour publiait (#Lighthouse, #Train, #France…) en recevaient 0
+à 4, et les messages de Karl 3 à 7, contre 101 pour sa photo #FleurisTonFil du
+26 septembre. D'où la formule suivie depuis le 1er octobre 2026 :
+
+- **La publication** : `#UnJourUnePhoto #Photographie`, plus `#FleurisTonFil` pour une photo
+  de fleurs ou `#NoirEtBlanc` pour le noir et blanc (d'après ses mots-clés), puis le
+  titre français. Pas de lien : il part en réponse sous la photo, et le profil renvoie
+  au site.
+- **Les défis du mois** : chaque mois, la communauté publie vers le 25 la liste des
+  thèmes du mois suivant (un par jour ; octobre 2026 : Orange, Oiseau, Oh !…, publiée par
+  @elisabethlaffay.bsky.social). Les jours où une photo de Karl répond vraiment au thème,
+  le calendrier `reseaux/calendrier.csv` la publie avec `#UnJourUnePhoto #PhotoOctober` et
+  « 1/10 : Orange ». Les autres jours, la photo du jour ordinaire.
+- **Le calendrier** : une ligne par jour, colonnes `date` (AAAA-MM-JJ), `photo` (numéro
+  Pexels), `theme` (pour mémoire) et `bluesky` (texte complet de la publication, 300
+  caractères au plus, `\n` pour aller à la ligne ; les hashtags deviennent cliquables tout
+  seuls). Une photo réservée par le calendrier ne part pas avant son jour dans la file
+  ordinaire. Une photo parue sur Bluesky il y a moins de 180 jours est refusée : la file
+  ordinaire la remplace ce jour-là.
+- **Qui le prépare** : une session Claude programmée le 26 de chaque mois (consigne M de
+  `consignes/prochaines-sessions.md`) cherche la liste du mois suivant, choisit les photos,
+  écrit les textes et propose le tout en pull request. Karl relit et fusionne : rien ne
+  part sans son accord.
+- **Ce qui reste à la main**, et fait venir les abonnés : aimer et commenter chaque jour
+  quelques photos des autres sous #UnJourUnePhoto, et répondre aux commentaires. Jamais
+  de « j'aime » ni d'abonnements automatiques.
+
+Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
+
+    python3 reseaux/photo_du_jour.py --calendrier
+    python3 reseaux/photo_du_jour.py --essai --jour 2026-10-01
+
 ## Réglages
 
 - **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`. Ligne
-  `langue` pour Bluesky et Mastodon : `en` (anglais, par défaut), `fr` (français) ou `zh`
-  (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_instagram` pour
+  `langue` pour Mastodon : `en` (anglais, par défaut), `fr` (français) ou `zh`
+  (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_bluesky` pour
+  Bluesky : `fr`, pour la communauté #UnJourUnePhoto (une autre langue reprend l'ancienne
+  formule : titre, lien et mots-clés en hashtags). Ligne `langue_instagram` pour
   Instagram : `fr`, à garder (règle de Karl).
+- **Rediffusions** : ligne `rediffusion_jours` de la même rubrique, 180 par défaut.
+- **Hashtags de Bluesky** : `HASHTAGS_BLUESKY` et `COMMUNAUTES_BLUESKY` dans
+  `reseaux/photo_du_jour.py` (hashtag de communauté et mots qui le déclenchent).
 - **Légendes Instagram** : `reseaux/legendes-instagram.csv`, une ligne par photo (numéro
   Pexels, légende, et, si l'on veut, les hashtags de la photo, cinq au plus, qui
   remplacent alors ses hashtags automatiques), à corriger au besoin directement sur
@@ -309,9 +366,10 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
   prête, et `--a-venir 40` liste les 40 prochaines photos d'Instagram avec celles qui
   attendent encore la leur ; quand il en reste moins de 14, la consigne L en fait écrire
   de nouvelles.
-- **Hashtag de chaque publication** : `HASHTAG_FIXE` dans `reseaux/photo_du_jour.py`
-  (#Photography, #Photographie ou #摄影 selon la langue), suivi des quatre premiers
-  mots-clés de la photo. Instagram n'en prend jamais plus de cinq en tout.
+- **Hashtag de chaque publication** (Mastodon et Instagram) : `HASHTAG_FIXE` dans
+  `reseaux/photo_du_jour.py` (#Photography, #Photographie ou #摄影 selon la langue), suivi
+  des quatre premiers mots-clés de la photo. Instagram n'en prend jamais plus de cinq en
+  tout.
 - **Phrase de la légende Instagram** : `TEXTES_INSTAGRAM` dans
   `reseaux/photo_du_jour.py`, une par langue.
 - **Heure** : ligne `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
@@ -332,9 +390,10 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
 
 affiche les publications du jour, telles qu'elles partiraient, sans rien publier ni
 enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram téléchargerait
-(recadrage compris). `--langue fr` essaie une autre langue. `--a-venir 40` liste les
-40 prochaines photos d'Instagram, dans l'ordre de parution, et dit si leur légende est
-prête. Ne jamais lancer `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
+(recadrage compris). `--langue fr` essaie une autre langue, `--jour 2026-10-01` un autre
+jour (calendrier compris), et `--calendrier` vérifie le calendrier à venir. `--a-venir 40`
+liste les 40 prochaines photos d'Instagram, dans l'ordre de parution, et dit si leur
+légende est prête. Ne jamais lancer `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
 
@@ -584,6 +643,8 @@ Premières publications : les cinq carrousels RedNote prévus du 28 septembre au
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
+    calendrier.csv       photos et textes Bluesky des jours de défi, préparés chaque mois
+                         en session (consigne M) et fusionnés par Karl
     publications/        publications à faire à la main, une par dossier, lues par Telepex
     publications.py      contrôle ces publications
     publications-validees.csv
