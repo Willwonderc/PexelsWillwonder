@@ -232,7 +232,7 @@ sessions peuvent en revanche préparer les textes, que vous publiez vous-même :
 | Groupes Facebook | groupes locaux (Poitou, Pays basque, Galice) et de photographes | à la main, selon les règles de chaque groupe |
 | Reddit, forums photo | grandes audiences par sujet | à la main, en participant plus qu'en publiant ses liens |
 | YouTube Shorts, TikTok, Reels | diaporamas courts des séries | à la main |
-| Wikimedia Commons | photos de lieux reprises dans Wikipédia | licence libre au choix de l'auteur ; douze photos proposées et pas à pas : [referencement/](../referencement/README.md) |
+| Wikimedia Commons | photos de lieux reprises dans Wikipédia | licence CC BY-SA 4.0 ; 18 photos déposées le 29 septembre 2026, dont 14 au concours Wiki Loves Monuments : [referencement/](../referencement/README.md) |
 | Offices de tourisme, presse locale, clubs photo | relais locaux, liens depuis des sites reconnus | courriels préparés par une session |
 | Unsplash, Pixabay | aucun | à éviter : ils détourneraient les téléchargements de Pexels |
 

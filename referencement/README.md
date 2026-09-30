@@ -103,16 +103,21 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
     facultatifs) et `[a-propos]` (portrait, matériel).
 - [ ] **Brave Search** (5 minutes) :
   [proposer quelques adresses](#être-présent-dans-les-trois-index-qui-comptent).
-- [x] **Wikimedia Commons** : 15 photos déposées le 29 septembre 2026 depuis le compte
-  « Karl Forterre », dont 11 au concours Wiki Loves Monuments (2 en Espagne, 9 en France)
-  et 4 hors concours, chacune avec le bandeau « autorisation en cours »
-  ([liste](#déposées-le-29-septembre-2026)). Courriel d'autorisation envoyé le même jour
-  depuis contact@karlforterre.fr à permissions-fr@wikimedia.org, avec les 15 adresses :
-  un bénévole remplacera chaque bandeau par le numéro du dossier. Reste : la photo du
-  dolmen de Buzy à remplacer par une version recadrée sans le visiteur (**Upload a new
-  version of this file**, sur la page du fichier), avant le 15 octobre.
-- [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
-  fiche de l'auteur viendra plus tard.
+- [x] **Wikimedia Commons** : 18 photos déposées le 29 septembre 2026 depuis le compte
+  « Karl Forterre », dont 14 au concours Wiki Loves Monuments (5 en Espagne, 9 en France)
+  et 4 hors concours ([liste](#déposées-le-29-septembre-2026)). Courriel d'autorisation
+  envoyé le même jour depuis contact@karlforterre.fr à permissions-fr@wikimedia.org, avec
+  les adresses des 15 photos déjà publiées sur Pexels. Reçu le soir même : dossier
+  n° 2026092910011941 ; un robot a remplacé leurs bandeaux « autorisation en cours » par
+  « autorisation reçue », et un bénévole y mettra le numéro du dossier une fois
+  l'autorisation examinée. Les trois photos de Bilbao, qui ne sont publiées nulle part
+  ailleurs, n'en ont pas besoin. Reste : la photo du dolmen de Buzy à remplacer par une
+  version recadrée sans le visiteur (**Upload a new version of this file**, sur la page du
+  fichier), avant le 15 octobre.
+- [x] **Wikidata** : [les photos sur les fiches des lieux](#2-wikidata). Vérifié le
+  30 septembre 2026 : les fiches des lieux des 18 photos déposées sur Commons ont toutes
+  déjà une image, qu'on ne remplace pas par la sienne ; rien à y ajouter. La fiche de
+  l'auteur viendra plus tard (étape 3).
 - [ ] **Dépôt du mémoire** (1 heure) :
   [DUMAS, ou à défaut Zenodo](#déposer-le-mémoire-dans-une-archive-ouverte), une fois le
   PDF allégé.
@@ -288,6 +293,13 @@ souvent l'image d'une fiche.
 3. Si elle a déjà une image, ne pas la remplacer par la sienne : en proposer le
    changement sur la page de discussion de la fiche, et seulement si la photo est
    nettement meilleure.
+
+Vérifié le 30 septembre 2026 pour les 18 photos déposées sur Commons : les fiches de
+leurs lieux ont toutes déjà une image (église Saint-André, hôtel de préfecture et hôtel de
+ville de Niort, monument aux Girondins, château de Villandry, phare de Chausey, dolmen de
+Buzy, Moyemont, hôtel de ville de Cognac, chapelle Saint-Florent de Xonrupt-Longemer,
+hôtels de ville d'Irun et de Bilbao, Universidad Laboral de Gijón, cathédrale de Bilbao,
+éclipse solaire du 12 août 2026). Rien à ajouter ; à revoir à chaque nouveau dépôt.
 
 ### Étape 3, plus tard : la fiche de Karl Forterre
 
@@ -574,7 +586,9 @@ Saint-Jacques-de-Compostelle).
 Vérifiées une à une après le dépôt : auteur, licence CC BY-SA 4.0, descriptions avec le
 lien Pexels, date de l'appareil, position, catégories, identifiant du concours et bandeau
 « autorisation en cours ». Les n° 12 à 15, passés par l'assistant du concours français,
-en ont été retirés à la main (modèle et catégorie du concours supprimés).
+en ont été retirés à la main (modèle et catégorie du concours supprimés). Les n° 16 à 18,
+photos de Bilbao déposées le soir même par l'assistant du concours espagnol, ne sont pas
+sur Pexels : œuvre personnelle, sans bandeau ni courriel.
 
 | # | Fichier sur Commons | Concours |
 |---|---|---|
@@ -593,6 +607,9 @@ en ont été retirés à la main (modèle et catégorie du concours supprimés).
 | 13 | [Éclipse totale de Soleil du 12 août 2026 vue de Galice](https://commons.wikimedia.org/wiki/File:%C3%89clipse_totale_de_Soleil_du_12_ao%C3%BBt_2026_vue_de_Galice.jpg) | hors concours |
 | 14 | [Cognac - hôtel de ville - 2025](https://commons.wikimedia.org/wiki/File:Cognac_-_h%C3%B4tel_de_ville_-_2025.jpg) | hors concours |
 | 15 | [Xonrupt-Longemer - chapelle Saint-Florent - 2022](https://commons.wikimedia.org/wiki/File:Xonrupt-Longemer_-_chapelle_Saint-Florent_-_2022.jpg) | hors concours |
+| 16 | [DSCF9909PF](https://commons.wikimedia.org/wiki/File:DSCF9909PF.jpg), statue de la Loi de l'hôtel de ville de Bilbao ; renommage demandé en « Bilbao - hôtel de ville, statue de la Loi - 2026 » | Espagne, `Q3751519` |
+| 17 | [Bilbao - hôtel de ville, statue de la Justice - 2026](https://commons.wikimedia.org/wiki/File:Bilbao_-_h%C3%B4tel_de_ville,_statue_de_la_Justice_-_2026.jpg) | Espagne, `Q3751519` |
+| 18 | [Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026](https://commons.wikimedia.org/wiki/File:Bilbao_-_cath%C3%A9drale_Saint-Jacques,_fa%C3%A7ade_et_fl%C3%A8che_-_2026.jpg) | Espagne, `RI-51-0001010` |
 
 À retenir pour les prochains dépôts :
 
@@ -601,14 +618,29 @@ en ont été retirés à la main (modèle et catégorie du concours supprimés).
   (`{{Mérimée%7CPA…}}`) : vérifier chaque page après le dépôt et remettre `|`.
 - `{{subst:PP}}` se colle tout en haut, puis Entrée, sans espace : une ligne qui
   commence par une espace s'affiche comme un bloc de code et casse le titre qui suit.
+  De même pour `{{Rename|…}}` : collé contre `=={{int:filedesc}}==`, il empêche ce titre
+  de s'afficher.
 - Une photo hors concours se dépose par l'assistant ordinaire ; passée par celui d'un
   concours, il faut en retirer le modèle et la catégorie du concours.
+- Remplir le titre de chaque photo : laissé vide, il garde le nom de l'appareil
+  (`DSCF9909PF.jpg`). Seul un bénévole peut renommer un fichier ; le demander en collant
+  ceci tout en haut de la page, puis Entrée (critère 2 : nom sans signification) :
+
+  ```text
+  {{Rename|1=Nouveau nom - 2026.jpg|2=2|3=Meaningless camera file name, renaming requested by the uploader}}
+  ```
+
+- Relire chaque description après le dépôt : la statue de la Loi avait reçu la
+  description française de la Justice.
+- Une photo qui n'est publiée nulle part ailleurs (ni sur Pexels ni sur le site) se
+  dépose comme œuvre personnelle, sans bandeau ni courriel.
 
 ### Ensuite
 
 - **Wikidata** : mettre la photo sur la fiche du lieu qui n'a pas encore d'image (partie
   2, étape 2). C'est l'endroit le plus visible : les moteurs et les assistants
-  reprennent cette image.
+  reprennent cette image. Pour les 18 photos du 29 septembre, aucune fiche n'en manque
+  (vérifié le 30 septembre).
 - **Wikipédia** : ajouter une photo de qualité à un article qui n'en a pas, ou qui n'en a
   pas de bonne (Moyemont, la chapelle Saint-Florent), est en général bien reçu, même par
   l'auteur de la photo ; remplacer une bonne photo par la sienne, ou ajouter ses photos
