@@ -71,12 +71,16 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   y sont envoyés et que l'indexation de l'accueil du site photo, de
   https://karlforterre.fr/en/ et de https://karlforterre.fr/zh/ a été demandée
   ([pas à pas](#google-search-console-pas-à-pas), étapes 5 et 6).
-- [ ] **Bing Webmaster Tools** (10 minutes) : importer les deux sites depuis Search Console
-  ([partie 1](#1-bing-webmaster-tools)).
-- [ ] **Moteurs de recherche dans le tableau de bord** (20 minutes) : un compte de service
-  Google et la clé d'API de Bing, rangés dans les secrets du dépôt
-  ([pas à pas](../releves/README.md#relier-google-search-console-et-bing-webmaster-tools)) ;
-  la rubrique « Moteurs de recherche » du tableau de bord se remplit alors chaque nuit.
+- [x] **Bing Webmaster Tools** : les deux sites y sont depuis le 30 septembre 2026
+  ([partie 1](#1-bing-webmaster-tools)). photos.karlforterre.fr est vérifié par la balise
+  `msvalidate.01` (réglage `bing_verification` de `vitrine/site.ini`, à ne jamais retirer).
+- [x] **Moteurs de recherche dans le tableau de bord** : relié le 30 septembre 2026
+  ([pas à pas](../releves/README.md#relier-google-search-console-et-bing-webmaster-tools)).
+  Google lit les deux sites par le compte de service
+  `tableau-de-bord@tableau-de-bord-photos.iam.gserviceaccount.com` (accès restreint dans
+  Search Console, clé du secret `SEARCH_CONSOLE_CLE`), Bing par la clé du secret
+  `BING_WEBMASTER_CLE` ; la rubrique « Moteurs de recherche » du tableau de bord se remplit
+  chaque nuit.
 - [x] **GoatCounter** : compte créé le 28 septembre, code `karlforterre`, inscrit après
   `goatcounter =` dans `vitrine/site.ini` ; le compteur est sur chaque page depuis le
   28 septembre. Il compte les visites et les clics vers Pexels
@@ -89,10 +93,12 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   le profil → Enregistrer, sans rien changer.
 - [x] **Chaque semaine** : une ligne de plus dans `releves/vues-pexels.csv` (date, vues,
   photos, abonnés). Telepex l'ajoute seul à chaque relevé depuis le 28 septembre (session T).
-- [ ] **Liens vers les sites** (15 minutes) : de LinkedIn, Plume d'Argent et Facebook vers
-  https://karlforterre.fr ; sur GitHub, la présentation du dépôt PexelsWillwonder
-  (aujourd'hui « Promotion de Pixels », sans site), par la roue dentée de « About ». Le
-  profil Pexels renvoie déjà vers https://photos.karlforterre.fr (28 septembre).
+- [ ] **Liens vers les sites** (5 minutes) : LinkedIn et Facebook renvoient vers
+  https://karlforterre.fr (30 septembre 2026 ; Plume d'Argent a fermé). Le profil Pexels
+  renvoie vers https://photos.karlforterre.fr (28 septembre). Reste, sur GitHub, la
+  présentation du dépôt PexelsWillwonder, encore « Promotion de Pixels » le 30 septembre :
+  roue dentée de « About », description et site (`https://photos.karlforterre.fr`), puis
+  **Save changes**.
 - [ ] **Vitesse** (10 minutes) : mesurer les deux accueils sur https://pagespeed.web.dev,
   version mobile, et confier à une session tout score sous 90.
 - [ ] **Relire** (30 minutes) :
@@ -118,6 +124,9 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   30 septembre 2026 : les fiches des lieux des 18 photos déposées sur Commons ont toutes
   déjà une image, qu'on ne remplace pas par la sienne ; rien à y ajouter. La fiche de
   l'auteur viendra plus tard (étape 3).
+- [ ] **Fiche Wikidata de l'auteur** (30 minutes, plus tard, quand Karl le décide) :
+  [la démarche](#étape-3-plus-tard--la-fiche-de-karl-forterre). Les sources existent :
+  trois pages retrouvées le 30 septembre 2026, citées depuis sur karlforterre.fr.
 - [ ] **Dépôt du mémoire** (1 heure) :
   [DUMAS, ou à défaut Zenodo](#déposer-le-mémoire-dans-une-archive-ouverte), une fois le
   PDF allégé.
@@ -278,6 +287,21 @@ préférence par quelqu'un d'autre, que Karl pourra compléter.
    (partie 4) : une notice relue par la bibliothèque, dans HAL.
 3. **Un article de presse** sur le photographe et ses photos reprises par CNN.com ou
    NYTimes.com (partie 4).
+4. **Déjà en ligne**, retrouvées le 30 septembre 2026, et citées depuis sur
+   karlforterre.fr (rubrique « Presse » de la présentation, données structurées de
+   l'auteur, `llms.txt`) :
+   - *La Nouvelle République*, 29 mars 2022, « Jeune et engagé en Deux-Sèvres (7) : Karl
+     Forterre soutient Fabien Roussel », article de Sébastien Kerouanton, en accès libre :
+     https://www.lanouvellerepublique.fr/niort/jeune-et-engage-en-deux-sevres-n07-karl-forterre-soutient-fabien-roussel.
+     La seule vraiment indépendante, écrite par un journaliste d'un quotidien régional.
+     Elle établit Niort, les études à Poitiers en master Livres et médiations et
+     l'engagement au PCF ; elle ne parle ni de photo ni de livres.
+   - *La Vienne Démocratique*, 20 juin 2022, rubrique « Artistes à la une » :
+     https://viennedemocratique.fr/karl-forterre-juin-2022/. Texte de Karl, publié par le
+     journal des communistes de la Vienne : écriture, photographie, photos libres sur
+     Pexels.
+   - Page de présentation sur le site du master Livres et médiations (LiMés), université
+     de Poitiers : https://ll.univ-poitiers.fr/masterlivre/?page_id=4973. Texte de Karl.
 
 ### Étape 2, dès maintenant : les photos sur les fiches des lieux
 
@@ -303,10 +327,26 @@ hôtels de ville d'Irun et de Bilbao, Universidad Laboral de Gijón, cathédrale
 
 ### Étape 3, plus tard : la fiche de Karl Forterre
 
-Quand une source indépendante existe (notice BnF, dépôt DUMAS, article), la fiche peut
-être créée, idéalement par un bibliothécaire ou un contributeur de Wikidata (les notices
-de la BnF y sont régulièrement reprises). Karl peut ensuite la compléter. S'il décide de
-la créer lui-même, qu'il le fasse seulement à ce moment-là, en citant ces sources.
+Une source indépendante existe : l'article de *La Nouvelle République* (étape 1,
+point 4). La fiche peut donc être créée ; Karl a choisi, le 30 septembre 2026, de la
+remettre à plus tard. Idéalement, un bibliothécaire ou un contributeur de Wikidata la crée
+(les notices de la BnF y sont régulièrement reprises) ; si Karl la crée lui-même, il cite
+une source pour chaque déclaration (tableau « Sources à citer » plus bas). La démarche,
+le moment venu :
+
+1. Se connecter sur https://www.wikidata.org avec le compte `Karl Forterre`.
+2. Chercher « Karl Forterre » : aucune fiche n'existait le 30 septembre 2026. S'il y en a
+   une, la compléter plutôt que d'en créer une seconde.
+3. Créer la fiche (**Créer une fiche**, ci-dessous) : libellé `Karl Forterre`, description
+   `photographe et écrivain français` (en anglais : `French photographer and writer`).
+4. Ajouter les déclarations du tableau « Propriétés vérifiées », chacune avec sa source
+   (tableau « Sources à citer »).
+5. Noter le numéro de la fiche (Q…), puis demander à une session Claude de l'ajouter au
+   réglage `profils` de la rubrique `[personne]` de `vitrine/site.ini`, au `sameAs` de
+   l'auteur dans `index.html` de karlforterre.fr et aux deux `llms.txt` : les deux sites,
+   les photos de Commons et la fiche désigneront alors la même personne.
+6. Facultatif : sur Commons, relier les 18 photos à la fiche (données structurées de
+   chaque fichier, « créateur »).
 
 **Le compte** : `Karl Forterre`, créé sur Wikimedia Commons le 28 septembre 2026. Le même
 compte sert sur Wikidata et Wikipédia : il suffit de s'y connecter.
@@ -342,6 +382,19 @@ Propriétés vérifiées pour sa fiche :
 | identifiants BnF (P268), ISNI (P213), IdRef (P269), ORCID (P496) | quand ils existent |
 | thèse académique (P1026) | la fiche du mémoire |
 | décrit à l'URL (P973) | `https://photos.karlforterre.fr/a-propos/` |
+
+Sources à citer, chacune par **URL de la référence** (P854) et **date de consultation**
+(P813). Pour l'article de la NR, on peut ajouter **publié dans** (P1433) : *La Nouvelle
+République du Centre-Ouest* (Q3211144), **titre** (P1476) et **date de publication**
+(P577) : 29 mars 2022.
+
+| Déclaration | Source |
+|---|---|
+| occupation : écrivain, photographe, graphiste | *La Vienne Démocratique* (texte de Karl) ; karlforterre.fr pour les livres |
+| scolarité : université de Poitiers, master | *La Nouvelle République* ; page du master LiMés ; page du mémoire sur karlforterre.fr |
+| résidence (P551) : Niort (Q184159) | *La Nouvelle République* ; facultatif |
+| parti politique (P102) : Parti communiste français (Q192821) | *La Nouvelle République* ; facultatif, au choix de Karl |
+| site officiel, comptes des réseaux | karlforterre.fr et photos.karlforterre.fr, qui peuvent servir de source pour ce qui concerne Karl lui-même |
 
 Pour le mémoire : nature de l'élément (P31) `mémoire de maîtrise ou de master`
 (Q1907875), titre (P1476), auteur (P50), date de publication (P577) juin 2023, organisme
