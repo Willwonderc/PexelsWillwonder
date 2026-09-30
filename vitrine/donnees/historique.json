@@ -11,7 +11,8 @@
  },
  "moteurs": {
   "bing": {
-   "karlforterre.fr": {}
+   "karlforterre.fr": {},
+   "photos.karlforterre.fr": {}
   },
   "google": {
    "karlforterre.fr": {
