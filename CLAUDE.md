@@ -112,13 +112,19 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Photo du jour : `reseaux/photo_du_jour.py`, lancé chaque matin par
   `.github/workflows/photo-du-jour.yml`, publie sur Bluesky, Mastodon (ou Pixelfed) et
   Instagram la photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`,
-  tenu par cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique
-  `[photo_du_jour]`. Une photo ne revient sur un réseau qu'après `rediffusion_jours` (180).
-  Bluesky (`langue_bluesky = fr`) suit la communauté #UnJourUnePhoto : hashtags de la
-  communauté, titre, lien en réponse ; les jours de défi du mois (#PhotoOctober…), photo
-  et texte viennent de `reseaux/calendrier.csv`, préparé le 26 de chaque mois par une
-  session programmée (consigne M) et fusionné par Karl. Jamais de « j'aime » ni
-  d'abonnements automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`).
+  tenu par cette seule tâche. Une photo ne revient sur un réseau qu'après
+  `rediffusion_jours` (180). Règle de Karl (30 septembre 2026) : aucune partie à la main,
+  des messages humains dans son style (`reseaux/style-karl.md`), et pour chacun le
+  français ou l'anglais selon l'audience mesurée (`reseaux/audience.md` : Bluesky en
+  français, Mastodon en anglais, Instagram toujours en français). Photo, langue et texte
+  de chaque jour sur Bluesky et Mastodon : `reseaux/calendrier.csv` (défis du mois de la
+  communauté #UnJourUnePhoto sur Bluesky, lien en réponse ; jours à thème et hashtags du
+  Fediverse sur Mastodon), écrit le 26 de chaque mois par une session programmée
+  (consigne M), qui complète aussi les légendes Instagram, vérifie tout et fusionne
+  elle-même sa pull request. Un jour sans ligne, texte automatique (langue de
+  `vitrine/site.ini`, rubrique `[photo_du_jour]`). Jamais de « j'aime », d'abonnements ni
+  de réponses automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`,
+  `--a-venir N --reseau R`).
   Instagram (@karl_forterre, compte
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
   téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG

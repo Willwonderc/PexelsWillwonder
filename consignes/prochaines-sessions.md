@@ -31,8 +31,8 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | R | Réseaux sociaux dans le tableau de bord | quand vous voulez | la pull request précédente fusionnée ; l'autorisation des statistiques Instagram se donne pendant la session (voir R) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
-| L | Légendes Instagram | quand l'essai de la photo du jour annonce moins de 14 légendes prêtes | la pull request précédente fusionnée |
-| M | Calendrier Bluesky des défis du mois | automatique, le 26 de chaque mois (session programmée) ; la première a préparé octobre 2026 | Karl relit et fusionne la pull request avant le 1er (voir M) |
+| L | Légendes Instagram | plus nécessaire : la session M écrit aussi les légendes, chaque mois | — |
+| M | Messages du mois : Bluesky, Mastodon, Instagram | automatique, le 26 de chaque mois (session programmée) ; octobre 2026 écrit en session le 30 septembre | rien : elle vérifie et fusionne elle-même (voir M) |
 | W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
@@ -313,30 +313,58 @@ Ensuite : lignes mots, ajouter et retirer de [niort] ; texte de 150 à 300 mots 
 
 Sur Instagram, tout est en français, dans un style proche de l'expression de Karl
 (`reseaux/style-karl.md`). La photo du jour y prend la légende écrite à l'avance pour
-chaque photo dans `reseaux/legendes-instagram.csv` (30 prêtes le 28 septembre, soit
-jusque vers le 28 octobre) ; sans légende prête, elle garde le titre français.
+chaque photo dans `reseaux/legendes-instagram.csv` ; sans légende prête, elle garde le
+titre français. Depuis le 30 septembre 2026, la session programmée M écrit chaque mois
+les légendes des six semaines suivantes : cette consigne ne sert plus que pour un lot
+exceptionnel.
 
 ```text
 Session L : légendes Instagram de la photo du jour. Lance python3 reseaux/photo_du_jour.py --a-venir 90 : il liste la file Instagram et les légendes qui restent à écrire. Écris dans reseaux/legendes-instagram.csv les légendes des 60 photos suivantes de la file Instagram (ordre de photo_suivante : les plus vues d'abord), en français, dans le style de reseaux/style-karl.md (et les précisions de Karl qui y sont notées) : une à trois phrases, 300 caractères au plus, avec dans la colonne hashtags cinq hashtags choisis, rien d'inventé (titres, séries, galeries, souvenirs de reseaux/README.md), ligne éditoriale de CLAUDE.md. Regarde chaque photo en petite taille (adresse « image » de sa fiche dans vitrine/donnees/fiches.json, suivie de ?auto=compress&cs=tinysrgb&w=500) avant d'écrire. Montre-moi les dix premières avant d'écrire les autres, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
 ```
 
-## M — Calendrier Bluesky des défis du mois
+## M — Messages du mois : Bluesky, Mastodon, Instagram
 
-Sur Bluesky, la photo du jour suit la communauté #UnJourUnePhoto (`reseaux/README.md`,
-« Bluesky : la communauté #UnJourUnePhoto »). Chaque mois, la communauté publie vers le 25
-la liste des thèmes du mois suivant, un par jour. Cette session, lancée seule le 26 de
-chaque mois (session programmée de Claude Code), prépare le calendrier de ces défis ; Karl
-relit la pull request et la fusionne. Octobre 2026 a été préparé en session le
-30 septembre (26 jours sur 31).
+Règle de Karl, 30 septembre 2026 : aucune partie à la main ; des messages humains, dans
+son style ; pour chaque message, le français ou l'anglais selon l'audience qu'il peut
+toucher. Cette session, lancée seule le 26 de chaque mois à 9 h 13 (session programmée de
+Claude Code, « Messages du mois »), écrit les messages du mois suivant sur les trois
+réseaux, les vérifie et les range elle-même dans le dépôt : Karl n'a rien à relire ni à
+fusionner. Octobre 2026 a été écrit en session le 30 septembre. Fonctionnement :
+`reseaux/README.md`, « Des messages écrits à l'avance ».
+
+Pour que la session programmée trouve le dépôt, Karl ajoute une fois, sur claude.ai,
+dans la page des routines, le dépôt Willwonderc/PexelsWillwonder à la routine « Messages
+du mois » ; sans cela, la session le rattache elle-même (étape 0).
 
 ```text
-Session M, programmée : prépare le calendrier Bluesky des défis #UnJourUnePhoto du mois prochain, dans le dépôt Willwonderc/PexelsWillwonder. Lis d'abord CLAUDE.md et la rubrique « Bluesky : la communauté #UnJourUnePhoto » de reseaux/README.md.
-1. Trouve la liste des thèmes du mois prochain : cherche sur Bluesky par l'API publique en lecture (https://api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=%23UnJourUnePhoto&sort=latest&limit=100, puis avec le hashtag du mois : #PhotoNovember, #Photovember, #PhotoNovembre… selon le mois) le message qui publie la liste, souvent une image : ouvre l'image et lis les thèmes. Garde le hashtag du mois tel que la liste l'écrit. Si aucune liste n'est publiée, arrête-toi et dis-le, sans rien inventer.
-2. Pour chaque jour, cherche parmi les photos du site (reseaux/photo_du_jour.py, fonction lire_photos : titres et mots-clés français) celles qui répondent au thème, regarde-les en petite taille (https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=300, téléchargée par curl) et ne garde qu'une photo qui y répond vraiment ; sinon, laisse le jour sans ligne (la photo du jour ordinaire partira). Varie les sujets et les lieux, préfère les photos retenues par la modération de Pexels (releves/suivi-pexels.csv), pas de visage reconnaissable en gros plan.
-3. Ajoute une ligne par jour retenu à reseaux/calendrier.csv (date AAAA-MM-JJ, photo, theme, bluesky), le texte bluesky au format : « #UnJourUnePhoto #HashtagDuMois » (plus #FleurisTonFil pour des fleurs ou #NoirEtBlanc pour du noir et blanc), \n, « J/MM : Thème », \n\n, puis le titre français de la photo, sans rien y ajouter d'inventé ; ligne éditoriale de CLAUDE.md.
-4. Vérifie : python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-01 doit dire « Calendrier prêt » (aucune photo parue sur Bluesky depuis moins de 180 jours) ; regarde deux ou trois jours avec --essai --jour.
-5. Sur une nouvelle branche, ouvre une pull request vers main : tableau des jours (date, thème, photo avec le lien https://photos.karlforterre.fr/photo/NUMÉRO/, titre), jours laissés à la photo ordinaire, et le message source de la liste. Ne la fusionne pas : Karl la relit et la fusionne avant le 1er.
-Ne publie rien toi-même, ne lance jamais --renouveler-jeton ni --envoyer-indexnow, aucun « j'aime » ni abonnement automatique, aucune collecte sur pexels.com.
+Session M, programmée : écris les messages de la photo du jour du mois prochain (Bluesky, Mastodon, Instagram) dans le dépôt Willwonderc/PexelsWillwonder, vérifie-les et fusionne toi-même la pull request. Karl ne relit rien : aucune partie ne doit rester à la main.
+
+0. Si le dépôt n'est pas dans la session : rattache-le avec l'outil add_repo (propriétaire Willwonderc, dépôt PexelsWillwonder, accès push), clone-le comme l'outil l'indique, puis appelle register_repo_root. Travaille sur une nouvelle branche partie de main. Lis CLAUDE.md, puis dans reseaux/ : README.md (« Des messages écrits à l'avance », « Souvenirs et repères de Karl »), style-karl.md et audience.md.
+
+1. Audience, en lecture seule. Bluesky : les 100 derniers messages de chaque hashtag candidat (https://api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=%23Hashtag&sort=latest&limit=100) : messages par jour, « j'aime » en médiane, part en français ; et les messages de Karl du mois écoulé (app.bsky.feed.getAuthorFeed?actor=karlforterre.bsky.social&limit=100), « j'aime », partages et réponses selon la langue, le défi et le sujet. Mastodon : https://mastodon.social/api/v1/tags/HASHTAG (usages par jour sur une semaine) pour les hashtags candidats, et les messages de Karl (https://mastodon.social/api/v1/accounts/117335880653931296/statuses?limit=40). Ajoute en tête de reseaux/audience.md une section datée, avec les mêmes tableaux, ce qui a le mieux marché pour Karl et les choix du mois.
+
+2. Langue de chaque message : celle où la photo touche le plus de monde ce jour-là. Les résultats de Karl l'emportent sur ceux des hashtags, car ils mesurent son vrai public. Par défaut, d'après les dernières mesures : Bluesky en français, Mastodon en anglais. Un message peut partir dans l'autre langue quand la photo a sa place dans une communauté nettement plus active et fidèle dans cette langue. Instagram reste en français (règle de Karl).
+
+3. Défis du mois sur Bluesky : cherche la liste des thèmes du mois prochain, publiée vers le 25 (searchPosts avec #UnJourUnePhoto, puis #PhotoNovember, #PhotoNovembre… selon le mois), souvent en image : ouvre-la et lis les thèmes. Garde le hashtag du mois tel que la liste l'écrit. Sans liste, pas de défi : tous les jours suivent la file ordinaire.
+
+4. Photos, une par jour et par réseau, tous les jours du mois (aucun jour sans ligne) :
+- Bluesky : les jours de défi, une photo du site qui répond vraiment au thème (cherche dans les titres et mots-clés, fonction lire_photos de reseaux/photo_du_jour.py) ; sinon, le jour reste hors défi. Les autres jours, dans l'ordre de python3 reseaux/photo_du_jour.py --a-venir 60 --reseau bluesky --jour AAAA-MM-01 ; un jour de fête (Halloween, Noël…), une photo de circonstance si le site en a une.
+- Mastodon : dans l'ordre de --a-venir 60 --reseau mastodon --jour AAAA-MM-01, avec les jours à thème : le samedi un chat (#Caturday, #CatsOfMastodon ; galerie « Chats », photo jamais publiée sur Mastodon), le lundi du noir et blanc (#MonochromeMonday), le vendredi une fenêtre si une photo s'y prête (#FensterFreitag). Pas de #SilentSunday, qui veut des photos sans texte.
+- Varie les sujets et les lieux : jamais deux fois le même sujet deux jours de suite sur un réseau. L'homme à lunettes des portraits n'est jamais nommé.
+- Regarde chaque photo en petite taille avant d'écrire (curl https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=500, planches d'images).
+
+5. Textes, dans le style de reseaux/style-karl.md (français, et rubrique « En anglais »). Une ou deux phrases humaines : ce qu'on voit et où, puis une touche (image, jeu de mots, formule). Rien d'inventé : seulement les titres, mots-clés, galeries, séries de vitrine/series.ini, souvenirs notés dans reseaux/README.md et reprises de vitrine/usages.csv ; un lieu douteux ne se nomme pas. Ligne éditoriale de CLAUDE.md ; pas d'émoji ; typographie française en français. Formats :
+- Bluesky : « #UnJourUnePhoto #PhotoMois #Photography » (plus #FleurisTonFil pour des fleurs, #NoirEtBlanc pour du noir et blanc), ligne vide, « 1. Thème », ligne vide, le texte ; hors défi : « #UnJourUnePhoto #Photography », ligne vide, le texte. 300 caractères au plus. Le lien part tout seul en réponse.
+- Mastodon : le texte, ligne vide, quatre ou cinq hashtags parmi les plus suivis (reseaux/audience.md). Le programme insère le lien avant les hashtags ; 500 caractères au plus avec lui.
+Ajoute une ligne par jour et par réseau à reseaux/calendrier.csv (date, reseau, photo, langue, theme, texte ; \n pour aller à la ligne) ; les lignes passées restent.
+
+6. Instagram : python3 reseaux/photo_du_jour.py --a-venir 90 ; écris dans reseaux/legendes-instagram.csv les légendes qui manquent, pour que les 45 prochaines photos d'Instagram en aient une (règles de style-karl.md : une à trois phrases, 300 caractères au plus, cinq hashtags, et pas le même texte qu'un message Bluesky ou Mastodon de la même photo à quelques jours d'écart).
+
+7. Vérifie : python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-01 doit finir par « Calendrier prêt. » ; --essai --jour sur trois jours ; --a-venir 45 : aucune légende « à écrire ». Relis chaque texte : faits, orthographe, typographie, longueur, langue.
+
+8. Ne modifie que reseaux/calendrier.csv, reseaux/legendes-instagram.csv et reseaux/audience.md. Commit en français, pousse la branche, ouvre une pull request vers main (le mois jour par jour : date, réseau, langue, photo avec son lien https://photos.karlforterre.fr/photo/NUMÉRO/, début du texte ; la liste des défis et sa source ; les mesures et le choix des langues ; les légendes Instagram ajoutées), puis fusionne-la toi-même (squash) dès que les vérifications passent. Si une vérification échoue et que tu ne peux pas la corriger, ne fusionne pas et explique pourquoi dans la pull request : les photos du jour partiront quand même, avec le texte automatique.
+
+Jamais : publier toi-même sur un réseau ; aimer, suivre ou répondre à qui que ce soit ; collecter quoi que ce soit sur pexels.com ; lancer --renouveler-jeton ou --envoyer-indexnow ; écrire un secret où que ce soit. Sois économe : le crédit est compté.
 ```
 
 ## W — Photos d'origine pour Wikimedia Commons, sur le Mac

@@ -1,40 +1,45 @@
 # Photo du jour sur Bluesky, Mastodon et Instagram — mode d'emploi
 
 Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky, sur
-Mastodon (ou Pixelfed) et sur Instagram : l'image, son titre, le hashtag #Photography
-suivi de quatre mots-clés en hashtags, et le lien vers sa page du site, d'où elle se
-télécharge sur Pexels. Exemple :
+Mastodon (ou Pixelfed) et sur Instagram, avec un texte écrit à l'avance dans le style de
+Karl (`reseaux/style-karl.md`) et le lien vers sa page du site, d'où elle se télécharge
+sur Pexels. Tout est automatique, sans rien à relire ni à fusionner : une session Claude
+programmée écrit chaque mois les textes du mois suivant, les vérifie et les range
+elle-même dans le dépôt (voir « Des messages écrits à l'avance », plus bas).
 
-    Beautiful twilight sky with a crescent moon and serene gradient of colors
+- **Bluesky**, en français le plus souvent, à la manière de la communauté
+  #UnJourUnePhoto ; le lien part en réponse sous la photo. Exemple :
 
-    Royalty-free, free to download on Pexels: https://photos.karlforterre.fr/en/photo/13102252/
+      #UnJourUnePhoto #PhotoOctober #Photography
 
-    #Photography #Sky #CrescentMoon #Gradient #Twilight
+      1. Orange
 
-Sur Instagram, tout est en français, avec une légende écrite dans le style de Karl ;
-les légendes n'y ont pas de liens cliquables, et le lien est remplacé par un renvoi vers
-celui de la biographie (voir la partie 5, « Instagram »).
+      Pour ouvrir le mois, un chaton roux se faufile dans les herbes sèches, à pas de velours. Orange de la tête aux pattes, et l'œil vert aux aguets.
 
-Sur Bluesky, depuis le 1er octobre 2026, la photo part en français, à la manière de la
-communauté #UnJourUnePhoto : hashtags de la communauté, titre, et le lien en réponse sous
-la photo. Les jours de défi, le calendrier `reseaux/calendrier.csv` fixe la photo et le
-texte (voir « Bluesky : la communauté #UnJourUnePhoto », plus bas). Exemple :
+        ↳ en réponse : Libre de droits, à télécharger gratuitement sur Pexels : https://photos.karlforterre.fr/photo/10405558/
 
-    #UnJourUnePhoto #PhotoOctober
-    1/10 : Orange
+- **Mastodon**, en anglais le plus souvent, avec les hashtags que suivent les
+  photographes du Fediverse. Exemple :
 
-    Chaton roux se faufilant dans les hautes herbes sèches
+      A pale pink rose against the dark, and nothing else. Up close, a rose is all folds and patience: each petal keeps a little light for the next one.
 
-      ↳ en réponse : Libre de droits, à télécharger gratuitement sur Pexels : https://photos.karlforterre.fr/photo/10405558/
+      Royalty-free, free to download on Pexels: https://photos.karlforterre.fr/en/photo/31514838/
+
+      #Photography #Flowers #Rose #MacroPhotography #Nature
+
+- **Instagram**, toujours en français ; les légendes n'y ont pas de liens cliquables, et
+  le lien est remplacé par un renvoi vers celui de la biographie (voir la partie 5,
+  « Instagram »).
 
 - **Ordre** : des photos les plus vues sur Pexels aux moins vues (fiche de suivi
-  `releves/suivi-pexels.csv`). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
+  `releves/suivi-pexels.csv`), sauf les jours où le calendrier en choisit une autre (défi
+  du mois, jour à thème). Avec 919 photos, il y a de quoi publier pendant deux ans et demi.
 - **Pas de répétition** : le journal `reseaux/photo-du-jour.json`, enregistré sur
   `main` après chaque passage, note pour chaque réseau les photos publiées, leur date et
   le lien de la publication. Un réseau ne reçoit qu'une photo par jour, même si la tâche
   est relancée. Une photo ne revient sur un même réseau qu'après 180 jours au moins
-  (réglage `rediffusion_jours`) : quand le calendrier d'un défi la choisit, ou, une fois
-  toutes les photos publiées, par ordre d'ancienneté. Le journal garde alors la trace de
+  (réglage `rediffusion_jours`) : quand le calendrier la choisit, ou, une fois toutes les
+  photos publiées, par ordre d'ancienneté. Le journal garde alors la trace de
   la publication précédente (`precedentes`).
 - **Heure** : 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47 UTC).
 - **Sans accès** : un réseau dont les secrets ne sont pas renseignés est simplement
@@ -311,37 +316,87 @@ Sur https://www.instagram.com/accounts/manage_access/, retirez l'application (bo
 `INSTAGRAM_JETON` et `JETON_GITHUB` du dépôt, et le jeton `Jeton Instagram` dans
 **Developer settings** de GitHub. Sans eux, les deux tâches laissent Instagram de côté.
 
-## Bluesky : la communauté #UnJourUnePhoto
+## Des messages écrits à l'avance
 
-Mesuré le 30 septembre 2026 sur les 100 derniers messages de chaque hashtag, sur Bluesky :
-#UnJourUnePhoto réunit 65 messages par jour, 91 % en français, avec 14 « j'aime » en
-médiane ; #FleurisTonFil (fleurs), 15 ; les défis du mois (#PhotoSeptember), 16. Les
-mots-clés que la photo du jour publiait (#Lighthouse, #Train, #France…) en recevaient 0
-à 4, et les messages de Karl 3 à 7, contre 101 pour sa photo #FleurisTonFil du
-26 septembre. D'où la formule suivie depuis le 1er octobre 2026 :
+Karl l'a demandé le 30 septembre 2026 : des messages humains, pas des titres de banque
+d'images ; aucune partie à la main ; et, pour chaque message, le français ou l'anglais
+selon l'audience qu'il peut toucher.
 
-- **La publication** : `#UnJourUnePhoto #Photographie`, plus `#FleurisTonFil` pour une photo
-  de fleurs ou `#NoirEtBlanc` pour le noir et blanc (d'après ses mots-clés), puis le
-  titre français. Pas de lien : il part en réponse sous la photo, et le profil renvoie
-  au site.
-- **Les défis du mois** : chaque mois, la communauté publie vers le 25 la liste des
-  thèmes du mois suivant (un par jour ; octobre 2026 : Orange, Oiseau, Oh !…, publiée par
+### La langue de chaque message
+
+Elle se choisit d'après les mesures de `reseaux/audience.md`, reprises chaque mois :
+
+- **Bluesky : le français.** Le public de Karl y est francophone : ses messages en
+  français ont reçu plus de 100 « j'aime », ses photos du jour en anglais 3 à 7. La
+  communauté #UnJourUnePhoto (65 messages par jour, 91 % en français, 14 « j'aime » en
+  médiane) fait mieux que les hashtags anglais, pourtant plus fréquentés.
+- **Mastodon : l'anglais.** Sur mastodon.social, #photography réunit environ 1 160
+  messages par jour, #photographie 62, #UnJourUnePhoto presque aucun.
+- **Instagram : le français**, règle de Karl (`reseaux/style-karl.md`).
+
+La session du mois peut en décider autrement pour un message donné : une photo qui a sa
+place dans une communauté anglaise très active part en anglais, même sur Bluesky.
+
+### Bluesky
+
+- **Les défis du mois** : la communauté publie vers le 25 la liste des thèmes du mois
+  suivant, un par jour (octobre 2026 : Orange, Oiseau, Oh !…, publiée par
   @elisabethlaffay.bsky.social). Les jours où une photo de Karl répond vraiment au thème,
-  le calendrier `reseaux/calendrier.csv` la publie avec `#UnJourUnePhoto #PhotoOctober` et
-  « 1/10 : Orange ». Les autres jours, la photo du jour ordinaire.
-- **Le calendrier** : une ligne par jour, colonnes `date` (AAAA-MM-JJ), `photo` (numéro
-  Pexels), `theme` (pour mémoire) et `bluesky` (texte complet de la publication, 300
-  caractères au plus, `\n` pour aller à la ligne ; les hashtags deviennent cliquables tout
-  seuls). Une photo réservée par le calendrier ne part pas avant son jour dans la file
-  ordinaire. Une photo parue sur Bluesky il y a moins de 180 jours est refusée : la file
-  ordinaire la remplace ce jour-là.
-- **Qui le prépare** : une session Claude programmée le 26 de chaque mois (consigne M de
-  `consignes/prochaines-sessions.md`) cherche la liste du mois suivant, choisit les photos,
-  écrit les textes et propose le tout en pull request. Karl relit et fusionne : rien ne
-  part sans son accord.
-- **Ce qui reste à la main**, et fait venir les abonnés : aimer et commenter chaque jour
-  quelques photos des autres sous #UnJourUnePhoto, et répondre aux commentaires. Jamais
-  de « j'aime » ni d'abonnements automatiques.
+  elle part avec `#UnJourUnePhoto #PhotoOctober #Photography`, puis « 1. Orange » et le
+  texte ; `#FleurisTonFil` s'y ajoute pour des fleurs, `#NoirEtBlanc` pour le noir et
+  blanc.
+- **Les autres jours** : `#UnJourUnePhoto #Photography` (et la communauté qui convient),
+  puis le texte.
+- **Le lien** part en réponse sous la photo ; le profil renvoie au site.
+
+### Mastodon
+
+Le Fediverse n'a pas d'algorithme : on y trouve les photos par les hashtags qu'on suit.
+Chaque message finit donc par quatre ou cinq hashtags choisis parmi les plus suivis
+(`#Photography`, `#Nature`, `#Architecture`, `#BirdsOfMastodon`…), et suit les jours à
+thème : un chat le samedi (`#Caturday`, `#CatsOfMastodon`), du noir et blanc le lundi
+(`#MonochromeMonday`), une fenêtre le vendredi (`#FensterFreitag`). Le lien vers la
+page de la photo s'insère avant les hashtags.
+
+### Le calendrier
+
+`reseaux/calendrier.csv` : une ligne par jour et par réseau (`bluesky` ou `mastodon`),
+colonnes `date` (AAAA-MM-JJ), `reseau`, `photo` (numéro Pexels), `langue` (`fr` ou `en`),
+`theme` (pour mémoire : défi du jour, jour à thème) et `texte` (le message complet,
+hashtags compris, sans le lien ; `\n` pour aller à la ligne ; 300 caractères au plus sur
+Bluesky, 500 sur Mastodon avec le lien). Les hashtags deviennent cliquables tout seuls.
+Une photo prévue par le calendrier ne part pas avant son jour dans la file ordinaire.
+Une ligne inutilisable (photo absente, parue il y a moins de 180 jours, langue inconnue)
+laisse partir la file ordinaire ce jour-là, avec son texte automatique (hashtags et
+titre).
+
+Instagram garde ses légendes, une par photo, dans `reseaux/legendes-instagram.csv`.
+
+### Qui les écrit
+
+Une session Claude programmée, le 26 de chaque mois à 9 h 13 (consigne M de
+`consignes/prochaines-sessions.md`) :
+
+1. mesure l'audience (API publiques de Bluesky et de mastodon.social, en lecture) et
+   complète `reseaux/audience.md` ;
+2. cherche la liste des défis du mois suivant ;
+3. choisit les photos : celles des défis, puis la file ordinaire (les plus vues pas
+   encore publiées sur ce réseau), avec les jours à thème de Mastodon ;
+4. écrit chaque message dans la langue retenue, dans le style de Karl, sans rien
+   inventer, et complète les légendes Instagram des six semaines suivantes ;
+5. vérifie le tout (`--calendrier`, `--essai`), ouvre une pull request et la fusionne
+   elle-même. Si une vérification échoue et qu'elle ne peut pas la corriger, elle ne
+   fusionne pas : les photos du jour partent quand même, avec le texte automatique.
+
+Rien de tout cela ne demande Karl. Pour corriger un message, il suffit de modifier sa
+ligne sur GitHub (crayon, *Edit*, puis *Commit changes*) ; pour le retirer, de la
+supprimer.
+
+### Ce que le programme ne fait jamais
+
+Ni « j'aime », ni abonnements, ni réponses automatiques : ce serait se faire passer pour
+Karl dans une conversation, et les réseaux le sanctionnent. Répondre aux commentaires
+reste possible pour Karl, quand il le veut, sans que rien n'en dépende.
 
 Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
 
@@ -350,23 +405,24 @@ Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
 
 ## Réglages
 
-- **Langue des publications** : `vitrine/site.ini`, rubrique `[photo_du_jour]`. Ligne
-  `langue` pour Mastodon : `en` (anglais, par défaut), `fr` (français) ou `zh`
-  (chinois) ; titre, hashtags et lien suivent cette langue. Ligne `langue_bluesky` pour
-  Bluesky : `fr`, pour la communauté #UnJourUnePhoto (une autre langue reprend l'ancienne
-  formule : titre, lien et mots-clés en hashtags). Ligne `langue_instagram` pour
-  Instagram : `fr`, à garder (règle de Karl).
+- **Langue des publications** : chaque ligne du calendrier a la sienne. Les jours sans
+  ligne, `vitrine/site.ini`, rubrique `[photo_du_jour]` : ligne `langue` pour Mastodon,
+  `en` (anglais, par défaut), `fr` (français) ou `zh` (chinois) ; ligne `langue_bluesky`
+  pour Bluesky, `fr`, à la manière de la communauté #UnJourUnePhoto (une autre langue
+  reprend l'ancienne formule : titre, lien et mots-clés en hashtags) ; ligne
+  `langue_instagram` pour Instagram, `fr`, à garder (règle de Karl).
 - **Rediffusions** : ligne `rediffusion_jours` de la même rubrique, 180 par défaut.
-- **Hashtags de Bluesky** : `HASHTAGS_BLUESKY` et `COMMUNAUTES_BLUESKY` dans
-  `reseaux/photo_du_jour.py` (hashtag de communauté et mots qui le déclenchent).
+- **Hashtags de Bluesky, les jours sans ligne** : `HASHTAGS_BLUESKY` et
+  `COMMUNAUTES_BLUESKY` dans `reseaux/photo_du_jour.py` (hashtag de communauté et mots qui
+  le déclenchent).
 - **Légendes Instagram** : `reseaux/legendes-instagram.csv`, une ligne par photo (numéro
   Pexels, légende, et, si l'on veut, les hashtags de la photo, cinq au plus, qui
   remplacent alors ses hashtags automatiques), à corriger au besoin directement sur
   GitHub. L'essai (`--essai`) indique pour combien des prochaines photos une légende est
   prête, et `--a-venir 40` liste les 40 prochaines photos d'Instagram avec celles qui
-  attendent encore la leur ; quand il en reste moins de 14, la consigne L en fait écrire
-  de nouvelles.
-- **Hashtag de chaque publication** (Mastodon et Instagram) : `HASHTAG_FIXE` dans
+  attendent encore la leur ; la session du 26 (consigne M) en écrit chaque mois pour les
+  six semaines suivantes.
+- **Hashtag des publications automatiques** (Mastodon et Instagram) : `HASHTAG_FIXE` dans
   `reseaux/photo_du_jour.py` (#Photography, #Photographie ou #摄影 selon la langue), suivi
   des quatre premiers mots-clés de la photo. Instagram n'en prend jamais plus de cinq en
   tout.
@@ -393,7 +449,9 @@ enregistrer, et sans secrets, avec l'adresse de l'image qu'Instagram télécharg
 (recadrage compris). `--langue fr` essaie une autre langue, `--jour 2026-10-01` un autre
 jour (calendrier compris), et `--calendrier` vérifie le calendrier à venir. `--a-venir 40`
 liste les 40 prochaines photos d'Instagram, dans l'ordre de parution, et dit si leur
-légende est prête. Ne jamais lancer `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
+légende est prête ; `--a-venir 40 --reseau mastodon` (ou `bluesky`) liste les photos que
+le calendrier ne prévoit pas encore sur ce réseau, dans l'ordre de la file ordinaire
+(`--jour` pour partir d'un autre jour). Ne jamais lancer `--renouveler-jeton` en session : c'est l'affaire de la tâche **Jeton Instagram**.
 
 ## RedNote (小红书), à la main
 
@@ -643,8 +701,12 @@ Premières publications : les cinq carrousels RedNote prévus du 28 septembre au
     photo_du_jour.py     choisit la photo, publie sur Bluesky, Mastodon et Instagram, tient
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
-    calendrier.csv       photos et textes Bluesky des jours de défi, préparés chaque mois
-                         en session (consigne M) et fusionnés par Karl
+    calendrier.csv       photo, langue et texte de chaque jour sur Bluesky et Mastodon,
+                         écrits chaque mois par la session programmée (consigne M)
+    legendes-instagram.csv
+                         légendes Instagram, une par photo, en français
+    audience.md          mesures d'audience qui décident de la langue de chaque message
+    style-karl.md        le style de Karl, pour tout texte publié en son nom
     publications/        publications à faire à la main, une par dossier, lues par Telepex
     publications.py      contrôle ces publications
     publications-validees.csv
