@@ -2,12 +2,21 @@
 """Publie la « photo du jour » sur Bluesky, sur Mastodon (ou Pixelfed) et sur Instagram.
 
 Chaque matin, la tâche .github/workflows/photo-du-jour.yml publie sur chaque réseau
-l'image d'une photo, son titre, quelques mots-clés en hashtags et le lien vers sa page
-du site (sur Instagram, dont les légendes n'ont pas de liens cliquables, un renvoi vers
-le lien de la biographie). Les photos passent des plus vues aux moins vues sur Pexels
-(fiche de suivi) ; le journal reseaux/photo-du-jour.json note, réseau par réseau, les
-photos publiées et leur date : aucune ne l'est deux fois, et un réseau ne reçoit qu'une
-photo par jour.
+l'image d'une photo, un texte et le lien vers sa page du site (sur Instagram, dont les
+légendes n'ont pas de liens cliquables, un renvoi vers le lien de la biographie). Le
+journal reseaux/photo-du-jour.json note, réseau par réseau, les photos publiées et leur
+date. Un réseau ne reçoit qu'une photo par jour, et une photo n'y revient qu'après un
+long délai (réglage rediffusion_jours de site.ini).
+
+Les textes sont écrits à l'avance, dans le style de Karl (reseaux/style-karl.md), par la
+session programmée du 26 de chaque mois (consigne M) :
+  - reseaux/calendrier.csv, pour Bluesky et Mastodon : chaque jour, la photo, la langue
+    choisie selon l'audience (français ou anglais) et le texte. Sur Bluesky, le lien part
+    en réponse sous la photo, à la manière de la communauté #UnJourUnePhoto ; sur
+    Mastodon, il suit le texte, avant les hashtags de fin ;
+  - reseaux/legendes-instagram.csv, pour Instagram, toujours en français.
+Un jour sans texte écrit, la photo la plus vue pas encore publiée part avec un texte
+automatique (hashtags et titre).
 
 Accès, lus dans les variables d'environnement (secrets du dépôt dans GitHub Actions) :
   BLUESKY_IDENTIFIANT, BLUESKY_MOT_DE_PASSE_APPLI   pour Bluesky
@@ -18,10 +27,19 @@ Un réseau sans ses accès est laissé de côté, sans erreur.
 Options :
   --essai             affiche les publications du jour sans rien publier ni enregistrer
   --langue L          langue des publications (fr, en ou zh), à la place du réglage de site.ini
+  --reseaux R,R       ne publie que sur ces réseaux (bluesky, mastodon, instagram) : la tâche
+                      publie Bluesky et Instagram le matin, Mastodon l'après-midi
   --renouveler-jeton  renouvelle le jeton Instagram, valable 60 jours, et range le nouveau
                       dans le secret INSTAGRAM_JETON du dépôt (tâche « Jeton Instagram »)
-  --a-venir N         liste les N prochaines photos d'Instagram, dans l'ordre de parution,
-                      et dit si leur légende est prête (legendes-instagram.csv)
+  --a-venir N         liste les N prochaines photos de la file d'un réseau (--reseau,
+                      Instagram par défaut) : pour Instagram, dans l'ordre de parution, avec
+                      l'état de leur légende ; pour Bluesky et Mastodon, les photos que le
+                      calendrier n'a pas encore prévues, des plus vues aux moins vues
+  --reseau R          avec --a-venir : bluesky, mastodon ou instagram
+  --jour AAAA-MM-JJ   avec --essai : les publications de ce jour-là (calendrier compris) ;
+                      avec --calendrier ou --a-venir : à partir de ce jour-là
+  --calendrier        vérifie le calendrier à venir : une ligne par jour et par réseau,
+                      photo, langue, longueur, texte alternatif, délai de rediffusion
 """
 
 import argparse
@@ -54,10 +72,32 @@ LARGEURS = (2048, 1600, 1280, 1024)
 POIDS_MAX = 950_000
 BLUESKY_SERVICE = "https://bsky.social"
 BLUESKY_LONGUEUR = 300  # caractères au plus dans une publication Bluesky
+MASTODON_LONGUEUR = 500  # caractères au plus sur mastodon.social, où un lien compte pour 23
+MASTODON_LIEN = 23
+ALT_LONGUEUR = 1000  # texte alternatif d'une image : en deçà des limites de Bluesky et Mastodon
 HASHTAGS = 4
 # Hashtag ajouté en tête de chaque publication, en plus des mots-clés : un sujet très
 # suivi sur Mastodon et Bluesky.
 HASHTAG_FIXE = {"fr": "Photographie", "en": "Photography", "zh": "摄影"}
+# Bluesky en français, les jours sans texte écrit : les hashtags de la communauté plutôt
+# que des mots-clés. Mesuré le 30 septembre 2026 sur les 100 derniers messages de chacun
+# (reseaux/audience.md) : #UnJourUnePhoto, 65 messages par jour, 14 « j'aime » en médiane,
+# 91 % en français ; #FleurisTonFil (fleurs), 15 en médiane ; #NoirEtBlanc, 8 ; contre 0 à 4
+# pour des mots-clés comme #Train ou #France. Les messages les plus aimés de la communauté
+# ajoutent #Photography.
+HASHTAGS_BLUESKY = ("UnJourUnePhoto", "Photography")
+# Hashtag de communauté ajouté quand un mot-clé français de la photo contient l'un de ces mots.
+COMMUNAUTES_BLUESKY = (
+    ("FleurisTonFil", ("fleur", "floraison", "tulipe", "pivoine", "coquelicot", "lavande",
+                       "hortensia", "marguerite", "orchidée", "magnolia", "dahlia", "tournesol",
+                       "glycine", "camélia", "lilas", "bouquet")),
+    ("NoirEtBlanc", ("noir et blanc", "monochrome")),
+)
+# Calendrier : jour et réseau → photo, langue et texte, écrit chaque mois en session.
+CALENDRIER = ICI / "calendrier.csv"
+RESEAUX_CALENDRIER = ("bluesky", "mastodon")
+# Délai avant qu'une photo revienne sur un même réseau, si site.ini ne dit rien.
+REDIFFUSION_JOURS = 180
 
 TEXTES = {
     "fr": "Libre de droits, à télécharger gratuitement sur Pexels :",
@@ -149,8 +189,105 @@ def publication(photo, langue, adr, longueur=None):
     return texte, lien, tags
 
 
-def photo_suivante(photos, parues):
-    return next((p for p in photos if str(p["id"]) not in parues), None)
+def jours_entre(debut, fin):
+    return (datetime.fromisoformat(fin).date() - datetime.fromisoformat(debut).date()).days
+
+
+def rediffusable(parues, photo_id, jour, delai):
+    """Vrai si la photo n'est jamais parue sur ce réseau, ou il y a au moins « delai » jours."""
+    entree = parues.get(str(photo_id))
+    return not entree or jours_entre(entree["date"], jour) >= delai
+
+
+def photo_suivante(photos, parues, reservees=(), jour=AUJOURDHUI, delai=REDIFFUSION_JOURS):
+    """La plus vue des photos jamais publiées sur ce réseau, hors photos réservées par le
+    calendrier ; quand toutes l'ont été, la plus anciennement publiée, si elle l'a été il y
+    a au moins « delai » jours."""
+    libres = [p for p in photos if str(p["id"]) not in reservees]
+    neuve = next((p for p in libres if str(p["id"]) not in parues), None)
+    if neuve:
+        return neuve
+    anciennes = [p for p in libres if rediffusable(parues, p["id"], jour, delai)]
+    return min(anciennes, key=lambda p: parues[str(p["id"])]["date"], default=None)
+
+
+def noter_publication(journal, cle, photo_id, lien):
+    """Inscrit la publication du jour ; une rediffusion garde la trace des précédentes."""
+    reseau = journal.setdefault(cle, {})
+    ancienne = reseau.get(str(photo_id))
+    entree = {"date": AUJOURDHUI, "lien": lien}
+    if ancienne:
+        entree["precedentes"] = ancienne.get("precedentes", []) + [
+            {"date": ancienne["date"], "lien": ancienne.get("lien", "")}]
+    reseau[str(photo_id)] = entree
+
+
+def lignes_calendrier():
+    """Lignes du calendrier : date (AAAA-MM-JJ), reseau, photo, langue, theme, texte."""
+    if not CALENDRIER.exists():
+        return []
+    with CALENDRIER.open(encoding="utf-8", newline="") as fichier:
+        return [{cle: (valeur or "").strip() for cle, valeur in ligne.items() if cle}
+                for ligne in csv.DictReader(fichier) if (ligne.get("date") or "").strip()]
+
+
+def lire_calendrier():
+    """Calendrier des publications : (date, réseau) → ligne (photo, langue, texte…)."""
+    return {(ligne["date"], ligne.get("reseau") or "bluesky"): ligne for ligne in lignes_calendrier()}
+
+
+def texte_ecrit(entree):
+    """Texte d'une ligne du calendrier, où « \\n » marque un retour à la ligne."""
+    return (entree or {}).get("texte", "").replace("\\n", "\n")
+
+
+def texte_alternatif(photo, langue, entree=None):
+    """Description de l'image pour qui ne la voit pas : celle du calendrier (colonne alt),
+    sinon le titre de la photo dans la langue du message."""
+    return (entree or {}).get("alt") or photo["titre"][langue]
+
+
+def hashtags_communaute(photo):
+    """#UnJourUnePhoto, #Photographie, et le hashtag de communauté qui convient à la photo."""
+    tags = list(HASHTAGS_BLUESKY)
+    mots = [m.lower() for m in photo["mots"]["fr"]]
+    for tag, termes in COMMUNAUTES_BLUESKY:
+        if any(terme in mot for mot in mots for terme in termes):
+            tags.append(tag)
+    return tags
+
+
+def textes_bluesky(photo, langue, adr, entree=None):
+    """Texte de la publication Bluesky et texte de la réponse qui porte le lien : la
+    publication elle-même reste celle d'un membre de la communauté, sans lien. Un jour du
+    calendrier, son texte remplace le texte automatique."""
+    lien = adr.absolue(adr.chemin(langue, "photo", photo["id"]))
+    if texte_ecrit(entree):
+        return texte_ecrit(entree), f"{TEXTES[langue]} {lien}"
+    if langue != "fr":
+        return publication(photo, langue, adr, BLUESKY_LONGUEUR)[0], None
+    texte = " ".join("#" + t for t in hashtags_communaute(photo)) + "\n\n" + photo["titre"]["fr"]
+    return texte, f"{TEXTES['fr']} {lien}"
+
+
+def texte_mastodon(photo, langue, adr, entree=None):
+    """Texte Mastodon : celui du calendrier, suivi du lien vers la page de la photo, placé
+    avant le paragraphe final de hashtags s'il y en a un ; sinon, le texte automatique."""
+    if not texte_ecrit(entree):
+        return publication(photo, langue, adr)[0]
+    lien = f'{TEXTES[langue]} {adr.absolue(adr.chemin(langue, "photo", photo["id"]))}'
+    blocs = texte_ecrit(entree).split("\n\n")
+    fin = blocs[-1].split()
+    if len(blocs) > 1 and fin and all(mot.startswith("#") for mot in fin):
+        blocs.insert(len(blocs) - 1, lien)
+    else:
+        blocs.append(lien)
+    return "\n\n".join(blocs)
+
+
+def longueur_mastodon(texte):
+    """Longueur comptée par Mastodon, où chaque lien vaut 23 caractères."""
+    return len(LIEN.sub("x" * MASTODON_LIEN, texte))
 
 
 # ---------------------------------------------------------------- appels HTTP
@@ -204,26 +341,31 @@ def formulaire(champs, fichier):
 # ---------------------------------------------------------------- Bluesky
 
 
-def facettes(texte, lien, tags):
+LIEN = re.compile(r"https?://[^\s]+[^\s.,;:!?)»]")
+DIESE = re.compile(r"(?<![\w#])#(\w*[^\W\d]\w*)")
+
+
+def facettes(texte):
     """Liens et hashtags cliquables d'une publication Bluesky, repérés en octets UTF-8."""
-    octets = texte.encode("utf-8")
-    trouvees = []
+    def octets(position):
+        return len(texte[:position].encode("utf-8"))
 
-    def reperer(morceau, caracteristique, depuis=0):
-        debut = octets.find(morceau.encode("utf-8"), depuis)
-        if debut >= 0:
-            fin = debut + len(morceau.encode("utf-8"))
-            trouvees.append({"index": {"byteStart": debut, "byteEnd": fin}, "features": [caracteristique]})
-            return fin
-        return depuis
-
-    fin_lien = reperer(lien, {"$type": "app.bsky.richtext.facet#link", "uri": lien})
-    for tag in tags:
-        fin_lien = reperer("#" + tag, {"$type": "app.bsky.richtext.facet#tag", "tag": tag}, fin_lien)
+    trouvees = [{"index": {"byteStart": octets(m.start()), "byteEnd": octets(m.end())},
+                 "features": [{"$type": "app.bsky.richtext.facet#link", "uri": m.group(0)}]}
+                for m in LIEN.finditer(texte)]
+    trouvees += [{"index": {"byteStart": octets(m.start()), "byteEnd": octets(m.end())},
+                  "features": [{"$type": "app.bsky.richtext.facet#tag", "tag": m.group(1)}]}
+                 for m in DIESE.finditer(texte)]
     return trouvees
 
 
-def publier_bluesky(photo, langue, adr, acces):
+def enregistrement_bluesky(texte, langue, **extra):
+    return {"$type": "app.bsky.feed.post", "text": texte, "facets": facettes(texte), "langs": [langue],
+            "createdAt": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+            **extra}
+
+
+def publier_bluesky(photo, langue, adr, acces, entree=None):
     identifiant, mot_de_passe = acces
     image = telecharger_image(photo)
     session = appel("POST", f"{BLUESKY_SERVICE}/xrpc/com.atproto.server.createSession",
@@ -234,25 +376,28 @@ def publier_bluesky(photo, langue, adr, acces):
     auth = {"Authorization": f'Bearer {session["accessJwt"]}'}
     blob = appel("POST", f"{service}/xrpc/com.atproto.repo.uploadBlob", image,
                  {**auth, "Content-Type": "image/jpeg"})["blob"]
-    texte, lien, tags = publication(photo, langue, adr, BLUESKY_LONGUEUR)
-    enregistrement = {
-        "$type": "app.bsky.feed.post",
-        "text": texte,
-        "facets": facettes(texte, lien, tags),
-        "langs": [langue],
-        "createdAt": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
-        "embed": {
-            "$type": "app.bsky.embed.images",
-            "images": [{
-                "alt": photo["titre"][langue],
-                "image": blob,
-                "aspectRatio": {"width": photo["largeur"], "height": photo["hauteur"]},
-            }],
-        },
-    }
+    texte, reponse = textes_bluesky(photo, langue, adr, entree)
+    enregistrement = enregistrement_bluesky(texte, langue, embed={
+        "$type": "app.bsky.embed.images",
+        "images": [{
+            "alt": texte_alternatif(photo, langue, entree),
+            "image": blob,
+            "aspectRatio": {"width": photo["largeur"], "height": photo["hauteur"]},
+        }],
+    })
     resultat = appel("POST", f"{service}/xrpc/com.atproto.repo.createRecord",
                      {"repo": session["did"], "collection": "app.bsky.feed.post", "record": enregistrement}, auth)
-    return f'https://bsky.app/profile/{session.get("handle") or session["did"]}/post/{resultat["uri"].rsplit("/", 1)[-1]}'
+    adresse = f'https://bsky.app/profile/{session.get("handle") or session["did"]}/post/{resultat["uri"].rsplit("/", 1)[-1]}'
+    if reponse:
+        # Le lien en réponse sous la photo. S'il échoue, la photo reste publiée.
+        parent = {"uri": resultat["uri"], "cid": resultat["cid"]}
+        try:
+            appel("POST", f"{service}/xrpc/com.atproto.repo.createRecord",
+                  {"repo": session["did"], "collection": "app.bsky.feed.post",
+                   "record": enregistrement_bluesky(reponse, langue, reply={"root": parent, "parent": parent})}, auth)
+        except (RuntimeError, OSError) as erreur:
+            print(f"Bluesky : photo publiée, mais pas la réponse qui porte le lien : {erreur}")
+    return adresse
 
 
 # ---------------------------------------------------------------- Mastodon et Pixelfed
@@ -264,11 +409,11 @@ def instance(texte):
     return texte if texte.startswith(("https://", "http://")) else "https://" + texte
 
 
-def publier_mastodon(photo, langue, adr, acces):
+def publier_mastodon(photo, langue, adr, acces, entree=None):
     serveur, jeton = instance(acces[0]), acces[1]
     auth = {"Authorization": f"Bearer {jeton}"}
-    texte, _, _ = publication(photo, langue, adr)
-    corps, type_corps = formulaire({"description": photo["titre"][langue]}, telecharger_image(photo))
+    texte = texte_mastodon(photo, langue, adr, entree)
+    corps, type_corps = formulaire({"description": texte_alternatif(photo, langue, entree)}, telecharger_image(photo))
     try:
         media = appel("POST", f"{serveur}/api/v2/media", corps, {**auth, "Content-Type": type_corps}, delai=120)
     except RuntimeError as erreur:
@@ -331,7 +476,7 @@ def api_instagram(methode, chemin, jeton, donnees=None):
     return reponse if isinstance(reponse, dict) else json.loads(reponse or b"{}")
 
 
-def publier_instagram(photo, langue, adr, acces):
+def publier_instagram(photo, langue, adr, acces, entree=None):
     jeton = acces[0]
     compte = api_instagram("GET", "me?fields=user_id,username", jeton)
     compte = (compte.get("data") or [compte])[0]
@@ -414,75 +559,205 @@ def renouveler_jeton():
 # ---------------------------------------------------------------- programme
 
 
+def texte_bluesky_essai(photo, langue, adr, entree=None):
+    texte, reponse = textes_bluesky(photo, langue, adr, entree)
+    return texte + (f"\n  ↳ en réponse : {reponse}" if reponse else "")
+
+
 # Pour chaque réseau : nom, secrets, publication, et texte publié (affiché par --essai).
 RESEAUX = {
     "bluesky": ("Bluesky", ("BLUESKY_IDENTIFIANT", "BLUESKY_MOT_DE_PASSE_APPLI"), publier_bluesky,
-                lambda photo, langue, adr: publication(photo, langue, adr, BLUESKY_LONGUEUR)[0]),
-    "mastodon": ("Mastodon", ("MASTODON_INSTANCE", "MASTODON_JETON"), publier_mastodon,
-                 lambda photo, langue, adr: publication(photo, langue, adr)[0]),
+                texte_bluesky_essai),
+    "mastodon": ("Mastodon", ("MASTODON_INSTANCE", "MASTODON_JETON"), publier_mastodon, texte_mastodon),
     "instagram": ("Instagram", ("INSTAGRAM_JETON",), publier_instagram,
-                  lambda photo, langue, adr: legende_instagram(photo, langue)),
+                  lambda photo, langue, adr, entree=None: legende_instagram(photo, langue)),
 }
+
+
+def verifier_calendrier(lignes, photos, journal, jour, delai, adr):
+    """Passe en revue les lignes du calendrier à partir de « jour », réseau par réseau, et
+    dit ce qui empêcherait de les publier : photo absente ou parue trop récemment, langue
+    inconnue, texte vide ou trop long, deux lignes pour un même jour, jour oublié. Les
+    lignes qui restent à publier avant « jour » comptent comme déjà parues."""
+    par_id = {str(p["id"]): p for p in photos}
+    debut = min(jour, AUJOURDHUI)
+    problemes = 0
+    for reseau in sorted({ligne.get("reseau") or "bluesky" for ligne in lignes} | set(RESEAUX_CALENDRIER)):
+        en_attente = sorted((ligne for ligne in lignes if (ligne.get("reseau") or "bluesky") == reseau
+                             and ligne["date"] >= debut), key=lambda ligne: ligne["date"])
+        a_venir = [ligne for ligne in en_attente if ligne["date"] >= jour]
+        if not a_venir:
+            continue
+        print(f"--- {reseau}")
+        parues = dict(journal.get(reseau, {}))
+        for entree in en_attente:
+            if entree["date"] < jour and entree.get("photo") in par_id:
+                parues[entree["photo"]] = {"date": entree["date"]}
+        vues = set()
+        for entree in a_venir:
+            date, langue = entree["date"], entree.get("langue") or ""
+            photo = par_id.get(entree.get("photo", ""))
+            texte = texte_ecrit(entree)
+            alertes = []
+            if reseau not in RESEAUX_CALENDRIER:
+                alertes.append(f"réseau « {reseau} » inconnu (bluesky ou mastodon)")
+            if date in vues:
+                alertes.append("deux lignes pour ce jour")
+            vues.add(date)
+            if langue not in build.LANGUES:
+                alertes.append(f"langue « {langue} » inconnue (fr ou en)")
+            if not photo:
+                alertes.append(f"photo {entree.get('photo') or '?'} absente du site")
+            elif not rediffusable(parues, photo["id"], date, delai):
+                alertes.append(f"déjà parue le {parues[str(photo['id'])]['date']}, moins de {delai} jours avant")
+            if not texte:
+                alertes.append("texte vide")
+            if len(entree.get("alt", "")) > ALT_LONGUEUR:
+                alertes.append(f"texte alternatif de {len(entree['alt'])} caractères, {ALT_LONGUEUR} au plus")
+            longueur = len(texte)
+            if reseau == "bluesky" and longueur > BLUESKY_LONGUEUR:
+                alertes.append(f"texte de {longueur} caractères, {BLUESKY_LONGUEUR} au plus")
+            if reseau == "mastodon" and photo and langue in build.LANGUES and texte:
+                longueur = longueur_mastodon(texte_mastodon(photo, langue, adr, entree))
+                if longueur > MASTODON_LONGUEUR:
+                    alertes.append(f"message de {longueur} caractères avec le lien, {MASTODON_LONGUEUR} au plus")
+            if photo:
+                parues[str(photo["id"])] = {"date": date}
+            problemes += bool(alertes)
+            titre = photo["titre"]["fr"] if photo else ""
+            print(f"{date}  {langue:2}  {entree.get('photo', ''):>9}  {longueur:>3} car.  {titre[:55]}"
+                  + (f"\n                ⚠ {' ; '.join(alertes)}" if alertes else ""))
+        # Jours oubliés entre le premier et le dernier jour prévus : la file ordinaire et
+        # son texte automatique partiraient.
+        premier = datetime.fromisoformat(a_venir[0]["date"]).date()
+        dernier = datetime.fromisoformat(a_venir[-1]["date"]).date()
+        oublies = [(premier + timedelta(days=n)).isoformat() for n in range((dernier - premier).days + 1)
+                   if (premier + timedelta(days=n)).isoformat() not in vues]
+        if oublies:
+            problemes += len(oublies)
+            print(f"                ⚠ jours sans ligne : {', '.join(oublies)}")
+    print(f"{problemes} point(s) à corriger." if problemes else "Calendrier prêt.")
+    return problemes
 
 
 def main():
     options = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     options.add_argument("--essai", action="store_true")
     options.add_argument("--langue", choices=build.LANGUES)
+    options.add_argument("--reseaux", metavar="R,R", help="bluesky, mastodon, instagram")
     options.add_argument("--renouveler-jeton", action="store_true")
     options.add_argument("--a-venir", type=int, metavar="N")
+    options.add_argument("--reseau", choices=RESEAUX, default="instagram")
+    options.add_argument("--jour", metavar="AAAA-MM-JJ")
+    options.add_argument("--calendrier", action="store_true")
     args = options.parse_args()
     if args.renouveler_jeton:
         renouveler_jeton()
         return
+    if args.jour and not (args.essai or args.calendrier or args.a_venir):
+        sys.exit("--jour ne sert qu'avec --essai, --calendrier ou --a-venir : la tâche publie toujours "
+                 "pour aujourd'hui.")
+    jour = args.jour or AUJOURDHUI
+    choisis = [r.strip() for r in (args.reseaux or ",".join(RESEAUX)).split(",") if r.strip()]
+    if any(r not in RESEAUX for r in choisis):
+        sys.exit(f"--reseaux : {args.reseaux} ; réseaux possibles : {', '.join(RESEAUX)}.")
 
     reglages = build.lire_ini("site.ini")
     langue = args.langue or reglages.get("photo_du_jour", "langue", fallback="en").strip() or "en"
     # Instagram a sa propre langue : le français, règle de Karl (reseaux/style-karl.md).
     langues = {"instagram": args.langue or reglages.get("photo_du_jour", "langue_instagram",
-                                                          fallback=langue).strip() or langue}
+                                                          fallback=langue).strip() or langue,
+               # Bluesky a la sienne : le français, pour la communauté #UnJourUnePhoto. Un jour
+               # du calendrier, la langue de sa ligne l'emporte.
+               "bluesky": args.langue or reglages.get("photo_du_jour", "langue_bluesky",
+                                                        fallback=langue).strip() or langue}
+    delai = reglages.getint("photo_du_jour", "rediffusion_jours", fallback=REDIFFUSION_JOURS)
     for choix in (langue, *langues.values()):
         if choix not in build.LANGUES:
             sys.exit(f"Langue inconnue dans site.ini, rubrique [photo_du_jour] : {choix} (fr, en ou zh).")
     adr = build.Adresses(reglages["site"]["adresse"])
     photos = lire_photos()
+    par_id = {str(p["id"]): p for p in photos}
     journal = charger_journal()
+    calendrier = lire_calendrier()
+    if args.calendrier:
+        sys.exit(1 if verifier_calendrier(lignes_calendrier(), photos, journal, jour, delai, adr) else 0)
+    # Photos que le calendrier réserve pour plus tard, réseau par réseau : la file ordinaire
+    # les laisse de côté jusqu'à leur jour.
+    reservees = {}
+    for (date, reseau), entree in calendrier.items():
+        if date > jour:
+            reservees.setdefault(reseau, set()).add(entree.get("photo"))
     echecs = 0
     if args.a_venir:
-        legendes = lire_legendes()
-        suite = [p for p in photos if str(p["id"]) not in journal.get("instagram", {})]
+        if args.reseau == "instagram":
+            legendes = lire_legendes()
+            suite = [p for p in photos if str(p["id"]) not in journal.get("instagram", {})]
+            for p in suite[:args.a_venir]:
+                etat = "prête   " if str(p["id"]) in legendes else "à écrire"
+                print(f'{p["id"]:>9}  {p["vues"]:>6} vues  légende {etat}  {p["titre"]["fr"]}')
+            return
+        # Bluesky et Mastodon : les photos que le calendrier ne prévoit pas encore, dans
+        # l'ordre de la file ordinaire (jamais publiées, des plus vues aux moins vues, puis
+        # les plus anciennement publiées).
+        parues = journal.get(args.reseau, {})
+        prevues = {e.get("photo") for (d, r), e in calendrier.items()
+                   if r == args.reseau and d >= min(jour, AUJOURDHUI)}
+        libres = [p for p in photos if str(p["id"]) not in prevues and rediffusable(parues, p["id"], jour, delai)]
+        suite = ([p for p in libres if str(p["id"]) not in parues]
+                 + sorted((p for p in libres if str(p["id"]) in parues), key=lambda p: parues[str(p["id"])]["date"]))
         for p in suite[:args.a_venir]:
-            etat = "prête   " if str(p["id"]) in legendes else "à écrire"
-            print(f'{p["id"]:>9}  {p["vues"]:>6} vues  légende {etat}  {p["titre"]["fr"]}')
+            deja = f'  (parue le {parues[str(p["id"])]["date"]})' if str(p["id"]) in parues else ""
+            print(f'{p["id"]:>9}  {p["vues"]:>6} vues  {p["titre"]["fr"]}{deja}')
         return
 
     for cle, (nom, variables, publier, texte_publie) in RESEAUX.items():
+        if cle not in choisis:
+            continue
         acces = [os.environ.get(v, "").strip() for v in variables]
         parues = journal.get(cle, {})
         if not args.essai and not all(acces):
             print(f"{nom} : accès non renseignés ({', '.join(variables)}), rien à publier.")
             continue
-        if any(entree["date"] == AUJOURDHUI for entree in parues.values()):
+        if any(entree["date"] == jour for entree in parues.values()):
             print(f"{nom} : photo du jour déjà publiée aujourd'hui.")
             continue
-        photo = photo_suivante(photos, parues)
         langue_reseau = langues.get(cle, langue)
+        # La photo, la langue et le texte du calendrier, s'il en prévoit un ce jour-là.
+        entree = calendrier.get((jour, cle))
+        photo = par_id.get(entree.get("photo", "")) if entree else None
+        if entree and not photo:
+            print(f"{nom} : photo {entree.get('photo')} du calendrier absente du site ; file ordinaire.")
+            entree = None
+        elif entree and (entree.get("langue") not in build.LANGUES or not texte_ecrit(entree)):
+            print(f"{nom} : ligne du calendrier sans langue connue ou sans texte ; file ordinaire.")
+            entree, photo = None, None
+        elif entree and not rediffusable(parues, photo["id"], jour, delai):
+            print(f"{nom} : photo {photo['id']} du calendrier déjà parue il y a moins de {delai} jours ; "
+                  "file ordinaire.")
+            entree, photo = None, None
+        if entree:
+            langue_reseau = entree["langue"]  # le texte écrit est dans cette langue
+        photo = photo or photo_suivante(photos, parues, reservees.get(cle, ()), jour, delai)
         if not photo:
-            print(f"{nom} : toutes les photos ont déjà été publiées.")
+            print(f"{nom} : toutes les photos ont déjà été publiées il y a moins de {delai} jours.")
             continue
         if args.essai:
-            texte = texte_publie(photo, langue_reseau, adr)
-            print(f"--- {nom} : photo {photo['id']} ({photo['vues']} vues, {len(texte)} caractères)\n{texte}\n")
+            texte = texte_publie(photo, langue_reseau, adr, entree)
+            origine = "calendrier" if entree else ("rediffusion" if str(photo["id"]) in parues else "file ordinaire")
+            print(f"--- {nom} ({jour}) : photo {photo['id']} ({photo['vues']} vues, {origine})\n{texte}\n")
+            if cle in RESEAUX_CALENDRIER:
+                print(f"Texte alternatif de l'image : {texte_alternatif(photo, langue_reseau, entree)}\n")
             if cle == "instagram":
                 print(f"Image téléchargée par Instagram : {image_instagram(photo)}\n")
             continue
         try:
-            lien = publier(photo, langue_reseau, adr, acces)
+            lien = publier(photo, langue_reseau, adr, acces, entree)
         except (RuntimeError, OSError, KeyError, ValueError) as erreur:
             echecs += 1
             print(f"{nom} : échec de la publication de la photo {photo['id']} : {erreur}")
             continue
-        journal.setdefault(cle, {})[str(photo["id"])] = {"date": AUJOURDHUI, "lien": lien}
+        noter_publication(journal, cle, photo["id"], lien)
         enregistrer_journal(journal)
         print(f"{nom} : photo {photo['id']} publiée, {lien}")
 

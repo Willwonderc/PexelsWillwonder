@@ -112,8 +112,23 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
 - Photo du jour : `reseaux/photo_du_jour.py`, lancé chaque matin par
   `.github/workflows/photo-du-jour.yml`, publie sur Bluesky, Mastodon (ou Pixelfed) et
   Instagram la photo la plus vue pas encore publiée ; journal `reseaux/photo-du-jour.json`,
-  tenu par cette seule tâche ; langue réglée dans `vitrine/site.ini`, rubrique
-  `[photo_du_jour]`. Essai sans publier : `--essai`. Instagram (@karl_forterre, compte
+  tenu par cette seule tâche. Une photo ne revient sur un réseau qu'après
+  `rediffusion_jours` (180). Règle de Karl (30 septembre 2026) : aucune partie à la main,
+  des messages humains dans son style (`reseaux/style-karl.md`), et pour chacun le
+  français ou l'anglais selon l'audience mesurée (`reseaux/audience.md` : Bluesky en
+  français, Mastodon en anglais, Instagram toujours en français). Photo, langue et texte
+  de chaque jour sur Bluesky et Mastodon : `reseaux/calendrier.csv` (défis du mois de la
+  communauté #UnJourUnePhoto sur Bluesky, lien en réponse ; jours à thème et hashtags du
+  Fediverse sur Mastodon ; colonne `alt`, description de l'image), écrit le 26 de chaque
+  mois, six semaines d'avance, par une session programmée avec Opus (consigne M), qui
+  fait le bilan des messages du mois écoulé, complète aussi les légendes Instagram,
+  vérifie tout et ouvre sa pull request, que Karl fusionne d'un clic (une routine ne
+  fusionne pas sans relecture humaine). Heures : Bluesky et Instagram à 6 h 47 UTC,
+  Mastodon à 15 h 47 UTC (`--reseaux`). Un jour sans ligne, texte automatique (langue de
+  `vitrine/site.ini`, rubrique `[photo_du_jour]`). Jamais de « j'aime », d'abonnements ni
+  de réponses automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`,
+  `--a-venir N --reseau R`).
+  Instagram (@karl_forterre, compte
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
   téléchargée par Instagram à l'adresse images.pexels.com, `fm=jpg` imposant le JPEG
   (sinon AVIF ou WebP selon le client), recadrée au centre entre 4:5 et 1,91:1 ;
