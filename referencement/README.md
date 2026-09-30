@@ -114,8 +114,10 @@ suffit de le lui demander, sans jamais lui confier de mot de passe ni de code re
   ailleurs, n'en ont pas besoin. Reste : la photo du dolmen de Buzy à remplacer par une
   version recadrée sans le visiteur (**Upload a new version of this file**, sur la page du
   fichier), avant le 15 octobre.
-- [ ] **Wikidata** (20 minutes) : [les photos sur les fiches des lieux](#2-wikidata) ; la
-  fiche de l'auteur viendra plus tard.
+- [x] **Wikidata** : [les photos sur les fiches des lieux](#2-wikidata). Vérifié le
+  30 septembre 2026 : les fiches des lieux des 18 photos déposées sur Commons ont toutes
+  déjà une image, qu'on ne remplace pas par la sienne ; rien à y ajouter. La fiche de
+  l'auteur viendra plus tard (étape 3).
 - [ ] **Dépôt du mémoire** (1 heure) :
   [DUMAS, ou à défaut Zenodo](#déposer-le-mémoire-dans-une-archive-ouverte), une fois le
   PDF allégé.
@@ -291,6 +293,13 @@ souvent l'image d'une fiche.
 3. Si elle a déjà une image, ne pas la remplacer par la sienne : en proposer le
    changement sur la page de discussion de la fiche, et seulement si la photo est
    nettement meilleure.
+
+Vérifié le 30 septembre 2026 pour les 18 photos déposées sur Commons : les fiches de
+leurs lieux ont toutes déjà une image (église Saint-André, hôtel de préfecture et hôtel de
+ville de Niort, monument aux Girondins, château de Villandry, phare de Chausey, dolmen de
+Buzy, Moyemont, hôtel de ville de Cognac, chapelle Saint-Florent de Xonrupt-Longemer,
+hôtels de ville d'Irun et de Bilbao, Universidad Laboral de Gijón, cathédrale de Bilbao,
+éclipse solaire du 12 août 2026). Rien à ajouter ; à revoir à chaque nouveau dépôt.
 
 ### Étape 3, plus tard : la fiche de Karl Forterre
 
@@ -630,7 +639,8 @@ sur Pexels : œuvre personnelle, sans bandeau ni courriel.
 
 - **Wikidata** : mettre la photo sur la fiche du lieu qui n'a pas encore d'image (partie
   2, étape 2). C'est l'endroit le plus visible : les moteurs et les assistants
-  reprennent cette image.
+  reprennent cette image. Pour les 18 photos du 29 septembre, aucune fiche n'en manque
+  (vérifié le 30 septembre).
 - **Wikipédia** : ajouter une photo de qualité à un article qui n'en a pas, ou qui n'en a
   pas de bonne (Moyemont, la chapelle Saint-Florent), est en général bien reçu, même par
   l'auteur de la photo ; remplacer une bonne photo par la sienne, ou ajouter ses photos
