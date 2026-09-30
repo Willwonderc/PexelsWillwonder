@@ -32,7 +32,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
 | L | Légendes Instagram | plus nécessaire : la session M écrit aussi les légendes, chaque mois | — |
-| M | Messages du mois : Bluesky, Mastodon, Instagram | automatique, le 26 de chaque mois (session programmée) ; octobre 2026 écrit en session le 30 septembre | rien : elle vérifie et fusionne elle-même (voir M) |
+| M | Messages du mois : Bluesky, Mastodon, Instagram | automatique, le 26 de chaque mois (session programmée) ; octobre 2026 écrit en session le 30 septembre | rien ; ensuite, Karl fusionne sa pull request d'un clic (voir M) |
 | W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
@@ -328,8 +328,9 @@ Règle de Karl, 30 septembre 2026 : aucune partie à la main ; des messages huma
 son style ; pour chaque message, le français ou l'anglais selon l'audience qu'il peut
 toucher. Cette session, lancée seule le 26 de chaque mois à 9 h 13 (session programmée de
 Claude Code, « Messages du mois »), écrit les messages du mois suivant sur les trois
-réseaux, les vérifie et les range elle-même dans le dépôt : Karl n'a rien à relire ni à
-fusionner. Octobre 2026 a été écrit en session le 30 septembre. Fonctionnement :
+réseaux, les vérifie et ouvre une pull request ; Karl n'a qu'à la fusionner, d'un clic.
+Une routine qui fusionnerait elle-même, sans relecture humaine, est refusée par les
+garde-fous de Claude Code. Octobre 2026 a été écrit en session le 30 septembre. Fonctionnement :
 `reseaux/README.md`, « Des messages écrits à l'avance ».
 
 Pour que la session programmée trouve le dépôt, Karl ajoute une fois, sur claude.ai,
@@ -337,7 +338,7 @@ dans la page des routines, le dépôt Willwonderc/PexelsWillwonder à la routine
 du mois » ; sans cela, la session le rattache elle-même (étape 0).
 
 ```text
-Session M, programmée : écris les messages de la photo du jour du mois prochain (Bluesky, Mastodon, Instagram) dans le dépôt Willwonderc/PexelsWillwonder, vérifie-les et fusionne toi-même la pull request. Karl ne relit rien : aucune partie ne doit rester à la main.
+Session M, programmée : écris les messages de la photo du jour du mois prochain (Bluesky, Mastodon, Instagram) dans le dépôt Willwonderc/PexelsWillwonder, vérifie-les et propose-les en pull request. Tout se fait sans Karl, sauf la fusion, qu'il fait d'un clic.
 
 0. Si le dépôt n'est pas dans la session : rattache-le avec l'outil add_repo (propriétaire Willwonderc, dépôt PexelsWillwonder, accès push), clone-le comme l'outil l'indique, puis appelle register_repo_root. Travaille sur une nouvelle branche partie de main. Lis CLAUDE.md, puis dans reseaux/ : README.md (« Des messages écrits à l'avance », « Souvenirs et repères de Karl »), style-karl.md et audience.md.
 
@@ -362,7 +363,7 @@ Ajoute une ligne par jour et par réseau à reseaux/calendrier.csv (date, reseau
 
 7. Vérifie : python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-01 doit finir par « Calendrier prêt. » ; --essai --jour sur trois jours ; --a-venir 45 : aucune légende « à écrire ». Relis chaque texte : faits, orthographe, typographie, longueur, langue.
 
-8. Ne modifie que reseaux/calendrier.csv, reseaux/legendes-instagram.csv et reseaux/audience.md. Commit en français, pousse la branche, ouvre une pull request vers main (le mois jour par jour : date, réseau, langue, photo avec son lien https://photos.karlforterre.fr/photo/NUMÉRO/, début du texte ; la liste des défis et sa source ; les mesures et le choix des langues ; les légendes Instagram ajoutées), puis fusionne-la toi-même (squash) dès que les vérifications passent. Si une vérification échoue et que tu ne peux pas la corriger, ne fusionne pas et explique pourquoi dans la pull request : les photos du jour partiront quand même, avec le texte automatique.
+8. Ne modifie que reseaux/calendrier.csv, reseaux/legendes-instagram.csv et reseaux/audience.md. Commit en français, pousse la branche, ouvre une pull request vers main (le mois jour par jour : date, réseau, langue, photo avec son lien https://photos.karlforterre.fr/photo/NUMÉRO/, début du texte ; la liste des défis et sa source ; les mesures et le choix des langues ; les légendes Instagram ajoutées). Ne la fusionne pas : Karl la fusionne d'un clic ; tant qu'elle attend, les photos du jour partent avec le texte automatique. Si une vérification échoue et que tu ne peux pas la corriger, dis-le en tête de la pull request.
 
 Jamais : publier toi-même sur un réseau ; aimer, suivre ou répondre à qui que ce soit ; collecter quoi que ce soit sur pexels.com ; lancer --renouveler-jeton ou --envoyer-indexnow ; écrire un secret où que ce soit. Sois économe : le crédit est compté.
 ```

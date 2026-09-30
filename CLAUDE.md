@@ -120,8 +120,9 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   de chaque jour sur Bluesky et Mastodon : `reseaux/calendrier.csv` (défis du mois de la
   communauté #UnJourUnePhoto sur Bluesky, lien en réponse ; jours à thème et hashtags du
   Fediverse sur Mastodon), écrit le 26 de chaque mois par une session programmée
-  (consigne M), qui complète aussi les légendes Instagram, vérifie tout et fusionne
-  elle-même sa pull request. Un jour sans ligne, texte automatique (langue de
+  (consigne M), qui complète aussi les légendes Instagram, vérifie tout et ouvre sa pull
+  request, que Karl fusionne d'un clic (une routine ne fusionne pas sans relecture
+  humaine). Un jour sans ligne, texte automatique (langue de
   `vitrine/site.ini`, rubrique `[photo_du_jour]`). Jamais de « j'aime », d'abonnements ni
   de réponses automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`,
   `--a-venir N --reseau R`).

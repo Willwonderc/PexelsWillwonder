@@ -3,9 +3,9 @@
 Chaque matin, la tâche GitHub **Photo du jour** publie une photo sur Bluesky, sur
 Mastodon (ou Pixelfed) et sur Instagram, avec un texte écrit à l'avance dans le style de
 Karl (`reseaux/style-karl.md`) et le lien vers sa page du site, d'où elle se télécharge
-sur Pexels. Tout est automatique, sans rien à relire ni à fusionner : une session Claude
-programmée écrit chaque mois les textes du mois suivant, les vérifie et les range
-elle-même dans le dépôt (voir « Des messages écrits à l'avance », plus bas).
+sur Pexels. Une session Claude programmée écrit chaque mois les textes du mois suivant,
+les vérifie et les propose en pull request ; le seul geste de Karl est de la fusionner,
+d'un clic (voir « Des messages écrits à l'avance », plus bas).
 
 - **Bluesky**, en français le plus souvent, à la manière de la communauté
   #UnJourUnePhoto ; le lien part en réponse sous la photo. Exemple :
@@ -384,13 +384,13 @@ Une session Claude programmée, le 26 de chaque mois à 9 h 13 (consigne M de
    encore publiées sur ce réseau), avec les jours à thème de Mastodon ;
 4. écrit chaque message dans la langue retenue, dans le style de Karl, sans rien
    inventer, et complète les légendes Instagram des six semaines suivantes ;
-5. vérifie le tout (`--calendrier`, `--essai`), ouvre une pull request et la fusionne
-   elle-même. Si une vérification échoue et qu'elle ne peut pas la corriger, elle ne
-   fusionne pas : les photos du jour partent quand même, avec le texte automatique.
+5. vérifie le tout (`--calendrier`, `--essai`) et ouvre une pull request.
 
-Rien de tout cela ne demande Karl. Pour corriger un message, il suffit de modifier sa
-ligne sur GitHub (crayon, *Edit*, puis *Commit changes*) ; pour le retirer, de la
-supprimer.
+Karl la fusionne d'un clic (*Merge pull request*, puis *Confirm*) : une routine qui
+fusionnerait elle-même, sans relecture humaine, est refusée par les garde-fous de
+Claude Code. Tant qu'elle attend, rien ne casse : les photos du jour partent avec le
+texte automatique. Pour corriger un message, il suffit de modifier sa ligne sur GitHub
+(crayon, *Edit*, puis *Commit changes*) ; pour le retirer, de la supprimer.
 
 ### Ce que le programme ne fait jamais
 
