@@ -165,9 +165,11 @@ mot de passe. Le tableau de bord ne s'en sert que pour lire.
 
 ### C. Les deux secrets
 
-1. Google conseille de ranger la clé JSON sur une seule ligne. Dans le Terminal du Mac,
-   taper `tr -d '\n' < ` (avec l'espace final), glisser le fichier `.json` dans la fenêtre,
-   taper ` | pbcopy`, puis Entrée : la clé est copiée, sans s'afficher.
+1. Dans le Finder, clic droit sur le fichier `.json` → **Ouvrir avec** → **TextEdit**
+   (**Autre…** s'il n'est pas proposé), puis ⌘A et ⌘C, et fermer sans enregistrer. La clé
+   passe telle quelle, sur plusieurs lignes : inutile de passer par le Terminal. La coller
+   aussitôt (étape 2) : si le presse-papiers contient autre chose, la clé de Bing par
+   exemple, Google refuse le secret et le tableau de bord le signale.
 2. Sur GitHub, dépôt Willwonderc/PexelsWillwonder : **Settings** → **Secrets and variables**
    → **Actions** → **New repository secret**. Nom : `SEARCH_CONSOLE_CLE` ; valeur : coller
    (⌘V) ; **Add secret**.

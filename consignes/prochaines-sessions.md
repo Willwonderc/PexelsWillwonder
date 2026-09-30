@@ -27,7 +27,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | T | Telepex : envoi automatique au tableau de bord | faite le 28 septembre | premier relevé envoyé le 28 septembre (voir T) |
 | U | Telepex : tableau de bord, publications et vidéos | faite le 28 septembre | Telepex 1.2 (voir U) |
 | F | Tableau de bord | faite le 28 septembre | GoatCounter relié le 28 septembre (voir F) |
-| G | Google et Bing dans le tableau de bord | faite le 28 septembre | restent les accès de Google et de Bing (voir G) |
+| G | Google et Bing dans le tableau de bord | faite le 28 septembre | Google et Bing reliés le 30 septembre (voir G) |
 | R | Réseaux sociaux dans le tableau de bord | quand vous voulez | la pull request précédente fusionnée ; l'autorisation des statistiques Instagram se donne pendant la session (voir R) |
 | H | Instagram | faite le 28 septembre | @karl_forterre est un compte « Créateur » depuis le 28 septembre |
 | I | Galerie Niort | faite le 28 septembre | Niort, Poitiers et le Marais poitevin ont leur galerie et leur tableau Pinterest |
