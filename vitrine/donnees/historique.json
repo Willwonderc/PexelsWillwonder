@@ -170,10 +170,10 @@
       "position": 7.7
      },
      "2026-09-28": {
-      "clics": 0,
+      "clics": 1,
       "complete": false,
-      "impressions": 0,
-      "position": null
+      "impressions": 7,
+      "position": 2.4
      }
     }
    },
@@ -334,8 +334,8 @@
      "2026-09-28": {
       "clics": 0,
       "complete": false,
-      "impressions": 0,
-      "position": null
+      "impressions": 2,
+      "position": 7.0
      }
     }
    }
