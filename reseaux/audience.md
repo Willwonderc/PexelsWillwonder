@@ -2,9 +2,9 @@
 
 La langue de chaque message (français ou anglais) se choisit d'après l'audience qu'il
 peut toucher (règle de Karl, 30 septembre 2026). Ce journal garde les mesures qui fondent
-ce choix. La session programmée du 26 de chaque mois (consigne M de
-`consignes/prochaines-sessions.md`) y ajoute les siennes, en tête, avant d'écrire les
-messages du mois suivant.
+ce choix. La session programmée du 26 de chaque mois (skill `messages-du-mois`,
+`.claude/skills/messages-du-mois/SKILL.md`) y ajoute les siennes, en tête, avant
+d'écrire les messages du mois suivant.
 
 Méthode, en lecture seule et sans compte :
 

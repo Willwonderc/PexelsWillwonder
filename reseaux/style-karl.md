@@ -69,7 +69,8 @@ Pour ne rien inventer : regarder chaque photo en petite taille avant d'écrire (
 ## Bluesky et Mastodon
 
 Les messages de `reseaux/calendrier.csv`, écrits chaque mois par la session programmée
-(consigne M), suivent les mêmes règles que les légendes Instagram, en plus court :
+(skill `messages-du-mois`), suivent les mêmes règles que les légendes Instagram, en plus
+court :
 
 - **Une ou deux phrases**, 230 caractères environ, pour laisser la place aux hashtags.
 - **Bluesky** : les hashtags en tête, comme la communauté (`#UnJourUnePhoto`, le défi du
