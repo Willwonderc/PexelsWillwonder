@@ -7,10 +7,16 @@
 name: Photo du jour
 
 on:
+  # GitHub lance les tâches programmées avec des heures de retard : de 5 à 8 heures le
+  # matin et d'environ 4 heures 30 l'après-midi, du 27 septembre au 3 octobre 2026. Chaque
+  # publication a donc un passage avancé, qui attend l'heure prévue s'il arrive en avance,
+  # et un passage de secours à l'heure prévue, qui ne publie que ce qui manque encore.
   schedule:
-    # 6 h 47 UTC : 8 h 47 à Paris en été, 7 h 47 en hiver (Bluesky et Instagram).
+    # Bluesky et Instagram à 6 h 47 UTC : 8 h 47 à Paris en été, 7 h 47 en hiver.
+    - cron: "17 1 * * *"
     - cron: "47 6 * * *"
-    # 15 h 47 UTC : 17 h 47 à Paris en été, 11 h 47 à New York (Mastodon).
+    # Mastodon à 15 h 47 UTC : 17 h 47 à Paris en été, 11 h 47 à New York.
+    - cron: "47 10 * * *"
     - cron: "47 15 * * *"
   workflow_dispatch:
 
@@ -24,7 +30,26 @@ concurrency:
 jobs:
   publier:
     runs-on: ubuntu-latest
+    # 5 heures 30 d'attente au plus, puis la publication.
+    timeout-minutes: 355
     steps:
+      # Un passage avancé arrivé avant l'heure prévue l'attend ; arrivé après, il publie
+      # tout de suite. Lancée à la main (Run workflow), la tâche n'attend pas.
+      - name: Attendre l'heure de publication
+        env:
+          PASSAGE: ${{ github.event.schedule }}
+        run: |
+          case "$PASSAGE" in
+            "17 1 * * *"|"47 6 * * *") heure="06:47" ;;
+            "47 10 * * *"|"47 15 * * *") heure="15:47" ;;
+            *) exit 0 ;;
+          esac
+          attente=$(( $(date -u -d "today $heure" +%s) - $(date -u +%s) ))
+          if [ "$attente" -gt 0 ]; then
+            echo "En avance : attente de $(( attente / 60 )) minutes, jusqu'à $heure UTC."
+            sleep "$attente"
+          fi
+
       # Toujours la dernière version de main, qui contient le journal du passage précédent.
       - uses: actions/checkout@v4
         with:
@@ -42,8 +67,8 @@ jobs:
         # pas encore eu leur photo du jour.
         run: |
           case "$PASSAGE" in
-            "47 6 * * *") python3 reseaux/photo_du_jour.py --reseaux bluesky,instagram ;;
-            "47 15 * * *") python3 reseaux/photo_du_jour.py --reseaux mastodon ;;
+            "17 1 * * *"|"47 6 * * *") python3 reseaux/photo_du_jour.py --reseaux bluesky,instagram ;;
+            "47 10 * * *"|"47 15 * * *") python3 reseaux/photo_du_jour.py --reseaux mastodon ;;
             *) python3 reseaux/photo_du_jour.py ;;
           esac
 
