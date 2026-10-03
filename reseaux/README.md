@@ -44,7 +44,10 @@ faire (voir « Des messages écrits à l'avance », plus bas).
 - **Heure** : Bluesky et Instagram à 8 h 47 à Paris en été, 7 h 47 en hiver (6 h 47
   UTC), au plus fort de la communauté #UnJourUnePhoto ; Mastodon à 17 h 47 en été,
   16 h 47 en hiver (15 h 47 UTC), quand son public anglophone est éveillé des deux côtés
-  de l'Atlantique (11 h 47 à New York).
+  de l'Atlantique (11 h 47 à New York). GitHub lançant ses tâches programmées avec des
+  heures de retard (de 5 à 8 heures le matin, fin septembre 2026), chaque publication a
+  un passage avancé, à 1 h 17 et 10 h 47 UTC, qui attend l'heure prévue s'il arrive en
+  avance, et un passage de secours à l'heure prévue.
 - **Sans accès** : un réseau dont les secrets ne sont pas renseignés est simplement
   laissé de côté. On peut donc commencer par un seul réseau.
 
@@ -450,9 +453,11 @@ Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
 - **Phrase de la légende Instagram** : `TEXTES_INSTAGRAM` dans
   `reseaux/photo_du_jour.py`, une par langue.
 - **Heure** : lignes `cron` de `.github/workflows/photo-du-jour.yml`, en heure UTC
-  (minute, puis heure) : `47 6` pour Bluesky et Instagram, `47 15` pour Mastodon ; les
-  lignes `case` juste en dessous, qui répartissent les réseaux, doivent porter les mêmes
-  heures. Évitez la minute 0, souvent retardée par GitHub.
+  (minute, puis heure) : `17 1` (passage avancé) et `47 6` (secours) pour Bluesky et
+  Instagram, `47 10` et `47 15` pour Mastodon ; les lignes `case` de l'attente et de la
+  publication, plus bas, doivent porter les mêmes horaires et l'heure visée (`06:47`,
+  `15:47`). Un passage avancé attend 5 heures 30 au plus. Évitez la minute 0, souvent
+  retardée par GitHub.
 - **Faire une pause** : onglet **Actions** → **Photo du jour** → bouton **…** →
   **Disable workflow** ; **Enable workflow** pour reprendre là où la tâche s'était
   arrêtée. Laissez la tâche **Jeton Instagram** active pendant la pause : elle garde le
