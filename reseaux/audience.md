@@ -14,7 +14,7 @@ Méthode, en lecture seule et sans compte :
   messages de Karl du mois écoulé
   (`app.bsky.feed.getAuthorFeed?actor=karlforterre.bsky.social`).
 - **Mastodon** : l'historique de chaque hashtag sur mastodon.social
-  (`https://mastodon.social/api/v1/tags/hashtag`, usages et comptes par jour sur une
+  (`https://mastodon.social/api/v1/tags/HASHTAG`, usages et comptes par jour sur une
   semaine) ; et les messages de Karl
   (`/api/v1/accounts/117335880653931296/statuses`, favoris et partages).
 

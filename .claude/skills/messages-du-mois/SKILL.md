@@ -34,24 +34,31 @@ chaque mois à 9 h 13, heure de Paris. Fonctionnement d'ensemble : `reseaux/READ
 - **Bluesky et Mastodon** : une ligne par jour et par réseau dans `reseaux/calendrier.csv`,
   du 1er du mois visé au 7 du mois suivant, sans jour manquant. Les sept premiers jours du
   mois visé ont pu être écrits le mois dernier, avant que la liste des défis paraisse :
-  réécris-les si tu fais mieux. Les lignes des jours passés restent telles quelles.
+  réécris-les si tu fais mieux. Les lignes des jours passés, du jour même et des jours qui
+  restent du mois en cours ne bougent pas, sauf erreur à corriger.
 - **Instagram** : les 45 prochaines photos de sa file ont chacune leur légende.
 
 ## Garde-fous
 
-La pull request est fusionnée sans relecture humaine : rien d'autre que ce travail ne
-doit y entrer.
+La pull request est fusionnée sans relecture humaine, dans un dépôt public : rien d'autre
+que ce travail ne doit y entrer.
 
 - Ne modifie que `reseaux/calendrier.csv`, `reseaux/legendes-instagram.csv` et
-  `reseaux/audience.md`. Si la procédure elle-même doit changer (une API qui a bougé, une
-  règle à préciser), ne touche pas à cette skill : propose le changement en tête de la pull
-  request et dans ton message à Karl, qui décidera.
-- Ne lance `reseaux/photo_du_jour.py` qu'avec `--essai`, `--calendrier` ou `--a-venir` :
-  sans ces options, il publierait.
+  `reseaux/audience.md`, et n'ajoute qu'eux au commit, nommément (`git add` de ces trois
+  fichiers, jamais `git add .`). Tes fichiers de travail (images, planches, relevés) vont
+  dans un dossier hors du dépôt : le dossier temporaire de la session, ou à défaut
+  `/tmp/messages-du-mois/`.
+- Si la procédure elle-même doit changer (une API qui a bougé, une règle à préciser), ne
+  touche pas à cette skill : propose le changement en tête de la pull request et dans ton
+  message à Karl, qui décidera.
+- Ne lance `reseaux/photo_du_jour.py` comme programme qu'avec `--essai`, `--calendrier`
+  ou `--a-venir` : sans ces options, il publierait. Importer ses fonctions depuis Python
+  (`lire_photos`) est sans risque.
 - Jamais : publier toi-même sur un réseau ; aimer, suivre ou répondre à qui que ce soit
   (on mesure, on ne touche à rien : ce serait se faire passer pour Karl, et les réseaux le
   sanctionnent) ; collecter quoi que ce soit sur pexels.com (conditions de Pexels) ;
-  lancer `--renouveler-jeton` ou `--envoyer-indexnow` ; écrire un secret où que ce soit.
+  lancer `--renouveler-jeton` (`photo_du_jour.py`) ou `--envoyer-indexnow`
+  (`vitrine/build.py`) ; écrire un secret où que ce soit.
 
 ## 0. Préparer
 
@@ -60,6 +67,10 @@ doit y entrer.
    `register_repo_root`.
 2. Travaille sur la branche que nomme la demande, sinon sur une nouvelle branche, repartie
    de `main` à jour (`git fetch origin main`, puis `git checkout -B <branche> origin/main`).
+   Si cette branche existe déjà sur GitHub et que sa dernière pull request a été
+   fusionnée, elle ne contient que de l'historique déjà fusionné : tu la pousseras avec
+   `git push --force-with-lease`. Si une pull request est encore ouverte sur elle, ne
+   l'écrase pas : prends une nouvelle branche et signale-le en tête de ta pull request.
 3. Lis `CLAUDE.md` (sa ligne éditoriale surtout), puis dans `reseaux/` : `README.md`
    (« Des messages écrits à l'avance », et « Souvenirs et repères de Karl » dans la
    rubrique RedNote), `style-karl.md` et `audience.md`.
@@ -70,14 +81,18 @@ Les résultats des messages de Karl mesurent son vrai public : c'est la meilleur
 pour le mois suivant.
 
 1. Relève chaque message de Karl paru depuis le dernier bilan (la section datée la plus
-   récente de `reseaux/audience.md`) :
+   récente de `reseaux/audience.md`). Le journal `reseaux/photo-du-jour.json` donne,
+   réseau par réseau, la photo, la date et le lien de chaque publication : c'est la clé
+   sûre entre un message et sa photo (une ligne du calendrier inutilisable a pu laisser
+   partir une autre photo). Les chiffres :
    - Bluesky : `https://api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=karlforterre.bsky.social&limit=100`
      (« j'aime », partages, réponses, citations ; `cursor` pour la suite) ;
    - Mastodon : `https://mastodon.social/api/v1/accounts/117335880653931296/statuses?limit=40`,
      puis les pages suivantes avec `max_id` (favoris, partages, réponses).
 
    Si le tableau de bord relève déjà ces chiffres (session R de
-   `consignes/prochaines-sessions.md`), pars de ses données et complète par ces API.
+   `consignes/prochaines-sessions.md`, historique dans `vitrine/donnees/historique.json`),
+   pars de ses données et complète par ces API.
 2. Rapproche chaque message de sa ligne de `reseaux/calendrier.csv` (photo, sujet, langue,
    hashtags, jour de la semaine, défi ou non, forme du texte) et tire les leçons : quels
    sujets, quelles communautés, quelle langue, quels jours, quelle forme de texte ont le
@@ -86,10 +101,14 @@ pour le mois suivant.
    - Bluesky, les 100 derniers messages de chacun
      (`https://api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=%23Hashtag&sort=latest&limit=100`) :
      messages par jour, « j'aime » en médiane, part en français (champ `langs`) ;
-   - Mastodon : `https://mastodon.social/api/v1/tags/hashtag` (usages par jour sur une
-     semaine).
+   - Mastodon : `https://mastodon.social/api/v1/tags/HASHTAG`, avec le nom du hashtag sans
+     dièse (usages par jour sur une semaine).
 4. Ajoute à `reseaux/audience.md` une section datée, au-dessus de la plus récente et sur
    son modèle : ces tableaux, les leçons, et les choix qui en découlent.
+
+Si une API ne répond pas, fais le bilan avec ce qui reste (l'autre réseau, les mesures
+précédentes de `reseaux/audience.md`) et dis-le en tête de la pull request : les messages
+s'écrivent quand même, et cela n'empêche pas la fusion.
 
 ## 2. Langue de chaque message
 
@@ -116,9 +135,9 @@ cette langue. Instagram reste en français (règle de Karl).
   dans les titres et les mots-clés, fonction `lire_photos` de `reseaux/photo_du_jour.py`) ;
   sinon, le jour reste hors défi.
 - **Mastodon** : les jours à thème, le samedi un chat (`#Caturday`, `#CatsOfMastodon` ;
-  galerie « Chats »), le lundi du noir et blanc (`#MonochromeMonday`), le vendredi une
-  fenêtre si une photo s'y prête (`#FensterFreitag`). Pas de `#SilentSunday`, qui veut des
-  photos sans texte.
+  galerie `[chats]` de `vitrine/galeries.ini`, ou le mot-clé « chat »), le lundi du noir
+  et blanc (`#MonochromeMonday`), le vendredi une fenêtre si une photo s'y prête
+  (`#FensterFreitag`). Pas de `#SilentSunday`, qui veut des photos sans texte.
 - **Les autres jours**, sur chaque réseau : choisis pour l'audience, parmi les photos
   jamais publiées sur ce réseau, d'abord les sujets qui ont le mieux marché (bilan) et les
   photos de circonstance (rendez-vous). L'ordre de
@@ -126,10 +145,10 @@ cette langue. Instagram reste en français (règle de Karl).
   `--reseau mastodon`), des plus vues sur Pexels aux moins vues, départage.
 - Varie les sujets et les lieux : jamais deux fois le même sujet deux jours de suite sur
   un réseau. L'homme à lunettes des portraits n'est jamais nommé.
-- Regarde chaque photo en petite taille avant d'écrire : un texte écrit sans voir la photo
-  finit par décrire autre chose.
-  `curl -s -o NUMÉRO.jpg "https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=500"`,
-  et des planches de plusieurs images pour aller plus vite.
+- Regarde chaque photo en petite taille avant d'écrire, une à une ou en planches de
+  plusieurs images : un texte écrit sans voir la photo finit par décrire autre chose.
+  Télécharge-les dans ton dossier de travail, hors du dépôt :
+  `curl -s -o DOSSIER/NUMÉRO.jpg "https://images.pexels.com/photos/NUMÉRO/pexels-photo-NUMÉRO.jpeg?auto=compress&cs=tinysrgb&w=500"`.
 
 ## 5. Textes
 
@@ -138,14 +157,18 @@ dans la forme qui a le mieux marché au bilan. Une ou deux phrases humaines : ce
 et où, puis une touche (image, jeu de mots, formule). Les lignes déjà écrites de
 `reseaux/calendrier.csv` donnent le ton.
 
-- **Rien d'inventé** : seulement les titres, mots-clés, galeries, séries de
-  `vitrine/series.ini`, souvenirs notés dans `reseaux/README.md` et reprises de
-  `vitrine/usages.csv`. Un lieu douteux ne se nomme pas.
+- **Rien d'inventé** : ce que la photo montre, où et quand, vient seulement des titres,
+  mots-clés, galeries, séries de `vitrine/series.ini`, souvenirs notés dans
+  `reseaux/README.md` et reprises de `vitrine/usages.csv` ; un lieu douteux ne se nomme
+  pas. Le peu de contexte qu'admet `reseaux/style-karl.md` (histoire du lieu, nature,
+  astronomie, date d'une pleine lune ou d'une journée mondiale) doit être exact et
+  vérifié ; dans le doute, on s'en passe.
 - Ligne éditoriale de `CLAUDE.md` ; pas d'émoji ; typographie française en français.
 - **Bluesky** : `#UnJourUnePhoto #PhotoMois #Photography` (le hashtag du défi du mois ;
   plus `#FleurisTonFil` pour des fleurs, `#NoirEtBlanc` pour du noir et blanc), ligne vide,
-  « 1. Thème », ligne vide, le texte ; hors défi : `#UnJourUnePhoto #Photography`, ligne
-  vide, le texte. 300 caractères au plus. Le lien part tout seul en réponse.
+  « 1. Thème », ligne vide, le texte ; hors défi : `#UnJourUnePhoto #Photography` (et la
+  communauté qui convient, comme `#FleurisTonFil`), ligne vide, le texte. 300 caractères
+  au plus. Le lien part tout seul en réponse.
 - **Mastodon** : le texte, ligne vide, quatre ou cinq hashtags parmi les plus suivis
   (`reseaux/audience.md`). Le programme insère le lien avant les hashtags ; 500 caractères
   au plus avec lui.
@@ -167,27 +190,29 @@ Mastodon de la même photo à quelques jours d'écart.
 ## 7. Vérifier
 
 1. `python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-JJ`, avec la date de
-   demain, doit finir par « Calendrier prêt. ». Pars de demain : la photo du jour est déjà
-   partie le matin, et le contrôle signalerait sa ligne comme « déjà parue ».
+   demain, doit finir par « Calendrier prêt. ». Pars de demain : la ligne du jour est
+   partie ou part dans la journée, et le contrôle la signalerait « déjà parue » une fois
+   publiée.
 2. `python3 reseaux/photo_du_jour.py --essai --jour AAAA-MM-JJ` sur trois jours de la
-   période, dont un jour de défi et un samedi.
+   période, dont un jour de défi s'il y en a et un samedi.
 3. `python3 reseaux/photo_du_jour.py --a-venir 45` : aucune légende « à écrire ».
 4. Relis chaque texte : faits, orthographe, typographie, longueur, langue.
 
 ## 8. Pull request, fusion et message à Karl
 
-1. Commit en français, pousse la branche, ouvre une pull request vers `main`. En tête :
-   les leçons du mois et ce qui change. Puis le calendrier jour par jour (date, réseau,
-   langue, photo avec son lien `https://photos.karlforterre.fr/photo/NUMÉRO/`, début du
-   texte), la liste des défis et sa source, les légendes Instagram ajoutées.
+1. Commit en français (les trois fichiers seulement), pousse la branche, ouvre une pull
+   request vers `main`. En tête : les leçons du mois et ce qui change. Puis le calendrier
+   jour par jour (date, réseau, langue, photo avec son lien
+   `https://photos.karlforterre.fr/photo/NUMÉRO/`, début du texte), la liste des défis et
+   sa source, les légendes Instagram ajoutées.
 2. Si les mesures montrent qu'une autre heure de publication gagnerait du public sur un
    réseau, propose-la en tête, sans la changer toi-même (elle se règle dans
    `.github/workflows/photo-du-jour.yml`).
 3. Fusionne-la toi-même (squash) : Karl l'a autorisé le 30 septembre 2026, rien ne reste
    à la main. Si la demande dit de lui laisser la fusion, laisse-la ouverte.
 4. Si une vérification échoue et que tu ne peux pas la corriger, ne fusionne pas : dis-le
-   en tête de la pull request et préviens Karl. Les photos du jour partent quand même,
-   avec le texte automatique.
+   en tête de la pull request et préviens Karl. Les photos du jour partent quand même ;
+   celles du mois visé, avec le texte automatique.
 5. Termine par un message court à Karl : les leçons du mois, ce qui change, et le lien de
    la pull request.
 
