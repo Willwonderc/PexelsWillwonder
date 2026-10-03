@@ -125,9 +125,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   écoulé, complète aussi les légendes Instagram, vérifie tout, puis fusionne elle-même
   sa pull request, avec l'accord donné par Karl le 30 septembre 2026 (sauf vérification
   en échec : elle le prévient). Heures : Bluesky et Instagram à 6 h 47 UTC,
-  Mastodon à 15 h 47 UTC (`--reseaux`). Un jour sans ligne, texte automatique (langue de
-  `vitrine/site.ini`, rubrique `[photo_du_jour]`). Jamais de « j'aime », d'abonnements ni
-  de réponses automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`,
+  Mastodon à 15 h 47 UTC (`--reseaux`) ; GitHub lançant ses tâches programmées avec 4 à
+  8 heures de retard, un passage avancé (1 h 17 et 10 h 47 UTC) attend l'heure prévue,
+  et un passage de secours à l'heure prévue publie ce qui manque. Un jour sans ligne,
+  texte automatique (langue de `vitrine/site.ini`, rubrique `[photo_du_jour]`). Jamais de
+  « j'aime », d'abonnements ni de réponses automatiques. Essai sans publier : `--essai` (`--jour`, `--calendrier`,
   `--a-venir N --reseau R`).
   Instagram (@karl_forterre, compte
   « Créateur ») : API de Meta avec connexion Instagram, sans Page Facebook ; image
