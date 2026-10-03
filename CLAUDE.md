@@ -121,10 +121,11 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   communauté #UnJourUnePhoto sur Bluesky, lien en réponse ; jours à thème et hashtags du
   Fediverse sur Mastodon ; colonne `alt`, description de l'image), écrit le 26 de chaque
   mois, six semaines d'avance, par la routine « Messages du mois, dans la conversation de
-  Karl » (Opus, effort maximal ; consigne M), qui fait le bilan des messages du mois
-  écoulé, complète aussi les légendes Instagram, vérifie tout, puis fusionne elle-même
-  sa pull request, avec l'accord donné par Karl le 30 septembre 2026 (sauf vérification
-  en échec : elle le prévient). Heures : Bluesky et Instagram à 6 h 47 UTC,
+  Karl » (Opus, effort maximal ; skill `.claude/skills/messages-du-mois/`, ex-consigne M),
+  qui fait le bilan des messages du mois écoulé, complète aussi les légendes Instagram,
+  vérifie tout, puis fusionne elle-même sa pull request, avec l'accord donné par Karl le
+  30 septembre 2026 (sauf vérification en échec : elle le prévient). Heures : Bluesky et
+  Instagram à 6 h 47 UTC,
   Mastodon à 15 h 47 UTC (`--reseaux`) ; GitHub lançant ses tâches programmées avec 4 à
   8 heures de retard, un passage avancé (1 h 17 et 10 h 47 UTC) attend l'heure prévue,
   et un passage de secours à l'heure prévue publie ce qui manque. Un jour sans ligne,

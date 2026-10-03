@@ -386,8 +386,8 @@ Instagram garde ses légendes, une par photo, dans `reseaux/legendes-instagram.c
 
 Une session Claude programmée, le 26 de chaque mois à 9 h 13 : la routine « Messages du
 mois, dans la conversation de Karl » relance la conversation Claude Code où ce système a
-été construit (Opus, effort maximal), qui suit la consigne M de
-`consignes/prochaines-sessions.md` :
+été construit (Opus, effort maximal), qui suit la skill `messages-du-mois`
+(`.claude/skills/messages-du-mois/SKILL.md`, ex-consigne M) :
 
 1. fait le bilan du mois écoulé : les résultats de chaque message de Karl (API publiques
    de Bluesky et de mastodon.social, en lecture), rapprochés de sa photo, de son sujet, de
@@ -444,8 +444,8 @@ Vérifier le calendrier à venir, puis voir ce qui partirait un jour donné :
   remplacent alors ses hashtags automatiques), à corriger au besoin directement sur
   GitHub. L'essai (`--essai`) indique pour combien des prochaines photos une légende est
   prête, et `--a-venir 40` liste les 40 prochaines photos d'Instagram avec celles qui
-  attendent encore la leur ; la session du 26 (consigne M) en écrit chaque mois pour les
-  six semaines suivantes.
+  attendent encore la leur ; la session du 26 (skill `messages-du-mois`) en écrit chaque
+  mois pour les six semaines suivantes.
 - **Hashtag des publications automatiques** (Mastodon et Instagram) : `HASHTAG_FIXE` dans
   `reseaux/photo_du_jour.py` (#Photography, #Photographie ou #摄影 selon la langue), suivi
   des quatre premiers mots-clés de la photo. Instagram n'en prend jamais plus de cinq en
@@ -730,7 +730,7 @@ Premières publications : les cinq carrousels RedNote prévus du 28 septembre au
                          le journal ; avec --renouveler-jeton, renouvelle le jeton Instagram
     photo-du-jour.json   journal des publications, tenu par la tâche GitHub
     calendrier.csv       photo, langue et texte de chaque jour sur Bluesky et Mastodon,
-                         écrits chaque mois par la session programmée (consigne M)
+                         écrits chaque mois par la skill messages-du-mois
     legendes-instagram.csv
                          légendes Instagram, une par photo, en français
     audience.md          mesures d'audience qui décident de la langue de chaque message

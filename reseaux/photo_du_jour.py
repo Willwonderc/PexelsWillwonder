@@ -9,7 +9,7 @@ date. Un réseau ne reçoit qu'une photo par jour, et une photo n'y revient qu'a
 long délai (réglage rediffusion_jours de site.ini).
 
 Les textes sont écrits à l'avance, dans le style de Karl (reseaux/style-karl.md), par la
-session programmée du 26 de chaque mois (consigne M) :
+session programmée du 26 de chaque mois (skill .claude/skills/messages-du-mois/) :
   - reseaux/calendrier.csv, pour Bluesky et Mastodon : chaque jour, la photo, la langue
     choisie selon l'audience (français ou anglais) et le texte. Sur Bluesky, le lien part
     en réponse sous la photo, à la manière de la communauté #UnJourUnePhoto ; sur
