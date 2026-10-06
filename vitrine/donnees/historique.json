@@ -114,6 +114,12 @@
       "complete": false,
       "impressions": 0,
       "position": null
+     },
+     "2026-10-05": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
      }
     },
     "web": {
@@ -194,6 +200,12 @@
       "complete": false,
       "impressions": 9,
       "position": 4.2
+     },
+     "2026-10-05": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 1,
+      "position": 1.0
      }
     }
    },
@@ -272,6 +284,12 @@
       "position": null
      },
      "2026-09-28": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-10-05": {
       "clics": 0,
       "complete": false,
       "impressions": 0,
@@ -356,6 +374,12 @@
       "complete": false,
       "impressions": 2,
       "position": 7.0
+     },
+     "2026-10-05": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
      }
     }
    }
