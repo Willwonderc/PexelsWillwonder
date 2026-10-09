@@ -11,7 +11,7 @@
     "clics_photos": 0,
     "clics_suivre": 0,
     "complete": false,
-    "visites": 0
+    "visites": 6
    }
   }
  },
@@ -214,10 +214,10 @@
       "position": 4.2
      },
      "2026-10-05": {
-      "clics": 0,
+      "clics": 1,
       "complete": false,
-      "impressions": 3,
-      "position": 2.3
+      "impressions": 13,
+      "position": 3.8
      }
     }
    },
@@ -390,8 +390,8 @@
      "2026-10-05": {
       "clics": 0,
       "complete": false,
-      "impressions": 0,
-      "position": null
+      "impressions": 1,
+      "position": 6.0
      }
     }
    }
