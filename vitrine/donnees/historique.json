@@ -32,7 +32,7 @@
     },
     "2026-10-05": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 0,
      "position": null
     }
@@ -46,7 +46,7 @@
     },
     "2026-10-05": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 0,
      "position": null
     }
@@ -138,6 +138,12 @@
       "complete": false,
       "impressions": 1,
       "position": 22.0
+     },
+     "2026-10-12": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 2,
+      "position": 44.0
      }
     },
     "web": {
@@ -224,6 +230,12 @@
       "complete": false,
       "impressions": 19,
       "position": 4.1
+     },
+     "2026-10-12": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 1,
+      "position": 18.0
      }
     }
    },
@@ -308,6 +320,12 @@
       "position": null
      },
      "2026-10-05": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-10-12": {
       "clics": 0,
       "complete": false,
       "impressions": 0,
@@ -398,6 +416,12 @@
       "complete": false,
       "impressions": 1,
       "position": 6.0
+     },
+     "2026-10-12": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
      }
     }
    }
