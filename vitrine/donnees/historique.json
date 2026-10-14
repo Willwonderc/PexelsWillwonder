@@ -135,7 +135,7 @@
      },
      "2026-10-05": {
       "clics": 0,
-      "complete": false,
+      "complete": true,
       "impressions": 1,
       "position": 22.0
      },
@@ -227,7 +227,7 @@
      },
      "2026-10-05": {
       "clics": 1,
-      "complete": false,
+      "complete": true,
       "impressions": 19,
       "position": 4.1
      },
@@ -321,7 +321,7 @@
      },
      "2026-10-05": {
       "clics": 0,
-      "complete": false,
+      "complete": true,
       "impressions": 0,
       "position": null
      },
@@ -413,7 +413,7 @@
      },
      "2026-10-05": {
       "clics": 0,
-      "complete": false,
+      "complete": true,
       "impressions": 1,
       "position": 6.0
      },
