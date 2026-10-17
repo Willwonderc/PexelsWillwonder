@@ -17,7 +17,7 @@
     "clics_photos": 0,
     "clics_suivre": 0,
     "complete": false,
-    "visites": 0
+    "visites": 1
    }
   }
  },
@@ -39,7 +39,7 @@
     "2026-10-12": {
      "clics": 0,
      "complete": false,
-     "impressions": 0,
+     "impressions": 1,
      "position": null
     }
    },
@@ -59,7 +59,7 @@
     "2026-10-12": {
      "clics": 0,
      "complete": false,
-     "impressions": 0,
+     "impressions": 1,
      "position": null
     }
    }
@@ -154,8 +154,8 @@
      "2026-10-12": {
       "clics": 0,
       "complete": false,
-      "impressions": 4,
-      "position": 30.2
+      "impressions": 6,
+      "position": 27.0
      }
     },
     "web": {
@@ -246,8 +246,8 @@
      "2026-10-12": {
       "clics": 0,
       "complete": false,
-      "impressions": 4,
-      "position": 7.0
+      "impressions": 14,
+      "position": 3.9
      }
     }
    },
@@ -432,8 +432,8 @@
      "2026-10-12": {
       "clics": 0,
       "complete": false,
-      "impressions": 2,
-      "position": 6.0
+      "impressions": 4,
+      "position": 5.2
      }
     }
    }
