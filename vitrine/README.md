@@ -272,7 +272,9 @@ leviers pour les assistants IA : [referencement/README.md](../referencement/READ
   assistants IA. Son identifiant est le même que sur karlforterre.fr : pour eux, les deux
   sites, le profil Pexels et les réseaux désignent une seule personne. Les profils de
   `[reseaux]` s'y ajoutent seuls ; la ligne `profils` reçoit les autres (fiche Wikidata,
-  ORCID…). Chaque photo, série et galerie renvoie à cette personne, et la page « À
+  ORCID…). La ligne `distinctions` (« Pexels Hero ») s'ajoute à la fiche (`award`) et
+  s'affiche en fin de galerie, de série et de page, devant les vues Pexels ; son
+  explication va dans le texte « À propos » et dans la question « Qui est Karl Forterre ? ». Chaque photo, série et galerie renvoie à cette personne, et la page « À
   propos » est déclarée comme sa page de profil (ProfilePage).
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).

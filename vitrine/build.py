@@ -1227,10 +1227,11 @@ def tirage_selection(g, photos, nombre, langue):
 
 
 def rappel(g, langue, usages=True):
-    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page ; « usages » :
-    avec la ligne qui mène aux photos utilisées dans des projets (sauf sur cette page)."""
+    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page, avec les
+    distinctions de l'auteur et ses chiffres Pexels ; « usages » : avec la ligne qui mène
+    aux photos utilisées dans des projets (sauf sur cette page)."""
     t = TEXTES[langue]
-    preuve = preuve_sociale(g.preuve, langue)
+    preuve = " · ".join(filter(None, [*distinctions(g), preuve_sociale(g.preuve, langue)]))
     return (
         f'<aside class="rappel"><p>{t["rappel"]}</p>'
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
@@ -1258,6 +1259,12 @@ def profils(g):
 def site_auteur(g):
     adresse = g.site.get("site_personnel", "").strip()
     return adresse.rstrip("/") + "/" if adresse else ""
+
+
+def distinctions(g):
+    """Distinctions de l'auteur (« Pexels Hero »), réglage distinctions de [personne]."""
+    p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
+    return liste_mots(p.get("distinctions"))
 
 
 def personne(g, langue, complete=False):
@@ -1296,6 +1303,9 @@ def personne(g, langue, complete=False):
     domaines = liste_mots(traduit(p, "domaines", langue))
     if domaines:
         fiche["knowsAbout"] = domaines
+    recompenses = distinctions(g)
+    if recompenses:
+        fiche["award"] = recompenses if len(recompenses) > 1 else recompenses[0]
     fiche["sameAs"] = profils(g)
     return fiche
 
