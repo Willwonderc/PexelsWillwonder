@@ -1226,17 +1226,26 @@ def tirage_selection(g, photos, nombre, langue):
     return f'<script type="application/json" id="tirage-selection">{texte}</script><script>{TIRAGE_JS}</script>'
 
 
+def sceaux(g):
+    """Les distinctions de l'auteur en pastilles festonnées (statique/sceau.svg, redessinée
+    d'après celle de Pexels), un mot par ligne : « Pexels / Heroes »."""
+    return "".join('<span class="sceau">' + "".join(f"<span>{e(mot)}</span>" for mot in d.split()) + "</span>"
+                   for d in distinctions(g))
+
+
 def rappel(g, langue, usages=True):
     """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page, avec les
-    distinctions de l'auteur et ses chiffres Pexels ; « usages » : avec la ligne qui mène
-    aux photos utilisées dans des projets (sauf sur cette page)."""
+    distinctions de l'auteur en pastilles et ses chiffres Pexels ; « usages » : avec la
+    ligne qui mène aux photos utilisées dans des projets (sauf sur cette page)."""
     t = TEXTES[langue]
-    preuve = " · ".join(filter(None, [*distinctions(g), preuve_sociale(g.preuve, langue)]))
+    preuve = preuve_sociale(g.preuve, langue)
+    pastilles = sceaux(g)
     return (
         f'<aside class="rappel"><p>{t["rappel"]}</p>'
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
-        + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
+        + (f'<p class="preuve avec-sceau">{pastilles}<span>{e(preuve)}</span></p>' if pastilles
+           else f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
         + (ligne_usages(g, langue) if usages else "")
         + "</aside>"
     )
@@ -1262,7 +1271,7 @@ def site_auteur(g):
 
 
 def distinctions(g):
-    """Distinctions de l'auteur (« Pexels Hero »), réglage distinctions de [personne]."""
+    """Distinctions de l'auteur (« Pexels Heroes »), réglage distinctions de [personne]."""
     p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
     return liste_mots(p.get("distinctions"))
 
