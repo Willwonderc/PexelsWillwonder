@@ -168,6 +168,19 @@
     Array.prototype.forEach.call(salles, function (s) { observateur.observe(s); });
   }
 
+  /* ---------- À propos : la pastille de la distinction s'anime à son arrivée à l'écran ---------- */
+
+  var distinction = document.querySelector(".distinction");
+  if (distinction && !calme && "IntersectionObserver" in window) {
+    distinction.classList.add("distinction-animee");
+    var arriveeDistinction = new IntersectionObserver(function (entrees) {
+      if (!entrees[0].isIntersecting) return;
+      distinction.classList.add("vue");
+      arriveeDistinction.disconnect();
+    }, { threshold: 0.6 });
+    arriveeDistinction.observe(distinction);
+  }
+
   /* ---------- Visionneuse plein écran ---------- */
 
   var dialogue = document.querySelector("dialog.visionneuse");

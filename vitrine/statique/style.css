@@ -216,6 +216,61 @@ h1 {
   text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
 }
 
+/* Page À propos : la distinction, sa pastille à côté du texte. À son arrivée à l'écran
+   (classes posées par site.js, sauf si l'appareil demande moins d'animations), la
+   pastille tombe comme un tampon, son feston fait une onde, un reflet la traverse et le
+   titre apparaît. */
+.distinction { display: flex; align-items: center; gap: 28px; max-width: 38rem; }
+.distinction p { margin: 0; }
+.distinction p + p { margin-top: 10px; }
+.sceau-grand {
+  position: relative;
+  isolation: isolate;
+  width: 132px;
+  height: 132px;
+  font-size: 19px;
+  text-decoration: none;
+  transition: transform .3s ease;
+}
+.sceau-grand:hover, .sceau-grand:focus-visible { transform: rotate(-8deg) scale(1.04); }
+.sceau-grand::before, .sceau-grand::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.sceau-grand::before { z-index: -1; background: url("sceau.svg") center / contain no-repeat; opacity: 0; }
+.sceau-grand::after {
+  background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, .6) 50%, transparent 60%) 130% 0 / 300% 100% no-repeat;
+  -webkit-mask: url("sceau.svg") center / contain no-repeat;
+  mask: url("sceau.svg") center / contain no-repeat;
+}
+.distinction-animee:not(.vue) .sceau-grand,
+.distinction-animee:not(.vue) .sceau-grand > span,
+.distinction-animee:not(.vue) p { opacity: 0; }
+.distinction-animee.vue .sceau-grand { animation: tampon .8s ease-out backwards; }
+.distinction-animee.vue .sceau-grand::before { animation: onde 1.2s .45s ease-out backwards; }
+.distinction-animee.vue .sceau-grand::after { animation: reflet 1.1s 1.1s ease-in-out backwards; }
+.distinction-animee.vue .sceau-grand > span { animation: apparition .5s .6s ease-out backwards; }
+.distinction-animee.vue .sceau-grand > span + span { animation-delay: .75s; }
+.distinction-animee.vue p { animation: apparition .8s .4s ease-out backwards; }
+@keyframes tampon {
+  0% { opacity: 0; transform: scale(1.6) rotate(-24deg); }
+  55% { opacity: 1; transform: scale(.93) rotate(3deg); }
+  78% { transform: scale(1.03) rotate(-1deg); }
+  100% { transform: none; }
+}
+@keyframes onde {
+  from { opacity: .6; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.65); }
+}
+@keyframes reflet {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
+}
+@keyframes apparition {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 640px) {
+  .distinction { flex-direction: column; align-items: flex-start; gap: 18px; }
+}
+
 /* Galeries : cartes */
 
 .galeries {
