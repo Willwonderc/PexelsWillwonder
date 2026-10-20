@@ -20,10 +20,10 @@
     "visites": 3
    },
    "2026-10-19": {
-    "clics_photos": 0,
+    "clics_photos": 4,
     "clics_suivre": 0,
     "complete": false,
-    "visites": 0
+    "visites": 80
    }
   }
  },
@@ -44,7 +44,7 @@
     },
     "2026-10-12": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 1,
      "position": 7.0
     }
@@ -64,7 +64,7 @@
     },
     "2026-10-12": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 1,
      "position": 7.0
     }
@@ -162,6 +162,12 @@
       "complete": false,
       "impressions": 7,
       "position": 24.7
+     },
+     "2026-10-19": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 2,
+      "position": 18.0
      }
     },
     "web": {
@@ -254,6 +260,12 @@
       "complete": false,
       "impressions": 15,
       "position": 3.7
+     },
+     "2026-10-19": {
+      "clics": 2,
+      "complete": false,
+      "impressions": 5,
+      "position": 1.4
      }
     }
    },
@@ -344,6 +356,12 @@
       "position": null
      },
      "2026-10-12": {
+      "clics": 0,
+      "complete": false,
+      "impressions": 0,
+      "position": null
+     },
+     "2026-10-19": {
       "clics": 0,
       "complete": false,
       "impressions": 0,
@@ -440,6 +458,12 @@
       "complete": false,
       "impressions": 4,
       "position": 5.2
+     },
+     "2026-10-19": {
+      "clics": 1,
+      "complete": false,
+      "impressions": 2,
+      "position": 7.0
      }
     }
    }
