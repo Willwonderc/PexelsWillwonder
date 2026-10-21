@@ -34,6 +34,7 @@ Rédigées le 25 septembre 2026, d'après la feuille de route
 | L | Légendes Instagram | plus nécessaire : la session M écrit aussi les légendes, chaque mois | — |
 | M | Messages du mois : Bluesky, Mastodon, Instagram (skill `messages-du-mois`) | automatique, le 26 de chaque mois, dans la conversation de Karl (Opus) ; octobre 2026 écrit le 30 septembre | rien : elle vérifie et fusionne elle-même, avec l'accord de Karl (voir M) |
 | W | Photos d'origine pour Wikimedia Commons, sur le Mac | plus nécessaire : fichiers d'origine retrouvés le 29 septembre | 18 photos déposées sur Commons ce jour-là (voir referencement/README.md) |
+| K | Kindle Oasis : jailbreak et tableau de bord tactile, sur le Mac | quand vous voulez | le Kindle chargé, un câble micro-USB qui transmet les données, la liste des cours de bourse à suivre ; pour les lumières, le Mac mini du Lab allumé, avec Itsyhome (voir K) |
 | V1 | Studio vidéo : fondations | quand vous voulez | la pull request précédente fusionnée |
 | V2 | Studio vidéo : montage au niveau agence | après V1 | V1 fusionnée |
 | V3 | Studio vidéo : son et voix | après V2 | V2 fusionnée |
@@ -398,6 +399,77 @@ Et, si tu les trouves :
 Ensuite, déposer les fichiers sur Commons en suivant `referencement/README.md`,
 « Déposer les photos, pas à pas » ; la liste reprend les numéros de son tableau (n° 1 à 12)
 et ses compléments (n° 13 à 15).
+
+## K — Kindle Oasis : tableau de bord tactile, sur le Mac
+
+Le Kindle Oasis que Karl n'utilise plus devient un tableau de bord tactile posé sur le
+bureau : l'heure, les cours de la bourse, les vues Pexels, la météo, la photo du jour…, en
+onglets que l'on change du bout du doigt, et une télécommande des lumières de la maison. Il
+fonctionne seul, en Wi-Fi, branché sur un chargeur ; seules les lumières passent par le Mac
+mini du Lab, allumé en permanence. Il faut d'abord le débrider (« jailbreak ») : c'est
+réversible, sans effet sur le compte Amazon ni sur la lecture, et cela permet seulement d'y
+lancer ses propres programmes. Le câble USB et des gestes sur l'appareil étant nécessaires,
+la session se lance sur un Mac, de préférence le Mac mini du Lab, dans Claude Code, dans le
+dossier du dépôt (dans Terminal : `git clone https://github.com/Willwonderc/PexelsWillwonder.git`,
+`cd PexelsWillwonder`, puis `claude`), et non sur claude.ai/code. Compter deux à trois
+heures, avec des pauses où Karl manipule le Kindle ; la session peut s'arrêter après le
+jailbreak et reprendre plus tard.
+
+Constat du 19 octobre 2026 (kindlemodding.org) : tous les Oasis se débrident, quelle que
+soit leur version du logiciel. L'Oasis 1 (2016, écran de 6 pouces) et l'Oasis 2 (2017,
+7 pouces) se sont arrêtés à la version 5.16.2.1.1, qu'accepte WinterBreak2 ; l'Oasis 3
+(2019, 7 pouces, lumière chaude réglable), à la 5.18.2, qu'acceptent Sanctuary, Nosebleed
+et SpiderCat. Le tableau de bord est une petite application web du Kindle, comme sa
+boutique : le moteur, ancien (proche de Safari 5), impose un code très simple, mais
+l'écran tactile y répond directement.
+
+Les ampoules sont dans Maison (HomeKit), qui ne se commande que depuis un appareil Apple.
+Sur le Mac mini, l'application Itsyhome (Mac App Store, libre sous licence MIT, macOS 14 ou
+plus récent) ouvre un petit serveur web qui allume et éteint les lampes, règle leur
+intensité, lance les scènes et donne leur état : le Kindle s'adresse à lui. Les ampoules
+restent dans Maison, sans rien réappairer. Ce serveur fait partie de la version Pro (achat
+unique, 12,99 $ en octobre 2026) et n'a pas de mot de passe : il reste réservé au Wi-Fi de
+la maison, jamais ouvert sur Internet.
+
+À préparer : le Kindle chargé ; un câble micro-USB qui transmet les données (certains ne
+font que charger) ; le Wi-Fi ; la liste des cours à suivre (indices, actions, devises,
+cryptomonnaies) ; un chargeur USB pour le laisser branché ensuite ; pour les lumières, le
+Mac mini du Lab sur le même réseau que le Kindle, avec Itsyhome Pro.
+
+```text
+Session K, sur mon Mac, dans le dossier du dépôt PexelsWillwonder, mon Kindle Oasis branché par USB : débride-le, puis fais-en un tableau de bord tactile pour mon bureau, qui fonctionne seul en Wi-Fi, sans le Mac, et la télécommande des lumières de la maison, par le Mac mini du Lab.
+Règles :
+- Chaque geste à faire sur le Kindle, explique-le-moi pas à pas, puis attends que je te dise ce que l'écran affiche. Jamais de remise à zéro, de mise à jour ni de retour à une version antérieure du logiciel du Kindle sans mon accord ; ne l'enregistre ni ne le retire d'un compte Amazon sans me demander (le retirer efface ses documents).
+- Suis les guides de kindlemodding.org tels qu'ils sont le jour même, en lisant chaque page avant l'étape, plutôt que tes souvenirs : les méthodes changent souvent. Ne télécharge que par les liens de ces guides. Si une étape échoue, arrête-toi et explique-moi au lieu d'improviser.
+- Ne me demande jamais de mot de passe (Amazon, Wi-Fi) ni de clé dans la conversation : je les saisis moi-même sur le Kindle ou dans le fichier de réglages.
+- Sur les Mac, demande-moi avant d'installer quoi que ce soit ; je fais moi-même les achats ; le Python et le curl du Mac doivent suffire. Ne touche à rien hors du dépôt, du Kindle, du dossier de sauvegarde et, avec mon accord, des réglages du Mac mini qu'exigent les lumières.
+- Le dépôt est public : ni clé, ni réglage personnel, ni numéro de série n'y entre.
+1. Identifier. Le Kindle doit apparaître sur le Mac comme un disque, /Volumes/Kindle (sinon, essayer un autre câble). Lis son numéro de série (system_profiler, rubrique USB, ou Paramètres → Options de l'appareil → Infos sur l'appareil), déduis-en le modèle par https://kindlemodding.org/models.json, et demande-moi la version exacte du logiciel, avec tous ses chiffres. Donne-moi la méthode que choisirait l'assistant https://kindlemodding.org/jailbreak-wizard.html (ses règles : https://kindlemodding.org/jailbreaks.json) et les solutions de rechange.
+2. Préparer, avant tout Wi-Fi. Mode avion d'abord. Copie tout le contenu du Kindle dans un dossier « Sauvegarde Kindle » de mon Bureau : un Kindle resté longtemps hors ligne peut perdre ses livres ajoutés à la main en se reconnectant. Remplis ensuite son stockage pour bloquer les mises à jour automatiques, selon https://kindlemodding.org/jailbreaking/prevent-auto-update/, et supprime les fichiers update*.bin de sa racine s'il y en a.
+3. Débrider, selon la page de la méthode retenue : tu copies les fichiers depuis le Mac, je fais les gestes sur le Kindle. Vérifie le résultat (« ;log » dans la barre de recherche affiche un message), redémarre, supprime les fichiers de remplissage et les update*.bin, et assure-toi que les mises à jour restent bloquées et que KPM répond (« ;kpm update »). KOReader seulement si je le demande.
+4. Tableau de bord : une application web du Kindle (WAF lancée par Mesquite, comme sa boutique), installée et ouverte par un scriptlet de la bibliothèque à la manière d'Illusion (https://github.com/penguins184/Penguins-Kindle-Wiki/blob/main/Illusion-Guide.md), le scriptlet gardant une copie de /var/local/appreg.db avant de l'écrire. Code dans releves/kindle/ du dépôt, comme releves/barre-des-menus/, sans dépendance ni étape de construction. Si ce Kindle ne peut pas la faire tourner, dis-le-moi et propose une extension de KOReader à la place.
+- Moteur ancien (environ Safari 5, WebKit 533) : JavaScript ES5 seulement (var, function, XMLHttpRequest ; ni fetch, Promise, =>, let, const ni gabarits entre accents graves) ; CSS sans flexbox, grille, variables ni vh/vw, mise en page en tableaux ; images JPEG ou PNG, jamais WebP (fm=jpg pour images.pexels.com) ; polices en TTF, comme Archivo, celle du site photo, dans sa version TTF libre. Un petit vérificateur en Python, releves/kindle/verifier.py, refuse ces tournures avant chaque copie sur le Kindle.
+- Encre électronique : noir sur blanc, gros caractères, ni animation ni défilement (des pages plutôt que des listes qui défilent), zones à toucher d'au moins un centimètre ; ne redessiner que ce qui change (l'heure une fois par minute) et effacer les traces par un rafraîchissement complet au changement d'onglet, si le Kindle le permet. Mesure d'abord sur l'appareil la taille réelle de la fenêtre par une page d'essai (écran de 1072 × 1448 pixels sur l'Oasis 1, 1264 × 1680 sur les Oasis 2 et 3).
+- Navigation : barre d'onglets en bas ; glisser à gauche ou à droite pour changer d'onglet ; les boutons de page de l'Oasis, s'ils parviennent à l'application.
+- Écrans, à me montrer en maquettes avant de coder, pour que je choisisse :
+  - Accueil : l'heure en très grand, la date en français, la météo du moment et des prochaines heures, les vues Pexels et leur progression, deux ou trois cours de ma liste ;
+  - Bourse : cours, variation du jour en pour cent (▲ ▼, l'écran est en gris), heure du cours, courbe de la séance au toucher, marchés fermés signalés ;
+  - Pexels : vues, téléchargements, J'aime, abonnés, photos retenues, courbe des relevés, visites du site et clics vers Pexels, date du relevé, et un rappel s'il date de plus d'une semaine ;
+  - Photo du jour : celle que publie reseaux/photo_du_jour.py ce jour-là, en grand, avec son titre et la mention « Photos provided by Pexels » ;
+  - Ciel et lumière : lever et coucher du soleil, heures dorées, phase de la lune, nuages de la nuit (bonne nuit pour la Voie lactée ?) ;
+  - Lumières : un gros bouton par pièce et par lampe, qui montre si elle est allumée ; l'intensité par paliers (25, 50, 100 %) et le blanc chaud ou froid plutôt qu'un curseur, qui réagit mal sur l'encre ; mes scènes, et « Tout éteindre » ;
+  - État : Wi-Fi, batterie, heure de mise à jour de chaque source, boutons Actualiser et Quitter.
+  Propose-moi d'autres idées, sans les coder sans mon accord.
+- Données, lues par le Kindle lui-même :
+  - site photo : /tableau-de-bord/compteur.json (format inchangé : la barre des menus du Mac le lit) ; pour la courbe des relevés, la photo du jour et le reste, un petit /tableau-de-bord/kindle.json calculé d'avance par vitrine/build.py, non référencé comme le reste du tableau de bord ; rien sur pexels.com ;
+  - météo et ciel : Open-Meteo, gratuit et sans clé, pour Niort sauf avis contraire ;
+  - bourse : demande-moi d'abord ma liste, puis choisis une source gratuite à API officielle qui la couvre, après avoir vérifié ses conditions et ses limites du jour (au 19 octobre 2026, l'offre gratuite de Twelve Data ne couvrait que les actions et fonds indiciels américains, les devises et les cryptomonnaies) ; jamais de lecture automatique de pages web ; une actualisation toutes les 15 minutes pendant les séances, dans les limites de la source ;
+  - lumières : le serveur d'Itsyhome sur le Mac mini du Lab (Settings → Webhooks/CLI, port 8423 ; adresses dans https://github.com/nickustinov/itsyhome-macos) : l'état par /list/devices et /info, les commandes par /on, /off, /toggle, /brightness et /scene. Serveur sans mot de passe : lié à l'adresse locale du Mac mini, aucun port ouvert sur la box. Essaie chaque commande avec curl depuis le Mac, puis depuis le Kindle ; si le Kindle ne peut pas lire les réponses (en-têtes CORS), ajoute sur le Mac mini un petit relais en Python sans dépendance, lancé à l'ouverture de session. Explique-moi pas à pas les réglages du Mac mini (jamais en veille, Itsyhome ouvert à l'ouverture de session) et ce qu'il faut refaire après une coupure de courant ; si le Mac mini ne répond pas, l'onglet le dit.
+- Réglages (cours suivis, ville, clé de la source de bourse, adresse du Mac mini, pièces et lampes à montrer, orientation) dans un fichier à part sur le Kindle, que les mises à jour de l'application n'écrasent pas ; modèle commenté dans le dépôt.
+- Robustesse : la dernière valeur de chaque source gardée (localStorage) et affichée avec son heure si le réseau manque ; heure de Paris calculée par le programme, heure d'été comprise, et recalée sur l'en-tête Date des réponses si l'horloge du Kindle dérive ; pas de mise en veille tant que le tableau de bord est à l'écran (com.lab126.powerd preventScreenSaver), veille normale dès qu'on le quitte ; rien de personnel dans le journal du Kindle (kindle.device.log), qui part chez Amazon.
+5. Mise au point : aperçu d'abord sur le Mac (index.html dans un navigateur, à la taille de l'écran du Kindle, en niveaux de gris, avec un faux objet window.kindle), que tu me montres ; puis copie sur le Kindle par USB, éjection (diskutil eject), et je lance l'application. Pour voir l'écran du Kindle : je touche en même temps deux coins opposés, la capture s'enregistre à sa racine, tu la lis au branchement suivant. Ajuste jusqu'à un rendu net, lisible à un mètre, où chaque toucher répond du premier coup.
+6. Mode d'emploi pas à pas dans releves/kindle/README.md : installer, régler (où noter la clé), préparer le Mac mini pour les lumières, mettre à jour, quitter, que faire si l'écran se fige ou si le jailbreak saute, et comment revenir au Kindle d'origine. Ajoute le Kindle aux Repères techniques de CLAUDE.md et à releves/README.md, marque la session K faite dans le tableau de consignes/prochaines-sessions.md, vérifie que vitrine/build.py tourne, puis ouvre une pull request vers main et demande-moi avant de la fusionner.
+```
 
 ## V — Studio vidéo
 
