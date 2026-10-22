@@ -47,6 +47,12 @@
      "complete": true,
      "impressions": 1,
      "position": 7.0
+    },
+    "2026-10-19": {
+     "clics": 0,
+     "complete": false,
+     "impressions": 0,
+     "position": null
     }
    },
    "photos.karlforterre.fr": {
@@ -67,6 +73,12 @@
      "complete": true,
      "impressions": 1,
      "position": 7.0
+    },
+    "2026-10-19": {
+     "clics": 0,
+     "complete": false,
+     "impressions": 0,
+     "position": null
     }
    }
   },
@@ -166,8 +178,8 @@
      "2026-10-19": {
       "clics": 0,
       "complete": false,
-      "impressions": 3,
-      "position": 20.7
+      "impressions": 4,
+      "position": 45.8
      }
     },
     "web": {
