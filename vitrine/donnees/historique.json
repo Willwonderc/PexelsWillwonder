@@ -276,8 +276,8 @@
      "2026-10-19": {
       "clics": 2,
       "complete": false,
-      "impressions": 8,
-      "position": 1.2
+      "impressions": 10,
+      "position": 6.2
      }
     }
    },
@@ -376,8 +376,8 @@
      "2026-10-19": {
       "clics": 0,
       "complete": false,
-      "impressions": 14,
-      "position": 20.7
+      "impressions": 21,
+      "position": 28.7
      }
     },
     "web": {
@@ -474,8 +474,8 @@
      "2026-10-19": {
       "clics": 1,
       "complete": false,
-      "impressions": 12,
-      "position": 25.5
+      "impressions": 31,
+      "position": 20.9
      }
     }
    }
