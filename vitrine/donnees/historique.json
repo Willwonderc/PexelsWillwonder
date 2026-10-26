@@ -22,8 +22,14 @@
    "2026-10-19": {
     "clics_photos": 4,
     "clics_suivre": 0,
+    "complete": true,
+    "visites": 84
+   },
+   "2026-10-26": {
+    "clics_photos": 0,
+    "clics_suivre": 0,
     "complete": false,
-    "visites": 81
+    "visites": 12
    }
   }
  },
