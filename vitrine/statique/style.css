@@ -227,20 +227,27 @@ h1 {
   text-decoration: none;
   transition: transform .3s ease;
 }
+/* Son ombre est dessinée dans sceau-ombre.svg, sur une marge de 32 % autour de la
+   pastille : Safari couperait au carré l'ombre d'un filtre CSS sur la pastille tournée.
+   La pastille seule, et non son ombre, répond au pointeur (::after). */
 .sceau-titre {
+  --marge: calc(var(--sceau) * .32);
   position: absolute;
-  right: 0;
-  top: 0;
-  width: var(--sceau);
-  height: var(--sceau);
-  translate: 0 -34%;
+  right: calc(var(--marge) * -1);
+  top: calc(var(--marge) * -1);
+  width: calc(var(--sceau) + var(--marge) * 2);
+  height: calc(var(--sceau) + var(--marge) * 2);
+  translate: 0 calc(var(--sceau) * -.34);
   rotate: -12deg;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
+  background-image: url("sceau-ombre.svg");
+  pointer-events: none;
 }
+.sceau-titre:focus-visible { outline-offset: calc(var(--marge) * -1); }
 .sceau-grand:hover, .sceau-grand:focus-visible { transform: rotate(-8deg) scale(1.05); }
-.sceau-grand::before, .sceau-grand::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.sceau-grand::before, .sceau-grand::after { content: ""; position: absolute; inset: var(--marge, 0); pointer-events: none; }
 .sceau-grand::before { z-index: -1; background: url("sceau.svg") center / contain no-repeat; opacity: 0; }
 .sceau-grand::after {
+  pointer-events: auto;
   background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, .6) 50%, transparent 60%) 130% 0 / 300% 100% no-repeat;
   -webkit-mask: url("sceau.svg") center / contain no-repeat;
   mask: url("sceau.svg") center / contain no-repeat;
