@@ -2139,13 +2139,15 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None, donnees=()):
+def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None, donnees=(), sceau=""):
     """Page de texte simple (À propos, Utiliser mes photos, questions fréquentes, pages
-    légales). « donnees » : données structurées propres à la page, avant le fil d'Ariane."""
+    légales). « donnees » : données structurées propres à la page, avant le fil d'Ariane ;
+    « sceau » : une pastille posée sur le titre (page À propos)."""
     adr = g.adr
     chemins = {l: adr.chemin(l, genre) for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (titre, chemins[langue]))
-    contenu = f'<section class="ouverture texte">{ariane}<h1>{e(titre)}</h1>{corps}</section>'
+    titre_html = f'<div class="titre-sceau"><h1>{e(titre)}</h1>{sceau}</div>' if sceau else f"<h1>{e(titre)}</h1>"
+    contenu = f'<section class="ouverture texte">{ariane}{titre_html}{corps}</section>'
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=image, donnees=[*donnees, donnees_ariane], series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
@@ -2162,12 +2164,14 @@ def page_a_propos(g, par_id, galeries, series, langue):
     reglage = g.reglages["a-propos"]
     textes = paragraphes(traduit(reglage, "texte", langue))
     corps = "".join(f"<p>{e(p)}</p>" for p in textes)
-    # Distinction : sa pastille, que statique/site.js anime à son arrivée à l'écran.
+    # Distinction : sa pastille se pose sur le titre de la page, où statique/site.js la fait
+    # tomber comme un tampon, et sa rubrique l'explique.
     distinction = paragraphes(traduit(reglage, "distinction", langue))
+    sceau = ""
     if distinction and distinctions(g):
-        corps += (f'<h2>{t["distinction"]}</h2><div class="distinction">'
-                  + sceaux(g, "sceau sceau-grand", pexels(g.site.get("profil_pexels", ""), langue))
-                  + "<div>" + "".join(f"<p>{e(p)}</p>" for p in distinction) + "</div></div>")
+        sceau = sceaux(g, "sceau sceau-grand sceau-titre", pexels(g.site.get("profil_pexels", ""), langue))
+        corps += (f'<h2 id="distinction">{t["distinction"]}</h2><div class="distinction">'
+                  + "".join(f"<p>{e(p)}</p>" for p in distinction) + "</div>")
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
     materiel = paragraphes(traduit(reglage, "materiel", langue))
     if materiel:
@@ -2207,7 +2211,8 @@ def page_a_propos(g, par_id, galeries, series, langue):
         "mainEntity": personne(g, langue, complete=True),
     }
     page_texte(g, langue, "apropos", t["a_propos"], textes[0] if textes else t["a_propos"],
-               corps + rappel(g, langue, pastilles=False), bool(series), image=portrait, donnees=[profil])
+               corps + rappel(g, langue, pastilles=False), bool(series), image=portrait, donnees=[profil],
+               sceau=sceau)
 
 
 LICENCE_PEXELS = {

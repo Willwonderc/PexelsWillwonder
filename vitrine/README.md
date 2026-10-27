@@ -275,9 +275,9 @@ leviers pour les assistants IA : [referencement/README.md](../referencement/READ
   ORCID…). La ligne `distinctions` (« Pexels Heroes ») s'ajoute à la fiche (`award`) et
   s'affiche en fin de galerie, de série et de page, en pastille verte festonnée
   (`statique/sceau.svg`, redessinée d'après celle de Pexels) devant les vues Pexels ; son
-  explication va dans les lignes `distinction_*` de `[a-propos]`, rubrique « Distinction »
-  de la page À propos, où la pastille s'anime à son arrivée à l'écran, et dans la question
-  « Qui est Karl Forterre ? ». Chaque photo, série et galerie renvoie à cette personne, et la page « À
+  explication va dans les lignes `distinction_*` de `[a-propos]` (rubrique « Distinction »
+  de la page À propos, dont la pastille se pose sur le titre, où elle tombe comme un
+  tampon à l'ouverture) et dans la question « Qui est Karl Forterre ? ». Chaque photo, série et galerie renvoie à cette personne, et la page « À
   propos » est déclarée comme sa page de profil (ProfilePage).
 - **Pinterest** : pour revendiquer le site, recopiez le code de la balise fournie par
   Pinterest dans `site.ini` (`pinterest_verification`).
