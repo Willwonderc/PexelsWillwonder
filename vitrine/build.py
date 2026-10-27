@@ -1230,13 +1230,14 @@ def tirage_selection(g, photos, nombre, langue):
 
 
 def sceaux(g, classe="sceau", adresse=""):
-    """Les distinctions de l'auteur en pastilles festonnées (statique/sceau.svg, redessinée
-    d'après celle de Pexels), un mot par ligne : « Pexels / Heroes ». « adresse » : chaque
-    pastille y mène (le profil Pexels, qui montre le badge)."""
-    debut = (f'<a class="{classe}" href="{e(adresse)}" data-goatcounter-click="suivre-pexels-distinction">'
-             if adresse else f'<span class="{classe}">')
-    fin = "</a>" if adresse else "</span>"
-    return "".join(debut + "".join(f"<span>{e(mot)}</span>" for mot in d.split()) + fin for d in distinctions(g))
+    """Les distinctions de l'auteur en pastilles festonnées, sans texte (statique/sceau.svg,
+    redessinée d'après celle de Pexels). « adresse » : chaque pastille y mène (le profil
+    Pexels, qui montre le badge), avec le nom de la distinction en titre ; sans adresse,
+    la pastille accompagne ce nom écrit à côté, et les lecteurs d'écran l'ignorent."""
+    if not adresse:
+        return "".join(f'<span class="{classe}" aria-hidden="true"></span>' for _ in distinctions(g))
+    return "".join(f'<a class="{classe}" href="{e(adresse)}" title="{e(d)}" aria-label="{e(d)}" '
+                   'data-goatcounter-click="suivre-pexels-distinction"></a>' for d in distinctions(g))
 
 
 def rappel(g, langue, usages=True, pastilles=True):
@@ -1251,7 +1252,8 @@ def rappel(g, langue, usages=True, pastilles=True):
         f'<aside class="rappel"><p>{t["rappel"]}</p>'
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
-        + (f'<p class="preuve avec-sceau">{sceau}<span>{e(preuve)}</span></p>' if sceau
+        + (f'<p class="preuve avec-sceau">{sceau}<span>{e(" · ".join([*distinctions(g), *filter(None, [preuve])]))}</span></p>'
+           if sceau
            else f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
         + (ligne_usages(g, langue) if usages else "")
         + "</aside>"
