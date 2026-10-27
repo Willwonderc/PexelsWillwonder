@@ -202,8 +202,8 @@ h1 {
 .sceau {
   flex: none;
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
   background: url("sceau.svg") center / contain no-repeat;
 }
 
@@ -212,7 +212,7 @@ h1 {
    d'animations), elle tombe comme un tampon, son feston fait une onde et un reflet la
    traverse. Plus bas, la rubrique « Distinction » l'explique. */
 .titre-sceau {
-  --sceau: clamp(64px, 8vw, 104px);
+  --sceau: clamp(50px, 6.2vw, 80px);
   position: relative;
   display: inline-block;
   margin-top: calc(var(--sceau) * .22);
@@ -222,8 +222,8 @@ h1 {
 .sceau-grand {
   position: relative;
   isolation: isolate;
-  width: 104px;
-  height: 104px;
+  width: 80px;
+  height: 80px;
   text-decoration: none;
   transition: transform .3s ease;
 }
