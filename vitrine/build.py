@@ -148,6 +148,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Lieux photographiés",
         "materiel": "Matériel",
+        "distinction": "Distinction",
         "usages_galerie": "Utilisées dans des projets",
         "usages_ligne": "Utilisées sur {sites}",
         "usages_intro": "Pexels m'a signalé ces usages de mes photos. Ce n'est qu'une petite partie : "
@@ -229,6 +230,7 @@ TEXTES = {
         "contact": "Contact",
         "lieux_photographies": "Places photographed",
         "materiel": "Equipment",
+        "distinction": "Distinction",
         "usages_galerie": "Used in projects",
         "usages_ligne": "Used on {sites}",
         "usages_intro": "Pexels notified me of these uses of my photos. This is only a small part: "
@@ -307,6 +309,7 @@ TEXTES = {
         "contact": "联系方式",
         "lieux_photographies": "拍摄地点",
         "materiel": "器材",
+        "distinction": "荣誉",
         "usages_galerie": "项目中使用的照片",
         "usages_ligne": "曾被 {sites} 使用",
         "usages_intro": "Pexels 通知了我以下这些照片的使用情况。这只是其中一小部分：Pexels 并不通报每一次下载。",
@@ -1226,16 +1229,32 @@ def tirage_selection(g, photos, nombre, langue):
     return f'<script type="application/json" id="tirage-selection">{texte}</script><script>{TIRAGE_JS}</script>'
 
 
-def rappel(g, langue, usages=True):
-    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page ; « usages » :
-    avec la ligne qui mène aux photos utilisées dans des projets (sauf sur cette page)."""
+def sceaux(g, classe="sceau", adresse=""):
+    """Les distinctions de l'auteur en pastilles festonnées, sans texte (statique/sceau.svg,
+    redessinée d'après celle de Pexels). « adresse » : chaque pastille y mène (le profil
+    Pexels, qui montre le badge), avec le nom de la distinction en titre ; sans adresse,
+    la pastille accompagne ce nom écrit à côté, et les lecteurs d'écran l'ignorent."""
+    if not adresse:
+        return "".join(f'<span class="{classe}" aria-hidden="true"></span>' for _ in distinctions(g))
+    return "".join(f'<a class="{classe}" href="{e(adresse)}" title="{e(d)}" aria-label="{e(d)}" '
+                   'data-goatcounter-click="suivre-pexels-distinction"></a>' for d in distinctions(g))
+
+
+def rappel(g, langue, usages=True, pastilles=True):
+    """Rappel « Suivre sur Pexels » en fin de galerie, de série et de page, avec les
+    distinctions de l'auteur en pastilles (« pastilles » : sauf sur la page À propos, qui
+    les présente déjà) et ses chiffres Pexels ; « usages » : avec la ligne qui mène aux
+    photos utilisées dans des projets (sauf sur cette page)."""
     t = TEXTES[langue]
     preuve = preuve_sociale(g.preuve, langue)
+    sceau = sceaux(g) if pastilles else ""
     return (
         f'<aside class="rappel"><p>{t["rappel"]}</p>'
         f'<p><a class="bouton" href="{e(pexels(g.site.get("profil_pexels", ""), langue))}" '
         f'data-goatcounter-click="suivre-pexels-fin">{t["suivre"]}</a></p>'
-        + (f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
+        + (f'<p class="preuve avec-sceau">{sceau}<span>{e(" · ".join([*distinctions(g), *filter(None, [preuve])]))}</span></p>'
+           if sceau
+           else f'<p class="preuve">{e(preuve)}</p>' if preuve else "")
         + (ligne_usages(g, langue) if usages else "")
         + "</aside>"
     )
@@ -1258,6 +1277,12 @@ def profils(g):
 def site_auteur(g):
     adresse = g.site.get("site_personnel", "").strip()
     return adresse.rstrip("/") + "/" if adresse else ""
+
+
+def distinctions(g):
+    """Distinctions de l'auteur (« Pexels Heroes »), réglage distinctions de [personne]."""
+    p = g.reglages["personne"] if g.reglages.has_section("personne") else {}
+    return liste_mots(p.get("distinctions"))
 
 
 def personne(g, langue, complete=False):
@@ -1296,6 +1321,9 @@ def personne(g, langue, complete=False):
     domaines = liste_mots(traduit(p, "domaines", langue))
     if domaines:
         fiche["knowsAbout"] = domaines
+    recompenses = distinctions(g)
+    if recompenses:
+        fiche["award"] = recompenses if len(recompenses) > 1 else recompenses[0]
     fiche["sameAs"] = profils(g)
     return fiche
 
@@ -2113,13 +2141,15 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
-def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None, donnees=()):
+def page_texte(g, langue, genre, titre, description, corps, avec_series, image=None, donnees=(), sceau=""):
     """Page de texte simple (À propos, Utiliser mes photos, questions fréquentes, pages
-    légales). « donnees » : données structurées propres à la page, avant le fil d'Ariane."""
+    légales). « donnees » : données structurées propres à la page, avant le fil d'Ariane ;
+    « sceau » : une pastille posée sur le titre (page À propos)."""
     adr = g.adr
     chemins = {l: adr.chemin(l, genre) for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (titre, chemins[langue]))
-    contenu = f'<section class="ouverture texte">{ariane}<h1>{e(titre)}</h1>{corps}</section>'
+    titre_html = f'<div class="titre-sceau"><h1>{e(titre)}</h1>{sceau}</div>' if sceau else f"<h1>{e(titre)}</h1>"
+    contenu = f'<section class="ouverture texte">{ariane}{titre_html}{corps}</section>'
     texte = g.page(langue, titre=titre, description=description, chemins=chemins, contenu=contenu,
                    image=image, donnees=[*donnees, donnees_ariane], series=avec_series)
     ecrire(adr.fichier(chemins[langue]), texte)
@@ -2136,6 +2166,14 @@ def page_a_propos(g, par_id, galeries, series, langue):
     reglage = g.reglages["a-propos"]
     textes = paragraphes(traduit(reglage, "texte", langue))
     corps = "".join(f"<p>{e(p)}</p>" for p in textes)
+    # Distinction : sa pastille se pose sur le titre de la page, où statique/site.js la fait
+    # tomber comme un tampon, et sa rubrique l'explique.
+    distinction = paragraphes(traduit(reglage, "distinction", langue))
+    sceau = ""
+    if distinction and distinctions(g):
+        sceau = sceaux(g, "sceau sceau-grand sceau-titre", pexels(g.site.get("profil_pexels", ""), langue))
+        corps += (f'<h2 id="distinction">{t["distinction"]}</h2><div class="distinction">'
+                  + "".join(f"<p>{e(p)}</p>" for p in distinction) + "</div>")
     portrait = next((par_id[i] for i in nombres(reglage.get("portrait")) if i in par_id), None)
     materiel = paragraphes(traduit(reglage, "materiel", langue))
     if materiel:
@@ -2175,7 +2213,8 @@ def page_a_propos(g, par_id, galeries, series, langue):
         "mainEntity": personne(g, langue, complete=True),
     }
     page_texte(g, langue, "apropos", t["a_propos"], textes[0] if textes else t["a_propos"],
-               corps + rappel(g, langue), bool(series), image=portrait, donnees=[profil])
+               corps + rappel(g, langue, pastilles=False), bool(series), image=portrait, donnees=[profil],
+               sceau=sceau)
 
 
 LICENCE_PEXELS = {

@@ -168,6 +168,11 @@
     Array.prototype.forEach.call(salles, function (s) { observateur.observe(s); });
   }
 
+  /* ---------- À propos : la pastille de la distinction tombe sur le titre ---------- */
+
+  var titreSceau = document.querySelector(".titre-sceau");
+  if (titreSceau && !calme) titreSceau.classList.add("vue");
+
   /* ---------- Visionneuse plein écran ---------- */
 
   var dialogue = document.querySelector("dialog.visionneuse");

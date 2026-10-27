@@ -196,6 +196,76 @@ h1 {
 .preuve { font-size: 14px; color: var(--doux); }
 .texte .rappel .preuve { font-size: 14px; }
 
+/* Distinctions de l'auteur : pastille festonnée redessinée d'après celle de Pexels
+   (sceau.svg), sans texte, devant leur nom et les chiffres Pexels */
+.preuve.avec-sceau { display: flex; align-items: center; gap: 10px; text-align: left; }
+.sceau {
+  flex: none;
+  display: block;
+  width: 28px;
+  height: 28px;
+  background: url("sceau.svg") center / contain no-repeat;
+}
+
+/* Page À propos : la pastille de la distinction posée sur le titre, comme un autocollant.
+   À l'ouverture (classe posée par site.js, sauf si l'appareil demande moins
+   d'animations), elle tombe comme un tampon, son feston fait une onde et un reflet la
+   traverse. Plus bas, la rubrique « Distinction » l'explique. */
+.titre-sceau {
+  --sceau: clamp(50px, 6.2vw, 80px);
+  position: relative;
+  display: inline-block;
+  margin-top: calc(var(--sceau) * .22);
+  padding-right: calc(var(--sceau) * .9);
+}
+.titre-sceau h1 { font-size: clamp(40px, 6vw, 76px); }
+.sceau-grand {
+  position: relative;
+  isolation: isolate;
+  width: 80px;
+  height: 80px;
+  text-decoration: none;
+  transition: transform .3s ease;
+}
+.sceau-titre {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: var(--sceau);
+  height: var(--sceau);
+  translate: 0 -34%;
+  rotate: -12deg;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
+}
+.sceau-grand:hover, .sceau-grand:focus-visible { transform: rotate(-8deg) scale(1.05); }
+.sceau-grand::before, .sceau-grand::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.sceau-grand::before { z-index: -1; background: url("sceau.svg") center / contain no-repeat; opacity: 0; }
+.sceau-grand::after {
+  background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, .6) 50%, transparent 60%) 130% 0 / 300% 100% no-repeat;
+  -webkit-mask: url("sceau.svg") center / contain no-repeat;
+  mask: url("sceau.svg") center / contain no-repeat;
+}
+.titre-sceau.vue .sceau-grand { animation: tampon .8s .15s ease-out backwards; }
+.titre-sceau.vue .sceau-grand::before { animation: onde 1.2s .6s ease-out backwards; }
+.titre-sceau.vue .sceau-grand::after { animation: reflet 1.1s 1.1s ease-in-out backwards; }
+.distinction { max-width: 38rem; padding-left: 18px; border-left: 3px solid #76c68a; }
+.distinction p { margin: 0; }
+.distinction p + p { margin-top: 10px; }
+@keyframes tampon {
+  0% { opacity: 0; transform: scale(1.6) rotate(-24deg); }
+  55% { opacity: 1; transform: scale(.93) rotate(3deg); }
+  78% { transform: scale(1.03) rotate(-1deg); }
+  100% { transform: none; }
+}
+@keyframes onde {
+  from { opacity: .6; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.65); }
+}
+@keyframes reflet {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
+}
+
 /* Galeries : cartes */
 
 .galeries {
