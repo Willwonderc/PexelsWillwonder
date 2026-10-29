@@ -120,6 +120,27 @@ Karl ne donne jamais son mot de passe à une session.
 - Une photo retirée par un autre contributeur ne se remet pas : pas de guerre
   d'édition. On lit la raison, on en tient compte pour les suivantes, et on retire sa
   ligne de `wikipedia.csv`.
+- Le journal des versements de Karl sur Commons
+  (`https://commons.wikimedia.org/w/index.php?title=Special:Log&type=upload&user=Karl_Forterre`)
+  garde chaque fichier, même supprimé : il dit si un fichier a disparu.
+
+### Quand une photo de Karl a été remplacée
+
+L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
+
+- L'infobox vide (`{{Infobox Monument}}`) prend sa photo dans Wikidata. Remettre la photo
+  écartée, dans l'article ou dans Wikidata, serait une guerre d'édition.
+- Ce qui a marché : comprendre le choix (une vue de face avec le beffroi), puis
+  prendre une nouvelle photo qui y répond (de face, entière, sans passants, en très haute
+  définition, perspective redressée). Elle a été versée sur Commons avant Pexels, et sa
+  page Commons a reçu « dépeint » (l'élément Wikidata).
+- Elle a ensuite remplacé l'image de l'élément Wikidata, en changeant aussi la date et
+  la légende jointes. Wikidata n'a pas de case de résumé : l'explication est allée dans un
+  message à celui qui avait fait le choix, sur la page de discussion de l'article, avec
+  `{{Notif|Nom}}` et la signature `~~~~`, en lui laissant le dernier mot.
+- La première photo, de biais, a trouvé une autre place : la partie dont le texte parle
+  de ce qu'elle montre (l'escalier d'accès), sans toucher à l'infobox.
+- La notoriété d'une photo ailleurs (Pexels) n'est jamais un argument sur Wikipédia.
 
 ## Bonnes manières avec les serveurs de Wikimédia
 
@@ -129,10 +150,11 @@ Karl ne donne jamais son mot de passe à une session.
 
 ## Où en est la route (29 octobre 2026)
 
-Sur les 18 fichiers que Karl a versés sur Commons, 10 illustrent un article, 3 sont
-préparés et 5 attendent leur tour. Neuf des dix sont aussi sur Pexels, donc dans
-`vitrine/wikipedia.csv` et dans le panneau du site ; la statue de la Justice de l'hôtel de
-ville de Bilbao n'est que sur Commons.
+Sur les 19 fichiers que Karl a versés sur Commons, 12 illustrent un article (dont un par
+l'image de Wikidata), 3 sont préparés et 4 attendent leur tour. Dix des douze sont aussi
+sur Pexels, donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Deux ne sont que
+sur Commons : la statue de la Justice de l'hôtel de ville de Bilbao, et la vue de face de
+l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
 
 ### Préparées le 29 octobre (deuxième série)
 
@@ -155,13 +177,14 @@ Karl.
 | Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | aucune pour l'instant : l'article espagnol « Casa consistorial de Bilbao » l'a refusée deux fois (Xabier, 6 octobre : « Imagen repetida, ya supra » ; 29 octobre : « Imagen duplicada, no repetir imágenes »), ne plus l'y proposer |
 | Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026.jpg | basque, « Bilboko Done Jakue katedrala », partie « Fatxada eta dorrea », qui a déjà une image de la tour : à comparer avec les articles français et espagnol |
 | Cognac - hôtel de ville - 2025.jpg | l'hôtel de ville est déjà montré dans « Cognac » (français) et « Cognac Public Garden » (anglais) : chercher ailleurs |
-| Niort - hôtel de ville - 2026.jpg | pas l'article « Hôtel de ville de Niort » : Karl l'avait mise dans l'infobox en créant l'article le 11 octobre, et Baidax l'a remplacée le 12 (« meilleure photographie ») ; ne plus l'y proposer |
 | Niort - flèches de l'église Saint-André dans la verdure - 2025.jpg | l'article « Église Saint-André de Niort » a déjà une photo de Karl : chercher un autre article |
 
 ### Déjà dans des articles
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Niort, hôtel de ville, vue de face (seulement sur Commons) | français | Hôtel de ville de Niort | image de l'infobox, par Wikidata (Q56863003) ; Baidax prévenu | 29 octobre 2026 |
+| Niort, hôtel de ville, escalier d'accès | français | Hôtel de ville de Niort | Statut patrimonial | 29 octobre 2026 |
 | Galice, éclipse totale (couronne solaire) | français | Éclipse solaire du 12 août 2026 | Galerie | 29 octobre 2026 |
 | Bilbao, statue de la Justice (seulement sur Commons) | basque | Bilboko udaletxea | Eraikina | 29 octobre 2026 |
 | Irun, hôtel de ville | basque | Irungo Udala | Udaletxea | 28 octobre 2026 |
