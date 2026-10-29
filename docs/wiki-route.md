@@ -150,31 +150,26 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
 
 ## Où en est la route (29 octobre 2026)
 
-Sur les 19 fichiers que Karl a versés sur Commons, 12 illustrent un article (dont un par
-l'image de Wikidata), 3 sont préparés et 4 attendent leur tour. Dix des douze sont aussi
-sur Pexels, donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Deux ne sont que
-sur Commons : la statue de la Justice de l'hôtel de ville de Bilbao, et la vue de face de
+Sur les 21 fichiers que Karl a versés sur Commons, 16 illustrent un article (dont un par
+l'image de Wikidata) et 5 attendent leur tour. Quatorze des seize sont aussi sur Pexels,
+donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Deux ne sont que sur
+Commons : la statue de la Justice de l'hôtel de ville de Bilbao, et la vue de face de
 l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
 
-### Préparées le 29 octobre (deuxième série)
-
-| Photo sur Commons | Wikipédia | Article | Partie (n°) | Légende |
-|---|---|---|---|---|
-| Xonrupt-Longemer - chapelle Saint-Florent - 2022.jpg | français | Lac de Longemer | Histoire religieuse (3) | La chapelle Saint-Florent, sur la rive ouest du lac. |
-| Villandry - jardins du château vus d'en haut - 2026.jpg | anglais | Château de Villandry | History (1) | Box-hedge parterres in the gardens, seen from above |
-| Îles Chausey - le phare vu de la mer - 2025.jpg | espagnol | Islas Chausey | Geografía (1) | El faro de Chausey en la Gran Isla, visto desde el mar |
-
-Les trois sont aussi sur Pexels (13041935, 38694047, 34894970) : elles entreront dans le
-panneau une fois en place. L'article sur le lac parle de la chapelle sans la montrer ;
-l'article anglais décrit les parterres de buis sans image dans son texte ; l'article
-espagnol n'a qu'une photo, celle du fort. Aucun des trois n'a jamais retiré de photo de
-Karl.
+Pour Villandry, Karl a ajouté le 29 octobre à l'article anglais une partie « Gardens »
+qui manquait, écrite d'après les pages officielles du château (restauration de Joachim
+Carvallo, jardin du soleil de 2008, entretien biologique depuis 2009), avec deux photos
+versées pour l'occasion. La photo des parterres vus d'en haut, prévue pour « History »,
+reste en attente. Les nouvelles photos de Villandry sont déjà sur Pexels : leur page
+Commons porte `{{Permission pending}}`, et Karl ajoute leurs noms à son autorisation
+envoyée par courriel.
 
 ### En attente
 
 | Photo sur Commons | Piste |
 |---|---|
 | Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | aucune pour l'instant : l'article espagnol « Casa consistorial de Bilbao » l'a refusée deux fois (Xabier, 6 octobre : « Imagen repetida, ya supra » ; 29 octobre : « Imagen duplicada, no repetir imágenes »), ne plus l'y proposer |
+| Villandry - jardins du château vus d'en haut - 2026.jpg | l'article anglais « Château de Villandry » a désormais deux photos de Karl dans « Gardens » : ne pas en ajouter une troisième tout de suite |
 | Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026.jpg | basque, « Bilboko Done Jakue katedrala », partie « Fatxada eta dorrea », qui a déjà une image de la tour : à comparer avec les articles français et espagnol |
 | Cognac - hôtel de ville - 2025.jpg | l'hôtel de ville est déjà montré dans « Cognac » (français) et « Cognac Public Garden » (anglais) : chercher ailleurs |
 | Niort - flèches de l'église Saint-André dans la verdure - 2025.jpg | l'article « Église Saint-André de Niort » a déjà une photo de Karl : chercher un autre article |
@@ -183,6 +178,10 @@ Karl.
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Villandry, potager décoratif | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
+| Villandry, miroir d'eau du jardin d'eau | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
+| Xonrupt-Longemer, chapelle Saint-Florent | français | Lac de Longemer | Histoire religieuse | 29 octobre 2026 |
+| Îles Chausey, le phare vu de la mer | espagnol | Islas Chausey | Geografía | 29 octobre 2026 |
 | Niort, hôtel de ville, vue de face (seulement sur Commons) | français | Hôtel de ville de Niort | image de l'infobox, par Wikidata (Q56863003) ; Baidax prévenu | 29 octobre 2026 |
 | Niort, hôtel de ville, escalier d'accès | français | Hôtel de ville de Niort | Statut patrimonial | 29 octobre 2026 |
 | Galice, éclipse totale (couronne solaire) | français | Éclipse solaire du 12 août 2026 | Galerie | 29 octobre 2026 |
