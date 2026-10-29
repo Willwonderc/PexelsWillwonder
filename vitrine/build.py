@@ -166,6 +166,36 @@ TEXTES = {
         "auteur": "Aussi auteur",
         "visionneuse": "Visionneuse",
         "fermer": "Fermer",
+        # Panneau « Mes photos dans Wikipédia » (page des galeries) et ligne des pages de photo
+        "wp_surtitre": "Sur Wikipédia",
+        "wp_titre": "Mes photos dans Wikipédia",
+        "wp_chapeau": "Partagées sous licence libre sur Wikimedia Commons, elles illustrent des articles "
+                      "de l'encyclopédie, {langues}.",
+        "wp_en": "en {langue}",
+        "wp_chiffres": (("photo", "photos"), ("article", "articles"), ("langue", "langues")),
+        "wp_panneau": "Photos dans Wikipédia",
+        "wp_carrousel": "carrousel",
+        "wp_article_de": "Article de Wikipédia",
+        "wp_partie": "Partie «\u00a0{partie}\u00a0»",
+        "wp_en_tete": "Image d'en-tête de l'article",
+        "wp_sans_legende": "Sans légende\u00a0: c'est l'image principale de l'article.",
+        "wp_lire": "Lire l'article",
+        "wp_situer": "Situer",
+        "wp_revenir": "Revenir à la photo",
+        "wp_commons": "Wikimedia Commons",
+        "wp_licence": "Partagée sous licence libre CC\u00a0BY-SA\u00a04.0 sur {commons} · ajoutée le {date}",
+        "wp_defiler": "Faites défiler",
+        "wp_toutes": "Toutes les photos dans Wikipédia",
+        "wp_rang": "Photo {i} sur {n} · voir toutes les photos dans Wikipédia",
+        "wp_index": "{photos} dans Wikipédia",
+        "wp_index_titre": "Toutes mes photos dans Wikipédia",
+        "wp_carte": "Carte des lieux des photos",
+        "wp_epingle": "Photo {i}\u00a0: {lieu}",
+        "wp_cite": "«\u00a0{article}\u00a0»",
+        "wp_ligne": "Elle illustre l'article {article} de {wikipedia}{partie}, partagée sous licence libre "
+                    "CC\u00a0BY-SA\u00a04.0 sur {commons}.",
+        "wp_ligne_partie": " (partie «\u00a0{partie}\u00a0»)",
+        "wp_toutes_mes": "Toutes mes photos dans Wikipédia",
         "locale": "fr_FR",
     },
     "en": {
@@ -248,6 +278,35 @@ TEXTES = {
         "auteur": "Also a writer",
         "visionneuse": "Photo viewer",
         "fermer": "Close",
+        "wp_surtitre": "On Wikipedia",
+        "wp_titre": "My photos on Wikipedia",
+        "wp_chapeau": "Shared under a free license on Wikimedia Commons, they illustrate encyclopedia "
+                      "articles {langues}.",
+        "wp_en": "{langue}",
+        "wp_chiffres": (("photo", "photos"), ("article", "articles"), ("language", "languages")),
+        "wp_panneau": "Photos on Wikipedia",
+        "wp_carrousel": "carousel",
+        "wp_article_de": "Wikipedia article",
+        "wp_partie": "Section “{partie}”",
+        "wp_en_tete": "Lead image of the article",
+        "wp_sans_legende": "No caption: it is the main image of the article.",
+        "wp_lire": "Read the article",
+        "wp_situer": "Locate",
+        "wp_revenir": "Back to the photo",
+        "wp_commons": "Wikimedia Commons",
+        "wp_licence": "Shared under the free CC\u00a0BY-SA\u00a04.0 license on {commons} · added {date}",
+        "wp_defiler": "Scroll",
+        "wp_toutes": "All the photos on Wikipedia",
+        "wp_rang": "Photo {i} of {n} · see all the photos on Wikipedia",
+        "wp_index": "{photos} on Wikipedia",
+        "wp_index_titre": "All my photos on Wikipedia",
+        "wp_carte": "Map of the photo locations",
+        "wp_epingle": "Photo {i}: {lieu}",
+        "wp_cite": "“{article}”",
+        "wp_ligne": "It illustrates the article {article} on the {wikipedia}{partie}, shared under the free "
+                    "CC\u00a0BY-SA\u00a04.0 license on {commons}.",
+        "wp_ligne_partie": " (section “{partie}”)",
+        "wp_toutes_mes": "All my photos on Wikipedia",
         "locale": "en_US",
     },
     "zh": {
@@ -326,6 +385,33 @@ TEXTES = {
         "auteur": "作家身份",
         "visionneuse": "照片浏览器",
         "fermer": "关闭",
+        "wp_surtitre": "维基百科",
+        "wp_titre": "我在维基百科中的照片",
+        "wp_chapeau": "这些照片以自由许可发布于维基共享资源，为{langues}维基百科条目配图。",
+        "wp_en": "{langue}",
+        "wp_chiffres": (("张照片", "张照片"), ("篇条目", "篇条目"), ("种语言", "种语言")),
+        "wp_panneau": "维基百科中的照片",
+        "wp_carrousel": "轮播",
+        "wp_article_de": "维基百科条目",
+        "wp_partie": "“{partie}”一节",
+        "wp_en_tete": "条目首图",
+        "wp_sans_legende": "无图注：这是条目的主图。",
+        "wp_lire": "阅读条目",
+        "wp_situer": "定位",
+        "wp_revenir": "返回照片",
+        "wp_commons": "维基共享资源",
+        "wp_licence": "以 CC\u00a0BY-SA\u00a04.0 自由许可发布于{commons} · {date}加入",
+        "wp_defiler": "向下滚动",
+        "wp_toutes": "维基百科中的全部照片",
+        "wp_rang": "第 {i} 张，共 {n} 张 · 查看维基百科中的全部照片",
+        "wp_index": "维基百科中的 {photos}",
+        "wp_index_titre": "我在维基百科中的全部照片",
+        "wp_carte": "照片拍摄地点地图",
+        "wp_epingle": "第 {i} 张：{lieu}",
+        "wp_cite": "《{article}》",
+        "wp_ligne": "这张照片为{wikipedia}条目{article}配图{partie}，以 CC\u00a0BY-SA\u00a04.0 自由许可发布于{commons}。",
+        "wp_ligne_partie": "（“{partie}”一节）",
+        "wp_toutes_mes": "我在维基百科中的全部照片",
         "locale": "zh_CN",
     },
 }
@@ -463,6 +549,100 @@ def lire_usages():
                 "page": (ligne.get("page") or "").strip(),
                 "date": (ligne.get("signale_le") or "").strip()})
     return usages
+
+
+# Wikipédias où Karl verse ses photos : code de langue (celui de l'adresse,
+# fr.wikipedia.org) → nom de la langue en français, en anglais et en chinois.
+WIKIPEDIAS = {
+    "fr": ("français", "French", "法语"),
+    "eu": ("basque", "Basque", "巴斯克语"),
+    "ast": ("asturien", "Asturian", "阿斯图里亚斯语"),
+    "es": ("espagnol", "Spanish", "西班牙语"),
+    "ca": ("catalan", "Catalan", "加泰罗尼亚语"),
+    "gl": ("galicien", "Galician", "加利西亚语"),
+    "oc": ("occitan", "Occitan", "奥克语"),
+    "br": ("breton", "Breton", "布列塔尼语"),
+    "en": ("anglais", "English", "英语"),
+    "de": ("allemand", "German", "德语"),
+    "it": ("italien", "Italian", "意大利语"),
+    "pt": ("portugais", "Portuguese", "葡萄牙语"),
+}
+
+
+def lire_wikipedia():
+    """Photos versées dans Wikipédia (wikipedia.csv) : une ligne par article illustré. Rend
+    une liste, les plus récemment ajoutées d'abord, puis dans l'ordre du fichier ; sans les
+    lignes incomplètes ni les Wikipédias inconnues de WIKIPEDIAS. La légende est celle de
+    l'article, mot pour mot ; sans partie ni légende, la photo est l'image de l'infobox."""
+    chemin = ICI / "wikipedia.csv"
+    entrees = []
+    for ligne in lire_csv(chemin) if chemin.exists() else []:
+        v = {cle: (valeur or "").strip() for cle, valeur in ligne.items() if cle}
+        numero, wiki = v.get("photo", ""), v.get("wiki", "").lower()
+        if not (numero.isdigit() and v.get("article") and v.get("fichier")):
+            continue
+        if wiki not in WIKIPEDIAS:
+            print(f"wikipedia.csv : Wikipédia « {wiki} » inconnue (photo {numero}), ligne ignorée.")
+            continue
+        try:
+            lon, lat = float(v.get("lon", "")), float(v.get("lat", ""))
+        except ValueError:
+            lon = lat = None
+        entrees.append({
+            "photo": int(numero), "wiki": wiki, "article": v["article"], "partie": v.get("partie", ""),
+            "legende": v.get("legende", ""), "fichier": v["fichier"], "date": v.get("ajoutee_le", ""),
+            "lon": lon, "lat": lat,
+            "lieu": {l: traduit(v, "lieu", l) for l in LANGUES},
+            "region": {l: traduit(v, "region", l) for l in LANGUES}})
+    entrees.sort(key=lambda w: w["date"], reverse=True)
+    return entrees
+
+
+def lire_carte():
+    """Fond de carte du panneau Wikipédia (statique/carte.json, tracé par
+    docs/maquettes/panneau-wikipedia/carte.py) : étendue, taille, contours, noms des mers."""
+    chemin = ICI / "statique" / "carte.json"
+    return json.loads(chemin.read_text(encoding="utf-8")) if chemin.exists() else None
+
+
+def projeter(lon, lat, carte):
+    """Position d'un lieu sur le fond de carte, dans la projection de Mercator qui l'a
+    tracé ; None hors de la carte (il faudrait la retracer, plus large)."""
+    (lon0, lon1), (lat0, lat1) = carte["etendue"]["lon"], carte["etendue"]["lat"]
+    if not (lon0 <= lon <= lon1 and lat0 <= lat <= lat1):
+        return None
+
+    def mercator(latitude):
+        return math.log(math.tan(math.pi / 4 + math.radians(latitude) / 2))
+
+    echelle = carte["largeur"] / math.radians(lon1 - lon0)
+    return round(math.radians(lon - lon0) * echelle, 1), round((mercator(lat1) - mercator(lat)) * echelle, 1)
+
+
+def placer_wikipedia(entrees, carte):
+    """Place chaque photo sur la carte (x, y). Les photos d'un même lieu (à moins de six
+    unités de carte) s'écartent de 15 pixels d'écran autour de lui, la plus au nord en
+    haut à gauche : leurs épingles ne se cachent pas (dx, dy)."""
+    for w in entrees:
+        position = projeter(w["lon"], w["lat"], carte) if carte and w["lon"] is not None else None
+        if w["lon"] is not None and position is None:
+            print(f"wikipedia.csv : la photo {w['photo']} est hors de la carte du panneau.")
+        w["x"], w["y"] = position or (None, None)
+        w["dx"] = w["dy"] = 0
+    placees = [w for w in entrees if w["x"] is not None]
+    groupes = []
+    for w in placees:
+        groupe = next((gr for gr in groupes if math.hypot(gr[0]["x"] - w["x"], gr[0]["y"] - w["y"]) < 6), None)
+        if groupe:
+            groupe.append(w)
+        else:
+            groupes.append([w])
+    for groupe in groupes:
+        if len(groupe) < 2:
+            continue
+        for rang, w in enumerate(sorted(groupe, key=lambda w: -w["lat"])):
+            angle = math.radians(216.87 + rang * 360 / len(groupe))
+            w["dx"], w["dy"] = round(15 * math.cos(angle)), round(15 * math.sin(angle))
 
 
 def lire_reseaux():
@@ -1396,10 +1576,13 @@ class Gabarit:
         self.preuve = preuve
         self.reseaux = lire_reseaux()
         self.usages = {}
+        self.wikipedia = []
         empreinte = hashlib.md5()
         for nom in ("style.css", "site.js"):
             empreinte.update((ICI / "statique" / nom).read_bytes())
         self.version = empreinte.hexdigest()[:8]
+        carte = ICI / "statique" / "carte.json"
+        self.version_carte = hashlib.md5(carte.read_bytes()).hexdigest()[:8] if carte.exists() else ""
 
     def statique(self, nom):
         return f"{self.adr.base}/statique/{nom}"
@@ -1680,6 +1863,185 @@ def page_accueil(g, photos, galeries, series, selection, ouverture, langue):
     ecrire(adr.fichier(chemins[langue]), texte)
 
 
+WP_ICONES = {
+    "epingle": '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    "gauche": '<path d="M15 18l-6-6 6-6"/>',
+    "droite": '<path d="M9 18l6-6-6-6"/>',
+    "croix": '<path d="M6 6l12 12M18 6L6 18"/>',
+}
+
+
+def wp_icone(nom):
+    return ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+            f'stroke-linejoin="round" aria-hidden="true">{WP_ICONES[nom]}</svg>')
+
+
+def nom_wikipedia(wiki, langue):
+    """« Wikipédia en basque », « Basque Wikipedia », « 巴斯克语维基百科 »."""
+    fr, en, zh = WIKIPEDIAS[wiki]
+    return {"fr": f"Wikipédia en {fr}", "en": f"{en} Wikipedia", "zh": f"{zh}维基百科"}[langue]
+
+
+# Signes laissés tels quels dans les adresses de Wikipédia et de Commons, comme elles les écrivent.
+SIGNES_WIKI = "(),'"
+
+
+def lien_wikipedia(w):
+    """Adresse de l'article illustré, à la partie où se trouve la photo."""
+    adresse = "https://{}.wikipedia.org/wiki/{}".format(w["wiki"], quote(w["article"].replace(" ", "_"), safe=SIGNES_WIKI))
+    return adresse + ("#" + quote(w["partie"].replace(" ", "_"), safe=SIGNES_WIKI) if w["partie"] else "")
+
+
+def lien_commons(w):
+    return "https://commons.wikimedia.org/wiki/File:" + quote(w["fichier"].replace(" ", "_"), safe=SIGNES_WIKI)
+
+
+def date_longue(jour, langue):
+    """« 28 octobre 2026 » (« 1er octobre »), « October 28, 2026 », « 2026 年 10 月 28 日 »."""
+    try:
+        d = date.fromisoformat(jour)
+    except ValueError:
+        return jour
+    if langue == "zh":
+        return f"{d.year} 年 {d.month} 月 {d.day} 日"
+    if langue == "en":
+        return f"{MOIS['en'][d.month - 1]} {d.day}, {d.year}"
+    return f"{'1er' if d.day == 1 else d.day} {MOIS['fr'][d.month - 1]} {d.year}"
+
+
+def langues_wikipedia(entrees, langue):
+    """« en français, en basque et en asturien », « in French, Basque and Asturian »,
+    « 法语、巴斯克语和阿斯图里亚斯语 » : les Wikipédias du panneau, la plus fournie d'abord."""
+    compte = Counter(w["wiki"] for w in entrees)
+    noms = [WIKIPEDIAS[code][LANGUES.index(langue)] for code in sorted(compte, key=lambda c: -compte[c])]
+    if langue == "fr":
+        return enumeration([TEXTES[langue]["wp_en"].format(langue=nom) for nom in noms], langue)
+    return ("in " if langue == "en" else "") + enumeration(noms, langue)
+
+
+def panneau_wikipedia(g, langue):
+    """Rubrique « Mes photos dans Wikipédia » de la page des galeries, sous les couleurs :
+    la salle de projection choisie par Karl le 29 octobre 2026 (maquette :
+    docs/maquettes/panneau-wikipedia/retenu.html). Une photo à la fois, en grand, avec son
+    cartel : l'article, sa langue, la partie et la légende telle qu'elle est écrite dans
+    l'article. statique/site.js fixe le panneau à l'écran et fait avancer les photos au
+    défilement, ouvre le sommaire de la pilule et la carte de « Situer » (statique/carte.json,
+    chargée à la demande). Sans JavaScript, les cartels se suivent, chacun avec sa vignette."""
+    entrees = g.wikipedia
+    if not entrees:
+        return ""
+    t = TEXTES[langue]
+    adr = g.adr
+    n = len(entrees)
+    totaux = (n, len({(w["wiki"], w["article"]) for w in entrees}), len({w["wiki"] for w in entrees}))
+    chiffres = "".join(f'<li><b>{nombre}</b><span>{e(noms[0] if nombre == 1 else noms[1])}</span></li>'
+                       for nombre, noms in zip(totaux, t["wp_chiffres"]))
+    textes = {"situer": t["wp_situer"], "revenir": t["wp_revenir"], "rang": t["wp_rang"],
+              "epingle": t["wp_epingle"], "carte": t["wp_carte"]}
+    diapos, cartels, tuiles, billes = [], [], [], []
+    for i, w in enumerate(entrees):
+        p = w["p"]
+        titre = e(p["titre"][langue])
+        lien_photo = adr.chemin(langue, "photo", p["id"])
+        couleur = e(p["couleur"])
+        lieu = e(w["lieu"][langue])
+        diapos.append(
+            f'<div class="wp-diapo" data-i="{i}" data-lieu="{lieu}" data-region="{e(w["region"][langue])}">'
+            f'<img alt="{titre}" data-src="{url_image(p, 1600)}" data-srcset="{srcset(p, (800, 1200, 1600, 2200, 3000))}" '
+            f'sizes="(max-width: 900px) 100vw, 62vw" decoding="async" style="background-color:{couleur}"></div>')
+        langue_article = f'lang="{w["wiki"]}"'
+        partie = (e(t["wp_partie"]).format(partie=f'<span {langue_article}>{e(w["partie"])}</span>')
+                  if w["partie"] else e(t["wp_en_tete"]))
+        legende = (f'<p class="wp-legende" {langue_article}>{e(w["legende"])}</p>' if w["legende"]
+                   else f'<p class="wp-sans-legende">{e(t["wp_sans_legende"])}</p>')
+        commons = f'<a href="{e(lien_commons(w))}">{e(t["wp_commons"])}</a>'
+        licence = t["wp_licence"] if w["date"] else t["wp_licence"].split(" · ")[0]
+        licence = e(licence).format(commons=commons, date=e(date_longue(w["date"], langue)))
+        place = w["x"] is not None
+        situer = (f'<button class="wp-situer" type="button" aria-pressed="false"><span class="gauche">'
+                  f'<span class="ico">{wp_icone("epingle")}</span><span class="mot">{e(t["wp_situer"])}</span></span>'
+                  f'<small>{lieu}</small></button>') if place else ""
+        position = f' data-x="{w["x"]}" data-y="{w["y"]}" data-dx="{w["dx"]}" data-dy="{w["dy"]}"' if place else ""
+        cartels.append(
+            f'<article class="wp-cartel" data-i="{i}" data-couleur="{couleur}"{position} style="--c:{couleur}">'
+            f'<a class="wp-vignette" href="{lien_photo}" tabindex="-1" aria-hidden="true">'
+            f'<img src="{url_image(p, 800)}" srcset="{srcset(p, (400, 800, 1200))}" sizes="(max-width: 640px) 92vw, 30vw" '
+            f'width="{p["largeur"]}" height="{p["hauteur"]}" alt="" loading="lazy" decoding="async" '
+            f'style="background-color:{couleur}"></a>'
+            f'<div class="wp-haut"><span class="wp-compteur"><b>{i + 1:02d}</b>/ {n:02d}</span>'
+            f'<span class="wp-puce"><b>{e(w["wiki"].upper())}</b>{e(nom_wikipedia(w["wiki"], langue))}</span></div>'
+            f'<div class="wp-corps"><p class="surtitre">{e(t["wp_article_de"])}</p>'
+            f'<h3 class="wp-article" {langue_article}>{e(w["article"])}</h3>'
+            f'<p class="wp-partie">{partie}</p>{legende}<p class="wp-photo">{titre}</p></div>'
+            f'<div class="wp-bas"><div class="wp-actions">'
+            f'<a class="bouton" href="{e(lien_wikipedia(w))}" hreflang="{w["wiki"]}" '
+            f'data-goatcounter-click="wikipedia-{p["id"]}">{e(t["wp_lire"])} <span aria-hidden="true">↗</span></a>'
+            f'<a class="bouton bouton-contour" href="{lien_photo}">{e(t["voir_photo"])}</a>{situer}</div>'
+            f'<p class="wp-licence">{licence}</p></div></article>')
+        tuiles.append(
+            f'<li><button type="button" data-i="{i}" style="--k:{i}"><span class="vignette">'
+            f'<img alt="" data-src="{url_image(p, 600)}" style="background-color:{couleur}"><b>{i + 1:02d}</b></span>'
+            f'<span class="nom">{lieu}<small>{e(w["wiki"].upper())}</small></span>'
+            f'<span class="art" {langue_article}>{e(w["article"])}</span></button></li>')
+        billes.append(f'<i style="top:{26 + i * 14}px"></i>')
+    nombre = nombre_photos(n, langue).replace(str(n), f"<b>{n}</b>", 1)
+    carte = (f' data-carte="{g.statique("carte.json")}?v={g.version_carte}"'
+             if g.version_carte and any(w["x"] is not None for w in entrees) else "")
+    return (
+        '<section class="wp" id="wikipedia" aria-labelledby="wp-titre">'
+        f'<div class="wp-tete"><div><p class="surtitre">{e(t["wp_surtitre"])}</p>'
+        f'<h2 id="wp-titre">{e(t["wp_titre"])}</h2>'
+        f'<p class="wp-chapeau">{e(t["wp_chapeau"].format(langues=langues_wikipedia(entrees, langue)))}</p></div>'
+        f'<ul class="wp-chiffres">{chiffres}</ul></div>'
+        f'<div class="wp-piste"><div class="wp-panneau" tabindex="0" role="region" '
+        f'aria-roledescription="{e(t["wp_carrousel"])}" aria-label="{e(t["wp_panneau"])}" data-langue="{langue}"{carte} '
+        f'data-textes="{e(json.dumps(textes, ensure_ascii=False))}">'
+        '<div class="wp-scene">' + "".join(diapos)
+        + '<p class="wp-lieu" aria-hidden="true"></p>'
+        f'<div class="wp-commandes"><button class="wp-rond" type="button" data-a="prec" aria-label="{e(t["precedente"])}">'
+        f'{wp_icone("gauche")}</button><button class="wp-rond" type="button" data-a="suiv" aria-label="{e(t["suivante"])}">'
+        f'{wp_icone("droite")}</button></div>'
+        f'<p class="wp-indice" aria-hidden="true">{e(t["wp_defiler"])} <i>↓</i></p>'
+        '<div class="wp-atlas" aria-hidden="true">'
+        f'<button class="wp-retour" type="button" aria-label="{e(t["wp_revenir"])}">{wp_icone("gauche")}'
+        f'<span aria-hidden="true">{e(t["wp_revenir"])}</span></button>'
+        '<p class="wp-titre-carte"><b></b><span></span></p></div>'
+        '<button class="wp-vol" type="button" tabindex="-1" aria-hidden="true"><img alt=""></button>'
+        f'<button class="wp-pilule" type="button" aria-expanded="false" aria-controls="wp-index" '
+        f'aria-label="{e(t["wp_toutes"])}"><span class="wp-billes">{"".join(billes)}</span></button>'
+        f'<div class="wp-index" id="wp-index" role="dialog" aria-label="{e(t["wp_index_titre"])}">'
+        f'<div class="wp-index-tete"><p>{e(t["wp_index"]).format(photos=nombre)}</p>'
+        f'<button class="wp-fermer" type="button" aria-label="{e(t["fermer"])}">{wp_icone("croix")}</button></div>'
+        f'<ul class="wp-tuiles">{"".join(tuiles)}</ul></div>'
+        "</div>"
+        f'<div class="wp-cartels" aria-live="polite"><div class="wp-ruban">{"".join(cartels)}</div></div>'
+        "</div></div></section>"
+    )
+
+
+def ligne_wikipedia(g, photo, langue):
+    """Sur la page d'une photo versée dans Wikipédia : l'article qu'elle illustre, dans
+    quelle Wikipédia et quelle partie, le fichier sur Wikimedia Commons, puis le lien vers
+    le panneau de la page des galeries."""
+    t = TEXTES[langue]
+    phrases = []
+    for w in g.wikipedia:
+        if w["photo"] != photo["id"]:
+            continue
+        article = e(t["wp_cite"]).format(
+            article=f'<a href="{e(lien_wikipedia(w))}" hreflang="{w["wiki"]}" lang="{w["wiki"]}" '
+                    f'data-goatcounter-click="wikipedia-{photo["id"]}">{e(w["article"])}</a>')
+        partie = (e(t["wp_ligne_partie"]).format(partie=f'<span lang="{w["wiki"]}">{e(w["partie"])}</span>')
+                  if w["partie"] else "")
+        commons = f'<a href="{e(lien_commons(w))}">{e(t["wp_commons"])}</a>'
+        phrases.append(e(t["wp_ligne"]).format(article=article, wikipedia=e(nom_wikipedia(w["wiki"], langue)),
+                                               partie=partie, commons=commons))
+    if not phrases:
+        return ""
+    lien = f'<a href="{g.adr.chemin(langue, "galeries")}#wikipedia">{e(t["wp_toutes_mes"])}&nbsp;→</a>'
+    return f'<p class="usage wp-ligne">{" ".join(phrases)} {lien}</p>'
+
+
 def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
     adr = g.adr
     t = TEXTES[langue]
@@ -1687,7 +2049,7 @@ def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
     index = index_usages(g, par_id or {}, langue)
     suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
-             + pastilles(couleurs, galeries, langue, adr))
+             + pastilles(couleurs, galeries, langue, adr) + panneau_wikipedia(g, langue))
     if galeries:
         contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)
                    + index + f'<div class="enveloppe">{suite}</div>')
@@ -2100,6 +2462,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
     licence = f'<a href="{adr.chemin(langue, "utiliser")}">{t["licence"]}</a>'
     usages = g.usages.get(photo["id"], [])
     usage = f'<p class="usage">{phrases_usages(usages, langue)}</p>' if usages else ""
+    usage += ligne_wikipedia(g, photo, langue)
     contenu = (
         f'<article class="photo"><figure class="cliche" style="--r:{ratio:.3f}">'
         f'<a href="{e(page_pexels)}" title="{t["voir_pexels"]}" data-goatcounter-click="pexels-image-{photo["id"]}">'
@@ -4519,6 +4882,8 @@ def ecrire_llms(g, photos, galeries, series, couleurs, selection, par_photo, lan
         *([f"- [{t['series']}]({url('series')}): {t['series_intro']}"] if series else []),
         f"- [{t['galeries']}]({url('galeries')}): {t['galeries_intro']}",
         *([f"- [{t['usages_galerie']}]({url('galerie', CLE_USAGES)}): {t['usages_intro']}"] if g.usages else []),
+        *([f"- [{t['wp_titre']}]({url('galeries')}#wikipedia): "
+           + t["wp_chapeau"].format(langues=langues_wikipedia(g.wikipedia, langue))] if g.wikipedia else []),
     ]
     lignes_series = [
         f"- [{s['titre'][langue]}]({url('serie', s['cle'])}): {infos_serie(s, langue)}"
@@ -4625,6 +4990,12 @@ def main():
     g = Gabarit(reglages, adr, preuve)
     publiees = {p["id"] for p in photos}
     g.usages = {i: u for i, u in lire_usages().items() if i in publiees}
+    wikipedia = lire_wikipedia()
+    for w in wikipedia:
+        if w["photo"] not in publiees:
+            print(f"wikipedia.csv : la photo {w['photo']} n'est pas sur le site, ligne ignorée.")
+    g.wikipedia = [dict(w, p=par_id[w["photo"]]) for w in wikipedia if w["photo"] in publiees]
+    placer_wikipedia(g.wikipedia, lire_carte())
     par_photo = {p["id"]: [gal for gal in galeries if p in gal["photos"]] for p in photos}
     par_serie = {p["id"]: [s for s in series if p in s["photos"]] for p in photos}
     par_couleur = {p["id"]: [c for c in couleurs if p in c["photos"]] for p in photos}

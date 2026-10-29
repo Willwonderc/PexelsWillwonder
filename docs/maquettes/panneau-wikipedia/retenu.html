@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panneau Wikipédia retenu</title>
+<style>
+@font-face {
+  font-family: "Archivo";
+  src: url(data:font/woff2;base64,/*POLICE*/) format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+/* Les couleurs, la police et les formes du site photo */
+:root {
+  --fond: #ffffff;
+  --encre: #121212;
+  --doux: #6b6b70;
+  --trait: #e6e6e6;
+  --trait-fort: #d4d4d6;
+  --surface: #f5f5f3;
+  --bouton: #121212;
+  --bouton-texte: #ffffff;
+  --mer: #f3f4f4;
+  --terre: #dcdcd6;
+  --terre-voisine: #ececea;
+  --marge: clamp(16px, 3.2vw, 44px);
+  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #101010;
+    --encre: #efefef;
+    --doux: #9c9ca3;
+    --trait: #2a2a2a;
+    --trait-fort: #3a3a3d;
+    --surface: #171717;
+    --bouton: #efefef;
+    --bouton-texte: #101010;
+    --mer: #0b0b0b;
+    --terre: #2c2c2c;
+    --terre-voisine: #191919;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fond); color: var(--encre); font-family: var(--police); font-size: 16px; line-height: 1.55; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--encre); outline-offset: 3px; }
+h1, h2, h3, h4 { margin: 0; font-weight: 560; font-stretch: 108%; letter-spacing: -.012em; line-height: 1.08; text-wrap: balance; }
+.surtitre { margin: 0 0 14px; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+.bouton {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bouton); color: var(--bouton-texte);
+  text-decoration: none; font-weight: 600; font-stretch: 108%; font-size: 15px;
+  padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer;
+  transition: opacity .2s ease, transform .2s var(--ease);
+}
+.bouton:hover { opacity: .86; }
+.bouton:active { transform: scale(.97); }
+.bouton-contour { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+.puce {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; width: fit-content; max-width: 100%;
+  padding: 4px 12px 4px 5px; border: 1px solid var(--trait-fort); border-radius: 999px; font-size: 13px; line-height: 1.2;
+}
+.puce b {
+  display: inline-grid; place-items: center; min-width: 30px; height: 20px; padding: 0 7px;
+  border-radius: 999px; background: var(--encre); color: var(--fond);
+  font-size: 10.5px; font-weight: 700; font-stretch: 118%; letter-spacing: .08em;
+}
+.rond {
+  width: 44px; height: 44px; flex: none; border-radius: 50%; border: 0;
+  background: rgba(255,255,255,.9); color: #121212; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: inline-grid; place-items: center; cursor: pointer; transition: transform .2s var(--ease), opacity .3s ease;
+}
+.rond:hover { transform: scale(1.06); }
+.rond svg { width: 18px; height: 18px; }
+.legende-wp { font-size: 19px; line-height: 1.42; font-stretch: 96%; margin: 0; }
+.legende-wp::before { content: "«\00a0"; color: var(--doux); }
+.legende-wp::after { content: "\00a0»"; color: var(--doux); }
+.discret { color: var(--doux); }
+
+/* Page de présentation de la maquette */
+.entete { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--marge); }
+.marque { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.marque svg { width: 42px; height: auto; }
+.marque span { font-size: 15px; font-weight: 600; font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; }
+.entete .discret { font-size: 13px; }
+main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
+.intro { padding: clamp(24px, 5vw, 64px) 0 clamp(20px, 3vw, 36px); max-width: 62rem; }
+.intro h1 { font-size: clamp(32px, 5vw, 64px); }
+.intro p { margin: 16px 0 0; font-size: clamp(16px, 1.6vw, 19px); color: var(--doux); max-width: 48rem; }
+.changements { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1px; margin: 26px 0 0; background: var(--trait); border: 1px solid var(--trait); }
+.changements > div { background: var(--fond); padding: 18px 20px 20px; }
+.changements h3 { font-size: 16px; margin-bottom: 6px; }
+.changements p { margin: 0; font-size: 14.5px; color: var(--doux); }
+.essai { font-size: 13px; color: var(--doux); margin: 18px 0 0; line-height: 1.9; }
+.essai kbd { display: inline-block; font: inherit; font-size: 12px; line-height: 1.5; border: 1px solid var(--trait-fort); border-bottom-width: 2px; border-radius: 6px; padding: 0 6px; white-space: nowrap; }
+/* Ce qui entoure le panneau sur la page des galeries, en esquisse */
+.esquisse { margin-top: clamp(40px, 6vw, 72px); padding-top: 26px; border-top: 1px dashed var(--trait-fort); }
+.esquisse h2 { font-size: clamp(24px, 2.6vw, 34px); margin-bottom: 18px; }
+.pastilles { display: flex; flex-wrap: wrap; gap: 8px; }
+.pastilles span { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 7px; border: 1px solid var(--trait-fort); border-radius: 999px; font-size: 14px; }
+.pastilles i { width: 20px; height: 20px; border-radius: 50%; }
+.suite { margin-top: 56px; padding: 26px 0 0; border-top: 1px dashed var(--trait-fort); color: var(--doux); }
+.suite h2 { color: var(--encre); font-size: clamp(24px, 2.6vw, 34px); margin-bottom: 10px; }
+.suite p { margin: 0; max-width: 44rem; }
+
+/* ---------- Le panneau : salle de projection, défilement du fil, carte de l'atlas ---------- */
+.wp { margin-top: clamp(56px, 8vw, 104px); }
+.wp-tete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 14px 40px; margin-bottom: clamp(18px, 2.4vw, 28px); }
+.wp-tete h2 { font-size: clamp(30px, 3.8vw, 52px); }
+.wp-tete p.chapeau { margin: 12px 0 0; font-size: clamp(16px, 1.5vw, 18px); color: var(--doux); max-width: 40rem; }
+.wp-chiffres { display: flex; gap: 26px; margin: 0; padding: 0; list-style: none; }
+.wp-chiffres li { display: grid; }
+.wp-chiffres b { font-size: clamp(32px, 3.4vw, 48px); font-weight: 220; font-stretch: 62%; line-height: 1; }
+.wp-chiffres span { font-size: 12.5px; color: var(--doux); }
+@media (max-width: 700px) { .wp-tete { grid-template-columns: 1fr; } }
+
+/* La piste donne au panneau la hauteur de défilement : quelques écrans, jamais plus, même avec vingt photos */
+.wp-piste { position: relative; }
+.wp-panneau {
+  --c: #888; --haut: max(10px, calc((100svh - 800px) / 2));
+  position: sticky; top: var(--haut); height: min(calc(100svh - 2 * var(--haut)), 800px);
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(340px, 1fr);
+  border: 1px solid var(--trait); background: var(--fond); outline-offset: 4px; overflow: hidden;
+}
+.wp-scene { position: relative; overflow: hidden; background: #0c0c0c; touch-action: pan-y; }
+.wp-diapo { position: absolute; inset: 0; visibility: hidden; will-change: clip-path, transform; }
+.wp-diapo.vue { visibility: visible; }
+.wp-diapo img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; transform-origin: 50% 60%; }
+.wp-diapo img.vit { animation: wp-zoom 14s ease-out forwards; }
+@keyframes wp-zoom { from { transform: scale(1.001); } to { transform: scale(1.08); } }
+.wp-scene::after { content: ""; position: absolute; inset: auto 0 0 0; height: 36%; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,.5), transparent); transition: opacity .5s ease; }
+.wp-lieu { position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(76px, 8vw, 92px); right: 70px; color: #fff; margin: 0;
+  font-size: clamp(30px, 4.4vw, 64px); font-weight: 520; font-stretch: 112%; letter-spacing: -.02em; line-height: 1; text-shadow: 0 2px 24px rgba(0,0,0,.25); }
+.wp-lieu span { display: inline-block; animation: wp-monte .7s var(--ease) both; }
+.wp-lieu small { display: block; margin-top: 8px; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; opacity: .85; }
+@keyframes wp-monte { from { opacity: 0; transform: translateY(14px); } }
+.wp-commandes { position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(18px, 2.4vw, 26px); display: flex; gap: 8px; transition: opacity .4s ease; }
+.wp-commandes .rond:disabled { opacity: .35; cursor: default; transform: none; }
+.wp-indice { position: absolute; z-index: 3; right: 64px; bottom: clamp(26px, 3vw, 34px); margin: 0; display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px; border-radius: 999px; font-size: 12px; font-weight: 600; font-stretch: 118%; letter-spacing: .12em; text-transform: uppercase; color: #fff;
+  background: rgba(14,14,14,.42); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); pointer-events: none; transition: opacity .5s ease; }
+.wp-indice i { font-style: normal; display: inline-block; animation: wp-flotte 2s ease-in-out infinite; }
+@keyframes wp-flotte { 50% { transform: translateY(4px); } }
+.wp-panneau.parti .wp-indice { opacity: 0; }
+
+/* La pilule : trois billes (la précédente, la photo affichée, la suivante) qui glissent avec le défilement */
+.wp-pilule { position: absolute; z-index: 6; right: 14px; top: 50%; width: 22px; height: 52px; margin-top: -26px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(14,14,14,.4); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); overflow: hidden; transition: transform .3s var(--ease), background-color .3s ease, opacity .3s ease; }
+.wp-pilule:hover, .wp-pilule[aria-expanded="true"] { transform: scale(1.12); background: rgba(14,14,14,.6); }
+.wp-pilule:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.wp-billes { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.wp-billes i { position: absolute; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; }
+/* Le sommaire : la pilule s'ouvre en panneau sur la photo, avec toutes les photos versées dans Wikipédia */
+.wp-index { position: absolute; inset: 0; z-index: 8; display: grid; grid-template-rows: auto 1fr; color: var(--encre);
+  background: color-mix(in srgb, var(--fond) 90%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1);
+  clip-path: inset(var(--t, 50%) var(--d, 0) var(--b, 50%) var(--g, 100%) round 999px); visibility: hidden;
+  transition: clip-path .55s cubic-bezier(.7, 0, .2, 1), visibility 0s .55s; }
+.wp-index.ouvert { clip-path: inset(0 0 0 0 round 0); visibility: visible; transition: clip-path .6s cubic-bezier(.7, 0, .2, 1); }
+.wp-index-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 10px clamp(16px, 2vw, 24px); }
+.wp-index-tete p { margin: 0; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+.wp-index-tete p b { color: var(--encre); }
+.wp-fermer { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 1px solid var(--trait-fort); background: var(--fond); cursor: pointer; display: grid; place-items: center; }
+.wp-fermer svg { width: 16px; height: 16px; }
+.wp-tuiles { list-style: none; margin: 0; padding: 4px clamp(16px, 2vw, 24px) 20px; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 16px; align-content: start; }
+.wp-tuiles button { width: 100%; display: grid; gap: 7px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left;
+  opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .5s var(--ease); }
+.wp-index.ouvert .wp-tuiles button { opacity: 1; transform: none; transition-delay: calc(.18s + var(--k) * 35ms); }
+.wp-tuiles .vignette { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; background: var(--surface); }
+.wp-tuiles img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.wp-tuiles button:hover img { transform: scale(1.06); }
+.wp-tuiles .vignette b { position: absolute; left: 8px; top: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: #fff;
+  background: rgba(14,14,14,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.wp-tuiles button[aria-current="true"] .vignette { box-shadow: 0 0 0 2px var(--fond), 0 0 0 4px var(--encre); }
+.wp-tuiles .nom { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.25; }
+.wp-tuiles .nom small { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: var(--doux); }
+.wp-tuiles .art { font-size: 12.5px; color: var(--doux); line-height: 1.3; margin-top: -3px; }
+
+/* Le cartel : un ruban de fiches qui défile avec la page */
+.wp-cartels { position: relative; overflow: hidden; border-left: 1px solid var(--trait); min-width: 0;
+  background: color-mix(in srgb, var(--c) 13%, var(--fond)); transition: background-color 1s ease; }
+.wp-ruban { height: 100%; will-change: transform; }
+.wp-cartel { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 22px; padding: clamp(22px, 3vw, 40px); min-width: 0; }
+.wp-haut { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.wp-compteur { font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
+.wp-compteur b { font-size: 46px; font-weight: 210; font-stretch: 62%; color: var(--encre); margin-right: 3px; line-height: 1; }
+.wp-corps { align-self: center; display: grid; gap: 12px; min-width: 0; }
+.wp-corps .surtitre { margin: 0; }
+.wp-article { font-size: clamp(28px, 2.9vw, 46px); overflow-wrap: anywhere; }
+.wp-partie { margin: 0; font-size: 14px; color: var(--doux); }
+.wp-corps .legende-wp { margin-top: 8px; }
+.wp-photo { margin: 4px 0 0; font-size: 14px; color: var(--doux); }
+.wp-bas { display: grid; gap: 14px; }
+.wp-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.wp-licence { margin: 0; font-size: 12.5px; color: var(--doux); }
+/* Le bouton de localisation : une épingle et un mot */
+.wp-situer { display: inline-flex; align-items: stretch; padding: 0; border-radius: 999px; border: 1px solid var(--trait-fort); overflow: hidden;
+  background: color-mix(in srgb, var(--fond) 70%, transparent); cursor: pointer; font-size: 14.5px; font-weight: 600; font-stretch: 108%;
+  transition: border-color .2s ease, background-color .2s ease, transform .2s var(--ease); }
+.wp-situer:hover { border-color: var(--encre); }
+.wp-situer:active { transform: scale(.97); }
+.wp-situer .gauche { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 8px; }
+.wp-situer .ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--encre); color: var(--fond); transition: transform .4s var(--ease); }
+.wp-situer .ico svg { width: 16px; height: 16px; }
+.wp-situer:hover .ico { transform: translateY(-2px); }
+/* La partie droite : noire, le nom du lieu en blanc, séparée par une courbe */
+.wp-situer small { display: inline-flex; align-items: center; margin-left: -4px; padding: 0 18px 0 20px; font-size: 13.5px; font-weight: 600; letter-spacing: .01em;
+  background: var(--encre); color: var(--fond); border-radius: 22px 0 0 22px / 50% 0 0 50%; transition: padding .3s var(--ease); }
+.wp-situer:hover small { padding-left: 24px; }
+.wp-situer[aria-pressed="true"] { background: var(--encre); color: var(--fond); border-color: var(--encre); }
+.wp-situer[aria-pressed="true"] .ico { background: var(--fond); color: var(--encre); }
+
+/* La carte de l'atlas, qui se dévoile sur la photo */
+.wp-atlas { position: absolute; inset: 0; z-index: 4; background: var(--mer); opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
+.wp-panneau.carte .wp-atlas { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+.wp-panneau.carte .wp-lieu, .wp-panneau.carte .wp-commandes, .wp-panneau.carte .wp-indice, .wp-panneau.carte .wp-scene::after { opacity: 0; pointer-events: none; }
+.wp-panneau.carte .wp-lieu { visibility: hidden; }
+.wp-atlas svg { display: block; width: 100%; height: 100%; }
+.wp-atlas .voisin { fill: var(--terre-voisine); stroke: var(--mer); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.wp-atlas .principal { fill: var(--terre); stroke: var(--mer); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.wp-atlas .etiquette { fill: var(--doux); font-size: 11px; font-weight: 600; font-stretch: 125%; letter-spacing: .32em; text-transform: uppercase; }
+.wp-atlas .etiquette.mer { font-weight: 500; font-style: italic; letter-spacing: .26em; opacity: .8; }
+.wp-epingle { cursor: pointer; outline: none; }
+.wp-epingle .halo { fill: var(--encre); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.wp-epingle .anneau { fill: none; stroke: var(--encre); stroke-width: 2; opacity: 0; }
+.wp-epingle:focus-visible .anneau { opacity: 1; }
+.wp-epingle .point { fill: var(--fond); stroke: var(--encre); stroke-width: 2; transition: transform .3s var(--ease), fill .3s; transform-box: fill-box; transform-origin: center; }
+.wp-epingle text { font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; fill: var(--encre); transition: fill .3s; }
+.wp-epingle:hover .point { transform: scale(1.15); }
+.wp-epingle.active .point { fill: var(--encre); transform: scale(1.25); }
+.wp-epingle.active text { fill: var(--fond); }
+.wp-epingle.active .halo { animation: wp-pouls 1.8s ease-out .5s infinite; }
+.wp-epingle.tombe .chute { animation: wp-chute .75s cubic-bezier(.3, 0, .3, 1) both; }
+@keyframes wp-chute { 0% { transform: translateY(-70px); opacity: 0; } 55% { transform: translateY(0); opacity: 1; } 72% { transform: translateY(-11px); } 86% { transform: translateY(0); } 93% { transform: translateY(-3px); } 100% { transform: none; } }
+@keyframes wp-pouls { from { opacity: .4; transform: scale(.7); } to { opacity: 0; transform: scale(2.6); } }
+.wp-retour { position: absolute; z-index: 7; left: 16px; top: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px; border: 1px solid var(--trait-fort);
+  background: color-mix(in srgb, var(--fond) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); cursor: pointer; font-size: 14px; font-weight: 600; }
+.wp-retour svg { width: 16px; height: 16px; }
+.wp-retour:hover { border-color: var(--encre); }
+.wp-titre-carte { position: absolute; z-index: 5; left: 18px; bottom: 16px; margin: 0; font-size: 13px; color: var(--doux); pointer-events: none; }
+.wp-titre-carte b { display: block; color: var(--encre); font-size: clamp(22px, 2.4vw, 32px); font-weight: 560; font-stretch: 110%; letter-spacing: -.015em; }
+/* La photo devenue vignette, posée au-dessus de son épingle */
+.wp-vol { position: absolute; z-index: 5; left: 0; top: 0; width: 0; height: 0; overflow: hidden; display: none; cursor: pointer; padding: 0; border: 0;
+  border-radius: 12px; box-shadow: 0 0 0 3px var(--fond), 0 16px 40px rgba(0,0,0,.28); background: #0c0c0c; }
+.wp-vol.visible { display: block; }
+.wp-vol img { width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease; }
+.wp-vol::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 14px; height: 14px; margin-left: -7px; background: var(--fond); transform: rotate(45deg); border-radius: 2px; z-index: -1; opacity: var(--fleche, 1); }
+
+@media (max-width: 900px) {
+  /* Sur téléphone, le schéma du fil : la photo fixée en haut, le texte qui défile dessous */
+  .wp-panneau { --haut: 0px; height: 100svh; grid-template-columns: 1fr; grid-template-rows: 46% 1fr; border-left: 0; border-right: 0; margin: 0 calc(-1 * var(--marge)); }
+  .wp-cartels { border-left: 0; border-top: 1px solid var(--trait); }
+  .wp-cartel { gap: 12px; padding: 18px 18px 20px; }
+  .wp-compteur b { font-size: 34px; }
+  .wp-corps { gap: 8px; align-self: start; }
+  .wp-article { font-size: 26px; }
+  .wp-corps .legende-wp { font-size: 16.5px; margin-top: 2px; }
+  .wp-photo { display: none; }
+  .wp-lieu { font-size: 30px; bottom: 74px; }
+  .wp-lieu small { margin-top: 6px; }
+  .wp-indice { right: 56px; bottom: 20px; }
+  .wp-pilule { right: 10px; }
+  .wp-tuiles { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 10px; }
+  .wp-tuiles .art { display: none; }
+  .wp-index-tete { padding: 10px 10px 8px 14px; }
+  .bouton { padding: 10px 17px; font-size: 14.5px; }
+  .wp-situer .gauche { padding: 5px 12px 5px 6px; }
+  .wp-actions { gap: 8px; }
+  .wp-retour { left: 10px; top: 10px; width: 40px; height: 40px; padding: 0; justify-content: center; }
+  .wp-retour span, .wp-titre-carte { display: none; }
+}
+@media (max-width: 380px) { .wp-situer small { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<header class="entete">
+  <a class="marque" href="https://photos.karlforterre.fr/">/*LOGO*/<span>Karl Forterre</span></a>
+  <span class="discret">Maquette · 29 octobre 2026</span>
+</header>
+<main>
+  <section class="intro">
+    <p class="surtitre">Ton choix · la salle de projection, retouchée</p>
+    <h1>La salle de projection, avec le défilement du fil et la carte</h1>
+    <p>Fais défiler la page comme d'habitude&nbsp;: arrivé au panneau, il se fixe et les photos avancent avec ton défilement, puis la page reprend son cours. Dans le cartel, «&nbsp;Situer&nbsp;» fait apparaître la carte.</p>
+    <div class="changements">
+      <div><h3>La bande est partie</h3><p>Plus de barres ni de noms sous le panneau&nbsp;: une petite pilule à trois billes, sur le bord de la photo, montre où l'on en est. Survolée, elle s'ouvre sur toutes tes photos dans Wikipédia.</p></div>
+      <div><h3>Le défilement du fil</h3><p>Molette, pavé tactile ou doigt font avancer les photos, sans jamais bloquer la page. Avec vingt photos, le panneau resterait court.</p></div>
+      <div><h3>La carte de l'atlas</h3><p>La photo se réduit en vignette et vole jusqu'à son épingle pendant que la carte se dévoile. Elle suit ensuite chaque photo.</p></div>
+      <div><h3>Plus de défilement automatique</h3><p>Il gênait un panneau qu'on pilote soi-même&nbsp;: je propose de le retirer, en gardant le zoom lent sur la photo.</p></div>
+    </div>
+    <p class="essai">Essaie aussi&nbsp;: <kbd>←</kbd> <kbd>→</kbd> au clavier une fois le panneau sélectionné, un glissement du doigt sur la photo, le survol de la pilule à droite de la photo (ou un toucher sur téléphone), un clic sur une épingle de la carte, <kbd>Échap</kbd> pour revenir à la photo.</p>
+  </section>
+
+  <section class="esquisse" aria-label="Haut de la page des galeries, en esquisse">
+    <p class="surtitre">Plus haut sur la page des galeries</p>
+    <h2>Couleurs</h2>
+    <div class="pastilles"><span><i style="background:#3b6ea5"></i>Bleu</span><span><i style="background:#4f7d3a"></i>Vert</span><span><i style="background:#c9a227"></i>Jaune</span><span><i style="background:#b5532f"></i>Orange</span><span><i style="background:#8c8c8c"></i>Gris</span><span><i style="background:#1d1d1d"></i>Noir et blanc</span></div>
+  </section>
+
+  <section class="wp" aria-labelledby="wp-titre">
+    <div class="wp-tete">
+      <div><p class="surtitre">Sur Wikipédia</p><h2 id="wp-titre">Mes photos dans Wikipédia</h2>
+        <p class="chapeau">Partagées sous licence libre sur Wikimedia Commons, elles illustrent des articles de l'encyclopédie, en français, en basque et en asturien.</p></div>
+      <ul class="wp-chiffres"></ul>
+    </div>
+    <div class="wp-piste"><div class="wp-panneau" tabindex="0" role="region" aria-roledescription="carrousel" aria-label="Photos sur Wikipédia"></div></div>
+  </section>
+
+  <section class="suite">
+    <h2>La suite de la page</h2>
+    <p>Après la dernière photo, le panneau se détache et la page reprend son défilement normal&nbsp;: les galeries par lieu, par thème, puis le pied de page.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var PHOTOS = /*DONNEES*/;
+  var CARTE = /*CARTE*/;
+  var LANGUES = {
+    fr: { nom: "Wikipédia en français", court: "FR" },
+    eu: { nom: "Wikipédia en basque", court: "EU" },
+    ast: { nom: "Wikipédia en asturien", court: "AST" }
+  };
+  var calme = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var N = PHOTOS.length, L = CARTE.largeur, HC = CARTE.hauteur;
+
+  function url(p, w) { return "https://images.pexels.com/photos/" + p.id + "/pexels-photo-" + p.id + ".jpeg?auto=compress&cs=tinysrgb&w=" + w; }
+  function srcset(p) { return [640, 1000, 1600, 2200].map(function (w) { return url(p, w) + " " + w + "w"; }).join(", "); }
+  function lienArticle(p) {
+    return "https://" + p.wiki + ".wikipedia.org/wiki/" + encodeURIComponent(p.article.replace(/ /g, "_"))
+      + (p.partie ? "#" + encodeURIComponent(p.partie.replace(/ /g, "_")) : "");
+  }
+  function lienCommons(p) { return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(p.fichier.replace(/ /g, "_")); }
+  function lienPhoto(p) { return "https://photos.karlforterre.fr/photo/" + p.id + "/"; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function deux(n) { return (n < 10 ? "0" : "") + n; }
+  function date(s) { var m = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]; var d = s.split("-"); return (+d[2]) + " " + m[+d[1] - 1] + " " + d[0]; }
+  function borne(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function douce(t) { return t * t * (3 - 2 * t); }
+  var CROIX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var EPINGLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+  var FLECHE_G = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
+  var FLECHE_D = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
+
+  var langues = {};
+  PHOTOS.forEach(function (p) { langues[p.wiki] = 1; });
+  document.querySelector(".wp-chiffres").innerHTML = "<li><b>" + N + "</b><span>photos</span></li><li><b>" + N + "</b><span>articles</span></li><li><b>" + Object.keys(langues).length + "</b><span>langues</span></li>";
+
+  var panneau = document.querySelector(".wp-panneau"), piste = document.querySelector(".wp-piste");
+  function cartelHTML(p, i) {
+    return '<article class="wp-cartel" data-i="' + i + '"><div class="wp-haut"><span class="wp-compteur"><b>' + deux(i + 1) + "</b>/ " + deux(N) + '</span><span class="puce"><b>' + LANGUES[p.wiki].court + "</b>" + LANGUES[p.wiki].nom + "</span></div>"
+      + '<div class="wp-corps"><p class="surtitre">Article de Wikipédia</p><h3 class="wp-article" lang="' + p.wiki + '">' + esc(p.article) + "</h3>"
+      + '<p class="wp-partie">' + (p.partie ? "Partie « " + esc(p.partie) + " »" : "Image d'en-tête de l'article") + "</p>"
+      + (p.legende ? '<p class="legende-wp" lang="' + p.wiki + '">' + esc(p.legende) + "</p>" : '<p class="discret">Sans légende : c\'est l\'image principale de l\'article.</p>')
+      + '<p class="wp-photo">' + esc(p.titre) + "</p></div>"
+      + '<div class="wp-bas"><div class="wp-actions"><a class="bouton" href="' + lienArticle(p) + '" target="_blank" rel="noopener">Lire l\'article <span aria-hidden="true">↗</span></a>'
+      + '<a class="bouton bouton-contour" href="' + lienPhoto(p) + '" target="_blank" rel="noopener">Voir la photo</a>'
+      + '<button class="wp-situer" type="button" aria-pressed="false"><span class="gauche"><span class="ico">' + EPINGLE + '</span><span class="mot">Situer</span></span><small>' + esc(p.lieu) + "</small></button></div>"
+      + '<p class="wp-licence">Partagée sous licence libre CC BY-SA 4.0 sur <a href="' + lienCommons(p) + '" target="_blank" rel="noopener">Wikimedia Commons</a> · ajoutée le ' + date(p.date) + "</p></div></article>";
+  }
+  panneau.innerHTML =
+    '<div class="wp-scene">'
+    + PHOTOS.map(function (p, i) {
+        return '<div class="wp-diapo" data-i="' + i + '"><img alt="' + esc(p.titre) + '" data-srcset="' + srcset(p) + '" data-src="' + url(p, 1600) + '" sizes="(max-width: 900px) 100vw, 62vw" style="background:' + p.couleur + '"></div>';
+      }).join("")
+    + '<p class="wp-lieu" aria-hidden="true"></p>'
+    + '<div class="wp-commandes"><button class="rond" type="button" data-a="prec" aria-label="Photo précédente">' + FLECHE_G + '</button><button class="rond" type="button" data-a="suiv" aria-label="Photo suivante">' + FLECHE_D + "</button></div>"
+    + '<p class="wp-indice" aria-hidden="true">Faites défiler <i>↓</i></p>'
+    + '<div class="wp-atlas" aria-hidden="true"></div>'
+    + '<button class="wp-vol" type="button" tabindex="-1" aria-hidden="true"><img alt=""></button>'
+    + '<button class="wp-pilule" type="button" aria-expanded="false" aria-controls="wp-index" aria-label="Toutes les photos dans Wikipédia"><span class="wp-billes">'
+    + PHOTOS.map(function (p, i) { return '<i style="top:' + (26 + i * 14) + 'px"></i>'; }).join("") + "</span></button>"
+    + '<div class="wp-index" id="wp-index" role="dialog" aria-label="Toutes mes photos dans Wikipédia"><div class="wp-index-tete"><p><b>' + N + "</b> photos dans Wikipédia</p>"
+    + '<button class="wp-fermer" type="button" aria-label="Fermer">' + CROIX + "</button></div>"
+    + '<ul class="wp-tuiles">' + PHOTOS.map(function (p, i) {
+        return '<li><button type="button" data-i="' + i + '" style="--k:' + i + '"><span class="vignette"><img alt="" data-src="' + url(p, 640) + '" style="background:' + p.couleur + '"><b>' + deux(i + 1) + "</b></span>"
+          + '<span class="nom">' + esc(p.lieu) + "<small>" + LANGUES[p.wiki].court + '</small></span><span class="art" lang="' + p.wiki + '">' + esc(p.article) + "</span></button></li>";
+      }).join("") + "</ul></div>"
+    + "</div>"
+    + '<div class="wp-cartels" aria-live="polite"><div class="wp-ruban">' + PHOTOS.map(cartelHTML).join("") + "</div></div>";
+
+  var scene = panneau.querySelector(".wp-scene"), diapos = panneau.querySelectorAll(".wp-diapo"), ruban = panneau.querySelector(".wp-ruban");
+  var cartels = panneau.querySelectorAll(".wp-cartel"), pilule = panneau.querySelector(".wp-pilule"), billes = panneau.querySelectorAll(".wp-billes i");
+  var index = panneau.querySelector(".wp-index"), tuiles = index.querySelectorAll(".wp-tuiles button");
+  var lieu = panneau.querySelector(".wp-lieu"), prec = panneau.querySelector('[data-a="prec"]'), suiv = panneau.querySelector('[data-a="suiv"]');
+  var situer = panneau.querySelectorAll(".wp-situer");
+
+  /* Le défilement : la page avance, le panneau reste fixé, chaque photo a sa part de la piste */
+  var pas = 300, haut = 0, actuelle = -1, position = 0;
+  function mesurer() {
+    var h = panneau.offsetHeight;
+    haut = parseFloat(getComputedStyle(panneau).top) || 0;
+    pas = N > 1 ? borne(h * 2.6 / (N - 1), 130, h * .42) : 0;
+    piste.style.height = (h + (N - 1) * pas) + "px";
+    suivre();
+  }
+  function charger(k) {
+    var img = diapos[k] && diapos[k].querySelector("img");
+    if (img && img.dataset.src) { img.srcset = img.dataset.srcset; img.src = img.dataset.src; delete img.dataset.src; }
+  }
+  function suivre() {
+    var parcouru = borne(haut - piste.getBoundingClientRect().top, 0, (N - 1) * pas);
+    var brut = pas ? parcouru / pas : 0, i = Math.min(Math.floor(brut), N - 1), f = brut - i;
+    // Un palier par photo : le cartel reste lisible, puis glisse vers le suivant
+    var e = douce(borne((f - .3) / .55, 0, 1));
+    position = i + e;
+    panneau.classList.toggle("parti", parcouru > 8);
+    ruban.style.transform = "translateY(" + (-position * 100) + "%)";
+    cartels.forEach(function (c, k) { c.style.opacity = (1 - Math.min(1, Math.abs(k - position) * 1.5)).toFixed(3); });
+    diapos.forEach(function (d, k) {
+      var vue = k === i || (k === i + 1 && e > 0);
+      d.classList.toggle("vue", vue);
+      if (k === i + 1 && e > 0) {
+        d.style.clipPath = "inset(" + ((1 - e) * 100).toFixed(2) + "% 0 0 0)";
+        d.style.transform = "scale(" + (1.06 - .06 * e).toFixed(4) + ")";
+      } else { d.style.clipPath = ""; d.style.transform = ""; }
+      d.style.zIndex = k === i + 1 ? 2 : 1;
+      var img = d.querySelector("img");
+      if (!calme) img.classList.toggle("vit", vue);
+    });
+    for (var k = i - 1; k <= i + 2; k++) charger(k);
+    // Les billes glissent d'un cran par photo : celle du milieu grossit, les voisines s'estompent
+    panneau.querySelector(".wp-billes").style.transform = "translateY(" + (-position * 14).toFixed(2) + "px)";
+    billes.forEach(function (b, k) {
+      var d = Math.abs(k - position);
+      b.style.transform = "scale(" + (d < 1 ? 1.5 - .5 * d : Math.max(0, 1 - (d - 1) * 1.6)).toFixed(3) + ")";
+      b.style.opacity = (d < 1 ? 1 - .5 * d : Math.max(0, .5 - (d - 1))).toFixed(3);
+    });
+    var nouvelle = Math.round(position);
+    if (nouvelle !== actuelle) changer(nouvelle);
+  }
+  function changer(i) {
+    var avant = actuelle;
+    actuelle = i;
+    var p = PHOTOS[i];
+    panneau.style.setProperty("--c", p.couleur);
+    lieu.innerHTML = "<span>" + esc(p.lieu) + "<small>" + esc(p.region) + "</small></span>";
+    tuiles.forEach(function (b, k) { b.setAttribute("aria-current", k === i ? "true" : "false"); });
+    pilule.setAttribute("aria-label", "Photo " + (i + 1) + " sur " + N + " · voir toutes les photos dans Wikipédia");
+    // Le focus ne se perd pas dans une fiche qui s'efface : il revient au panneau
+    if (avant >= 0 && cartels[avant].contains(document.activeElement)) panneau.focus({ preventScroll: true });
+    cartels.forEach(function (c, k) { c.inert = k !== i; c.setAttribute("aria-hidden", k === i ? "false" : "true"); });
+    prec.disabled = i === 0; suiv.disabled = i === N - 1;
+    if (ouverte) volerVers(avant, i);
+  }
+  function aller(i) {
+    i = borne(i, 0, N - 1);
+    var cible = window.scrollY + piste.getBoundingClientRect().top - haut + i * pas + 1;
+    window.scrollTo({ top: cible, behavior: calme ? "auto" : "smooth" });
+  }
+  window.addEventListener("scroll", function () { requestAnimationFrame(suivre); }, { passive: true });
+  window.addEventListener("resize", mesurer);
+  prec.addEventListener("click", function () { aller(actuelle - 1); });
+  suiv.addEventListener("click", function () { aller(actuelle + 1); });
+  /* Le sommaire : au survol de la pilule (ou au toucher, ou au clavier), il prend la place de la photo */
+  var minuterie = null;
+  function sommaire(ouvrir, auClavier) {
+    clearTimeout(minuterie);
+    if (ouvrir === index.classList.contains("ouvert")) return;
+    if (ouvrir) {
+      // Le panneau part de la pilule : son découpage de départ épouse la forme de la pilule
+      var s = scene.getBoundingClientRect(), r = pilule.getBoundingClientRect();
+      index.style.setProperty("--t", (r.top - s.top) + "px"); index.style.setProperty("--b", (s.bottom - r.bottom) + "px");
+      index.style.setProperty("--g", (r.left - s.left) + "px"); index.style.setProperty("--d", (s.right - r.right) + "px");
+      index.querySelectorAll("img[data-src]").forEach(function (img) { img.src = img.dataset.src; img.removeAttribute("data-src"); });
+      void index.offsetWidth;
+    }
+    index.classList.toggle("ouvert", ouvrir);
+    pilule.setAttribute("aria-expanded", ouvrir ? "true" : "false");
+    if (ouvrir && auClavier) setTimeout(function () { tuiles[actuelle].focus({ preventScroll: true }); }, calme ? 0 : 250);
+    if (!ouvrir && index.contains(document.activeElement)) pilule.focus({ preventScroll: true });
+  }
+  pilule.addEventListener("pointerenter", function (ev) { if (ev.pointerType === "mouse") { clearTimeout(minuterie); minuterie = setTimeout(function () { sommaire(true); }, 120); } });
+  pilule.addEventListener("pointerleave", function (ev) { if (ev.pointerType === "mouse" && !index.classList.contains("ouvert")) clearTimeout(minuterie); });
+  pilule.addEventListener("click", function (ev) { sommaire(!index.classList.contains("ouvert"), ev.detail === 0); });
+  index.addEventListener("pointerenter", function () { clearTimeout(minuterie); });
+  index.addEventListener("pointerleave", function (ev) { if (ev.pointerType === "mouse") minuterie = setTimeout(function () { sommaire(false); }, 350); });
+  index.querySelector(".wp-fermer").addEventListener("click", function () { sommaire(false); });
+  tuiles.forEach(function (b) { b.addEventListener("click", function () { var k = +b.dataset.i; sommaire(false); pilule.focus({ preventScroll: true }); aller(k); }); });
+  panneau.addEventListener("keydown", function (ev) {
+    if (ev.target.closest && ev.target.closest(".wp-epingle")) return;
+    var t = { ArrowLeft: actuelle - 1, ArrowRight: actuelle + 1, Home: 0, End: N - 1 }[ev.key];
+    if (t !== undefined && !(ev.target.tagName === "A")) { aller(t); ev.preventDefault(); }
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Escape") return;
+    if (index.classList.contains("ouvert")) { sommaire(false); ev.preventDefault(); }
+    else if (ouverte) { fermer(); ev.preventDefault(); }
+  });
+  // Glissement du doigt sur la photo, comme une story : la page défile jusqu'à la photo voisine
+  (function () {
+    var x0 = null, y0 = 0;
+    scene.addEventListener("pointerdown", function (ev) { x0 = ev.target.closest(".wp-index, .wp-atlas") ? null : ev.clientX; y0 = ev.clientY; });
+    scene.addEventListener("pointerup", function (ev) {
+      if (x0 === null) return;
+      var dx = ev.clientX - x0, dy = ev.clientY - y0; x0 = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) aller(actuelle + (dx < 0 ? 1 : -1));
+    });
+    scene.addEventListener("pointercancel", function () { x0 = null; });
+  })();
+
+  /* La carte : construite au premier clic sur « Situer » */
+  var atlas = panneau.querySelector(".wp-atlas"), vol = panneau.querySelector(".wp-vol"), volImg = vol.querySelector("img");
+  var svg = null, epingles = [], fixes = [], vue = [0, 0, L, HC], anim = null, ouverte = false;
+  var DECALAGE = { 23414381: [-12, -9], 38279508: [12, 9] };
+  var ETIQUETTES = [
+    { x: 40, y: 505, lignes: ["Océan", "Atlantique"], classe: "mer" },
+    { x: 805, y: 852, lignes: ["Méditerranée"], classe: "mer", milieu: true },
+    { x: 600, y: 420, lignes: ["France"], milieu: true },
+    { x: 300, y: 880, lignes: ["Espagne"], milieu: true }
+  ];
+  function construire() {
+    if (svg) return;
+    atlas.innerHTML =
+      '<svg viewBox="0 0 ' + L + " " + HC + '" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Carte des lieux des photos">'
+      + "<g>" + CARTE.pays.filter(function (c) { return !c.principal; }).map(function (c) { return '<path class="voisin" d="' + c.d + '"/>'; }).join("")
+      + CARTE.pays.filter(function (c) { return c.principal; }).map(function (c) { return '<path class="principal" d="' + c.d + '"/>'; }).join("") + "</g>"
+      + "<g>" + ETIQUETTES.map(function (e) {
+          return '<g class="fixe" data-x="' + e.x + '" data-y="' + e.y + '"><text class="etiquette ' + (e.classe || "") + '" text-anchor="' + (e.milieu ? "middle" : "start") + '">'
+            + e.lignes.map(function (l, k) { return '<tspan x="0" dy="' + (k ? "1.4em" : "0") + '">' + esc(l) + "</tspan>"; }).join("") + "</text></g>";
+        }).join("") + "</g>"
+      + "<g>" + PHOTOS.map(function (p, i) {
+          var xy = CARTE.lieux[p.id], d = DECALAGE[p.id] || [0, 0];
+          return '<g class="fixe wp-epingle" data-i="' + i + '" data-x="' + xy[0] + '" data-y="' + xy[1] + '" tabindex="-1" role="button" aria-label="' + esc("Photo " + (i + 1) + " : " + p.lieu) + '">'
+            + '<g transform="translate(' + d[0] + " " + d[1] + ')"><g class="chute"><circle class="halo" r="12"/><circle class="anneau" r="15"/><circle class="point" r="11"/><text>' + (i + 1) + "</text></g></g></g>";
+        }).join("") + "</g></svg>"
+      + '<button class="wp-retour" type="button" aria-label="Revenir à la photo">' + FLECHE_G + '<span aria-hidden="true">Revenir à la photo</span></button>'
+      + '<p class="wp-titre-carte"><b></b><span></span></p>';
+    svg = atlas.querySelector("svg");
+    fixes = atlas.querySelectorAll(".fixe");
+    epingles = atlas.querySelectorAll(".wp-epingle");
+    epingles.forEach(function (g) {
+      g.addEventListener("click", function () { aller(+g.dataset.i); });
+      g.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); aller(+g.dataset.i); } });
+    });
+    atlas.querySelector(".wp-retour").addEventListener("click", function () { fermer(); });
+  }
+  // Les épingles et les noms gardent la même taille à l'écran, quel que soit le zoom
+  function echelle() {
+    var k = (vue[2] / scene.clientWidth).toFixed(4);
+    fixes.forEach(function (g) { g.setAttribute("transform", "translate(" + g.dataset.x + " " + g.dataset.y + ") scale(" + k + ")"); });
+  }
+  function cadrage(i, large) {
+    var W = scene.clientWidth, H = scene.clientHeight, r = W / H;
+    if (large) { var w0 = Math.max(L, HC * r); return [(L - w0) / 2, (HC - w0 / r) / 2, w0, w0 / r]; }
+    var xy = CARTE.lieux[PHOTOS[i].id], w = L * (W < 600 ? .8 : .64), h = w / r;
+    return [xy[0] - w / 2, xy[1] - h * (W < 600 ? .56 : .42), w, h];
+  }
+  // Position à l'écran (en pixels dans la scène) de l'épingle i pour un cadrage donné
+  function ecran(i, v) {
+    var W = scene.clientWidth, p = PHOTOS[i], xy = CARTE.lieux[p.id], d = DECALAGE[p.id] || [0, 0];
+    return [(xy[0] - v[0]) / v[2] * W + d[0], (xy[1] - v[1]) / v[2] * W + d[1]];
+  }
+  function tailleVignette() { return scene.clientWidth < 600 ? [112, 84] : [168, 120]; }
+  function placeVignette(xy) {
+    var t = tailleVignette();
+    return { left: xy[0] - t[0] / 2, top: xy[1] - t[1] - 30, width: t[0], height: t[1] };
+  }
+  function poser(r) { vol.style.left = r.left + "px"; vol.style.top = r.top + "px"; vol.style.width = r.width + "px"; vol.style.height = r.height + "px"; }
+  function cadrer(cible, duree, chaqueImage) {
+    if (anim) cancelAnimationFrame(anim);
+    var depart = vue.slice(), t0 = performance.now();
+    duree = calme ? 0 : duree;
+    function etape(t) {
+      var k = duree ? Math.min(1, (t - t0) / duree) : 1, e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      vue = depart.map(function (v, j) { return v + (cible[j] - v) * e; });
+      svg.setAttribute("viewBox", vue.join(" "));
+      echelle();
+      if (chaqueImage) chaqueImage(e);
+      anim = k < 1 ? requestAnimationFrame(etape) : null;
+    }
+    anim = requestAnimationFrame(etape);
+  }
+  function lacher(i) {
+    epingles.forEach(function (g, k) { g.classList.toggle("active", k === i); g.classList.remove("tombe"); });
+    void atlas.offsetWidth;
+    epingles[i].classList.add("tombe");
+    epingles[i].parentNode.appendChild(epingles[i]);
+  }
+  function titreCarte(i) {
+    var p = PHOTOS[i];
+    atlas.querySelector(".wp-titre-carte b").textContent = p.lieu;
+    atlas.querySelector(".wp-titre-carte span").textContent = p.region;
+  }
+  function ouvrir() {
+    construire();
+    ouverte = true;
+    var i = actuelle, img = diapos[i].querySelector("img");
+    var cible = cadrage(i), fin = placeVignette(ecran(i, cible));
+    vue = cadrage(i, true); svg.setAttribute("viewBox", vue.join(" ")); echelle();
+    epingles.forEach(function (g) { g.classList.remove("active", "tombe"); g.setAttribute("tabindex", "0"); });
+    titreCarte(i);
+    atlas.setAttribute("aria-hidden", "false");
+    panneau.classList.add("carte");
+    majBoutons();
+    volImg.src = img.currentSrc || img.src;
+    vol.classList.add("visible");
+    if (calme) { poser(fin); vue = cible; svg.setAttribute("viewBox", vue.join(" ")); echelle(); lacher(i); return; }
+    var W = scene.clientWidth, H = scene.clientHeight;
+    vol.animate([
+      { left: "0px", top: "0px", width: W + "px", height: H + "px", borderRadius: "0px", "--fleche": 0 },
+      { left: fin.left + "px", top: fin.top + "px", width: fin.width + "px", height: fin.height + "px", borderRadius: "12px", "--fleche": 1 }
+    ], { duration: 1050, easing: "cubic-bezier(.65, 0, .25, 1)", fill: "none" });
+    poser(fin);
+    setTimeout(function () { cadrer(cible, 1100); }, 120);
+    setTimeout(function () { if (ouverte) lacher(i); }, 820);
+  }
+  function fermer() {
+    if (!ouverte) return;
+    ouverte = false;
+    majBoutons();
+    var i = actuelle, img = diapos[i].querySelector("img"), W = scene.clientWidth, H = scene.clientHeight;
+    volImg.src = img.currentSrc || img.src;
+    var depuis = placeVignette(ecran(i, vue));
+    function fini() { vol.classList.remove("visible"); atlas.setAttribute("aria-hidden", "true"); epingles.forEach(function (g) { g.setAttribute("tabindex", "-1"); }); }
+    if (calme) { panneau.classList.remove("carte"); fini(); return; }
+    var a = vol.animate([
+      { left: depuis.left + "px", top: depuis.top + "px", width: depuis.width + "px", height: depuis.height + "px", borderRadius: "12px" },
+      { left: "0px", top: "0px", width: W + "px", height: H + "px", borderRadius: "0px" }
+    ], { duration: 800, easing: "cubic-bezier(.65, 0, .25, 1)" });
+    poser({ left: 0, top: 0, width: W, height: H });
+    setTimeout(function () { panneau.classList.remove("carte"); }, 450);
+    a.onfinish = fini;
+  }
+  // D'une photo à l'autre, la carte vole jusqu'au lieu suivant et la vignette suit
+  function volerVers(avant, i) {
+    var img = diapos[i].querySelector("img");
+    charger(i);
+    titreCarte(i);
+    volImg.style.opacity = "0";
+    setTimeout(function () { volImg.src = img.currentSrc || img.dataset.src || img.src; volImg.style.opacity = "1"; }, calme ? 0 : 300);
+    lacher(i);
+    cadrer(cadrage(i), 1000, function (e) {
+      var a = ecran(avant < 0 ? i : avant, vue), b = ecran(i, vue);
+      poser(placeVignette([a[0] + (b[0] - a[0]) * e, a[1] + (b[1] - a[1]) * e]));
+    });
+  }
+  function majBoutons() {
+    situer.forEach(function (b) {
+      b.setAttribute("aria-pressed", ouverte ? "true" : "false");
+      b.querySelector(".mot").textContent = ouverte ? "Revenir à la photo" : "Situer";
+      b.querySelector("small").hidden = ouverte;
+    });
+  }
+  situer.forEach(function (b) { b.addEventListener("click", function () { if (ouverte) fermer(); else ouvrir(); }); });
+  vol.addEventListener("click", fermer);
+  window.addEventListener("resize", function () {
+    if (!ouverte) return;
+    vue = cadrage(actuelle); svg.setAttribute("viewBox", vue.join(" ")); echelle(); poser(placeVignette(ecran(actuelle, vue)));
+  });
+
+  mesurer();
+  if (document.fonts) document.fonts.ready.then(mesurer);
+})();
+</script>
+</body>
+</html>

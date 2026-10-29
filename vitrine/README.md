@@ -322,6 +322,35 @@ chaque bande a sa vignette. La page de chaque photo concernée le signale aussi,
 sites web figurent en pied de page de l'accueil (« Utilisées sur … ») et en fin de galerie et de série.
 N'y noter que des usages avérés.
 
+## Photos dans Wikipédia
+
+`wikipedia.csv` liste les photos versées sur Wikimedia Commons (sous licence libre
+CC BY-SA 4.0) qui illustrent un article de Wikipédia. Une ligne par article illustré :
+
+- `photo` : numéro Pexels de la photo ;
+- `wiki` : la Wikipédia, par le code de son adresse (`fr` pour fr.wikipedia.org, `eu`
+  pour le basque, `ast` pour l'asturien ; les autres codes connus sont dans `WIKIPEDIAS`,
+  en tête de `build.py`) ;
+- `article` et `partie` : le titre exact de l'article et de la partie où se trouve la
+  photo ; sans partie, la photo est l'image de l'infobox, en tête de l'article ;
+- `legende` : la légende écrite dans l'article, mot pour mot (vide s'il n'y en a pas) ;
+- `fichier` : le nom du fichier sur Commons, sans « File: » ;
+- `ajoutee_le` : la date de l'ajout dans l'article (AAAA-MM-JJ) ;
+- `lon`, `lat` : les coordonnées du lieu, pour la carte ;
+- `lieu_fr`, `lieu_en`, `lieu_zh` et `region_fr`, `region_en`, `region_zh` : le nom du
+  lieu et sa région dans les trois langues (sans traduction, le français).
+
+Sous les couleurs, la page des galeries les présente dans la salle de projection choisie
+par Karl le 29 octobre 2026 (maquettes : `docs/maquettes/panneau-wikipedia/`) : une photo à
+la fois, en grand, avec son cartel (l'article, sa langue, la partie, la légende), les plus
+récemment ajoutées d'abord. Arrivé au panneau, il se fixe à l'écran et les photos avancent
+avec le défilement ; une pilule à trois billes montre l'avancée et s'ouvre en sommaire ; le
+bouton « Situer » dévoile la carte, où la photo vole jusqu'à son épingle. La carte
+(`statique/carte.json`) couvre la France et le nord de l'Espagne ; pour un lieu plus
+lointain, la retracer plus large avec `docs/maquettes/panneau-wikipedia/carte.py` (la
+construction signale une photo hors de la carte). La page de chaque photo concernée cite
+l'article et mène au fichier sur Commons.
+
 ## Domaine personnel
 
 Le site est servi à l'adresse photos.karlforterre.fr : un enregistrement CNAME
@@ -349,6 +378,8 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
   galeries, elles alimentent `apercu.json`, lu par karlforterre.fr.
 - `donnees/fiches.json` : les fiches lues sur Pexels, tenues à jour automatiquement.
 - `questions.ini` : les questions fréquentes, en trois langues.
+- `usages.csv` et `wikipedia.csv` : les usages de vos photos signalés par Pexels, et vos
+  photos dans Wikipédia.
 - `donnees/parutions.json` : le journal des parutions Pinterest, tenu par la tâche de nuit
   (`build.py --enregistrer-parutions`). Un essai de `build.py` sans cette option ne le
   modifie pas.
@@ -363,7 +394,8 @@ de nuit le complète et l'enregistre, comme les fiches Pexels. Règles et régla
   chinois (le site ne le lit pas non plus).
 - `donnees/glossaire-mots-cles.csv` : la traduction des mots-clés Pexels, faite une fois
   pour toutes et à reprendre pour les suivants (le site ne le lit pas).
-- `statique/` : feuille de style, visionneuse et fondu de l'accueil (`site.js`), police
+- `statique/` : feuille de style, visionneuse, fondu de l'accueil et panneau Wikipédia
+  (`site.js`), fond de carte de ce panneau (`carte.json`), police
   Archivo, logo KF’ (`logo.svg`, vectoriel ; `logo-kf.webp`, original texturé) et
   icônes du site (`favicon.svg`, `icone-180.png` pour l'écran d'accueil des
   téléphones).
