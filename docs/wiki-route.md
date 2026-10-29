@@ -150,8 +150,8 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
 
 ## Où en est la route (29 octobre 2026)
 
-Sur les 21 fichiers que Karl a versés sur Commons, 16 illustrent un article (dont un par
-l'image de Wikidata) et 5 attendent leur tour. Quatorze des seize sont aussi sur Pexels,
+Sur les 22 fichiers que Karl a versés sur Commons, 17 illustrent un article (dont un par
+l'image de Wikidata) et 5 attendent leur tour. Quinze des dix-sept sont aussi sur Pexels,
 donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Deux ne sont que sur
 Commons : la statue de la Justice de l'hôtel de ville de Bilbao, et la vue de face de
 l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
@@ -159,7 +159,7 @@ l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
 Pour Villandry, Karl a ajouté le 29 octobre à l'article anglais une partie « Gardens »
 qui manquait, écrite d'après les pages officielles du château (restauration de Joachim
 Carvallo, jardin du soleil de 2008, entretien biologique depuis 2009), avec deux photos
-versées pour l'occasion. La photo des parterres vus d'en haut, prévue pour « History »,
+versées pour l'occasion ; le parterre de l'Amour passionné a rejoint la galerie de l'article. La photo des parterres vus d'en haut, prévue pour « History »,
 reste en attente. Les nouvelles photos de Villandry sont déjà sur Pexels : leur page
 Commons porte `{{Permission pending}}`, et Karl ajoute leurs noms à son autorisation
 envoyée par courriel.
@@ -178,6 +178,7 @@ envoyée par courriel.
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Villandry, parterre de l'Amour passionné | anglais | Château de Villandry | Gallery | 29 octobre 2026 |
 | Villandry, potager décoratif | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
 | Villandry, miroir d'eau du jardin d'eau | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
 | Xonrupt-Longemer, chapelle Saint-Florent | français | Lac de Longemer | Histoire religieuse | 29 octobre 2026 |
