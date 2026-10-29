@@ -325,7 +325,8 @@ N'y noter que des usages avérés.
 ## Photos dans Wikipédia
 
 `wikipedia.csv` liste les photos versées sur Wikimedia Commons (sous licence libre
-CC BY-SA 4.0) qui illustrent un article de Wikipédia. Une ligne par article illustré :
+CC BY-SA 4.0) qui illustrent un article de Wikipédia ; la façon de les verser dans un
+article est décrite dans `docs/wiki-route.md`. Une ligne par article illustré :
 
 - `photo` : numéro Pexels de la photo ;
 - `wiki` : la Wikipédia, par le code de son adresse (`fr` pour fr.wikipedia.org, `eu`
