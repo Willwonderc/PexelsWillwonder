@@ -237,6 +237,13 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   ligne sur la page de chaque photo ; les sites web
   aussi en pied de page de l'accueil et en fin de galerie et de série. Noms des sites en texte, sans
   logo ni chiffre d'audience.
+- Photos dans Wikipédia : `vitrine/wikipedia.csv`, une ligne par article illustré (Wikipédia,
+  article, partie, légende mot pour mot, fichier Commons, date, lon et lat, lieu et région en
+  trois langues). Sous les couleurs de la page des galeries, le panneau « Mes photos dans
+  Wikipédia » : la salle de projection choisie par Karl le 29 octobre 2026 (maquettes et choix
+  dans `docs/maquettes/panneau-wikipedia/`), fixée à l'écran, qui avance au défilement ;
+  « Situer » ouvre la carte `vitrine/statique/carte.json`, tracée par `carte.py` de ces
+  maquettes. Ligne sur la page de chaque photo concernée.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
   `vitrine/statique/logo-kf.webp` (original texturé).
 - Captures d'écran en session : Chromium ne charge pas les images de

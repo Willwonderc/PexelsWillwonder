@@ -974,3 +974,263 @@ html.v-ouverte { overflow: hidden; }
   .index-relais > .sortant { visibility: hidden; }
   .index-fond img { transform: none; }
 }
+
+/* Page des galeries : mes photos dans Wikipédia. La salle de projection choisie par Karl
+   (maquette : docs/maquettes/panneau-wikipedia/retenu.html). Arrivé au panneau, il se fixe
+   à l'écran et les photos avancent avec le défilement ; une pilule à trois billes montre
+   l'avancée et s'ouvre en sommaire ; « Situer » dévoile la carte. Sans JavaScript (pas de
+   classe wp-js sur la racine), les cartels se suivent, chacun avec sa vignette. */
+
+.wp {
+  --trait-fort: #d4d4d6;
+  --surface: #f5f5f3;
+  --mer: #f3f4f4;
+  --terre: #dcdcd6;
+  --terre-voisine: #ececea;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  margin-top: clamp(56px, 8vw, 104px);
+}
+@media (prefers-color-scheme: dark) {
+  .wp { --trait-fort: #3a3a3d; --surface: #171717; --mer: #0b0b0b; --terre: #2c2c2c; --terre-voisine: #191919; }
+}
+/* :where() garde ces réglages de base au plus bas : les classes du panneau les précisent */
+:where(.wp) :where(h2, h3) { margin: 0; font-weight: 560; font-stretch: 108%; letter-spacing: -.012em; line-height: 1.08; text-wrap: balance; }
+:where(.wp) button { font: inherit; color: inherit; }
+.wp button:focus-visible, .wp-panneau:focus-visible { outline: 2px solid var(--encre); outline-offset: 3px; }
+.wp .bouton {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; border: 0; cursor: pointer;
+  transition: opacity .2s ease, transform .2s var(--ease);
+}
+.wp .bouton:active { transform: scale(.97); }
+
+.wp-tete { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 14px 40px; margin-bottom: clamp(18px, 2.4vw, 28px); }
+.wp-tete .surtitre { margin-bottom: 14px; }
+.wp-tete h2 { font-size: clamp(30px, 3.8vw, 52px); }
+.wp-chapeau { margin: 12px 0 0; font-size: clamp(16px, 1.5vw, 18px); color: var(--doux); max-width: 40rem; }
+.wp-chiffres { display: flex; gap: 26px; margin: 0; padding: 0; list-style: none; }
+.wp-chiffres li { display: grid; }
+.wp-chiffres b { font-size: clamp(32px, 3.4vw, 48px); font-weight: 220; font-stretch: 62%; line-height: 1; }
+.wp-chiffres span { font-size: 12.5px; color: var(--doux); }
+@media (max-width: 700px) { .wp-tete { grid-template-columns: 1fr; } }
+
+/* La piste donne au panneau sa hauteur de défilement : quelques écrans, jamais plus, même
+   avec vingt photos (site.js la calcule) */
+.wp-piste { position: relative; }
+.wp-panneau {
+  --c: #888; --haut: max(10px, calc((100svh - 800px) / 2));
+  position: sticky; top: var(--haut); height: min(calc(100svh - 2 * var(--haut)), 800px);
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(340px, 1fr);
+  border: 1px solid var(--trait); background: var(--fond); outline-offset: 4px; overflow: hidden;
+}
+.wp-scene { position: relative; overflow: hidden; background: #0c0c0c; touch-action: pan-y; }
+.wp-diapo { position: absolute; inset: 0; visibility: hidden; will-change: clip-path, transform; }
+.wp-diapo.vue { visibility: visible; }
+.wp-diapo img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; transform-origin: 50% 60%; }
+.wp-diapo img.vit { animation: wp-zoom 14s ease-out forwards; }
+@keyframes wp-zoom { from { transform: scale(1.001); } to { transform: scale(1.08); } }
+.wp-scene::after { content: ""; position: absolute; inset: auto 0 0 0; height: 36%; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgba(0, 0, 0, .5), transparent); transition: opacity .5s ease; }
+.wp-lieu {
+  position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(76px, 8vw, 92px); right: 70px; color: #fff; margin: 0;
+  font-size: clamp(30px, 4.4vw, 64px); font-weight: 520; font-stretch: 112%; letter-spacing: -.02em; line-height: 1; text-shadow: 0 2px 24px rgba(0, 0, 0, .25);
+}
+.wp-lieu span { display: inline-block; animation: wp-monte .7s var(--ease) both; }
+.wp-lieu small { display: block; margin-top: 8px; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; opacity: .85; }
+@keyframes wp-monte { from { opacity: 0; transform: translateY(14px); } }
+.wp-commandes { position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(18px, 2.4vw, 26px); display: flex; gap: 8px; transition: opacity .4s ease; }
+.wp-rond {
+  width: 44px; height: 44px; flex: none; border-radius: 50%; border: 0; padding: 0;
+  background: rgba(255, 255, 255, .9); color: #121212; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: inline-grid; place-items: center; cursor: pointer; transition: transform .2s var(--ease), opacity .3s ease;
+}
+.wp-rond:hover { transform: scale(1.06); }
+.wp-rond svg { width: 18px; height: 18px; }
+.wp-rond:disabled { opacity: .35; cursor: default; transform: none; }
+.wp-indice {
+  position: absolute; z-index: 3; right: 64px; bottom: clamp(26px, 3vw, 34px); margin: 0; display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px; border-radius: 999px; font-size: 12px; font-weight: 600; font-stretch: 118%; letter-spacing: .12em; text-transform: uppercase; color: #fff;
+  background: rgba(14, 14, 14, .42); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); pointer-events: none; transition: opacity .5s ease;
+}
+.wp-indice i { font-style: normal; display: inline-block; animation: wp-flotte 2s ease-in-out infinite; }
+@keyframes wp-flotte { 50% { transform: translateY(4px); } }
+.wp-panneau.parti .wp-indice { opacity: 0; }
+
+/* La pilule : trois billes (la précédente, la photo affichée, la suivante) qui glissent avec le défilement */
+.wp-pilule {
+  position: absolute; z-index: 6; right: 14px; top: 50%; width: 22px; height: 52px; margin-top: -26px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(14, 14, 14, .4); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); overflow: hidden;
+  transition: transform .3s var(--ease), background-color .3s ease, opacity .3s ease;
+}
+.wp-pilule:hover, .wp-pilule[aria-expanded="true"] { transform: scale(1.12); background: rgba(14, 14, 14, .6); }
+.wp .wp-pilule:focus-visible { outline-color: #fff; }
+.wp-billes { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.wp-billes i { position: absolute; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; }
+/* Le sommaire : la pilule s'ouvre en panneau sur la photo, avec toutes les photos versées dans Wikipédia */
+.wp-index {
+  position: absolute; inset: 0; z-index: 8; display: grid; grid-template-rows: auto 1fr; color: var(--encre);
+  background: color-mix(in srgb, var(--fond) 90%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1);
+  clip-path: inset(var(--t, 50%) var(--d, 0) var(--b, 50%) var(--g, 100%) round 999px); visibility: hidden;
+  transition: clip-path .55s cubic-bezier(.7, 0, .2, 1), visibility 0s .55s;
+}
+.wp-index.ouvert { clip-path: inset(0 0 0 0 round 0); visibility: visible; transition: clip-path .6s cubic-bezier(.7, 0, .2, 1); }
+.wp-index-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 10px clamp(16px, 2vw, 24px); }
+.wp-index-tete p { margin: 0; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+.wp-index-tete p b { color: var(--encre); }
+.wp-fermer { width: 38px; height: 38px; flex: none; padding: 0; border-radius: 50%; border: 1px solid var(--trait-fort); background: var(--fond); cursor: pointer; display: grid; place-items: center; }
+.wp-fermer svg { width: 16px; height: 16px; }
+.wp-tuiles {
+  list-style: none; margin: 0; padding: 4px clamp(16px, 2vw, 24px) 20px; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 16px; align-content: start;
+}
+.wp-tuiles button {
+  width: 100%; display: grid; gap: 7px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left;
+  opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .5s var(--ease);
+}
+.wp-index.ouvert .wp-tuiles button { opacity: 1; transform: none; transition-delay: calc(.18s + var(--k) * 35ms); }
+.wp-tuiles .vignette { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; background: var(--surface); }
+.wp-tuiles img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.wp-tuiles button:hover img { transform: scale(1.06); }
+.wp-tuiles .vignette b {
+  position: absolute; left: 8px; top: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: #fff;
+  background: rgba(14, 14, 14, .5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.wp-tuiles button[aria-current="true"] .vignette { box-shadow: 0 0 0 2px var(--fond), 0 0 0 4px var(--encre); }
+.wp-tuiles .nom { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.25; }
+.wp-tuiles .nom small { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: var(--doux); }
+.wp-tuiles .art { font-size: 12.5px; color: var(--doux); line-height: 1.3; margin-top: -3px; }
+
+/* Le cartel : un ruban de fiches qui défile avec la page */
+.wp-cartels { position: relative; overflow: hidden; border-left: 1px solid var(--trait); min-width: 0; background: color-mix(in srgb, var(--c) 13%, var(--fond)); transition: background-color 1s ease; }
+.wp-ruban { height: 100%; will-change: transform; }
+.wp-cartel { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 22px; padding: clamp(22px, 3vw, 40px); min-width: 0; }
+.wp-vignette { display: none; }
+.wp-haut { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.wp-compteur { font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
+.wp-compteur b { font-size: 46px; font-weight: 210; font-stretch: 62%; color: var(--encre); margin-right: 3px; line-height: 1; }
+.wp-puce {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; width: fit-content; max-width: 100%;
+  padding: 4px 12px 4px 5px; border: 1px solid var(--trait-fort); border-radius: 999px; font-size: 13px; line-height: 1.2;
+}
+.wp-puce b {
+  display: inline-grid; place-items: center; min-width: 30px; height: 20px; padding: 0 7px; border-radius: 999px; background: var(--encre); color: var(--fond);
+  font-size: 10.5px; font-weight: 700; font-stretch: 118%; letter-spacing: .08em;
+}
+.wp-corps { align-self: center; display: grid; gap: 12px; min-width: 0; }
+.wp-corps .surtitre { margin: 0; }
+.wp-article { font-size: clamp(28px, 2.9vw, 46px); overflow-wrap: anywhere; }
+.wp-partie { margin: 0; font-size: 14px; color: var(--doux); }
+.wp-legende { margin: 8px 0 0; font-size: 19px; line-height: 1.42; font-stretch: 96%; }
+.wp-legende::before { content: "«\00a0"; color: var(--doux); }
+.wp-legende::after { content: "\00a0»"; color: var(--doux); }
+:root:lang(en) .wp-legende::before, :root:lang(zh) .wp-legende::before { content: "“"; }
+:root:lang(en) .wp-legende::after, :root:lang(zh) .wp-legende::after { content: "”"; }
+.wp-sans-legende { margin: 8px 0 0; color: var(--doux); }
+.wp-photo { margin: 4px 0 0; font-size: 14px; color: var(--doux); }
+.wp-bas { display: grid; gap: 14px; }
+.wp-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.wp-licence { margin: 0; font-size: 12.5px; color: var(--doux); }
+/* Le bouton de localisation : une épingle et un mot, le nom du lieu en blanc sur noir à droite, séparé par une courbe */
+.wp-situer {
+  display: inline-flex; align-items: stretch; padding: 0; border-radius: 999px; border: 1px solid var(--trait-fort); overflow: hidden;
+  background: color-mix(in srgb, var(--fond) 70%, transparent); cursor: pointer; font-size: 14.5px; font-weight: 600; font-stretch: 108%;
+  transition: border-color .2s ease, background-color .2s ease, transform .2s var(--ease);
+}
+.wp-situer:hover { border-color: var(--encre); }
+.wp-situer:active { transform: scale(.97); }
+.wp-situer .gauche { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 8px; }
+.wp-situer .ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--encre); color: var(--fond); transition: transform .4s var(--ease); }
+.wp-situer .ico svg { width: 16px; height: 16px; }
+.wp-situer:hover .ico { transform: translateY(-2px); }
+.wp-situer small {
+  display: inline-flex; align-items: center; margin-left: -4px; padding: 0 18px 0 20px; font-size: 13.5px; font-weight: 600; letter-spacing: .01em;
+  background: var(--encre); color: var(--fond); border-radius: 22px 0 0 22px / 50% 0 0 50%; transition: padding .3s var(--ease);
+}
+.wp-situer small[hidden] { display: none; }
+.wp-situer:hover small { padding-left: 24px; }
+.wp-situer[aria-pressed="true"] { background: var(--encre); color: var(--fond); border-color: var(--encre); }
+.wp-situer[aria-pressed="true"] .ico { background: var(--fond); color: var(--encre); }
+.wp-situer[aria-busy="true"] .ico { animation: wp-flotte 1s ease-in-out infinite; }
+
+/* La carte de l'atlas, qui se dévoile sur la photo */
+.wp-atlas { position: absolute; inset: 0; z-index: 4; background: var(--mer); opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
+.wp-panneau.carte .wp-atlas { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+.wp-panneau.carte .wp-lieu, .wp-panneau.carte .wp-commandes, .wp-panneau.carte .wp-indice, .wp-panneau.carte .wp-scene::after { opacity: 0; pointer-events: none; }
+.wp-panneau.carte .wp-lieu { visibility: hidden; }
+.wp-atlas svg { display: block; width: 100%; height: 100%; }
+.wp-atlas .voisin { fill: var(--terre-voisine); stroke: var(--mer); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.wp-atlas .principal { fill: var(--terre); stroke: var(--mer); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.wp-atlas .etiquette { fill: var(--doux); font-size: 11px; font-weight: 600; font-stretch: 125%; letter-spacing: .32em; text-transform: uppercase; }
+.wp-atlas .etiquette.mer { font-weight: 500; font-style: italic; letter-spacing: .26em; opacity: .8; }
+:lang(zh) .wp-atlas .etiquette { font-size: 12px; letter-spacing: .2em; font-style: normal; }
+.wp-epingle { cursor: pointer; outline: none; }
+.wp-epingle .halo { fill: var(--encre); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.wp-epingle .anneau { fill: none; stroke: var(--encre); stroke-width: 2; opacity: 0; }
+.wp-epingle:focus-visible { outline: none; }
+.wp-epingle:focus-visible .anneau { opacity: 1; }
+.wp-epingle .point { fill: var(--fond); stroke: var(--encre); stroke-width: 2; transition: transform .3s var(--ease), fill .3s; transform-box: fill-box; transform-origin: center; }
+.wp-epingle text { font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; fill: var(--encre); transition: fill .3s; }
+.wp-epingle:hover .point { transform: scale(1.15); }
+.wp-epingle.active .point { fill: var(--encre); transform: scale(1.25); }
+.wp-epingle.active text { fill: var(--fond); }
+.wp-epingle.active .halo { animation: wp-pouls 1.8s ease-out .5s infinite; }
+.wp-epingle.tombe .chute { animation: wp-chute .75s cubic-bezier(.3, 0, .3, 1) both; }
+@keyframes wp-chute { 0% { transform: translateY(-70px); opacity: 0; } 55% { transform: translateY(0); opacity: 1; } 72% { transform: translateY(-11px); } 86% { transform: translateY(0); } 93% { transform: translateY(-3px); } 100% { transform: none; } }
+@keyframes wp-pouls { from { opacity: .4; transform: scale(.7); } to { opacity: 0; transform: scale(2.6); } }
+.wp-retour {
+  position: absolute; z-index: 7; left: 16px; top: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px;
+  border: 1px solid var(--trait-fort); background: color-mix(in srgb, var(--fond) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  cursor: pointer; font-size: 14px; font-weight: 600;
+}
+.wp-retour svg { width: 16px; height: 16px; }
+.wp-retour:hover { border-color: var(--encre); }
+.wp-titre-carte { position: absolute; z-index: 5; left: 18px; bottom: 16px; margin: 0; font-size: 13px; color: var(--doux); pointer-events: none; }
+.wp-titre-carte b { display: block; color: var(--encre); font-size: clamp(22px, 2.4vw, 32px); font-weight: 560; font-stretch: 110%; letter-spacing: -.015em; }
+/* La photo devenue vignette, posée au-dessus de son épingle */
+.wp-vol {
+  position: absolute; z-index: 5; left: 0; top: 0; width: 0; height: 0; overflow: hidden; display: none; cursor: pointer; padding: 0; border: 0;
+  border-radius: 12px; box-shadow: 0 0 0 3px var(--fond), 0 16px 40px rgba(0, 0, 0, .28); background: #0c0c0c;
+}
+.wp-vol.visible { display: block; }
+.wp-vol img { width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease; }
+.wp-vol::after {
+  content: ""; position: absolute; left: 50%; bottom: -9px; width: 14px; height: 14px; margin-left: -7px; background: var(--fond);
+  transform: rotate(45deg); border-radius: 2px; z-index: -1; opacity: var(--fleche, 1);
+}
+
+@media (max-width: 900px) {
+  /* Sur téléphone, le schéma du fil : la photo fixée en haut, le texte qui défile dessous */
+  .wp-panneau { --haut: 0px; height: 100svh; grid-template-columns: 1fr; grid-template-rows: 46% 1fr; border-left: 0; border-right: 0; margin: 0 calc(-1 * var(--marge)); }
+  .wp-cartels { border-left: 0; border-top: 1px solid var(--trait); }
+  .wp-cartel { gap: 12px; padding: 18px 18px 20px; }
+  .wp-compteur b { font-size: 34px; }
+  .wp-corps { gap: 8px; align-self: start; }
+  .wp-article { font-size: 26px; }
+  .wp-legende { font-size: 16.5px; margin-top: 2px; }
+  .wp-photo { display: none; }
+  .wp-lieu { font-size: 30px; bottom: 74px; }
+  .wp-lieu small { margin-top: 6px; }
+  .wp-indice { right: 56px; bottom: 20px; }
+  .wp-pilule { right: 10px; }
+  .wp-tuiles { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 10px; }
+  .wp-tuiles .art { display: none; }
+  .wp-index-tete { padding: 10px 10px 8px 14px; }
+  .wp .bouton { padding: 10px 17px; font-size: 14.5px; }
+  .wp-situer .gauche { padding: 5px 12px 5px 6px; }
+  .wp-actions { gap: 8px; }
+  .wp-retour { left: 10px; top: 10px; width: 40px; height: 40px; padding: 0; justify-content: center; }
+  .wp-retour span, .wp-titre-carte { display: none; }
+}
+@media (max-width: 380px) { .wp-situer small { display: none; } }
+
+/* Sans JavaScript : les cartels l'un après l'autre, avec leur vignette, sans la scène ni la carte */
+html:not(.wp-js) .wp-panneau { position: static; height: auto; display: block; margin: 0; border: 0; overflow: visible; background: none; }
+html:not(.wp-js) .wp-scene, html:not(.wp-js) .wp-situer { display: none; }
+html:not(.wp-js) .wp-cartels { border: 0; background: none; overflow: visible; }
+html:not(.wp-js) .wp-ruban { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+html:not(.wp-js) .wp-cartel { height: auto; grid-template-rows: auto; align-content: start; border: 1px solid var(--trait); background: color-mix(in srgb, var(--c) 13%, var(--fond)); }
+html:not(.wp-js) .wp-vignette { display: block; margin: calc(-1 * clamp(18px, 3vw, 40px)) calc(-1 * clamp(18px, 3vw, 40px)) 0; }
+html:not(.wp-js) .wp-vignette img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+html:not(.wp-js) .wp-photo { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wp *, .wp *::before, .wp *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

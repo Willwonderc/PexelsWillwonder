@@ -124,3 +124,14 @@ le défilement du fil et la carte de l'atlas.
 python3 docs/maquettes/panneau-wikipedia/assembler.py "$S/retenu.html" retenu.html
 PW=$(npm root -g)/playwright node docs/maquettes/panneau-wikipedia/captures-retenu.js "$S/retenu.html" "$S/photos" "$S/captures"
 ```
+
+## Sur le site (29 octobre 2026)
+
+Karl a validé cette version (« C'est parfait il faut l'intégrer au site maintenant ») ; elle
+est installée sur le site photo, en français, en anglais et en chinois, sous les couleurs de
+la page des galeries. Les données viennent de `vitrine/wikipedia.csv` (mode d'emploi :
+`vitrine/README.md`, « Photos dans Wikipédia ») ; `build.py` écrit le panneau et la ligne
+de chaque page de photo, `statique/site.js` et `statique/style.css` reprennent le script et
+les styles de `retenu.html`, et la carte est `vitrine/statique/carte.json`, tirée de
+`carte.json` d'ici, chargée seulement à l'approche du panneau. Sans JavaScript, les cartels
+se suivent, chacun avec sa vignette.
