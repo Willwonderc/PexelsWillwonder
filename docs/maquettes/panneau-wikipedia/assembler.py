@@ -1,14 +1,15 @@
 """Assemble le fichier des cinq propositions : police, logo, données des photos, carte.
 
-Usage : python3 docs/maquettes/panneau-wikipedia/assembler.py <fichier.html à écrire>
-(à écrire hors du dépôt, dans le dossier de travail de la session).
+Usage : python3 docs/maquettes/panneau-wikipedia/assembler.py <fichier.html à écrire> [modèle]
+(à écrire hors du dépôt, dans le dossier de travail de la session). Le modèle vaut
+modele.html (les cinq propositions) ; retenu.html donne la version choisie par Karl.
 """
 import base64, json, sys
 from pathlib import Path
 ici = Path(__file__).resolve().parent
 depot = ici.parents[2]
 statique = depot / "vitrine" / "statique"
-modele = (ici / "modele.html").read_text(encoding="utf-8")
+modele = (ici / (sys.argv[2] if len(sys.argv) > 2 else "modele.html")).read_text(encoding="utf-8")
 police = base64.b64encode((statique / "archivo.woff2").read_bytes()).decode()
 logo = (statique / "logo.svg").read_text(encoding="utf-8").strip()
 carte = json.loads((ici / "carte.json").read_text(encoding="utf-8"))
