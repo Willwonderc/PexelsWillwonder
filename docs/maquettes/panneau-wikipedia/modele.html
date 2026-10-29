@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinq panneaux Wikipédia</title>
+<style>
+@font-face {
+  font-family: "Archivo";
+  src: url(data:font/woff2;base64,/*POLICE*/) format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+/* Les couleurs, la police et les formes du site photo */
+:root {
+  --fond: #ffffff;
+  --encre: #121212;
+  --doux: #6b6b70;
+  --trait: #e6e6e6;
+  --trait-fort: #d4d4d6;
+  --surface: #f5f5f3;
+  --bouton: #121212;
+  --bouton-texte: #ffffff;
+  --terre: #e3e3de;
+  --terre-voisine: #efefeb;
+  --marge: clamp(16px, 3.2vw, 44px);
+  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #101010;
+    --encre: #efefef;
+    --doux: #9c9ca3;
+    --trait: #2a2a2a;
+    --trait-fort: #3a3a3d;
+    --surface: #171717;
+    --bouton: #efefef;
+    --bouton-texte: #101010;
+    --terre: #232323;
+    --terre-voisine: #1a1a1a;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; background: var(--fond); color: var(--encre); font-family: var(--police); font-size: 16px; line-height: 1.55; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--encre); outline-offset: 3px; }
+h1, h2, h3, h4 { margin: 0; font-weight: 560; font-stretch: 108%; letter-spacing: -.012em; line-height: 1.08; text-wrap: balance; }
+
+.surtitre { margin: 0 0 14px; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+.bouton {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bouton); color: var(--bouton-texte);
+  text-decoration: none; font-weight: 600; font-stretch: 108%; font-size: 15px;
+  padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer;
+  transition: opacity .2s ease, transform .2s var(--ease);
+}
+.bouton:hover { opacity: .86; }
+.bouton:active { transform: scale(.97); }
+.bouton-contour { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+.puce {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  justify-self: start; align-self: start; width: fit-content; max-width: 100%;
+  padding: 4px 12px 4px 5px; border: 1px solid var(--trait-fort); border-radius: 999px;
+  font-size: 13px; line-height: 1.2;
+}
+/* Sur les photos : une pastille sombre et floutée, lisible même sur un ciel clair */
+.p4-recto .puce, .p5-voile .puce, .p4-recto .p4-n { background: rgba(14,14,14,.42); border-color: rgba(255,255,255,.26); color: #fff;
+  -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); }
+.p4-recto .puce b, .p5-voile .puce b { background: #fff; color: #121212; }
+.puce b {
+  display: inline-grid; place-items: center; min-width: 30px; height: 20px; padding: 0 7px;
+  border-radius: 999px; background: var(--encre); color: var(--fond);
+  font-size: 10.5px; font-weight: 700; font-stretch: 118%; letter-spacing: .08em;
+}
+.rond {
+  width: 44px; height: 44px; flex: none; border-radius: 50%;
+  border: 1px solid var(--trait-fort); background: var(--fond); color: var(--encre);
+  display: inline-grid; place-items: center; cursor: pointer;
+  transition: transform .2s var(--ease), background-color .2s ease;
+}
+.rond:hover { transform: scale(1.06); }
+.rond svg { width: 18px; height: 18px; }
+.legende-wp { font-size: 19px; line-height: 1.42; font-stretch: 96%; margin: 0; }
+.legende-wp::before { content: "«\00a0"; color: var(--doux); }
+.legende-wp::after { content: "\00a0»"; color: var(--doux); }
+.discret { color: var(--doux); }
+
+/* Page de présentation */
+.entete { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--marge); }
+.marque { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.marque svg { width: 42px; height: auto; }
+.marque span { font-size: 15px; font-weight: 600; font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; }
+.entete .discret { font-size: 13px; }
+main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
+.intro { padding: clamp(28px, 6vw, 80px) 0 clamp(26px, 4vw, 44px); max-width: 62rem; }
+.intro h1 { font-size: clamp(34px, 5.4vw, 72px); }
+.intro .accroche { margin: 18px 0 0; font-size: clamp(16px, 1.7vw, 20px); color: var(--doux); max-width: 46rem; }
+.chiffres-intro { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 30px 0 0; padding: 0; list-style: none; }
+.chiffres-intro li { display: grid; }
+.chiffres-intro b { font-size: clamp(34px, 4vw, 54px); font-weight: 230; font-stretch: 62%; line-height: 1; }
+.chiffres-intro span { font-size: 13px; color: var(--doux); }
+
+.sommaire { position: sticky; top: 0; z-index: 20; margin: 0 calc(-1 * var(--marge)); padding: 12px var(--marge);
+  background: color-mix(in srgb, var(--fond) 86%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--trait); }
+.sommaire ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.sommaire a { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border: 1px solid var(--trait-fort);
+  border-radius: 999px; text-decoration: none; font-size: 14px; white-space: nowrap; transition: border-color .2s; }
+.sommaire a b { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--surface); font-size: 12px; font-weight: 650; }
+.sommaire a:hover, .sommaire a[aria-current="true"] { border-color: var(--encre); }
+.sommaire a[aria-current="true"] b { background: var(--encre); color: var(--fond); }
+
+.socle { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 1px; margin: 34px 0 0; background: var(--trait); border: 1px solid var(--trait); }
+.socle > div { background: var(--fond); padding: 22px 22px 24px; }
+.socle h3 { font-size: 17px; margin-bottom: 8px; }
+.socle p { margin: 0; font-size: 15px; color: var(--doux); }
+
+.proposition { padding-top: clamp(64px, 9vw, 120px); scroll-margin-top: 60px; }
+.prop-tete { display: grid; grid-template-columns: auto 1fr; gap: 6px clamp(18px, 3vw, 40px); align-items: end; margin-bottom: clamp(22px, 3vw, 34px); }
+.prop-num { font-size: clamp(76px, 11vw, 156px); line-height: .78; font-weight: 180; font-stretch: 62%; letter-spacing: -.03em; color: var(--encre); }
+.prop-tete h2 { font-size: clamp(28px, 3.6vw, 50px); }
+.prop-tete .pitch { margin: 10px 0 0; font-size: clamp(16px, 1.6vw, 19px); color: var(--doux); max-width: 44rem; }
+.prop-tete .surtitre { margin-bottom: 10px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 26px 40px; margin-top: clamp(24px, 3vw, 36px); padding-top: 24px; border-top: 1px solid var(--trait); }
+.notes h4 { font-size: 13px; font-weight: 650; font-stretch: 118%; letter-spacing: .1em; text-transform: uppercase; color: var(--doux); margin-bottom: 8px; }
+.notes p { margin: 0; font-size: 15.5px; }
+.essai { font-size: 13px; color: var(--doux); margin: 14px 0 0; line-height: 1.9; }
+.essai kbd { display: inline-block; font: inherit; font-size: 12px; line-height: 1.5; border: 1px solid var(--trait-fort); border-bottom-width: 2px; border-radius: 6px; padding: 0 6px; white-space: nowrap; }
+@media (max-width: 700px) {
+  .prop-tete { grid-template-columns: 1fr; gap: 14px; }
+  .prop-num { font-size: 68px; }
+}
+
+.avis { margin-top: clamp(70px, 9vw, 120px); padding: clamp(26px, 4vw, 48px); background: var(--surface); border: 1px solid var(--trait); }
+.avis h2 { font-size: clamp(26px, 3vw, 40px); margin-bottom: 14px; }
+.avis p { margin: 0 0 12px; font-size: 17px; max-width: 54rem; }
+.pied { margin-top: 40px; font-size: 13px; color: var(--doux); }
+
+/* ---------- 1. La salle de projection ---------- */
+.p1 { --c: #888; --duree: 8s; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(330px, 1fr); border: 1px solid var(--trait); background: var(--fond); outline-offset: 4px; }
+.p1-scene { position: relative; height: clamp(460px, 70vh, 740px); overflow: hidden; background: #0c0c0c; touch-action: pan-y; cursor: grab; }
+.p1-scene:active { cursor: grabbing; }
+.p1-diapo { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
+.p1-diapo.active { opacity: 1; z-index: 1; }
+.p1-diapo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.001); user-select: none; -webkit-user-drag: none; }
+.p1-diapo.active img { animation: p1-zoom 10s ease-out forwards; }
+@keyframes p1-zoom { to { transform: scale(1.07); } }
+.p1-scene::after { content: ""; position: absolute; inset: auto 0 0 0; height: 34%; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,.45), transparent); }
+.p1-lieu { position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(74px, 8vw, 90px); color: #fff; margin: 0; font-size: clamp(30px, 4.4vw, 64px); font-weight: 520; font-stretch: 112%; letter-spacing: -.02em; line-height: 1; text-shadow: 0 2px 24px rgba(0,0,0,.25); }
+.p1-commandes { position: absolute; z-index: 3; left: clamp(18px, 2.4vw, 30px); bottom: clamp(18px, 2.4vw, 26px); display: flex; gap: 8px; }
+.p1-commandes .rond { background: rgba(255,255,255,.9); color: #121212; border: 0; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.p1-cartel { display: grid; grid-template-rows: auto 1fr auto; gap: 26px; padding: clamp(22px, 3vw, 42px); border-left: 1px solid var(--trait);
+  background: color-mix(in srgb, var(--c) 13%, var(--fond)); transition: background-color 1s ease; min-width: 0; }
+.p1-haut { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.p1-compteur { font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
+.p1-compteur b { font-size: 46px; font-weight: 210; font-stretch: 62%; color: var(--encre); margin-right: 3px; line-height: 1; }
+.p1-corps { align-self: center; display: grid; gap: 12px; min-width: 0; }
+.p1-corps > * { animation: p1-entree .7s var(--ease) both; }
+.p1-corps > :nth-child(2) { animation-delay: .06s; }
+.p1-corps > :nth-child(3) { animation-delay: .12s; }
+.p1-corps > :nth-child(4) { animation-delay: .18s; }
+.p1-corps > :nth-child(5) { animation-delay: .24s; }
+@keyframes p1-entree { from { opacity: 0; transform: translateY(16px); } }
+.p1-corps .surtitre { margin: 0; }
+.p1-article { font-size: clamp(30px, 3.1vw, 48px); overflow-wrap: anywhere; }
+.p1-partie { margin: 0; font-size: 14px; color: var(--doux); }
+.p1-corps .legende-wp { margin-top: 10px; }
+.p1-photo { margin: 6px 0 0; font-size: 14px; color: var(--doux); }
+.p1-bas { display: grid; gap: 14px; }
+.p1-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.p1-licence { margin: 0; font-size: 12.5px; color: var(--doux); }
+.p1-barres { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 6px; padding: 12px clamp(14px, 2vw, 24px) 14px; border-top: 1px solid var(--trait); }
+.p1-barre { position: relative; display: grid; gap: 6px; padding: 8px 0 0; border: 0; background: none; cursor: pointer; text-align: left; min-width: 0; }
+.p1-barre::before, .p1-barre i { content: ""; position: absolute; top: 0; left: 0; height: 3px; border-radius: 3px; }
+.p1-barre::before { right: 0; background: var(--trait-fort); }
+.p1-barre i { width: 0; background: var(--encre); }
+.p1-barre.faite i { width: 100%; }
+.p1-barre.encours i { animation: p1-remplir var(--duree) linear forwards; }
+.p1.pause .p1-barre.encours i { animation-play-state: paused; }
+.p1-barre.fixe i { width: 100%; animation: none; }
+@keyframes p1-remplir { from { width: 0; } to { width: 100%; } }
+.p1-barre span { font-size: 12.5px; color: var(--doux); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .3s; }
+.p1-barre.encours span, .p1-barre.fixe span { color: var(--encre); }
+@media (max-width: 900px) {
+  .p1 { grid-template-columns: 1fr; }
+  .p1-scene { height: auto; aspect-ratio: 4 / 5; }
+  .p1-cartel { border-left: 0; border-top: 1px solid var(--trait); gap: 20px; }
+  .p1-barres { grid-row: 2; padding-top: 12px; }
+  .p1-barre span { display: none; }
+}
+
+/* ---------- 2. L'atlas ---------- */
+.p2 { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(320px, 1fr); border: 1px solid var(--trait); }
+.p2-carte { position: relative; background: var(--fond); overflow: hidden; min-height: 420px; }
+.p2-filtres { position: absolute; z-index: 3; top: 16px; left: 16px; right: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.p2-filtre { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--trait-fort);
+  background: color-mix(in srgb, var(--fond) 82%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); cursor: pointer; font-size: 13.5px; transition: border-color .2s, background-color .2s; }
+.p2-filtre small { color: var(--doux); font-size: 12px; }
+.p2-filtre[aria-pressed="true"] { background: var(--encre); color: var(--fond); border-color: var(--encre); }
+.p2-filtre[aria-pressed="true"] small { color: inherit; opacity: .7; }
+.p2-svg { display: block; width: 100%; height: 100%; min-height: 420px; max-height: 78vh; }
+.p2-svg .voisin { fill: var(--terre-voisine); stroke: var(--fond); stroke-width: 1.2; }
+.p2-svg .principal { fill: var(--terre); stroke: var(--fond); stroke-width: 1.4; }
+/* Les épingles et les noms gardent la même taille à l'écran, quel que soit le zoom */
+.p2-svg .etiquette { fill: var(--doux); font-size: 11px; font-weight: 600; font-stretch: 125%; letter-spacing: .32em; text-transform: uppercase; pointer-events: none; }
+.p2-svg .etiquette.mer { font-weight: 500; font-style: italic; letter-spacing: .26em; opacity: .8; }
+.p2-epingle { cursor: pointer; outline: none; transition: opacity .35s ease; }
+.p2-epingle .halo { fill: var(--encre); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.p2-epingle .anneau { fill: none; stroke: var(--encre); stroke-width: 2; opacity: 0; }
+.p2-epingle:focus-visible .anneau { opacity: 1; }
+.p2-epingle .point { fill: var(--encre); stroke: var(--fond); stroke-width: 3; transition: transform .3s var(--ease); transform-box: fill-box; transform-origin: center; }
+.p2-epingle text.num { fill: var(--fond); font-size: 12.5px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.p2-epingle text.nom { fill: var(--encre); font-size: 15px; font-weight: 600; font-stretch: 106%; paint-order: stroke; stroke: var(--fond); stroke-width: 5px; stroke-linejoin: round; }
+.p2-epingle:hover .point, .p2-epingle:focus-visible .point { transform: scale(1.18); }
+.p2-epingle.active .point { transform: scale(1.3); }
+.p2-epingle.active .halo { animation: p2-pouls 1.8s ease-out infinite; }
+@keyframes p2-pouls { from { opacity: .35; transform: scale(.6); } to { opacity: 0; transform: scale(2.4); } }
+.p2-epingle.eteinte { opacity: .14; pointer-events: none; }
+.p2-ensemble { position: absolute; z-index: 3; right: 16px; bottom: 16px; padding: 9px 16px; font-size: 13.5px; background: var(--fond);
+  opacity: 0; pointer-events: none; transform: translateY(6px); transition: opacity .3s ease, transform .3s var(--ease); }
+.p2-carte.zoom .p2-ensemble { opacity: 1; pointer-events: auto; transform: none; }
+.p2-apercu { position: absolute; z-index: 4; width: 190px; pointer-events: none; background: var(--fond); border: 1px solid var(--trait-fort); box-shadow: 0 18px 44px rgba(0,0,0,.18);
+  opacity: 0; transform: translate(-50%, calc(-100% - 18px)) scale(.96); transition: opacity .18s ease, transform .18s var(--ease); }
+.p2-apercu.visible { opacity: 1; transform: translate(-50%, calc(-100% - 22px)) scale(1); }
+.p2-apercu img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.p2-apercu p { margin: 0; padding: 8px 10px 9px; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; }
+.p2-apercu p span { color: var(--doux); font-size: 11.5px; letter-spacing: .08em; }
+.p2-fiche { border-left: 1px solid var(--trait); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.p2-liste { list-style: none; margin: 0; padding: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; border-bottom: 1px solid var(--trait); }
+.p2-liste button { width: 100%; display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 7px 9px; border: 0; border-radius: 10px; background: none; cursor: pointer; text-align: left; font-size: 14px; transition: background-color .2s; }
+.p2-liste button:hover { background: var(--surface); }
+.p2-liste button[aria-current="true"] { background: var(--encre); color: var(--fond); }
+.p2-liste .n { font-size: 11px; font-weight: 700; color: var(--doux); font-variant-numeric: tabular-nums; }
+.p2-liste [aria-current="true"] .n { color: inherit; opacity: .7; }
+.p2-liste .c { font-size: 10.5px; letter-spacing: .08em; font-weight: 650; opacity: .6; }
+.p2-liste li.cachee { display: none; }
+.p2-detail { padding: 18px; display: grid; gap: 12px; align-content: start; }
+.p2-detail > * { animation: p1-entree .6s var(--ease) both; }
+.p2-detail figure { margin: 0; overflow: hidden; }
+.p2-detail img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.p2-detail h3 { font-size: clamp(24px, 2.4vw, 34px); }
+.p2-detail .legende-wp { font-size: 17px; }
+.p2-detail .p1-actions { margin-top: 4px; }
+@media (max-width: 900px) {
+  .p2 { grid-template-columns: 1fr; }
+  .p2-fiche { border-left: 0; border-top: 1px solid var(--trait); }
+  .p2-liste { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; scrollbar-width: none; }
+  .p2-svg { min-height: 0; aspect-ratio: 1000 / 915; height: auto; }
+  .p2-carte { min-height: 0; }
+  .p2-filtres { position: static; padding: 12px 12px 4px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .p2-filtre { flex: none; }
+  .p2-ensemble { right: 10px; bottom: 10px; }
+}
+@media (max-width: 600px) {
+  .p2-svg .etiquette.loin { display: none; }
+}
+
+/* ---------- 3. Le fil ---------- */
+.p3 { border: 1px solid var(--trait); }
+.p3-cadre { height: min(82vh, 800px); overflow-y: auto; scroll-snap-type: y proximity; overscroll-behavior: contain; scrollbar-width: thin; }
+.p3-grille { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.p3-scene { position: sticky; top: 0; height: min(82vh, 800px); padding: clamp(14px, 2vw, 22px); display: grid; grid-template-columns: 1fr auto; gap: 18px; }
+.p3-images { position: relative; overflow: hidden; background: #0c0c0c; }
+.p3-images img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(100% 0 0 0); transform: scale(1.06); transition: clip-path 1s var(--ease), transform 1.4s var(--ease); }
+.p3-images img.active { clip-path: inset(0 0 0 0); transform: scale(1); z-index: 2; }
+.p3-images img.avant { clip-path: inset(0 0 0 0); z-index: 1; }
+.p3-images::after { content: ""; position: absolute; inset: auto 0 0 0; height: 42%; z-index: 3; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,.55), transparent); }
+.p3-images .p3-compte { position: absolute; z-index: 4; left: 18px; bottom: 16px; margin: 0; color: #fff; font-size: 13px; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.p3-images .p3-compte b { font-size: 40px; font-weight: 210; font-stretch: 62%; letter-spacing: 0; margin-right: 4px; }
+.p3-images .p3-compte span { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .2em; text-transform: uppercase; }
+.p3-rail { display: grid; align-content: center; gap: 0; }
+.p3-rail button { position: relative; display: grid; grid-template-columns: 12px; place-items: center; height: 44px; width: 22px; border: 0; background: none; cursor: pointer; padding: 0; }
+.p3-rail button::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--trait-fort); }
+.p3-rail button:first-child::before { top: 50%; }
+.p3-rail button:last-child::before { bottom: 50%; }
+.p3-rail i { position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--fond); box-shadow: inset 0 0 0 1.5px var(--doux); transition: transform .3s var(--ease), background-color .3s; }
+.p3-rail button.active i { background: var(--encre); box-shadow: none; transform: scale(1.5); }
+.p3-rail button:hover i { transform: scale(1.3); }
+.p3-rail button.active:hover i { transform: scale(1.5); }
+.p3-chap { min-height: min(72vh, 700px); display: grid; align-content: center; gap: 12px; padding: 28px clamp(20px, 3vw, 46px) 28px clamp(10px, 2vw, 20px); scroll-snap-align: center; opacity: .18; transform: translateY(20px); transition: opacity .6s ease, transform .8s var(--ease); }
+.p3-chap.active { opacity: 1; transform: none; }
+.p3-chap:first-child { padding-top: 12vh; }
+.p3-chap:last-child { padding-bottom: 14vh; }
+.p3-chap .p3-numero { font-size: clamp(64px, 7vw, 108px); font-weight: 170; font-stretch: 62%; line-height: .8; margin: 0 0 6px; }
+.p3-chap h3 { font-size: clamp(28px, 3vw, 44px); }
+.p3-chap .p1-partie { font-size: 14px; }
+.p3-chap .p1-actions { margin-top: 8px; }
+.p3-indice { position: absolute; left: 50%; bottom: 14px; z-index: 5; transform: translateX(-50%); margin: 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #fff; opacity: .85; animation: p3-flotte 2.4s ease-in-out infinite; pointer-events: none; }
+@keyframes p3-flotte { 50% { transform: translate(-50%, 5px); } }
+@media (max-width: 900px) {
+  .p3-grille { grid-template-columns: 1fr; }
+  .p3-scene { height: 46vh; z-index: 2; background: var(--fond); padding: 10px 10px 8px; grid-template-columns: 1fr; }
+  .p3-rail { display: none; }
+  .p3-chap { min-height: 52vh; padding: 22px 18px; }
+  .p3-chap:first-child { padding-top: 26px; }
+}
+
+/* ---------- 4. Recto verso ---------- */
+.p4 { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: clamp(20px, 4vw, 60px); align-items: center; padding: clamp(22px, 4vw, 54px); border: 1px solid var(--trait);
+  background: radial-gradient(120% 90% at 30% 40%, color-mix(in srgb, var(--c, #888) 22%, var(--fond)), var(--fond) 70%); transition: background .8s ease; outline-offset: 4px; }
+.p4-scene { position: relative; height: clamp(460px, 64vh, 600px); display: grid; place-items: center; perspective: 1600px; }
+.p4-carte { position: absolute; width: min(380px, 78vw); height: min(520px, 100%); touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  transition: transform .7s var(--ease), opacity .5s ease; will-change: transform; }
+.p4-carte.glisse { transition: none; cursor: grabbing; }
+.p4-carte.dessus { cursor: grab; }
+.p4-int { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .9s var(--ease); }
+.p4-carte.retournee .p4-int { transform: rotateY(180deg); }
+.p4-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; border-radius: 18px; box-shadow: 0 30px 70px -20px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.06); }
+.p4-recto img { width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; pointer-events: none; }
+.p4-recto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.08) 46%, transparent 62%); }
+.p4-recto .p4-texte { position: absolute; z-index: 2; left: 22px; right: 22px; bottom: 20px; color: #fff; display: grid; gap: 8px; }
+.p4-recto .p4-texte h3 { font-size: 36px; font-weight: 540; font-stretch: 112%; letter-spacing: -.02em; }
+.p4-recto .p4-texte p { margin: 0; font-size: 14px; opacity: .9; }
+.p4-recto .p4-n { position: absolute; z-index: 2; top: 14px; left: 14px; padding: 5px 11px; border: 1px solid rgba(255,255,255,.26); border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.p4-recto .p4-tourner { position: absolute; z-index: 2; top: 12px; right: 12px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  border: 1px solid rgba(255,255,255,.26); background: rgba(14,14,14,.42); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.p4-verso { transform: rotateY(180deg); background: #ffffff; color: #202122; padding: 22px 22px 18px; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 0; font-family: "Helvetica Neue", Arial, sans-serif; }
+.wp-tete { display: flex; align-items: center; gap: 9px; padding-bottom: 12px; border-bottom: 1px solid #eaecf0; font-size: 12.5px; color: #54595d; }
+.wp-tete .w { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #a2a9b1; font-family: "Linux Libertine", "Georgia", "Times", serif; font-size: 16px; color: #202122; }
+.wp-titre { margin: 14px 0 0; font-family: "Linux Libertine", "Georgia", "Times", serif; font-weight: 400; font-stretch: normal; letter-spacing: 0; font-size: 27px; line-height: 1.2; color: #202122; border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; }
+.wp-slogan { margin: 5px 0 0; font-size: 12px; color: #54595d; }
+.wp-corps { margin-top: 14px; overflow: hidden; }
+.wp-partie { font-family: "Linux Libertine", "Georgia", "Times", serif; font-weight: 400; font-size: 19px; margin: 0 0 8px; padding-bottom: 3px; border-bottom: 1px solid #a2a9b1; color: #202122; letter-spacing: 0; }
+.wp-vignette { float: right; width: 58%; margin: 2px 0 8px 12px; padding: 3px; border: 1px solid #c8ccd1; background: #f8f9fa; }
+.wp-vignette img { width: 100%; aspect-ratio: var(--r); object-fit: cover; border: 1px solid #c8ccd1; }
+.wp-vignette figcaption { font-size: 11.5px; line-height: 1.35; padding: 5px 3px 3px; color: #202122; }
+.wp-infobox { float: right; width: 62%; margin: 0 0 8px 12px; border: 1px solid #a2a9b1; background: #f8f9fa; font-size: 11px; }
+.wp-infobox p { margin: 0; padding: 5px 6px; text-align: center; font-weight: 700; background: #eaecf0; }
+.wp-infobox img { width: 100%; aspect-ratio: var(--r); object-fit: cover; }
+.wp-infobox span { display: block; padding: 4px 6px; color: #54595d; }
+.wp-lignes i { display: block; height: 7px; margin: 0 0 8px; border-radius: 4px; background: #eaecf0; }
+.wp-lignes i:nth-child(3n) { width: 82%; }
+.wp-lignes i:nth-child(4n) { width: 64%; }
+.wp-ouvrir { justify-self: start; margin-top: 10px; display: inline-flex; gap: 8px; align-items: center; padding: 10px 16px; border-radius: 999px; background: #121212; color: #fff; text-decoration: none; font-family: var(--police); font-weight: 600; font-stretch: 108%; font-size: 14px; }
+.p4-cote { display: grid; gap: 14px; }
+.p4-cote .p4-compteur { font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
+.p4-cote .p4-compteur b { font-size: 54px; font-weight: 200; font-stretch: 62%; color: var(--encre); line-height: 1; margin-right: 4px; }
+.p4-cote h3 { font-size: clamp(26px, 2.6vw, 38px); }
+.p4-cote > * { animation: p1-entree .6s var(--ease) both; }
+.p4-commandes { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+@media (max-width: 900px) {
+  .p4 { grid-template-columns: 1fr; padding: 18px 14px 22px; }
+  .p4-scene { height: min(118vw, 560px); }
+  .p4-carte { height: min(112vw, 520px); width: min(84vw, 380px); }
+}
+
+/* ---------- 5. La mosaïque vivante ---------- */
+.p5 { border: 1px solid var(--trait); padding: clamp(16px, 2.4vw, 26px); }
+.p5-tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 30px; margin-bottom: 18px; }
+.p5-chiffres { display: flex; gap: 10px 30px; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; }
+.p5-chiffres li { display: grid; }
+.p5-chiffres b { font-size: clamp(40px, 4.4vw, 62px); font-weight: 210; font-stretch: 62%; line-height: 1; font-variant-numeric: tabular-nums; }
+.p5-chiffres span { font-size: 13px; color: var(--doux); }
+.p5-filtres { display: flex; flex-wrap: wrap; gap: 8px; }
+.p5-grille { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: clamp(140px, 13vw, 200px); grid-auto-flow: dense; gap: 8px; }
+.p5-tuile { position: relative; overflow: hidden; border: 0; padding: 0; background: #0c0c0c; cursor: zoom-in; text-align: left; color: #fff; }
+.p5-tuile.grand { grid-column: span 2; grid-row: span 2; }
+.p5-tuile.haut { grid-row: span 2; }
+.p5-tuile.large { grid-column: span 2; }
+.p5-tuile img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .6s ease; }
+.p5-tuile:hover img, .p5-tuile:focus-visible img { transform: scale(1.05); }
+.p5-tuile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.74), rgba(0,0,0,.22) 38%, rgba(0,0,0,0) 62%); opacity: .82; transition: opacity .4s ease; }
+.p5-tuile:hover::after, .p5-tuile:focus-visible::after { opacity: 1; }
+.p5-voile { position: absolute; z-index: 2; left: 14px; right: 14px; bottom: 12px; display: grid; gap: 4px; }
+.p5-voile strong { font-size: clamp(18px, 1.8vw, 26px); font-weight: 560; font-stretch: 110%; line-height: 1.05; text-shadow: 0 1px 14px rgba(0,0,0,.35); }
+.p5-voile em { font-style: normal; font-size: 13px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s var(--ease); }
+.p5-tuile:hover .p5-voile em, .p5-tuile:focus-visible .p5-voile em { opacity: .92; transform: none; }
+.p5-voile .puce { font-size: 12px; padding: 3px 10px 3px 4px; }
+.p5-fleche { position: absolute; z-index: 2; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.26); background: rgba(14,14,14,.42); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); opacity: 0; transform: scale(.8); transition: opacity .3s, transform .3s var(--ease); }
+.p5-tuile:hover .p5-fleche { opacity: 1; transform: none; }
+.p5-tuile[hidden] { display: none; }
+.p5-vision { width: min(1280px, 96vw); height: min(820px, 92vh); max-width: none; max-height: none; padding: 0; border: 0; background: var(--fond); color: var(--encre); overflow: hidden; }
+.p5-vision::backdrop { background: rgba(10,10,10,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.p5-vision[open] { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr); animation: p5-ouvre .45s var(--ease); }
+@keyframes p5-ouvre { from { opacity: 0; transform: scale(.97); } }
+.p5-v-image { position: relative; background: #0c0c0c; display: grid; place-items: center; overflow: hidden; touch-action: pan-y; }
+.p5-v-image img { max-width: 100%; max-height: 100%; object-fit: contain; animation: p5-fondu .5s ease; }
+@keyframes p5-fondu { from { opacity: 0; } }
+.p5-v-cartel { padding: clamp(22px, 3vw, 40px); display: grid; align-content: center; gap: 12px; position: relative; overflow-y: auto; overscroll-behavior: contain; }
+.p5-v-cartel > * { animation: p1-entree .6s var(--ease) both; }
+.p5-v-cartel h3 { font-size: clamp(26px, 2.6vw, 40px); }
+.p5-v-fermer { position: absolute; top: 14px; right: 14px; }
+.p5-v-nav { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; z-index: 2; }
+.p5-v-nav .rond { background: rgba(255,255,255,.9); color: #121212; border: 0; }
+@media (max-width: 900px) {
+  .p5-grille { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 42vw; }
+  .p5-tuile.grand { grid-column: span 2; grid-row: span 1; }
+  .p5-tuile.large { grid-column: span 2; }
+  .p5-vision[open] { grid-template-columns: 1fr; grid-template-rows: 50% 1fr; width: 100vw; height: 100dvh; }
+  .p5-v-cartel { align-content: start; padding-bottom: 32px; }
+  .p5-voile em { opacity: .9; transform: none; }
+  .p5-filtres { width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .p5-filtres .p2-filtre { flex: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  /* La barre d'avancée n'est pas un mouvement : elle garde sa durée, sinon le défilement s'emballerait */
+  .p1-barre.encours i { animation-duration: var(--duree) !important; }
+}
+</style>
+</head>
+<body>
+<header class="entete">
+  <a class="marque" href="https://photos.karlforterre.fr/">/*LOGO*/<span>Karl Forterre</span></a>
+  <span class="discret">Maquettes · 28 octobre 2026</span>
+</header>
+<main>
+  <section class="intro">
+    <p class="surtitre">photos.karlforterre.fr · page des galeries, sous «&nbsp;Couleurs&nbsp;»</p>
+    <h1>Tes photos sur Wikipédia&nbsp;: cinq panneaux possibles</h1>
+    <p class="accroche">Chaque maquette fonctionne&nbsp;: fais défiler, clique, glisse au doigt sur téléphone, essaie le clavier. Les photos, les articles, les parties et les légendes sont les vrais.</p>
+    <ul class="chiffres-intro">
+      <li><b>8</b><span>photos dans Wikipédia</span></li>
+      <li><b>8</b><span>articles illustrés</span></li>
+      <li><b>3</b><span>langues&nbsp;: français, basque, asturien</span></li>
+    </ul>
+  </section>
+
+  <nav class="sommaire" aria-label="Propositions">
+    <ol>
+      <li><a href="#p1"><b>1</b>La salle de projection</a></li>
+      <li><a href="#p2"><b>2</b>L'atlas</a></li>
+      <li><a href="#p3"><b>3</b>Le fil</a></li>
+      <li><a href="#p4"><b>4</b>Recto verso</a></li>
+      <li><a href="#p5"><b>5</b>La mosaïque vivante</a></li>
+      <li><a href="#avis"><b>→</b>Mon avis</a></li>
+    </ol>
+  </nav>
+
+  <div class="socle">
+    <div><h3>Le même socle pour les cinq</h3><p>Un petit fichier dit quelle photo illustre quel article, dans quelle langue et dans quelle partie. Les sessions le tiennent à jour, comme celui des usages.</p></div>
+    <div><h3>Partout dans le site</h3><p>Sous «&nbsp;Couleurs&nbsp;», sur la page des galeries, en français, en anglais et en chinois. Et sur la page de chaque photo concernée&nbsp;: «&nbsp;Elle illustre l'article … sur Wikipédia en …&nbsp;».</p></div>
+    <div><h3>Le partage mis en avant</h3><p>Chaque photo rappelle qu'elle est partagée sous licence libre CC BY-SA 4.0 sur Wikimedia Commons, avec le lien, et mène à l'article dans sa langue.</p></div>
+    <div><h3>Léger et sûr</h3><p>Ni bibliothèque ni service extérieur&nbsp;: quelques lignes de script. Sans script, la rubrique reste lisible. Moins d'animations pour qui le demande.</p></div>
+  </div>
+
+  <section class="proposition" id="p1">
+    <div class="prop-tete">
+      <span class="prop-num">01</span>
+      <div><p class="surtitre">Proposition 1</p><h2>La salle de projection</h2><p class="pitch">Une photo à la fois, en grand, avec son cartel&nbsp;: l'article, la langue, la partie et la légende telle qu'elle est écrite dans Wikipédia.</p></div>
+    </div>
+    <div class="p1" tabindex="0" aria-roledescription="carrousel" aria-label="Photos sur Wikipédia, salle de projection"></div>
+    <p class="essai">Essaie&nbsp;: <kbd>←</kbd> <kbd>→</kbd> au clavier, un glissement sur la photo, ou un clic sur une barre.</p>
+    <div class="notes">
+      <div><h4>Le principe</h4><p>La photo occupe les deux tiers du panneau et s'approche lentement. À droite, le cartel prend la couleur moyenne de la photo, comme dans l'exposition des photos utilisées. Les photos passent seules toutes les huit secondes&nbsp;; une barre par photo montre l'avancée et sert de sommaire.</p></div>
+      <div><h4>Sur téléphone</h4><p>La photo en haut, le cartel dessous, les barres entre les deux. On passe d'une photo à l'autre d'un glissement du doigt, comme une story.</p></div>
+      <div><h4>Ce que ça demande</h4><p>La plus simple à tenir des cinq. Le défilement s'arrête au survol, quand le panneau sort de l'écran, et pour qui a demandé moins d'animations.</p></div>
+    </div>
+  </section>
+
+  <section class="proposition" id="p2">
+    <div class="prop-tete">
+      <span class="prop-num">02</span>
+      <div><p class="surtitre">Proposition 2</p><h2>L'atlas</h2><p class="pitch">Tes photos posées sur la carte, de Gijón à Moyemont. Chaque épingle ouvre sa fiche, et la carte s'en approche.</p></div>
+    </div>
+    <div class="p2"></div>
+    <p class="essai">Essaie&nbsp;: survole une épingle, clique, puis trie par langue avec les pastilles.</p>
+    <div class="notes">
+      <div><h4>Le principe</h4><p>Une carte sobre de la France et du nord de l'Espagne, dans les gris du site. Survolée, l'épingle montre la photo&nbsp;; cliquée, la carte s'y rapproche en douceur et la fiche s'ouvre à côté. Les pastilles trient par langue de Wikipédia.</p></div>
+      <div><h4>Sur téléphone</h4><p>La carte en pleine largeur, la liste des lieux en bandeau qui défile, la fiche dessous.</p></div>
+      <div><h4>Ce que ça demande</h4><p>La carte est dessinée une fois pour toutes, d'après des données libres (Natural Earth)&nbsp;: ni service de cartes ni compte. Chaque nouvelle photo demande ses coordonnées. Spectaculaire dès qu'il y aura une vingtaine de lieux.</p></div>
+    </div>
+  </section>
+
+  <section class="proposition" id="p3">
+    <div class="prop-tete">
+      <span class="prop-num">03</span>
+      <div><p class="surtitre">Proposition 3</p><h2>Le fil</h2><p class="pitch">Un récit qui se déroule au défilement&nbsp;: la photo reste en place et se renouvelle, un chapitre par article.</p></div>
+    </div>
+    <div class="p3"></div>
+    <p class="essai">Essaie&nbsp;: fais défiler dans le cadre, ou clique sur un point du rail à droite.</p>
+    <div class="notes">
+      <div><h4>Le principe</h4><p>Le procédé des grands reportages en ligne. À gauche, la photo est fixe et se découvre de bas en haut à chaque chapitre. À droite, les articles défilent&nbsp;; un rail de points montre où l'on en est, et le nom du lieu s'inscrit sur la photo.</p></div>
+      <div><h4>Sur téléphone</h4><p>La photo reste en haut de l'écran, les chapitres glissent dessous.</p></div>
+      <div><h4>Ce que ça demande</h4><p>Le plus immersif, mais le plus long&nbsp;: huit écrans à parcourir. Sur la page des galeries, il vit mieux dans un cadre, comme ici, ou sur sa propre page.</p></div>
+    </div>
+  </section>
+
+  <section class="proposition" id="p4">
+    <div class="prop-tete">
+      <span class="prop-num">04</span>
+      <div><p class="surtitre">Proposition 4</p><h2>Recto verso</h2><p class="pitch">Une pile de cartes. Au recto, la photo&nbsp;; au verso, la photo telle qu'elle apparaît dans l'article de Wikipédia.</p></div>
+    </div>
+    <div class="p4" tabindex="0" aria-label="Photos sur Wikipédia, pile de cartes"></div>
+    <p class="essai">Essaie&nbsp;: fais glisser la carte, retourne-la (<kbd>Entrée</kbd>), ou <kbd>←</kbd> <kbd>→</kbd>.</p>
+    <div class="notes">
+      <div><h4>Le principe</h4><p>On fait glisser la carte du dessus pour passer à la suivante. «&nbsp;Retourner&nbsp;» montre le verso&nbsp;: le titre de l'article, la partie, la vignette et sa légende, dans la langue de l'article. On voit d'un coup d'œil où vit la photo.</p></div>
+      <div><h4>Sur téléphone</h4><p>C'est là qu'elle est la plus naturelle&nbsp;: on balaie les cartes du pouce et on les retourne d'un toucher.</p></div>
+      <div><h4>Ce que ça demande</h4><p>Un peu plus de script que la première, pour le glisser et le retournement en relief. L'aperçu de Wikipédia est dessiné par le site, rien n'est chargé depuis Wikipédia.</p></div>
+    </div>
+  </section>
+
+  <section class="proposition" id="p5">
+    <div class="prop-tete">
+      <span class="prop-num">05</span>
+      <div><p class="surtitre">Proposition 5</p><h2>La mosaïque vivante</h2><p class="pitch">Toutes les photos d'un coup d'œil, en mosaïque, puis une visionneuse plein écran.</p></div>
+    </div>
+    <div class="p5"></div>
+    <p class="essai">Essaie&nbsp;: survole une photo, clique pour l'ouvrir, trie avec les pastilles.</p>
+    <div class="notes">
+      <div><h4>Le principe</h4><p>Les huit photos en mosaïque de tailles variées. Au survol, l'article apparaît&nbsp;; un clic ouvre la visionneuse plein écran avec son cartel. Les pastilles de langue réarrangent la mosaïque en douceur, et les chiffres s'animent à l'arrivée.</p></div>
+      <div><h4>Sur téléphone</h4><p>Deux colonnes&nbsp;; la visionneuse prend tout l'écran et se balaie du doigt.</p></div>
+      <div><h4>Ce que ça demande</h4><p>Simple à tenir&nbsp;: chaque nouvelle photo trouve sa place seule. La plus «&nbsp;vitrine&nbsp;» des cinq, la moins narrative.</p></div>
+    </div>
+  </section>
+
+  <section class="avis" id="avis">
+    <p class="surtitre">Mon avis</p>
+    <h2>La salle de projection, avec le verso de la quatrième</h2>
+    <p>Pour la page des galeries, je choisirais la salle de projection&nbsp;: elle tient en un écran, se lit d'un coup d'œil et se balaie comme une story sur téléphone. J'y ajouterais le verso de «&nbsp;Recto verso&nbsp;»&nbsp;: un bouton «&nbsp;Voir dans l'article&nbsp;» qui retourne le cartel et montre la photo telle qu'elle apparaît dans Wikipédia.</p>
+    <p>L'atlas est le plus spectaculaire&nbsp;; il prendra tout son sens quand une vingtaine de lieux seront illustrés. Il pourrait alors avoir sa propre page.</p>
+    <p class="pied">Dis-moi le numéro choisi, ou un mélange, et je l'installe sur le site photo dans les trois langues, avec la ligne sur la page de chaque photo.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var PHOTOS = /*DONNEES*/;
+  var CARTE = /*CARTE*/;
+  var LANGUES = {
+    fr: { nom: "Wikipédia en français", court: "FR", natif: "Français", slogan: "Un article de Wikipédia, l'encyclopédie libre." },
+    eu: { nom: "Wikipédia en basque", court: "EU", natif: "Euskara", slogan: "Wikipedia, Entziklopedia askea" },
+    ast: { nom: "Wikipédia en asturien", court: "AST", natif: "Asturianu", slogan: "De Wikipedia, la enciclopedia llibre" }
+  };
+  var calme = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var N = PHOTOS.length;
+
+  function url(p, w) { return "https://images.pexels.com/photos/" + p.id + "/pexels-photo-" + p.id + ".jpeg?auto=compress&cs=tinysrgb&w=" + w; }
+  function srcset(p) { return [640, 1000, 1600, 2200].map(function (w) { return url(p, w) + " " + w + "w"; }).join(", "); }
+  function lienArticle(p) {
+    return "https://" + p.wiki + ".wikipedia.org/wiki/" + encodeURIComponent(p.article.replace(/ /g, "_"))
+      + (p.partie ? "#" + encodeURIComponent(p.partie.replace(/ /g, "_")) : "");
+  }
+  function lienCommons(p) { return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(p.fichier.replace(/ /g, "_")); }
+  function lienPhoto(p) { return "https://photos.karlforterre.fr/photo/" + p.id + "/"; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function parNombre(compte) { return Object.keys(compte).sort(function (a, b) { return compte[b] - compte[a]; }); }
+  function deux(n) { return (n < 10 ? "0" : "") + n; }
+  function date(s) { var m = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]; var d = s.split("-"); return (+d[2]) + " " + m[+d[1] - 1] + " " + d[0]; }
+  function partie(p) { return p.partie ? "Partie «\u00a0" + esc(p.partie) + "\u00a0»" : "Image d'en-tête de l'article"; }
+  function puce(p) { return '<span class="puce"><b>' + LANGUES[p.wiki].court + "</b>" + LANGUES[p.wiki].nom + "</span>"; }
+  function legende(p) { return p.legende ? '<p class="legende-wp" lang="' + p.wiki + '">' + esc(p.legende) + "</p>" : '<p class="discret">Sans légende\u00a0: c\'est l\'image principale de l\'article.</p>'; }
+  function actions(p) {
+    return '<div class="p1-actions"><a class="bouton" href="' + lienArticle(p) + '" target="_blank" rel="noopener">Lire l\'article <span aria-hidden="true">↗</span></a>'
+      + '<a class="bouton bouton-contour" href="' + lienPhoto(p) + '" target="_blank" rel="noopener">Voir la photo</a></div>';
+  }
+  var FLECHE_G = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+  var FLECHE_D = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+  var LECTURE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+  var TOURNER = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>';
+
+  function glisser(element, gauche, droite) {
+    var x0 = null, y0 = 0;
+    element.addEventListener("pointerdown", function (ev) { x0 = ev.clientX; y0 = ev.clientY; });
+    element.addEventListener("pointerup", function (ev) {
+      if (x0 === null) return;
+      var dx = ev.clientX - x0, dy = ev.clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) droite(); else gauche(); }
+    });
+    element.addEventListener("pointercancel", function () { x0 = null; });
+  }
+
+  /* ---------- 1. La salle de projection ---------- */
+  (function () {
+    var racine = document.querySelector(".p1");
+    racine.style.setProperty("--n", N);
+    racine.innerHTML =
+      '<div class="p1-scene">'
+      + PHOTOS.map(function (p, i) {
+          return '<div class="p1-diapo" data-i="' + i + '"><img alt="' + esc(p.titre) + '" src="' + url(p, 1600) + '" srcset="' + srcset(p) + '" sizes="(max-width: 900px) 100vw, 62vw"' + (i > 1 ? ' loading="lazy"' : "") + ' style="background:' + p.couleur + '"></div>';
+        }).join("")
+      + '<p class="p1-lieu"></p>'
+      + '<div class="p1-commandes"><button class="rond" data-a="prec" aria-label="Photo précédente">' + FLECHE_G + '</button><button class="rond" data-a="suiv" aria-label="Photo suivante">' + FLECHE_D + '</button><button class="rond" data-a="lecture" aria-label="Mettre en pause">' + PAUSE + "</button></div>"
+      + "</div>"
+      + '<div class="p1-cartel" aria-live="polite"></div>'
+      + '<div class="p1-barres">' + PHOTOS.map(function (p, i) { return '<button class="p1-barre" data-i="' + i + '" aria-label="Photo ' + (i + 1) + "\u00a0: " + esc(p.lieu) + '"><i></i><span>' + esc(p.lieu) + "</span></button>"; }).join("") + "</div>";
+    var diapos = racine.querySelectorAll(".p1-diapo"), barres = racine.querySelectorAll(".p1-barre");
+    var cartel = racine.querySelector(".p1-cartel"), lieu = racine.querySelector(".p1-lieu"), bouton = racine.querySelector('[data-a="lecture"]');
+    var actuelle = -1, lecture = !calme, survol = false, visible = false;
+
+    function cartelHTML(p, i) {
+      return '<div class="p1-haut"><span class="p1-compteur"><b>' + deux(i + 1) + "</b>/ " + deux(N) + "</span>" + puce(p) + "</div>"
+        + '<div class="p1-corps"><p class="surtitre">Article de Wikipédia</p><h3 class="p1-article" lang="' + p.wiki + '">' + esc(p.article) + "</h3>"
+        + '<p class="p1-partie">' + partie(p) + "</p>" + legende(p)
+        + '<p class="p1-photo">' + esc(p.titre) + "</p></div>"
+        + '<div class="p1-bas">' + actions(p)
+        + '<p class="p1-licence">Partagée sous licence libre CC BY-SA 4.0 sur <a href="' + lienCommons(p) + '" target="_blank" rel="noopener">Wikimedia Commons</a> · ajoutée le ' + date(p.date) + "</p></div>";
+    }
+    function etat() {
+      var enMarche = lecture && !survol && visible && !document.hidden;
+      racine.classList.toggle("pause", !enMarche);
+      bouton.innerHTML = lecture ? PAUSE : LECTURE;
+      bouton.setAttribute("aria-label", lecture ? "Mettre en pause" : "Reprendre le défilement");
+    }
+    function aller(i) {
+      i = (i + N) % N;
+      if (i === actuelle) return;
+      var p = PHOTOS[i];
+      diapos.forEach(function (d, k) { d.classList.toggle("active", k === i); });
+      [i + 1, i - 1].forEach(function (k) { var img = diapos[(k + N) % N].querySelector("img"); img.loading = "eager"; });
+      cartel.innerHTML = cartelHTML(p, i);
+      lieu.textContent = p.lieu;
+      racine.style.setProperty("--c", p.couleur);
+      barres.forEach(function (b, k) {
+        b.classList.remove("encours", "fixe");
+        b.classList.toggle("faite", k < i);
+      });
+      void barres[i].offsetWidth;
+      barres[i].classList.add(lecture ? "encours" : "fixe");
+      actuelle = i;
+      etat();
+    }
+    barres.forEach(function (b) {
+      b.querySelector("i").addEventListener("animationend", function () { if (+b.dataset.i === actuelle) aller(actuelle + 1); });
+      b.addEventListener("click", function () { aller(+b.dataset.i); });
+    });
+    racine.querySelector('[data-a="prec"]').addEventListener("click", function () { aller(actuelle - 1); });
+    racine.querySelector('[data-a="suiv"]').addEventListener("click", function () { aller(actuelle + 1); });
+    bouton.addEventListener("click", function () {
+      lecture = !lecture;
+      var b = barres[actuelle];
+      b.classList.remove("encours", "fixe"); void b.offsetWidth; b.classList.add(lecture ? "encours" : "fixe");
+      etat();
+    });
+    racine.addEventListener("keydown", function (ev) {
+      if (ev.key === "ArrowLeft") { aller(actuelle - 1); ev.preventDefault(); }
+      if (ev.key === "ArrowRight") { aller(actuelle + 1); ev.preventDefault(); }
+    });
+    racine.addEventListener("pointerenter", function (ev) { if (ev.pointerType === "mouse") { survol = true; etat(); } });
+    racine.addEventListener("pointerleave", function () { survol = false; etat(); });
+    glisser(racine.querySelector(".p1-scene"), function () { aller(actuelle - 1); }, function () { aller(actuelle + 1); });
+    new IntersectionObserver(function (e) { visible = e[0].isIntersecting; etat(); }, { threshold: .4 }).observe(racine);
+    document.addEventListener("visibilitychange", etat);
+    aller(0);
+  })();
+
+  /* ---------- 2. L'atlas ---------- */
+  (function () {
+    var racine = document.querySelector(".p2");
+    var L = CARTE.largeur, H = CARTE.hauteur;
+    var langues = {};
+    PHOTOS.forEach(function (p) { langues[p.wiki] = (langues[p.wiki] || 0) + 1; });
+    // En pixels d'écran : les deux photos de Niort se partagent le lieu ; côté du nom (g, d, b) ; la préfecture n'a pas de nom
+    var decalage = { 23414381: [-13, -10], 38279508: [13, 10] };
+    var COTE = { 39423921: "g", 39228699: "b", 39376205: "d", 13087478: "g", 39182179: "d", 23414381: "g", 34894959: "g" };
+    var ETIQUETTES = [
+      { x: 40, y: 505, lignes: ["Océan", "Atlantique"], classe: "mer" },
+      { x: 805, y: 852, lignes: ["Méditerranée"], classe: "mer loin", milieu: true },
+      { x: 600, y: 420, lignes: ["France"], milieu: true },
+      { x: 300, y: 880, lignes: ["Espagne"], milieu: true }
+    ];
+    function nomHTML(nom, cote) {
+      var x = cote === "g" ? -20 : cote === "d" ? 20 : 0, y = cote === "b" ? 27 : 1;
+      return '<text class="nom" x="' + x + '" y="' + y + '" dominant-baseline="central" text-anchor="' + (cote === "g" ? "end" : cote === "d" ? "start" : "middle") + '">' + esc(nom) + "</text>";
+    }
+    racine.innerHTML =
+      '<div class="p2-carte">'
+      + '<div class="p2-filtres" role="group" aria-label="Langue de Wikipédia"><button class="p2-filtre" data-l="" aria-pressed="true">Toutes <small>' + N + "</small></button>"
+      + parNombre(langues).map(function (l) { return '<button class="p2-filtre" data-l="' + l + '" aria-pressed="false">' + LANGUES[l].natif + " <small>" + langues[l] + "</small></button>"; }).join("") + "</div>"
+      + '<svg class="p2-svg" viewBox="0 0 ' + L + " " + H + '" role="img" aria-label="Carte des photos de Karl Forterre dans Wikipédia">'
+      + "<g>" + CARTE.pays.filter(function (c) { return !c.principal; }).map(function (c) { return '<path class="voisin" d="' + c.d + '"/>'; }).join("")
+      + CARTE.pays.filter(function (c) { return c.principal; }).map(function (c) { return '<path class="principal" d="' + c.d + '"/>'; }).join("") + "</g>"
+      + '<g aria-hidden="true">' + ETIQUETTES.map(function (e) {
+          return '<g data-x="' + e.x + '" data-y="' + e.y + '" transform="translate(' + e.x + " " + e.y + ')"><text class="etiquette ' + (e.classe || "") + '" text-anchor="' + (e.milieu ? "middle" : "start") + '">'
+            + e.lignes.map(function (l, k) { return '<tspan x="0" dy="' + (k ? "1.4em" : "0") + '">' + esc(l) + "</tspan>"; }).join("") + "</text></g>";
+        }).join("") + "</g>"
+      + '<g class="p2-epingles">' + PHOTOS.map(function (p, i) {
+          var xy = CARTE.lieux[p.id], d = decalage[p.id] || [0, 0];
+          return '<g class="p2-epingle" data-i="' + i + '" data-x="' + xy[0] + '" data-y="' + xy[1] + '" tabindex="0" role="button" aria-label="' + esc(p.lieu + " — " + p.article) + '" transform="translate(' + xy[0] + " " + xy[1] + ')">'
+            + '<g transform="translate(' + d[0] + " " + d[1] + ')"><circle class="halo" r="16"/><circle class="anneau" r="19"/><circle class="point" r="13"/><text class="num">' + (i + 1) + "</text>"
+            + (COTE[p.id] ? nomHTML(p.lieu, COTE[p.id]) : "") + "</g></g>";
+        }).join("") + "</g></svg>"
+      + '<button class="p2-ensemble bouton bouton-contour" type="button">Vue d\'ensemble</button>'
+      + '<div class="p2-apercu" aria-hidden="true"><img alt=""><p><strong></strong><span></span></p></div>'
+      + "</div>"
+      + '<aside class="p2-fiche"><ol class="p2-liste">' + PHOTOS.map(function (p, i) {
+          return '<li data-l="' + p.wiki + '"><button data-i="' + i + '"><span class="n">' + deux(i + 1) + "</span><span>" + esc(p.lieu) + '</span><span class="c">' + LANGUES[p.wiki].court + "</span></button></li>";
+        }).join("") + '</ol><article class="p2-detail" aria-live="polite"></article></aside>';
+    var svg = racine.querySelector("svg"), epingles = racine.querySelectorAll(".p2-epingle");
+    var detail = racine.querySelector(".p2-detail"), apercu = racine.querySelector(".p2-apercu"), carte = racine.querySelector(".p2-carte");
+    var boutonsListe = racine.querySelectorAll(".p2-liste button"), fixes = racine.querySelectorAll("[data-x]"), vue = [0, 0, L, H], animation = null, actuelle = -1;
+
+    function echelle() {
+      var r = svg.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      var k = Math.max(vue[2] / r.width, vue[3] / r.height).toFixed(4);
+      fixes.forEach(function (g) { g.setAttribute("transform", "translate(" + g.dataset.x + " " + g.dataset.y + ") scale(" + k + ")"); });
+    }
+
+    function viewBox(cible) {
+      if (animation) cancelAnimationFrame(animation);
+      var depart = vue.slice(), t0 = performance.now(), duree = calme ? 1 : 850;
+      carte.classList.toggle("zoom", cible[2] < L - 1);
+      function pas(t) {
+        var k = Math.min(1, (t - t0) / duree), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        vue = depart.map(function (v, j) { return v + (cible[j] - v) * e; });
+        svg.setAttribute("viewBox", vue.join(" "));
+        echelle();
+        if (k < 1) animation = requestAnimationFrame(pas);
+      }
+      animation = requestAnimationFrame(pas);
+    }
+    function centrer(i) {
+      var p = PHOTOS[i], xy = CARTE.lieux[p.id], w = L * .56, h = H * .56;
+      var x = Math.max(0, Math.min(L - w, xy[0] - w / 2)), y = Math.max(0, Math.min(H - h, xy[1] - h / 2));
+      viewBox([x, y, w, h]);
+    }
+    function choisir(i, sansZoom) {
+      var p = PHOTOS[i];
+      actuelle = i;
+      epingles.forEach(function (e, k) { e.classList.toggle("active", k === i); });
+      boutonsListe.forEach(function (b, k) { b.setAttribute("aria-current", k === i ? "true" : "false"); });
+      detail.innerHTML = '<figure><img alt="' + esc(p.titre) + '" src="' + url(p, 1000) + '"></figure>'
+        + '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="discret" style="font-size:13px">' + esc(p.lieu) + " · " + esc(p.region) + "</span>" + puce(p) + "</div>"
+        + '<h3 lang="' + p.wiki + '">' + esc(p.article) + '</h3><p class="p1-partie">' + partie(p) + "</p>" + legende(p) + actions(p);
+      if (!sansZoom) centrer(i);
+    }
+    function montrer(e) {
+      var p = PHOTOS[+e.dataset.i], r = e.querySelector(".point").getBoundingClientRect(), c = carte.getBoundingClientRect();
+      apercu.querySelector("img").src = url(p, 640);
+      apercu.querySelector("strong").textContent = p.lieu;
+      apercu.querySelector("span").textContent = LANGUES[p.wiki].court;
+      apercu.style.left = Math.max(100, Math.min(c.width - 100, r.left - c.left + r.width / 2)) + "px";
+      apercu.style.top = (r.top - c.top) + "px";
+      apercu.classList.add("visible");
+    }
+    epingles.forEach(function (e) {
+      e.addEventListener("pointerenter", function (ev) { if (ev.pointerType === "mouse") montrer(e); });
+      e.addEventListener("pointerleave", function () { apercu.classList.remove("visible"); });
+      e.addEventListener("click", function () { apercu.classList.remove("visible"); choisir(+e.dataset.i); });
+      e.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); choisir(+e.dataset.i); } });
+    });
+    boutonsListe.forEach(function (b) {
+      b.addEventListener("click", function () { choisir(+b.dataset.i); });
+    });
+    racine.querySelector(".p2-ensemble").addEventListener("click", function () { viewBox([0, 0, L, H]); });
+    racine.querySelectorAll(".p2-filtre").forEach(function (f) {
+      f.addEventListener("click", function () {
+        var l = f.dataset.l;
+        racine.querySelectorAll(".p2-filtre").forEach(function (g) { g.setAttribute("aria-pressed", g === f ? "true" : "false"); });
+        epingles.forEach(function (e) { e.classList.toggle("eteinte", !!l && PHOTOS[+e.dataset.i].wiki !== l); });
+        racine.querySelectorAll(".p2-liste li").forEach(function (li) { li.classList.toggle("cachee", !!l && li.dataset.l !== l); });
+        if (l && PHOTOS[actuelle].wiki !== l) {
+          var j = PHOTOS.findIndex(function (p) { return p.wiki === l; });
+          choisir(j);
+        } else if (!l) viewBox([0, 0, L, H]);
+      });
+    });
+    if (window.ResizeObserver) new ResizeObserver(echelle).observe(svg); else window.addEventListener("resize", echelle);
+    echelle();
+    choisir(0, true);
+  })();
+
+  /* ---------- 3. Le fil ---------- */
+  (function () {
+    var racine = document.querySelector(".p3");
+    racine.innerHTML =
+      '<div class="p3-cadre" tabindex="0" aria-label="Récit défilant des photos sur Wikipédia"><div class="p3-grille">'
+      + '<div class="p3-scene"><div class="p3-images">' + PHOTOS.map(function (p, i) {
+          return '<img alt="' + esc(p.titre) + '" src="' + url(p, 1600) + '" srcset="' + srcset(p) + '" sizes="(max-width: 900px) 100vw, 54vw"' + (i > 1 ? ' loading="lazy"' : "") + ' style="background:' + p.couleur + '">';
+        }).join("") + '<p class="p3-compte"><b>01</b>/ ' + deux(N) + "<span>" + esc(PHOTOS[0].lieu) + '</span></p><p class="p3-indice">Faites défiler ↓</p></div>'
+      + '<div class="p3-rail">' + PHOTOS.map(function (p, i) { var nom = esc(p.lieu + " — " + p.article); return '<button data-i="' + i + '" aria-label="Aller à ' + nom + '" title="' + nom + '"><i></i></button>'; }).join("") + "</div></div>"
+      + '<div class="p3-chapitres">' + PHOTOS.map(function (p, i) {
+          return '<section class="p3-chap" data-i="' + i + '"><p class="p3-numero">' + deux(i + 1) + "</p>" + puce(p)
+            + '<h3 lang="' + p.wiki + '">' + esc(p.article) + '</h3><p class="p1-partie">' + partie(p) + " · " + esc(p.lieu) + "</p>" + legende(p)
+            + '<p class="p1-photo">' + esc(p.titre) + "</p>" + actions(p) + "</section>";
+        }).join("") + "</div></div></div>";
+    var cadre = racine.querySelector(".p3-cadre"), images = racine.querySelectorAll(".p3-images img"), chapitres = racine.querySelectorAll(".p3-chap");
+    var rail = racine.querySelectorAll(".p3-rail button"), compte = racine.querySelector(".p3-compte b"), lieuCompte = racine.querySelector(".p3-compte span"), indice = racine.querySelector(".p3-indice"), actuelle = -1;
+    function activer(i) {
+      if (i === actuelle) return;
+      images.forEach(function (img, k) {
+        img.classList.toggle("avant", k === actuelle);
+        img.classList.toggle("active", k === i);
+        if (k === i + 1) img.loading = "eager";
+      });
+      chapitres.forEach(function (c, k) { c.classList.toggle("active", k === i); });
+      rail.forEach(function (b, k) { b.classList.toggle("active", k === i); });
+      compte.textContent = deux(i + 1);
+      lieuCompte.textContent = PHOTOS[i].lieu;
+      actuelle = i;
+    }
+    var io = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { if (e.isIntersecting) activer(+e.target.dataset.i); });
+    }, { root: cadre, threshold: .55 });
+    chapitres.forEach(function (c) { io.observe(c); });
+    cadre.addEventListener("scroll", function () { if (cadre.scrollTop > 30) indice.style.opacity = "0"; }, { passive: true });
+    rail.forEach(function (b) { b.addEventListener("click", function () { chapitres[+b.dataset.i].scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "center" }); }); });
+    activer(0);
+  })();
+
+  /* ---------- 4. Recto verso ---------- */
+  (function () {
+    var racine = document.querySelector(".p4");
+    function versoHTML(p) {
+      var r = (p.l / p.h).toFixed(3);
+      var image = p.partie
+        ? '<figure class="wp-vignette" style="--r:' + r + '"><img alt="" src="' + url(p, 640) + '"><figcaption lang="' + p.wiki + '">' + esc(p.legende) + "</figcaption></figure>"
+        : '<div class="wp-infobox" style="--r:' + r + '"><p lang="' + p.wiki + '">' + esc(p.article) + '</p><img alt="" src="' + url(p, 640) + '"><span>Infobox, en tête de l\'article</span></div>';
+      return '<div class="wp-tete"><span class="w">W</span>Wikipédia · ' + LANGUES[p.wiki].natif + "</div>"
+        + '<h4 class="wp-titre" lang="' + p.wiki + '">' + esc(p.article) + "</h4>"
+        + '<p class="wp-slogan" lang="' + p.wiki + '">' + esc(LANGUES[p.wiki].slogan) + "</p>"
+        + '<div class="wp-corps">' + (p.partie ? '<h5 class="wp-partie" lang="' + p.wiki + '">' + esc(p.partie) + "</h5>" : "")
+        + image + '<div class="wp-lignes">' + new Array(14).join("<i></i>") + "</div></div>"
+        + '<a class="wp-ouvrir" href="' + lienArticle(p) + '" target="_blank" rel="noopener">Ouvrir l\'article <span aria-hidden="true">↗</span></a>';
+    }
+    racine.innerHTML = '<div class="p4-scene">' + PHOTOS.map(function (p, i) {
+        return '<article class="p4-carte" data-i="' + i + '"><div class="p4-int">'
+          + '<div class="p4-face p4-recto"><img alt="' + esc(p.titre) + '" src="' + url(p, 1000) + '"' + (i > 2 ? ' loading="lazy"' : "") + ' style="background:' + p.couleur + '">'
+          + '<span class="p4-n">' + deux(i + 1) + " / " + deux(N) + '</span><span class="p4-tourner" aria-hidden="true">' + TOURNER + "</span>"
+          + '<div class="p4-texte">' + puce(p) + "<h3>" + esc(p.lieu) + '</h3><p lang="' + p.wiki + '">' + esc(p.article) + "</p></div></div>"
+          + '<div class="p4-face p4-verso">' + versoHTML(p) + "</div></div></article>";
+      }).join("") + "</div>"
+      + '<div class="p4-cote" aria-live="polite"></div>';
+    var cartes = Array.prototype.slice.call(racine.querySelectorAll(".p4-carte")), cote = racine.querySelector(".p4-cote");
+    var ordre = cartes.map(function (c, i) { return i; });
+    var ANGLES = [0, -4, 3.5, -2.5, 2, -1.5, 1, 0];
+    function disposer() {
+      var pas = racine.clientWidth < 600 ? 7 : 14;
+      ordre.forEach(function (i, k) {
+        var c = cartes[i];
+        c.style.zIndex = String(50 - k);
+        c.style.opacity = k < 4 ? "1" : "0";
+        c.style.pointerEvents = k === 0 ? "auto" : "none";
+        c.classList.toggle("dessus", k === 0);
+        if (k !== 0) c.classList.remove("retournee");
+        c.style.transform = "translate(" + (k * pas) + "px," + (k * -pas * .7) + "px) scale(" + (1 - k * .045) + ") rotate(" + ANGLES[k % ANGLES.length] + "deg)";
+      });
+      var p = PHOTOS[ordre[0]];
+      racine.style.setProperty("--c", p.couleur);
+      cote.innerHTML = '<p class="p4-compteur"><b>' + deux(ordre[0] + 1) + "</b>/ " + deux(N) + "</p>" + puce(p)
+        + '<h3 lang="' + p.wiki + '">' + esc(p.article) + '</h3><p class="p1-partie">' + partie(p) + " · " + esc(p.lieu) + "</p>"
+        + '<div class="p4-commandes"><button class="rond" data-a="prec" aria-label="Carte précédente">' + FLECHE_G + '</button>'
+        + '<button class="bouton" data-a="tourner">' + TOURNER + " Retourner</button>"
+        + '<button class="rond" data-a="suiv" aria-label="Carte suivante">' + FLECHE_D + "</button></div>"
+        + '<p class="p1-licence">Sous licence libre CC BY-SA 4.0 · <a href="' + lienCommons(p) + '" target="_blank" rel="noopener">Wikimedia Commons</a></p>';
+      cote.querySelector('[data-a="prec"]').addEventListener("click", precedente);
+      cote.querySelector('[data-a="suiv"]').addEventListener("click", function () { suivante(1); });
+      cote.querySelector('[data-a="tourner"]').addEventListener("click", tourner);
+    }
+    function suivante(sens) {
+      var c = cartes[ordre[0]];
+      c.classList.remove("glisse");
+      c.style.transform = "translate(" + (sens * 130) + "%, -4%) rotate(" + (sens * 18) + "deg)";
+      c.style.opacity = "0";
+      setTimeout(function () { ordre.push(ordre.shift()); disposer(); }, calme ? 0 : 320);
+    }
+    function precedente() {
+      ordre.unshift(ordre.pop());
+      var c = cartes[ordre[0]];
+      c.classList.add("glisse");
+      c.style.transform = "translate(-130%, -4%) rotate(-18deg)";
+      c.style.opacity = "0";
+      void c.offsetWidth;
+      c.classList.remove("glisse");
+      disposer();
+    }
+    function tourner() { cartes[ordre[0]].classList.toggle("retournee"); }
+    cartes.forEach(function (c) {
+      var x0 = null, dx = 0, bouge = false;
+      c.addEventListener("pointerdown", function (ev) {
+        if (!c.classList.contains("dessus") || ev.target.closest("a")) return;
+        x0 = ev.clientX; dx = 0; bouge = false; c.setPointerCapture(ev.pointerId); c.classList.add("glisse");
+      });
+      c.addEventListener("pointermove", function (ev) {
+        if (x0 === null) return;
+        dx = ev.clientX - x0; if (Math.abs(dx) > 4) bouge = true;
+        c.style.transform = "translate(" + dx + "px," + (Math.abs(dx) * -.04) + "px) rotate(" + (dx * .05) + "deg)";
+      });
+      function fin() {
+        if (x0 === null) return;
+        x0 = null; c.classList.remove("glisse");
+        if (Math.abs(dx) > 110) suivante(dx > 0 ? 1 : -1);
+        else if (!bouge) tourner();
+        else disposer();
+      }
+      c.addEventListener("pointerup", fin);
+      c.addEventListener("pointercancel", function () { x0 = null; c.classList.remove("glisse"); disposer(); });
+    });
+    racine.addEventListener("keydown", function (ev) {
+      if (ev.target.closest("a, button")) return;
+      if (ev.key === "ArrowRight") { suivante(1); ev.preventDefault(); }
+      if (ev.key === "ArrowLeft") { precedente(); ev.preventDefault(); }
+      if (ev.key === "Enter" || ev.key === " ") { tourner(); ev.preventDefault(); }
+    });
+    disposer();
+  })();
+
+  /* ---------- 5. La mosaïque vivante ---------- */
+  (function () {
+    var racine = document.querySelector(".p5");
+    var FORMES = { 13087478: "grand", 39228699: "haut", 39376205: "haut", 39423921: "large", 39182179: "large", 38279508: "large" };
+    var langues = {};
+    PHOTOS.forEach(function (p) { langues[p.wiki] = (langues[p.wiki] || 0) + 1; });
+    racine.innerHTML =
+      '<div class="p5-tete"><ul class="p5-chiffres"><li><b data-n="' + N + '">0</b><span>photos</span></li><li><b data-n="' + N + '">0</b><span>articles</span></li><li><b data-n="' + Object.keys(langues).length + '">0</b><span>langues de Wikipédia</span></li></ul>'
+      + '<div class="p5-filtres" role="group" aria-label="Langue de Wikipédia"><button class="p2-filtre" data-l="" aria-pressed="true">Toutes <small>' + N + "</small></button>"
+      + parNombre(langues).map(function (l) { return '<button class="p2-filtre" data-l="' + l + '" aria-pressed="false">' + LANGUES[l].natif + " <small>" + langues[l] + "</small></button>"; }).join("") + "</div></div>"
+      + '<div class="p5-grille">' + PHOTOS.map(function (p, i) {
+          return '<button class="p5-tuile ' + (FORMES[p.id] || "") + '" data-i="' + i + '" aria-label="' + esc(p.lieu + " — " + p.article + ", " + LANGUES[p.wiki].nom) + '">'
+            + '<img alt="" src="' + url(p, 1000) + '" srcset="' + srcset(p) + '" sizes="(max-width: 900px) 50vw, 25vw" loading="lazy" style="background:' + p.couleur + '">'
+            + '<span class="p5-voile">' + puce(p).replace(LANGUES[p.wiki].nom, LANGUES[p.wiki].natif) + "<strong>" + esc(p.lieu) + '</strong><em lang="' + p.wiki + '">' + esc(p.article) + "</em></span>"
+            + '<span class="p5-fleche" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></button>';
+        }).join("") + "</div>"
+      + '<dialog class="p5-vision"><div class="p5-v-image"><img alt=""><div class="p5-v-nav"><button class="rond" data-a="prec" aria-label="Photo précédente">' + FLECHE_G + '</button><button class="rond" data-a="suiv" aria-label="Photo suivante">' + FLECHE_D + "</button></div></div>"
+      + '<div class="p5-v-cartel"></div><button class="rond p5-v-fermer" data-a="fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></dialog>';
+    var tuiles = Array.prototype.slice.call(racine.querySelectorAll(".p5-tuile"));
+    var vision = racine.querySelector(".p5-vision"), vImg = vision.querySelector(".p5-v-image img"), vCartel = vision.querySelector(".p5-v-cartel"), actuelle = 0;
+    function visibles() { return tuiles.filter(function (t) { return !t.hidden; }).map(function (t) { return +t.dataset.i; }); }
+    function ouvrir(i) {
+      var p = PHOTOS[i];
+      actuelle = i;
+      vImg.src = url(p, 2200); vImg.alt = p.titre;
+      vImg.style.animation = "none"; void vImg.offsetWidth; vImg.style.animation = "";
+      var liste = visibles(), rang = liste.indexOf(i) + 1;
+      vCartel.innerHTML = '<p class="p1-compteur"><b>' + deux(rang) + "</b>/ " + deux(liste.length) + "</p>" + puce(p)
+        + '<h3 lang="' + p.wiki + '">' + esc(p.article) + '</h3><p class="p1-partie">' + partie(p) + " · " + esc(p.lieu) + "</p>" + legende(p)
+        + '<p class="p1-photo">' + esc(p.titre) + "</p>" + actions(p)
+        + '<p class="p1-licence">Sous licence libre CC BY-SA 4.0 · <a href="' + lienCommons(p) + '" target="_blank" rel="noopener">Wikimedia Commons</a></p>';
+      if (!vision.open) vision.showModal();
+    }
+    function voisine(sens) { var liste = visibles(), k = liste.indexOf(actuelle); ouvrir(liste[(k + sens + liste.length) % liste.length]); }
+    tuiles.forEach(function (t) { t.addEventListener("click", function () { ouvrir(+t.dataset.i); }); });
+    vision.querySelector('[data-a="prec"]').addEventListener("click", function () { voisine(-1); });
+    vision.querySelector('[data-a="suiv"]').addEventListener("click", function () { voisine(1); });
+    vision.querySelector('[data-a="fermer"]').addEventListener("click", function () { vision.close(); });
+    vision.addEventListener("click", function (ev) { if (ev.target === vision) vision.close(); });
+    vision.addEventListener("keydown", function (ev) { if (ev.key === "ArrowRight") voisine(1); if (ev.key === "ArrowLeft") voisine(-1); });
+    glisser(vision.querySelector(".p5-v-image"), function () { voisine(-1); }, function () { voisine(1); });
+    racine.querySelectorAll(".p5-filtres .p2-filtre").forEach(function (f) {
+      f.addEventListener("click", function () {
+        var l = f.dataset.l;
+        racine.querySelectorAll(".p5-filtres .p2-filtre").forEach(function (g) { g.setAttribute("aria-pressed", g === f ? "true" : "false"); });
+        var avant = new Map();
+        tuiles.forEach(function (t) { if (!t.hidden) avant.set(t, t.getBoundingClientRect()); });
+        tuiles.forEach(function (t) { t.hidden = !!l && PHOTOS[+t.dataset.i].wiki !== l; });
+        if (calme) return;
+        tuiles.forEach(function (t) {
+          if (t.hidden) return;
+          var b = t.getBoundingClientRect(), a = avant.get(t);
+          if (!a) { t.animate([{ opacity: 0, transform: "scale(.92)" }, { opacity: 1, transform: "none" }], { duration: 500, easing: "cubic-bezier(.2,.7,.2,1)" }); return; }
+          var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
+          t.animate([{ transformOrigin: "top left", transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ")" }, { transformOrigin: "top left", transform: "none" }], { duration: 560, easing: "cubic-bezier(.2,.7,.2,1)" });
+        });
+      });
+    });
+    var chiffres = racine.querySelectorAll(".p5-chiffres b[data-n]");
+    new IntersectionObserver(function (e, obs) {
+      if (!e[0].isIntersecting) return;
+      obs.disconnect();
+      var t0 = performance.now();
+      (function pas(t) {
+        var k = calme ? 1 : Math.min(1, (t - t0) / 1100), e2 = 1 - Math.pow(1 - k, 3);
+        chiffres.forEach(function (b) { b.textContent = Math.round(+b.dataset.n * e2); });
+        if (k < 1) requestAnimationFrame(pas);
+      })(t0);
+    }, { threshold: .3 }).observe(racine);
+  })();
+
+  /* ---------- Sommaire : la proposition en cours ---------- */
+  (function () {
+    var liens = Array.prototype.slice.call(document.querySelectorAll(".sommaire a"));
+    var cibles = liens.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var obs = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var k = cibles.indexOf(e.target);
+        liens.forEach(function (a, j) { a.setAttribute("aria-current", j === k ? "true" : "false"); });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    cibles.forEach(function (c) { obs.observe(c); });
+  })();
+})();
+</script>
+</body>
+</html>
