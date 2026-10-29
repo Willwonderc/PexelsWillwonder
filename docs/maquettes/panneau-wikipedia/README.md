@@ -105,11 +105,15 @@ le défilement du fil et la carte de l'atlas.
   de défilement (2,6 hauteurs de panneau en tout, 130 px au moins par photo), si bien
   que la page reste courte même avec vingt photos et que la molette n'est jamais
   retenue. La photo suivante se découvre de bas en haut, le cartel glisse avec un palier
-  par photo. Un rail de points sur le bord de la photo montre l'avancée. Flèches,
-  clavier (← → Début Fin), glissement du doigt, points du rail et épingles font défiler
+  par photo. Sur le bord de la photo, une petite pilule à trois billes (précédente,
+  affichée, suivante) glisse avec le défilement ; au survol (au toucher sur téléphone,
+  Entrée au clavier), elle s'ouvre en sommaire sur la photo, avec toutes les photos
+  versées dans Wikipédia (demande de Karl du 29 octobre, après la première maquette). Flèches,
+  clavier (← → Début Fin), glissement du doigt, sommaire et épingles font défiler
   la page jusqu'à la photo voulue : tout reste synchronisé.
 - **Sur téléphone** : la photo fixée en haut, le cartel qui défile dessous.
-- **Situer** : bouton à épingle dans le cartel. La photo se réduit en vignette et vole
+- **Situer** : bouton à épingle dans le cartel, le nom du lieu en blanc dans sa partie
+  droite, noire, séparée par une courbe (demande de Karl). La photo se réduit en vignette et vole
   jusqu'à son épingle pendant que la carte se dévoile ; l'épingle tombe et pulse. En
   changeant de photo, la carte vole au lieu suivant. Retour par le même bouton, par
   « Revenir à la photo », un clic sur la vignette ou Échap.

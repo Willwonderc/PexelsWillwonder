@@ -154,20 +154,38 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
 @keyframes wp-flotte { 50% { transform: translateY(4px); } }
 .wp-panneau.parti .wp-indice { opacity: 0; }
 
-/* Le rail de points du fil, sur le bord droit de la photo */
-.wp-rail { position: absolute; z-index: 6; right: 14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center;
-  max-height: calc(100% - 40px); padding: 8px 0; border-radius: 999px; background: rgba(14,14,14,.36); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.wp-rail::before, .wp-rail i.avance { content: ""; position: absolute; left: 50%; width: 2px; margin-left: -1px; top: 22px; border-radius: 2px; }
-.wp-rail::before { bottom: 22px; background: rgba(255,255,255,.28); }
-.wp-rail i.avance { height: 0; background: #fff; }
-.wp-rail button { position: relative; flex: 0 1 30px; min-height: 14px; width: 30px; border: 0; padding: 0; background: none; cursor: pointer; display: grid; place-items: center; }
-.wp-rail button i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.55); transition: transform .3s var(--ease), background-color .3s; }
-.wp-rail button:hover i { transform: scale(1.35); background: #fff; }
-.wp-rail button[aria-current="true"] i { background: #fff; transform: scale(1.6); box-shadow: 0 0 0 3px rgba(255,255,255,.25); }
-.wp-rail button:focus-visible { outline: 2px solid #fff; outline-offset: -2px; border-radius: 50%; }
-.wp-rail button span { position: absolute; right: 36px; top: 50%; transform: translate(6px, -50%); white-space: nowrap; padding: 4px 10px; border-radius: 999px; font-size: 12.5px; color: #fff;
-  background: rgba(14,14,14,.66); opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s var(--ease); }
-.wp-rail button:hover span, .wp-rail button:focus-visible span { opacity: 1; transform: translate(0, -50%); }
+/* La pilule : trois billes (la précédente, la photo affichée, la suivante) qui glissent avec le défilement */
+.wp-pilule { position: absolute; z-index: 6; right: 14px; top: 50%; width: 22px; height: 52px; margin-top: -26px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(14,14,14,.4); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); overflow: hidden; transition: transform .3s var(--ease), background-color .3s ease, opacity .3s ease; }
+.wp-pilule:hover, .wp-pilule[aria-expanded="true"] { transform: scale(1.12); background: rgba(14,14,14,.6); }
+.wp-pilule:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.wp-billes { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.wp-billes i { position: absolute; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; }
+/* Le sommaire : la pilule s'ouvre en panneau sur la photo, avec toutes les photos versées dans Wikipédia */
+.wp-index { position: absolute; inset: 0; z-index: 8; display: grid; grid-template-rows: auto 1fr; color: var(--encre);
+  background: color-mix(in srgb, var(--fond) 90%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1);
+  clip-path: inset(var(--t, 50%) var(--d, 0) var(--b, 50%) var(--g, 100%) round 999px); visibility: hidden;
+  transition: clip-path .55s cubic-bezier(.7, 0, .2, 1), visibility 0s .55s; }
+.wp-index.ouvert { clip-path: inset(0 0 0 0 round 0); visibility: visible; transition: clip-path .6s cubic-bezier(.7, 0, .2, 1); }
+.wp-index-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 10px clamp(16px, 2vw, 24px); }
+.wp-index-tete p { margin: 0; font-size: 12px; font-weight: 600; font-stretch: 125%; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+.wp-index-tete p b { color: var(--encre); }
+.wp-fermer { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 1px solid var(--trait-fort); background: var(--fond); cursor: pointer; display: grid; place-items: center; }
+.wp-fermer svg { width: 16px; height: 16px; }
+.wp-tuiles { list-style: none; margin: 0; padding: 4px clamp(16px, 2vw, 24px) 20px; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 16px; align-content: start; }
+.wp-tuiles button { width: 100%; display: grid; gap: 7px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left;
+  opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .5s var(--ease); }
+.wp-index.ouvert .wp-tuiles button { opacity: 1; transform: none; transition-delay: calc(.18s + var(--k) * 35ms); }
+.wp-tuiles .vignette { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; background: var(--surface); }
+.wp-tuiles img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.wp-tuiles button:hover img { transform: scale(1.06); }
+.wp-tuiles .vignette b { position: absolute; left: 8px; top: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: #fff;
+  background: rgba(14,14,14,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.wp-tuiles button[aria-current="true"] .vignette { box-shadow: 0 0 0 2px var(--fond), 0 0 0 4px var(--encre); }
+.wp-tuiles .nom { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.25; }
+.wp-tuiles .nom small { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: var(--doux); }
+.wp-tuiles .art { font-size: 12.5px; color: var(--doux); line-height: 1.3; margin-top: -3px; }
 
 /* Le cartel : un ruban de fiches qui défile avec la page */
 .wp-cartels { position: relative; overflow: hidden; border-left: 1px solid var(--trait); min-width: 0;
@@ -187,18 +205,21 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
 .wp-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .wp-licence { margin: 0; font-size: 12.5px; color: var(--doux); }
 /* Le bouton de localisation : une épingle et un mot */
-.wp-situer { display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px 8px 9px; border-radius: 999px; border: 1px solid var(--trait-fort);
+.wp-situer { display: inline-flex; align-items: stretch; padding: 0; border-radius: 999px; border: 1px solid var(--trait-fort); overflow: hidden;
   background: color-mix(in srgb, var(--fond) 70%, transparent); cursor: pointer; font-size: 14.5px; font-weight: 600; font-stretch: 108%;
   transition: border-color .2s ease, background-color .2s ease, transform .2s var(--ease); }
 .wp-situer:hover { border-color: var(--encre); }
 .wp-situer:active { transform: scale(.97); }
+.wp-situer .gauche { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 8px; }
 .wp-situer .ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--encre); color: var(--fond); transition: transform .4s var(--ease); }
 .wp-situer .ico svg { width: 16px; height: 16px; }
 .wp-situer:hover .ico { transform: translateY(-2px); }
-.wp-situer small { font-weight: 500; color: var(--doux); font-size: 13px; }
+/* La partie droite : noire, le nom du lieu en blanc, séparée par une courbe */
+.wp-situer small { display: inline-flex; align-items: center; margin-left: -4px; padding: 0 18px 0 20px; font-size: 13.5px; font-weight: 600; letter-spacing: .01em;
+  background: var(--encre); color: var(--fond); border-radius: 22px 0 0 22px / 50% 0 0 50%; transition: padding .3s var(--ease); }
+.wp-situer:hover small { padding-left: 24px; }
 .wp-situer[aria-pressed="true"] { background: var(--encre); color: var(--fond); border-color: var(--encre); }
 .wp-situer[aria-pressed="true"] .ico { background: var(--fond); color: var(--encre); }
-.wp-situer[aria-pressed="true"] small { color: inherit; opacity: .7; }
 
 /* La carte de l'atlas, qui se dévoile sur la photo */
 .wp-atlas { position: absolute; inset: 0; z-index: 4; background: var(--mer); opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
@@ -249,9 +270,12 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
   .wp-lieu { font-size: 30px; bottom: 74px; }
   .wp-lieu small { margin-top: 6px; }
   .wp-indice { right: 56px; bottom: 20px; }
-  .wp-rail { right: 8px; }
+  .wp-pilule { right: 10px; }
+  .wp-tuiles { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 10px; }
+  .wp-tuiles .art { display: none; }
+  .wp-index-tete { padding: 10px 10px 8px 14px; }
   .bouton { padding: 10px 17px; font-size: 14.5px; }
-  .wp-situer { padding: 6px 14px 6px 7px; }
+  .wp-situer .gauche { padding: 5px 12px 5px 6px; }
   .wp-actions { gap: 8px; }
   .wp-retour { left: 10px; top: 10px; width: 40px; height: 40px; padding: 0; justify-content: center; }
   .wp-retour span, .wp-titre-carte { display: none; }
@@ -274,12 +298,12 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
     <h1>La salle de projection, avec le défilement du fil et la carte</h1>
     <p>Fais défiler la page comme d'habitude&nbsp;: arrivé au panneau, il se fixe et les photos avancent avec ton défilement, puis la page reprend son cours. Dans le cartel, «&nbsp;Situer&nbsp;» fait apparaître la carte.</p>
     <div class="changements">
-      <div><h3>La bande est partie</h3><p>Plus de barres ni de noms sous le panneau&nbsp;: un rail de points discret sur le bord de la photo montre où l'on en est.</p></div>
+      <div><h3>La bande est partie</h3><p>Plus de barres ni de noms sous le panneau&nbsp;: une petite pilule à trois billes, sur le bord de la photo, montre où l'on en est. Survolée, elle s'ouvre sur toutes tes photos dans Wikipédia.</p></div>
       <div><h3>Le défilement du fil</h3><p>Molette, pavé tactile ou doigt font avancer les photos, sans jamais bloquer la page. Avec vingt photos, le panneau resterait court.</p></div>
       <div><h3>La carte de l'atlas</h3><p>La photo se réduit en vignette et vole jusqu'à son épingle pendant que la carte se dévoile. Elle suit ensuite chaque photo.</p></div>
       <div><h3>Plus de défilement automatique</h3><p>Il gênait un panneau qu'on pilote soi-même&nbsp;: je propose de le retirer, en gardant le zoom lent sur la photo.</p></div>
     </div>
-    <p class="essai">Essaie aussi&nbsp;: <kbd>←</kbd> <kbd>→</kbd> au clavier une fois le panneau sélectionné, un glissement du doigt sur la photo, un clic sur un point du rail ou sur une épingle de la carte, <kbd>Échap</kbd> pour revenir à la photo.</p>
+    <p class="essai">Essaie aussi&nbsp;: <kbd>←</kbd> <kbd>→</kbd> au clavier une fois le panneau sélectionné, un glissement du doigt sur la photo, le survol de la pilule à droite de la photo (ou un toucher sur téléphone), un clic sur une épingle de la carte, <kbd>Échap</kbd> pour revenir à la photo.</p>
   </section>
 
   <section class="esquisse" aria-label="Haut de la page des galeries, en esquisse">
@@ -329,6 +353,7 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
   function date(s) { var m = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]; var d = s.split("-"); return (+d[2]) + " " + m[+d[1] - 1] + " " + d[0]; }
   function borne(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function douce(t) { return t * t * (3 - 2 * t); }
+  var CROIX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
   var EPINGLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
   var FLECHE_G = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
   var FLECHE_D = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
@@ -346,7 +371,7 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
       + '<p class="wp-photo">' + esc(p.titre) + "</p></div>"
       + '<div class="wp-bas"><div class="wp-actions"><a class="bouton" href="' + lienArticle(p) + '" target="_blank" rel="noopener">Lire l\'article <span aria-hidden="true">↗</span></a>'
       + '<a class="bouton bouton-contour" href="' + lienPhoto(p) + '" target="_blank" rel="noopener">Voir la photo</a>'
-      + '<button class="wp-situer" type="button" aria-pressed="false"><span class="ico">' + EPINGLE + '</span><span class="mot">Situer</span> <small>' + esc(p.lieu) + "</small></button></div>"
+      + '<button class="wp-situer" type="button" aria-pressed="false"><span class="gauche"><span class="ico">' + EPINGLE + '</span><span class="mot">Situer</span></span><small>' + esc(p.lieu) + "</small></button></div>"
       + '<p class="wp-licence">Partagée sous licence libre CC BY-SA 4.0 sur <a href="' + lienCommons(p) + '" target="_blank" rel="noopener">Wikimedia Commons</a> · ajoutée le ' + date(p.date) + "</p></div></article>";
   }
   panneau.innerHTML =
@@ -359,12 +384,20 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
     + '<p class="wp-indice" aria-hidden="true">Faites défiler <i>↓</i></p>'
     + '<div class="wp-atlas" aria-hidden="true"></div>'
     + '<button class="wp-vol" type="button" tabindex="-1" aria-hidden="true"><img alt=""></button>'
-    + '<nav class="wp-rail" aria-label="Photos">' + PHOTOS.map(function (p, i) { return '<button type="button" data-i="' + i + '" aria-label="Photo ' + (i + 1) + " : " + esc(p.lieu) + '"><i></i><span aria-hidden="true">' + esc(p.lieu) + "</span></button>"; }).join("") + '<i class="avance"></i></nav>'
+    + '<button class="wp-pilule" type="button" aria-expanded="false" aria-controls="wp-index" aria-label="Toutes les photos dans Wikipédia"><span class="wp-billes">'
+    + PHOTOS.map(function (p, i) { return '<i style="top:' + (26 + i * 14) + 'px"></i>'; }).join("") + "</span></button>"
+    + '<div class="wp-index" id="wp-index" role="dialog" aria-label="Toutes mes photos dans Wikipédia"><div class="wp-index-tete"><p><b>' + N + "</b> photos dans Wikipédia</p>"
+    + '<button class="wp-fermer" type="button" aria-label="Fermer">' + CROIX + "</button></div>"
+    + '<ul class="wp-tuiles">' + PHOTOS.map(function (p, i) {
+        return '<li><button type="button" data-i="' + i + '" style="--k:' + i + '"><span class="vignette"><img alt="" data-src="' + url(p, 640) + '" style="background:' + p.couleur + '"><b>' + deux(i + 1) + "</b></span>"
+          + '<span class="nom">' + esc(p.lieu) + "<small>" + LANGUES[p.wiki].court + '</small></span><span class="art" lang="' + p.wiki + '">' + esc(p.article) + "</span></button></li>";
+      }).join("") + "</ul></div>"
     + "</div>"
     + '<div class="wp-cartels" aria-live="polite"><div class="wp-ruban">' + PHOTOS.map(cartelHTML).join("") + "</div></div>";
 
   var scene = panneau.querySelector(".wp-scene"), diapos = panneau.querySelectorAll(".wp-diapo"), ruban = panneau.querySelector(".wp-ruban");
-  var cartels = panneau.querySelectorAll(".wp-cartel"), points = panneau.querySelectorAll(".wp-rail button"), avance = panneau.querySelector(".wp-rail .avance");
+  var cartels = panneau.querySelectorAll(".wp-cartel"), pilule = panneau.querySelector(".wp-pilule"), billes = panneau.querySelectorAll(".wp-billes i");
+  var index = panneau.querySelector(".wp-index"), tuiles = index.querySelectorAll(".wp-tuiles button");
   var lieu = panneau.querySelector(".wp-lieu"), prec = panneau.querySelector('[data-a="prec"]'), suiv = panneau.querySelector('[data-a="suiv"]');
   var situer = panneau.querySelectorAll(".wp-situer");
 
@@ -375,7 +408,6 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
     haut = parseFloat(getComputedStyle(panneau).top) || 0;
     pas = N > 1 ? borne(h * 2.6 / (N - 1), 130, h * .42) : 0;
     piste.style.height = (h + (N - 1) * pas) + "px";
-    avance.style.maxHeight = "calc(100% - 44px)";
     suivre();
   }
   function charger(k) {
@@ -403,7 +435,13 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
       if (!calme) img.classList.toggle("vit", vue);
     });
     for (var k = i - 1; k <= i + 2; k++) charger(k);
-    avance.style.height = "calc((100% - 44px) * " + (N > 1 ? position / (N - 1) : 0).toFixed(4) + ")";
+    // Les billes glissent d'un cran par photo : celle du milieu grossit, les voisines s'estompent
+    panneau.querySelector(".wp-billes").style.transform = "translateY(" + (-position * 14).toFixed(2) + "px)";
+    billes.forEach(function (b, k) {
+      var d = Math.abs(k - position);
+      b.style.transform = "scale(" + (d < 1 ? 1.5 - .5 * d : Math.max(0, 1 - (d - 1) * 1.6)).toFixed(3) + ")";
+      b.style.opacity = (d < 1 ? 1 - .5 * d : Math.max(0, .5 - (d - 1))).toFixed(3);
+    });
     var nouvelle = Math.round(position);
     if (nouvelle !== actuelle) changer(nouvelle);
   }
@@ -413,7 +451,8 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
     var p = PHOTOS[i];
     panneau.style.setProperty("--c", p.couleur);
     lieu.innerHTML = "<span>" + esc(p.lieu) + "<small>" + esc(p.region) + "</small></span>";
-    points.forEach(function (b, k) { b.setAttribute("aria-current", k === i ? "true" : "false"); });
+    tuiles.forEach(function (b, k) { b.setAttribute("aria-current", k === i ? "true" : "false"); });
+    pilule.setAttribute("aria-label", "Photo " + (i + 1) + " sur " + N + " · voir toutes les photos dans Wikipédia");
     // Le focus ne se perd pas dans une fiche qui s'efface : il revient au panneau
     if (avant >= 0 && cartels[avant].contains(document.activeElement)) panneau.focus({ preventScroll: true });
     cartels.forEach(function (c, k) { c.inert = k !== i; c.setAttribute("aria-hidden", k === i ? "false" : "true"); });
@@ -429,17 +468,45 @@ main { padding: 0 var(--marge) 80px; max-width: 1480px; margin: 0 auto; }
   window.addEventListener("resize", mesurer);
   prec.addEventListener("click", function () { aller(actuelle - 1); });
   suiv.addEventListener("click", function () { aller(actuelle + 1); });
-  points.forEach(function (b) { b.addEventListener("click", function () { aller(+b.dataset.i); }); });
+  /* Le sommaire : au survol de la pilule (ou au toucher, ou au clavier), il prend la place de la photo */
+  var minuterie = null;
+  function sommaire(ouvrir, auClavier) {
+    clearTimeout(minuterie);
+    if (ouvrir === index.classList.contains("ouvert")) return;
+    if (ouvrir) {
+      // Le panneau part de la pilule : son découpage de départ épouse la forme de la pilule
+      var s = scene.getBoundingClientRect(), r = pilule.getBoundingClientRect();
+      index.style.setProperty("--t", (r.top - s.top) + "px"); index.style.setProperty("--b", (s.bottom - r.bottom) + "px");
+      index.style.setProperty("--g", (r.left - s.left) + "px"); index.style.setProperty("--d", (s.right - r.right) + "px");
+      index.querySelectorAll("img[data-src]").forEach(function (img) { img.src = img.dataset.src; img.removeAttribute("data-src"); });
+      void index.offsetWidth;
+    }
+    index.classList.toggle("ouvert", ouvrir);
+    pilule.setAttribute("aria-expanded", ouvrir ? "true" : "false");
+    if (ouvrir && auClavier) setTimeout(function () { tuiles[actuelle].focus({ preventScroll: true }); }, calme ? 0 : 250);
+    if (!ouvrir && index.contains(document.activeElement)) pilule.focus({ preventScroll: true });
+  }
+  pilule.addEventListener("pointerenter", function (ev) { if (ev.pointerType === "mouse") { clearTimeout(minuterie); minuterie = setTimeout(function () { sommaire(true); }, 120); } });
+  pilule.addEventListener("pointerleave", function (ev) { if (ev.pointerType === "mouse" && !index.classList.contains("ouvert")) clearTimeout(minuterie); });
+  pilule.addEventListener("click", function (ev) { sommaire(!index.classList.contains("ouvert"), ev.detail === 0); });
+  index.addEventListener("pointerenter", function () { clearTimeout(minuterie); });
+  index.addEventListener("pointerleave", function (ev) { if (ev.pointerType === "mouse") minuterie = setTimeout(function () { sommaire(false); }, 350); });
+  index.querySelector(".wp-fermer").addEventListener("click", function () { sommaire(false); });
+  tuiles.forEach(function (b) { b.addEventListener("click", function () { var k = +b.dataset.i; sommaire(false); pilule.focus({ preventScroll: true }); aller(k); }); });
   panneau.addEventListener("keydown", function (ev) {
     if (ev.target.closest && ev.target.closest(".wp-epingle")) return;
     var t = { ArrowLeft: actuelle - 1, ArrowRight: actuelle + 1, Home: 0, End: N - 1 }[ev.key];
     if (t !== undefined && !(ev.target.tagName === "A")) { aller(t); ev.preventDefault(); }
   });
-  document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && ouverte) { fermer(); ev.preventDefault(); } });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Escape") return;
+    if (index.classList.contains("ouvert")) { sommaire(false); ev.preventDefault(); }
+    else if (ouverte) { fermer(); ev.preventDefault(); }
+  });
   // Glissement du doigt sur la photo, comme une story : la page défile jusqu'à la photo voisine
   (function () {
     var x0 = null, y0 = 0;
-    scene.addEventListener("pointerdown", function (ev) { x0 = ev.clientX; y0 = ev.clientY; });
+    scene.addEventListener("pointerdown", function (ev) { x0 = ev.target.closest(".wp-index, .wp-atlas") ? null : ev.clientX; y0 = ev.clientY; });
     scene.addEventListener("pointerup", function (ev) {
       if (x0 === null) return;
       var dx = ev.clientX - x0, dy = ev.clientY - y0; x0 = null;

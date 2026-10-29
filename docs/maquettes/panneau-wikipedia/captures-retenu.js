@@ -32,6 +32,12 @@ const FICHIER = path.resolve(process.argv[2]), PHOTOS = process.argv[3], SORTIE 
     await page.mouse.move(viewport.width / 3, viewport.height / 2);
     await page.mouse.wheel(0, pas * 1.45); await cliche("4-molette", 1200);
     await page.evaluate(y => window.scrollTo(0, y), debut + pas * 2 + 1); await cliche("5-bordeaux");
+    // La pilule : survol à la souris, toucher sur téléphone ; le sommaire s'ouvre sur la photo
+    if (tel) await page.locator(".wp-pilule").tap(); else await page.locator(".wp-pilule").hover();
+    await cliche("5b-sommaire-vol", 300);
+    await cliche("5c-sommaire", 900);
+    if (tel) await page.locator(".wp-fermer").tap(); else await page.mouse.move(viewport.width - 60, viewport.height / 2);
+    await cliche("5d-sommaire-ferme", 1000);
     await page.locator('.wp-cartel[data-i="2"] .wp-situer').click();
     await cliche("6-carte-vol", 450);
     await cliche("7-carte", 1500);
@@ -45,7 +51,7 @@ const FICHIER = path.resolve(process.argv[2]), PHOTOS = process.argv[3], SORTIE 
     await cliche("10-apres", 300);
     await page.evaluate(() => document.querySelector(".wp-panneau").focus());
     await page.keyboard.press("Tab"); await cliche("11-focus", 300);
-    const actuelle = await page.evaluate(() => document.querySelector('.wp-rail [aria-current="true"]').dataset.i);
+    const actuelle = await page.evaluate(() => document.querySelector('.wp-tuiles [aria-current="true"]').dataset.i);
     console.log(nom, "défilement libre :", apres >= Math.min(fin, avant + 2000) ? "oui" : "NON " + avant + "→" + apres, "· photo courante", actuelle, "·", erreurs.length ? erreurs.join(" | ") : "aucune erreur");
     await page.close();
   }
