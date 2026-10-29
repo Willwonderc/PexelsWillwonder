@@ -132,6 +132,7 @@ est installée sur le site photo, en français, en anglais et en chinois, sous l
 la page des galeries. Les données viennent de `vitrine/wikipedia.csv` (mode d'emploi :
 `vitrine/README.md`, « Photos dans Wikipédia ») ; `build.py` écrit le panneau et la ligne
 de chaque page de photo, `statique/site.js` et `statique/style.css` reprennent le script et
-les styles de `retenu.html`, et la carte est `vitrine/statique/carte.json`, tirée de
-`carte.json` d'ici, chargée seulement à l'approche du panneau. Sans JavaScript, les cartels
+les styles de `retenu.html`, et la carte est `vitrine/statique/carte.json`, tracée par `carte.py` d'ici avec
+`--site` (le 29 octobre, élargie à l'ouest jusqu'à 9,8° pour la Galice), chargée
+seulement à l'approche du panneau. Sans JavaScript, les cartels
 se suivent, chacun avec sa vignette.

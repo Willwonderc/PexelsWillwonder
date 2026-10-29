@@ -347,9 +347,12 @@ la fois, en grand, avec son cartel (l'article, sa langue, la partie, la légende
 récemment ajoutées d'abord. Arrivé au panneau, il se fixe à l'écran et les photos avancent
 avec le défilement ; une pilule à trois billes montre l'avancée et s'ouvre en sommaire ; le
 bouton « Situer » dévoile la carte, où la photo vole jusqu'à son épingle. La carte
-(`statique/carte.json`) couvre la France et le nord de l'Espagne ; pour un lieu plus
-lointain, la retracer plus large avec `docs/maquettes/panneau-wikipedia/carte.py` (la
-construction signale une photo hors de la carte). La page de chaque photo concernée cite
+(`statique/carte.json`) couvre la France, l'Espagne du Nord et la Galice ; pour un lieu
+plus lointain, la retracer plus large avec `docs/maquettes/panneau-wikipedia/carte.py` (la
+construction signale une photo hors de la carte), par exemple
+`python3 docs/maquettes/panneau-wikipedia/carte.py countries-50m.json vitrine/statique/carte.json --site --etendue -9.8 8.6 41.2 51.4`
+(ouest, est, sud, nord, en degrés ; les données de world-atlas se téléchargent à
+l'adresse donnée dans `docs/maquettes/panneau-wikipedia/README.md`). La page de chaque photo concernée cite
 l'article et mène au fichier sur Commons.
 
 ## Domaine personnel

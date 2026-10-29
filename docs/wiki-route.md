@@ -42,6 +42,12 @@ dit ce que montre la photo, avec ses coordonnées.
   et y repérer la partie qui parle de ce que montre la photo.
 - Vérifier les images déjà présentes, dans la partie et dans tout l'article : pas de
   doublon du même sujet, pas de galerie déjà pleine.
+- Lire l'historique de l'article (`…/w/index.php?title=<Article>&action=history`) et les
+  contributions de Karl sur cette Wikipédia (`Special:Contributions/Karl_Forterre`). Une
+  photo déjà retirée d'un article n'y est jamais reproposée : la remettre serait une
+  guerre d'édition. C'est arrivé le 29 octobre, faute de cette lecture : la statue de la
+  Loi, retirée le 6 octobre de l'article espagnol sur l'hôtel de ville de Bilbao, y a été
+  reproposée et retirée de nouveau trois minutes plus tard.
 
 ### 3. Préparer ce que Karl copie (session)
 
@@ -98,11 +104,19 @@ Karl ne donne jamais son mot de passe à une session.
   données par Commons, le lieu et sa région dans les trois langues. La pull request vers
   `main` met la photo dans le panneau à la construction suivante, et la page de la photo
   cite l'article.
+- Le panneau ne montre que les photos publiées aussi sur Pexels, qui ont leur page sur le
+  site : leur numéro Pexels se lit dans leur description sur Commons (« Aussi publiée par
+  l'auteur sur Pexels : … ») ou se retrouve par leur titre dans
+  `vitrine/donnees/textes-fr.csv`. Une photo versée seulement sur Commons illustre bien
+  son article, mais reste hors du panneau tant qu'elle n'est pas sur Pexels.
 
 ### 6. Suivre (session)
 
 - Un contrôle chaque semaine : chaque photo est toujours dans son article, rien de neuf
-  sur la page de discussion de Karl, aucun blocage dans le journal.
+  sur la page de discussion de Karl, aucun blocage dans le journal. La liste de toutes
+  les Wikipédias où Karl a contribué, avec le nombre de ses modifications, est à
+  `https://meta.wikimedia.org/wiki/Special:CentralAuth/Karl_Forterre` : les contributions
+  de chacune y montrent les modifications annulées.
 - Une photo retirée par un autre contributeur ne se remet pas : pas de guerre
   d'édition. On lit la raison, on en tient compte pour les suivantes, et on retire sa
   ligne de `wikipedia.csv`.
@@ -115,32 +129,21 @@ Karl ne donne jamais son mot de passe à une session.
 
 ## Où en est la route (29 octobre 2026)
 
-Sur les 18 fichiers que Karl a versés sur Commons, 8 illustrent un article (ils sont tous
-dans `vitrine/wikipedia.csv`), 3 sont préparés, et 7 attendent leur tour.
-
-### Préparées le 29 octobre
-
-| Photo sur Commons | Wikipédia | Article | Partie (n°) | Légende |
-|---|---|---|---|---|
-| Bilbao - hôtel de ville, statue de la Justice - 2026.jpg | basque | Bilboko udaletxea | Eraikina (2) | Justizia irudikatzen duen eskultura, eskailera nagusian. |
-| Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | espagnol | Casa consistorial de Bilbao | Características (3) | Escultura de la Ley, con la inscripción «IN LEGIBUS SALUS», en la escalinata principal |
-| Éclipse totale de Soleil du 12 août 2026 vue de Galice.jpg | français | Éclipse solaire du 12 août 2026 | Galerie (16) | [[Couronne solaire]] pendant la totalité. Depuis la [[Galice]], en Espagne. |
-
-Les deux articles de l'hôtel de ville de Bilbao écrivent qu'« en la escalinata
-principal, destacan dos esculturas que representan la ley y la justicia ». L'article
-espagnol montre déjà un détail de la Justice : il reçoit donc la Loi, et l'article basque,
-sans aucune image dans son texte, reçoit la Justice. Dans l'article français sur
-l'éclipse, la galerie de l'éclipse totale ne montre encore que León.
+Sur les 18 fichiers que Karl a versés sur Commons, 10 illustrent un article et 8 attendent
+leur tour. Neuf des dix sont aussi sur Pexels, donc dans `vitrine/wikipedia.csv` et dans
+le panneau du site ; la statue de la Justice de l'hôtel de ville de Bilbao n'est que sur
+Commons.
 
 ### En attente
 
 | Photo sur Commons | Piste |
 |---|---|
+| Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | aucune pour l'instant : l'article espagnol « Casa consistorial de Bilbao » l'a refusée deux fois (Xabier, 6 octobre : « Imagen repetida, ya supra » ; 29 octobre : « Imagen duplicada, no repetir imágenes »), ne plus l'y proposer |
 | Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026.jpg | basque, « Bilboko Done Jakue katedrala », partie « Fatxada eta dorrea », qui a déjà une image de la tour : à comparer avec les articles français et espagnol |
 | Cognac - hôtel de ville - 2025.jpg | français : aucun article sur l'hôtel de ville ; voir « Cognac », lieux et monuments |
 | Villandry - jardins du château vus d'en haut - 2026.jpg | français, « Château de Villandry », partie des jardins |
 | Îles Chausey - le phare vu de la mer - 2025.jpg | français, « Îles Chausey » |
-| Niort - hôtel de ville - 2026.jpg | français, « Hôtel de ville de Niort », qui a déjà deux images |
+| Niort - hôtel de ville - 2026.jpg | français, « Hôtel de ville de Niort », article créé par Karl le 11 octobre (traduit de l'anglais) : sa photo n'est que dans son brouillon ; l'article a déjà deux images |
 | Niort - flèches de l'église Saint-André dans la verdure - 2025.jpg | l'article « Église Saint-André de Niort » a déjà une photo de Karl : chercher un autre article |
 | Xonrupt-Longemer - chapelle Saint-Florent - 2022.jpg | la galerie de « Xonrupt-Longemer » montre déjà la chapelle : chercher ailleurs |
 
@@ -148,6 +151,8 @@ l'éclipse, la galerie de l'éclipse totale ne montre encore que León.
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Galice, éclipse totale (couronne solaire) | français | Éclipse solaire du 12 août 2026 | Galerie | 29 octobre 2026 |
+| Bilbao, statue de la Justice (seulement sur Commons) | basque | Bilboko udaletxea | Eraikina | 29 octobre 2026 |
 | Irun, hôtel de ville | basque | Irungo Udala | Udaletxea | 28 octobre 2026 |
 | Gijón, Universidad Laboral | asturien | Universidá Llaboral de Xixón | La torre | 28 octobre 2026 |
 | Bordeaux, Génie de la Liberté | français | Monument aux Girondins | Description | 28 octobre 2026 |
