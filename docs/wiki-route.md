@@ -129,10 +129,24 @@ Karl ne donne jamais son mot de passe à une session.
 
 ## Où en est la route (29 octobre 2026)
 
-Sur les 18 fichiers que Karl a versés sur Commons, 10 illustrent un article et 8 attendent
-leur tour. Neuf des dix sont aussi sur Pexels, donc dans `vitrine/wikipedia.csv` et dans
-le panneau du site ; la statue de la Justice de l'hôtel de ville de Bilbao n'est que sur
-Commons.
+Sur les 18 fichiers que Karl a versés sur Commons, 10 illustrent un article, 3 sont
+préparés et 5 attendent leur tour. Neuf des dix sont aussi sur Pexels, donc dans
+`vitrine/wikipedia.csv` et dans le panneau du site ; la statue de la Justice de l'hôtel de
+ville de Bilbao n'est que sur Commons.
+
+### Préparées le 29 octobre (deuxième série)
+
+| Photo sur Commons | Wikipédia | Article | Partie (n°) | Légende |
+|---|---|---|---|---|
+| Xonrupt-Longemer - chapelle Saint-Florent - 2022.jpg | français | Lac de Longemer | Histoire religieuse (3) | La chapelle Saint-Florent, sur la rive ouest du lac. |
+| Villandry - jardins du château vus d'en haut - 2026.jpg | anglais | Château de Villandry | History (1) | Box-hedge parterres in the gardens, seen from above |
+| Îles Chausey - le phare vu de la mer - 2025.jpg | espagnol | Islas Chausey | Geografía (1) | El faro de Chausey en la Gran Isla, visto desde el mar |
+
+Les trois sont aussi sur Pexels (13041935, 38694047, 34894970) : elles entreront dans le
+panneau une fois en place. L'article sur le lac parle de la chapelle sans la montrer ;
+l'article anglais décrit les parterres de buis sans image dans son texte ; l'article
+espagnol n'a qu'une photo, celle du fort. Aucun des trois n'a jamais retiré de photo de
+Karl.
 
 ### En attente
 
@@ -140,12 +154,9 @@ Commons.
 |---|---|
 | Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | aucune pour l'instant : l'article espagnol « Casa consistorial de Bilbao » l'a refusée deux fois (Xabier, 6 octobre : « Imagen repetida, ya supra » ; 29 octobre : « Imagen duplicada, no repetir imágenes »), ne plus l'y proposer |
 | Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026.jpg | basque, « Bilboko Done Jakue katedrala », partie « Fatxada eta dorrea », qui a déjà une image de la tour : à comparer avec les articles français et espagnol |
-| Cognac - hôtel de ville - 2025.jpg | français : aucun article sur l'hôtel de ville ; voir « Cognac », lieux et monuments |
-| Villandry - jardins du château vus d'en haut - 2026.jpg | français, « Château de Villandry », partie des jardins |
-| Îles Chausey - le phare vu de la mer - 2025.jpg | français, « Îles Chausey » |
-| Niort - hôtel de ville - 2026.jpg | français, « Hôtel de ville de Niort », article créé par Karl le 11 octobre (traduit de l'anglais) : sa photo n'est que dans son brouillon ; l'article a déjà deux images |
+| Cognac - hôtel de ville - 2025.jpg | l'hôtel de ville est déjà montré dans « Cognac » (français) et « Cognac Public Garden » (anglais) : chercher ailleurs |
+| Niort - hôtel de ville - 2026.jpg | pas l'article « Hôtel de ville de Niort » : Karl l'avait mise dans l'infobox en créant l'article le 11 octobre, et Baidax l'a remplacée le 12 (« meilleure photographie ») ; ne plus l'y proposer |
 | Niort - flèches de l'église Saint-André dans la verdure - 2025.jpg | l'article « Église Saint-André de Niort » a déjà une photo de Karl : chercher un autre article |
-| Xonrupt-Longemer - chapelle Saint-Florent - 2022.jpg | la galerie de « Xonrupt-Longemer » montre déjà la chapelle : chercher ailleurs |
 
 ### Déjà dans des articles
 
