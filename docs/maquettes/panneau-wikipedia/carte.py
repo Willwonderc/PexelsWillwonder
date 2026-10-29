@@ -1,8 +1,22 @@
 """Contours de la France, de l'Espagne et des voisins, d'après world-atlas (TopoJSON 50m),
-en chemins SVG projetés (Mercator), simplifiés, pour la maquette de l'atlas."""
-import json, math, sys
+en chemins SVG projetés (Mercator), simplifiés.
+
+Maquettes (étendue d'origine, avec la place des huit premières photos) :
+    python3 carte.py countries-50m.json carte.json
+Site photo (fond de carte du panneau Wikipédia, avec les noms des mers et des pays en
+trois langues ; l'étendue se donne en degrés : ouest, est, sud, nord) :
+    python3 carte.py countries-50m.json ../../../vitrine/statique/carte.json --site --etendue -9.8 8.6 41.2 51.4
+"""
+import argparse, json, math, sys
 sys.setrecursionlimit(20000)
-source, sortie = sys.argv[1], sys.argv[2]
+options = argparse.ArgumentParser()
+options.add_argument("source")
+options.add_argument("sortie")
+options.add_argument("--site", action="store_true", help="fond de carte du site (statique/carte.json)")
+options.add_argument("--etendue", nargs=4, type=float, metavar=("OUEST", "EST", "SUD", "NORD"),
+                     default=(-7.6, 8.6, 41.2, 51.4))
+args = options.parse_args()
+source, sortie = args.source, args.sortie
 topo = json.load(open(source, encoding="utf-8"))
 sx, sy = topo["transform"]["scale"]
 tx, ty = topo["transform"]["translate"]
@@ -22,7 +36,7 @@ def anneau(indices):
         pts.extend(a if not pts else a[1:])
     return pts
 
-LON0, LON1, LAT0, LAT1 = -7.6, 8.6, 41.2, 51.4
+LON0, LON1, LAT0, LAT1 = args.etendue
 LARGEUR = 1000.0
 def merc(lat):
     return math.log(math.tan(math.pi / 4 + math.radians(lat) / 2))
@@ -72,6 +86,32 @@ for geo in topo["objects"]["countries"]["geometries"]:
             d.append("M" + "L".join(f"{x:.1f} {y:.1f}" for x, y in xy) + "Z")
     if d:
         resultat["pays"].append({"id": gid, "nom": PRINCIPAUX.get(gid) or VOISINS[gid], "principal": gid in PRINCIPAUX, "d": "".join(d)})
+
+if args.site:
+    # Noms posés sur la carte (longitude, latitude), en français, en anglais et en chinois.
+    ETIQUETTES = [
+        {"lon": -9.2, "lat": 45.96, "classe": "mer", "fr": ["Océan", "Atlantique"], "en": ["Atlantic", "Ocean"], "zh": ["大西洋"]},
+        {"lon": 5.44, "lat": 42.02, "classe": "mer", "milieu": True, "fr": ["Méditerranée"], "en": ["Mediterranean"], "zh": ["地中海"]},
+        {"lon": 2.12, "lat": 46.97, "milieu": True, "fr": ["France"], "en": ["France"], "zh": ["法国"]},
+        {"lon": -2.74, "lat": 41.65, "milieu": True, "fr": ["Espagne"], "en": ["Spain"], "zh": ["西班牙"]},
+    ]
+    etiquettes = []
+    for e in ETIQUETTES:
+        x, y = proj(e["lon"], e["lat"])
+        etiquettes.append({"x": round(x), "y": round(y), **{k: v for k, v in e.items() if k not in ("lon", "lat")}})
+    site = {
+        "source": "Natural Earth (domaine public), via world-atlas 2.0.2 ; tracé par docs/maquettes/panneau-wikipedia/carte.py",
+        "projection": "Mercator",
+        "etendue": {"lon": [LON0, LON1], "lat": [LAT0, LAT1]},
+        "largeur": resultat["largeur"],
+        "hauteur": resultat["hauteur"],
+        "etiquettes": etiquettes,
+        "pays": [{"nom": p["nom"], "principal": p["principal"], "d": p["d"]} for p in resultat["pays"]],
+    }
+    json.dump(site, open(sortie, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    print("hauteur", resultat["hauteur"], "pays", [p["nom"] for p in site["pays"]], "étiquettes", [(e["x"], e["y"]) for e in etiquettes])
+    sys.exit()
+
 LIEUX = {
     "39423921": (-1.7889, 43.3381), "39228699": (-5.6130, 43.5250), "39376205": (-0.5747, 44.8452),
     "13087478": (6.5397, 48.3517), "23414381": (-0.4606, 46.3268), "38279508": (-0.4589, 46.3238),
