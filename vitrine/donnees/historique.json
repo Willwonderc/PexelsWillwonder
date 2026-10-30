@@ -202,8 +202,8 @@
      "2026-10-26": {
       "clics": 1,
       "complete": false,
-      "impressions": 6,
-      "position": 25.5
+      "impressions": 8,
+      "position": 30.1
      }
     },
     "web": {
@@ -304,10 +304,10 @@
       "position": 5.7
      },
      "2026-10-26": {
-      "clics": 0,
+      "clics": 2,
       "complete": false,
-      "impressions": 10,
-      "position": 5.7
+      "impressions": 15,
+      "position": 4.1
      }
     }
    },
@@ -412,8 +412,8 @@
      "2026-10-26": {
       "clics": 0,
       "complete": false,
-      "impressions": 90,
-      "position": 40.4
+      "impressions": 102,
+      "position": 43.1
      }
     },
     "web": {
@@ -516,8 +516,8 @@
      "2026-10-26": {
       "clics": 0,
       "complete": false,
-      "impressions": 94,
-      "position": 14.8
+      "impressions": 113,
+      "position": 15.4
      }
     }
    }
