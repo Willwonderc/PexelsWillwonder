@@ -170,6 +170,38 @@ reste en attente. Les nouvelles photos de Villandry sont déjà sur Pexels : leu
 Commons porte `{{Permission pending}}`, et Karl ajoute leurs noms à son autorisation
 envoyée par courriel.
 
+### Les 336 propositions du 30 octobre
+
+Karl a fourni le 30 octobre deux listes écrites par un autre modèle d'après les titres et
+les mots-clés, sans voir les photos : `propositions-wiki-336.md` (336 photos, priorités 1 à
+3) et `propositions-wiki-priorites.md` (les 97 des priorités 1 et 2). Relues le 30 octobre
+en regardant chaque photo retenue et les articles visés. Leçons :
+
+- **Les identifications sont souvent fausses** : 23414381 et 23414382 montrent Saint-André
+  et non Notre-Dame de Niort ; 40189681 est la tour de l'Universidad Laboral de Gijón ;
+  Statue de la Liberté, aqueducs, églises « sans nom » restent à identifier par Karl.
+- **Écartées** : œuvres et bâtiments récents en France (Commons les supprime faute de
+  liberté de panorama : pont Chaban-Delmas, tour Montparnasse, monuments aux morts au
+  sculpteur inconnu, vitraux modernes) ; manifestations et personnes reconnaissables ;
+  sujets génériques (fleurs, cafés, chats, flous), soit l'essentiel de la priorité 3 ;
+  articles déjà bien illustrés (Girondins, Quinconces, Zubizuri, tour Iberdrola, Isozaki
+  Atea, Poitiers, Mont-Saint-Michel, Évron, Villandry, déjà riche de cinq photos).
+- **Retenues** : pic du Midi d'Ossau (en, fait), phare du Loup (fr « Îles Chausey », fait).
+- **Pistes vérifiées, à confirmer par Karl** : 23414382, Saint-André au-dessus de la
+  Sèvre, pour l'article italien « Niort », sans photo dans son texte ; 13263155, viaduc de
+  Laval en noir et blanc, pour « Viaduc de Laval » (partie Description : neuf arches de
+  granite) ; 39228273, l'église de Buzy, pour l'article basque « Buzy », sans aucune photo
+  (nom de l'église à confirmer : Saint-Saturnin, de la fin du XVIIIe siècle, n'est pas
+  romane).
+- **À identifier par Karl** : 32053231 (église néogothique d'Angers), 39517000 (façade
+  plateresque en Espagne), 35104307 et 35104310 (remparts médiévaux, peut-être Fougères),
+  35168742 (campanile en Mayenne), 19047674 (réplique de la statue de la Liberté),
+  34939467 (tourelle « à Saint-Planchers »), 34894969 (pyramide à Chausey), 12076681
+  (Angoulême), 34849705 (chœur gothique du Mont-Saint-Michel).
+- Plusieurs photos récentes, sans titre sur Pexels, ne sont pas encore sur le site (Évron
+  402743xx, Bilbao 4001463x, 400607xx) : les ajouter comme la Justice et la cathédrale de
+  Bilbao si elles entrent dans un article.
+
 ### En attente
 
 | Photo sur Commons | Piste |
