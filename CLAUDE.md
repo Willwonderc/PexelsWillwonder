@@ -244,7 +244,8 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   dans `docs/maquettes/panneau-wikipedia/`), fixée à l'écran, qui avance au défilement ;
   « Situer » ouvre la carte `vitrine/statique/carte.json`, tracée par `carte.py` de ces
   maquettes. Ligne sur la page de chaque photo concernée. Protocole pour verser une photo dans un
-  article, et file d'attente des photos de Commons : `docs/wiki-route.md` (« wiki route »).
+  article, et file d'attente des photos de Commons : `docs/wiki-route.md` (« wiki route ») ;
+  tableau de suivi, mis à jour à chaque ajout : `docs/wiki-suivi/`.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
   `vitrine/statique/logo-kf.webp` (original texturé).
 - Captures d'écran en session : Chromium ne charge pas les images de
