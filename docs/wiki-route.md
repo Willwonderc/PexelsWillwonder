@@ -148,12 +148,12 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
   (contact@karlforterre.fr) ; sur une erreur 429, attendre 20, puis 40, puis 80 secondes.
 - Lectures seulement, par `action=raw` et l'API publique.
 
-## Où en est la route (29 octobre 2026)
+## Où en est la route (30 octobre 2026)
 
-Sur les 22 fichiers que Karl a versés sur Commons, 17 illustrent un article (dont un par
-l'image de Wikidata) et 5 attendent leur tour. Quinze des dix-sept sont aussi sur Pexels,
-donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Deux ne sont que sur
-Commons : la statue de la Justice de l'hôtel de ville de Bilbao, et la vue de face de
+Sur les 22 fichiers que Karl a versés sur Commons, 20 illustrent un article (dont un par
+l'image de Wikidata) et 2 attendent leur tour (Cognac, sans place libre ; la Loi, refusée). Dix-sept des vingt sont aussi sur Pexels,
+donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Trois ne sont que sur
+Commons : la statue de la Justice et la cathédrale de Bilbao, et la vue de face de
 l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
 
 Pour Villandry, Karl a ajouté le 29 octobre à l'article anglais une partie « Gardens »
@@ -169,15 +169,15 @@ envoyée par courriel.
 | Photo sur Commons | Piste |
 |---|---|
 | Bilbao - hôtel de ville, statue de la Loi - 2026.jpg | aucune pour l'instant : l'article espagnol « Casa consistorial de Bilbao » l'a refusée deux fois (Xabier, 6 octobre : « Imagen repetida, ya supra » ; 29 octobre : « Imagen duplicada, no repetir imágenes »), ne plus l'y proposer |
-| Villandry - jardins du château vus d'en haut - 2026.jpg | l'article anglais « Château de Villandry » a désormais deux photos de Karl dans « Gardens » : ne pas en ajouter une troisième tout de suite |
-| Bilbao - cathédrale Saint-Jacques, façade et flèche - 2026.jpg | basque, « Bilboko Done Jakue katedrala », partie « Fatxada eta dorrea », qui a déjà une image de la tour : à comparer avec les articles français et espagnol |
-| Cognac - hôtel de ville - 2025.jpg | l'hôtel de ville est déjà montré dans « Cognac » (français) et « Cognac Public Garden » (anglais) : chercher ailleurs |
-| Niort - flèches de l'église Saint-André dans la verdure - 2025.jpg | l'article « Église Saint-André de Niort » a déjà une photo de Karl : chercher un autre article |
+| Cognac - hôtel de ville - 2025.jpg | l'hôtel de ville est déjà montré dans les articles français, anglais, allemand et espagnol sur Cognac et dans « Cognac Public Garden » : chercher ailleurs |
 
 ### Déjà dans des articles
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Villandry, parterres vus d'en haut | anglais | Parterre | Gallery | 30 octobre 2026 |
+| Niort, flèches de Saint-André dans la verdure | espagnol | Niort | Geografía | 30 octobre 2026 |
+| Bilbao, cathédrale, façade et flèche (seulement sur Commons) | français | Cathédrale Saint-Jacques de Bilbao | Description | 30 octobre 2026 |
 | Villandry, parterre de l'Amour passionné | anglais | Château de Villandry | Gallery | 29 octobre 2026 |
 | Villandry, potager décoratif | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
 | Villandry, miroir d'eau du jardin d'eau | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
