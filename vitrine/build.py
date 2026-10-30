@@ -573,13 +573,16 @@ def lire_wikipedia():
     """Photos versées dans Wikipédia (wikipedia.csv) : une ligne par article illustré. Rend
     une liste, les plus récemment ajoutées d'abord, puis dans l'ordre du fichier ; sans les
     lignes incomplètes ni les Wikipédias inconnues de WIKIPEDIAS. La légende est celle de
-    l'article, mot pour mot ; sans partie ni légende, la photo est l'image de l'infobox."""
+    l'article, mot pour mot ; sans partie ni légende, la photo est l'image de l'infobox. Une
+    photo versée seulement sur Commons n'a pas de numéro Pexels : sa colonne « photo » reste
+    vide, et ses titres (titre_fr, titre_en, titre_zh) et sa taille (largeur, hauteur) sont
+    dans le fichier."""
     chemin = ICI / "wikipedia.csv"
     entrees = []
     for ligne in lire_csv(chemin) if chemin.exists() else []:
         v = {cle: (valeur or "").strip() for cle, valeur in ligne.items() if cle}
         numero, wiki = v.get("photo", ""), v.get("wiki", "").lower()
-        if not (numero.isdigit() and v.get("article") and v.get("fichier")):
+        if not ((numero.isdigit() or not numero) and v.get("article") and v.get("fichier")):
             continue
         if wiki not in WIKIPEDIAS:
             print(f"wikipedia.csv : Wikipédia « {wiki} » inconnue (photo {numero}), ligne ignorée.")
@@ -589,11 +592,14 @@ def lire_wikipedia():
         except ValueError:
             lon = lat = None
         entrees.append({
-            "photo": int(numero), "wiki": wiki, "article": v["article"], "partie": v.get("partie", ""),
+            "photo": int(numero) if numero else None, "wiki": wiki, "article": v["article"], "partie": v.get("partie", ""),
             "legende": v.get("legende", ""), "fichier": v["fichier"], "date": v.get("ajoutee_le", ""),
             "lon": lon, "lat": lat,
             "lieu": {l: traduit(v, "lieu", l) for l in LANGUES},
-            "region": {l: traduit(v, "region", l) for l in LANGUES}})
+            "region": {l: traduit(v, "region", l) for l in LANGUES},
+            "titre": {l: traduit(v, "titre", l) for l in LANGUES},
+            "taille": (int(v["largeur"]), int(v["hauteur"]))
+            if v.get("largeur", "").isdigit() and v.get("hauteur", "").isdigit() else (4, 3)})
     entrees.sort(key=lambda w: w["date"], reverse=True)
     return entrees
 
@@ -1171,7 +1177,14 @@ class Adresses:
 # ---------------------------------------------------------------- morceaux de page
 
 
+# Largeurs de vignettes que sert Commons (les autres sont refusées ou recalculées).
+LARGEURS_COMMONS = (250, 330, 500, 960, 1280, 1920)
+
+
 def url_image(photo, largeur):
+    if photo.get("commons"):
+        pas = next((l for l in LARGEURS_COMMONS if l >= largeur), LARGEURS_COMMONS[-1])
+        return f"{photo['image']}?width={pas}"
     return f"{photo['image']}?auto=compress&cs=tinysrgb&w={largeur}"
 
 
@@ -1892,6 +1905,17 @@ def lien_wikipedia(w):
     return adresse + ("#" + quote(w["partie"].replace(" ", "_"), safe=SIGNES_WIKI) if w["partie"] else "")
 
 
+def photo_commons(w):
+    """Ce qu'il faut au panneau d'une photo versée seulement sur Commons : l'image servie par
+    Commons, ses titres, sa taille ; elle n'a pas de page sur le site, et ses liens mènent à
+    Commons."""
+    largeur, hauteur = w["taille"]
+    return {"id": "commons", "commons": True, "titre": w["titre"], "couleur": "#8a8a8a",
+            "largeur": largeur, "hauteur": hauteur,
+            "image": "https://commons.wikimedia.org/wiki/Special:FilePath/"
+                     + quote(w["fichier"].replace(" ", "_"), safe="()'")}  # virgule encodée : srcset
+
+
 def lien_commons(w):
     return "https://commons.wikimedia.org/wiki/File:" + quote(w["fichier"].replace(" ", "_"), safe=SIGNES_WIKI)
 
@@ -1942,7 +1966,7 @@ def panneau_wikipedia(g, langue):
     for i, w in enumerate(entrees):
         p = w["p"]
         titre = e(p["titre"][langue])
-        lien_photo = adr.chemin(langue, "photo", p["id"])
+        lien_photo = e(lien_commons(w)) if p.get("commons") else adr.chemin(langue, "photo", p["id"])
         couleur = e(p["couleur"])
         lieu = e(w["lieu"][langue])
         diapos.append(
@@ -4992,9 +5016,10 @@ def main():
     g.usages = {i: u for i, u in lire_usages().items() if i in publiees}
     wikipedia = lire_wikipedia()
     for w in wikipedia:
-        if w["photo"] not in publiees:
+        if w["photo"] is not None and w["photo"] not in publiees:
             print(f"wikipedia.csv : la photo {w['photo']} n'est pas sur le site, ligne ignorée.")
-    g.wikipedia = [dict(w, p=par_id[w["photo"]]) for w in wikipedia if w["photo"] in publiees]
+    g.wikipedia = [dict(w, p=par_id[w["photo"]] if w["photo"] is not None else photo_commons(w))
+                   for w in wikipedia if w["photo"] is None or w["photo"] in publiees]
     placer_wikipedia(g.wikipedia, lire_carte())
     par_photo = {p["id"]: [gal for gal in galeries if p in gal["photos"]] for p in photos}
     par_serie = {p["id"]: [s for s in series if p in s["photos"]] for p in photos}

@@ -104,11 +104,18 @@ Karl ne donne jamais son mot de passe à une session.
   données par Commons, le lieu et sa région dans les trois langues. La pull request vers
   `main` met la photo dans le panneau à la construction suivante, et la page de la photo
   cite l'article.
-- Le panneau ne montre que les photos publiées aussi sur Pexels, qui ont leur page sur le
-  site : leur numéro Pexels se lit dans leur description sur Commons (« Aussi publiée par
-  l'auteur sur Pexels : … ») ou se retrouve par leur titre dans
-  `vitrine/donnees/textes-fr.csv`. Une photo versée seulement sur Commons illustre bien
-  son article, mais reste hors du panneau tant qu'elle n'est pas sur Pexels.
+- Les photos de Karl sont presque toutes sur Pexels. Leur numéro Pexels se lit dans leur
+  description sur Commons (« Aussi publiée par l'auteur sur Pexels : … »), se retrouve
+  par leur titre dans `vitrine/donnees/textes-fr.csv`, ou en comparant les vignettes.
+  Attention : dans la fiche de suivi, « refusée » veut dire seulement que Pexels ne l'a pas
+  mise en avant ; la photo est bien publiée. Si elle n'est pas encore sur le site (absente
+  de `vitrine/photos.txt`, souvent parce qu'elle n'a pas de titre), l'ajouter à
+  `photos.txt` avec ses titres (anglais dans `atelier/resultats/`, français et chinois dans
+  `vitrine/donnees/`), comme le 30 octobre pour la Justice et la cathédrale de Bilbao.
+- Une photo versée seulement sur Commons entre aussi dans le panneau : sa colonne `photo`
+  reste vide, et ses titres et sa taille sont dans `wikipedia.csv` ; son image vient de
+  Commons, et « Voir la photo » mène à sa page Commons (vue de face de l'hôtel de ville de
+  Niort).
 
 ### 6. Suivre (session)
 
@@ -151,10 +158,9 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
 ## Où en est la route (30 octobre 2026)
 
 Sur les 22 fichiers que Karl a versés sur Commons, 20 illustrent un article (dont un par
-l'image de Wikidata) et 2 attendent leur tour (Cognac, sans place libre ; la Loi, refusée). Dix-sept des vingt sont aussi sur Pexels,
-donc dans `vitrine/wikipedia.csv` et dans le panneau du site. Trois ne sont que sur
-Commons : la statue de la Justice et la cathédrale de Bilbao, et la vue de face de
-l'hôtel de ville de Niort, qui entrera dans le panneau une fois sur Pexels.
+l'image de Wikidata) et 2 attendent leur tour (Cognac, sans place libre ; la Loi, refusée).
+Les vingt sont dans `vitrine/wikipedia.csv` et dans le panneau du site ; seule la vue de
+face de l'hôtel de ville de Niort n'est que sur Commons.
 
 Pour Villandry, Karl a ajouté le 29 octobre à l'article anglais une partie « Gardens »
 qui manquait, écrite d'après les pages officielles du château (restauration de Joachim
@@ -177,7 +183,7 @@ envoyée par courriel.
 |---|---|---|---|---|
 | Villandry, parterres vus d'en haut | anglais | Parterre | Gallery | 30 octobre 2026 |
 | Niort, flèches de Saint-André dans la verdure | espagnol | Niort | Geografía | 30 octobre 2026 |
-| Bilbao, cathédrale, façade et flèche (seulement sur Commons) | français | Cathédrale Saint-Jacques de Bilbao | Description | 30 octobre 2026 |
+| Bilbao, cathédrale, façade et flèche | français | Cathédrale Saint-Jacques de Bilbao | Description | 30 octobre 2026 |
 | Villandry, parterre de l'Amour passionné | anglais | Château de Villandry | Gallery | 29 octobre 2026 |
 | Villandry, potager décoratif | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
 | Villandry, miroir d'eau du jardin d'eau | anglais | Château de Villandry | Gardens | 29 octobre 2026 |
@@ -186,7 +192,7 @@ envoyée par courriel.
 | Niort, hôtel de ville, vue de face (seulement sur Commons) | français | Hôtel de ville de Niort | image de l'infobox, par Wikidata (Q56863003) ; Baidax prévenu | 29 octobre 2026 |
 | Niort, hôtel de ville, escalier d'accès | français | Hôtel de ville de Niort | Statut patrimonial | 29 octobre 2026 |
 | Galice, éclipse totale (couronne solaire) | français | Éclipse solaire du 12 août 2026 | Galerie | 29 octobre 2026 |
-| Bilbao, statue de la Justice (seulement sur Commons) | basque | Bilboko udaletxea | Eraikina | 29 octobre 2026 |
+| Bilbao, statue de la Justice | basque | Bilboko udaletxea | Eraikina | 29 octobre 2026 |
 | Irun, hôtel de ville | basque | Irungo Udala | Udaletxea | 28 octobre 2026 |
 | Gijón, Universidad Laboral | asturien | Universidá Llaboral de Xixón | La torre | 28 octobre 2026 |
 | Bordeaux, Génie de la Liberté | français | Monument aux Girondins | Description | 28 octobre 2026 |
