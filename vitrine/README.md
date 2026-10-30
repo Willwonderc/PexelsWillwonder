@@ -328,7 +328,9 @@ N'y noter que des usages avérés.
 CC BY-SA 4.0) qui illustrent un article de Wikipédia ; la façon de les verser dans un
 article est décrite dans `docs/wiki-route.md`. Une ligne par article illustré :
 
-- `photo` : numéro Pexels de la photo ;
+- `photo` : numéro Pexels de la photo ; vide pour une photo versée seulement sur Commons,
+  qui prend alors ses titres dans `titre_fr`, `titre_en`, `titre_zh` et sa taille en
+  pixels dans `largeur` et `hauteur` (son image vient de Commons, ses liens y mènent) ;
 - `wiki` : la Wikipédia, par le code de son adresse (`fr` pour fr.wikipedia.org, `eu`
   pour le basque, `ast` pour l'asturien ; les autres codes connus sont dans `WIKIPEDIAS`,
   en tête de `build.py`) ;
