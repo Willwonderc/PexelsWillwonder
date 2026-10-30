@@ -157,9 +157,9 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
 
 ## Où en est la route (30 octobre 2026)
 
-Sur les 22 fichiers que Karl a versés sur Commons, 20 illustrent un article (dont un par
+Sur les 23 fichiers que Karl a versés sur Commons, 21 illustrent un article (dont un par
 l'image de Wikidata) et 2 attendent leur tour (Cognac, sans place libre ; la Loi, refusée).
-Les vingt sont dans `vitrine/wikipedia.csv` et dans le panneau du site ; seule la vue de
+Les vingt et un sont dans `vitrine/wikipedia.csv` et dans le panneau du site ; seule la vue de
 face de l'hôtel de ville de Niort n'est que sur Commons.
 
 Pour Villandry, Karl a ajouté le 29 octobre à l'article anglais une partie « Gardens »
@@ -181,6 +181,7 @@ envoyée par courriel.
 
 | Photo | Wikipédia | Article | Partie | Ajoutée |
 |---|---|---|---|---|
+| Pic du Midi d'Ossau, vu du nord | anglais | Pic du Midi d'Ossau | Appearance | 30 octobre 2026 |
 | Villandry, parterres vus d'en haut | anglais | Parterre | Gallery | 30 octobre 2026 |
 | Niort, flèches de Saint-André dans la verdure | espagnol | Niort | Geografía | 30 octobre 2026 |
 | Bilbao, cathédrale, façade et flèche | français | Cathédrale Saint-Jacques de Bilbao | Description | 30 octobre 2026 |
