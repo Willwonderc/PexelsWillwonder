@@ -155,6 +155,18 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
   (contact@karlforterre.fr) ; sur une erreur 429, attendre 20, puis 40, puis 80 secondes.
 - Lectures seulement, par `action=raw` et l'API publique.
 
+## Le tableau de suivi
+
+`docs/wiki-suivi/` tient le suivi de toutes les photos, une ligne par photo et par
+article : `suivi-wikipedia.xlsx` (onglets Suivi, Bilan, À rassembler), tiré par
+`fabriquer.py` de `vitrine/wikipedia.csv` (les photos en ligne) et de `pistes.csv` (les
+photos prêtes, à vérifier, à identifier, en attente ou écartées, avec la raison). À chaque
+ajout, la session met à jour ces deux fichiers, relance `python3 docs/wiki-suivi/fabriquer.py`
+(il demande openpyxl, outil de session), recalcule le classeur avec LibreOffice pour que
+les totaux s'affichent partout, et envoie le tableau à Karl. `consigne-rassemblement.txt`
+est la consigne que Karl colle dans Claude sur son Mac pour rassembler d'un coup les
+originaux des photos prêtes, avant de les verser sur Commons.
+
 ## Où en est la route (30 octobre 2026)
 
 Sur les 24 fichiers que Karl a versés sur Commons, 22 illustrent un article (dont un par
