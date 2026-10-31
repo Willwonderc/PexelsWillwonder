@@ -29,7 +29,7 @@
     "clics_photos": 0,
     "clics_suivre": 0,
     "complete": false,
-    "visites": 289
+    "visites": 290
    }
   }
  },
@@ -202,8 +202,8 @@
      "2026-10-26": {
       "clics": 1,
       "complete": false,
-      "impressions": 8,
-      "position": 30.1
+      "impressions": 9,
+      "position": 28.4
      }
     },
     "web": {
@@ -412,8 +412,8 @@
      "2026-10-26": {
       "clics": 0,
       "complete": false,
-      "impressions": 121,
-      "position": 41.5
+      "impressions": 151,
+      "position": 41.4
      }
     },
     "web": {
@@ -516,8 +516,8 @@
      "2026-10-26": {
       "clics": 0,
       "complete": false,
-      "impressions": 123,
-      "position": 14.8
+      "impressions": 140,
+      "position": 14.9
      }
     }
    }
