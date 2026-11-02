@@ -38,6 +38,9 @@ elles restent visibles dans l'historique.
   titres et mots-clés rédigés le 26 septembre 2026, d'après l'image et les mots-clés
   Pexels, pour les 196 autres photos publiées sans titre, que le site laissait de côté.
   Leurs traductions française et chinoise sont dans `vitrine/donnees/`.
+- [`resultats/titres-anglais.csv`](resultats/titres-anglais.csv) : titres anglais rédigés le
+  2 novembre 2026 pour 347 photos titrées en français sur Pexels, dont les pages anglaises
+  du site reprenaient le titre français (sans mots-clés : les pages gardent ceux de Pexels).
 
 ## Précaution
 

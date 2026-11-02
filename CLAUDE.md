@@ -245,9 +245,12 @@ GitHub. Plan complet : `docs/plan.md` ; feuille de route du site et de la promot
   « Situer » ouvre la carte `vitrine/statique/carte.json`, tracée par `carte.py` de ces
   maquettes. Ligne sur la page de chaque photo concernée. Protocole pour verser une photo dans un
   article, et file d'attente des photos de Commons : `docs/wiki-route.md` (« wiki route ») ;
-  tableau de suivi, mis à jour à chaque ajout : `docs/wiki-suivi/`.
+  tableau de suivi et PDF (déposées, refusées, à demander), mis à jour à chaque ajout :
+  `docs/wiki-suivi/`.
 - Logo KF’ : `vitrine/statique/logo.svg` (vectorisé, `currentColor`) et
   `vitrine/statique/logo-kf.webp` (original texturé).
+- Alertes et erreurs (Search Console, GitHub et ses jetons, photo du jour, Wikipédia) : que
+  faire, en termes simples, dans `docs/gestion-des-erreurs.md`, à tenir à jour (PDF pour Karl).
 - Captures d'écran en session : Chromium ne charge pas les images de
   images.pexels.com à travers le proxy. Intercepter ces requêtes (Playwright,
   `page.route`) et y répondre avec les fichiers téléchargés par curl, qui passe.
