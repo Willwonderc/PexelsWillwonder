@@ -2249,6 +2249,7 @@ def page_usages(g, par_id, series, langue):
                     "contentUrl": p["image"],
                     "creator": reference,
                     "creditText": f"{nom} / Pexels",
+                    "copyrightNotice": nom,
                     "license": LICENCE,
                     "acquireLicensePage": pexels(p["page"], langue),
                 },
