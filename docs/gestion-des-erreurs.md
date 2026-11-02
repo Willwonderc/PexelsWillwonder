@@ -56,8 +56,9 @@ qu'elle veut dire et ce qu'il faut faire. Les sessions Claude le tiennent à jou
 Où sert chaque jeton connu :
 
 - **« Jeton Instagram »** : secret `JETON_GITHUB` du dépôt PexelsWillwonder. Il permet de
-  renouveler le jeton Instagram chaque lundi. Il a été créé sans échéance (*No
-  expiration*). Pour le remplacer : dépôt → **Settings** → **Secrets and variables** →
+  renouveler le jeton Instagram chaque lundi. Le mode d'emploi conseille de le créer sans
+  échéance (*No expiration*) : un courriel d'échéance à son nom veut dire qu'il en a une,
+  et il faut alors le refaire avant la date. Pour le remplacer : dépôt → **Settings** → **Secrets and variables** →
   **Actions** → `JETON_GITHUB` → **Update secret** (pas à pas : `reseaux/README.md`, 5.7).
 - **Le jeton de Telepex** : rangé dans le trousseau du Mac, par les réglages de Telepex,
   qui prévient un mois avant son échéance.
