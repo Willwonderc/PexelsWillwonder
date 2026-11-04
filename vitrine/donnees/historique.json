@@ -32,10 +32,10 @@
     "visites": 293
    },
    "2026-11-02": {
-    "clics_photos": 0,
+    "clics_photos": 1,
     "clics_suivre": 0,
     "complete": false,
-    "visites": 2
+    "visites": 8
    }
   }
  },
@@ -71,6 +71,12 @@
      "complete": true,
      "impressions": 0,
      "position": null
+    },
+    "2026-11-02": {
+     "clics": 0,
+     "complete": false,
+     "impressions": 0,
+     "position": null
     }
    },
    "photos.karlforterre.fr": {
@@ -101,6 +107,12 @@
     "2026-10-26": {
      "clics": 0,
      "complete": true,
+     "impressions": 0,
+     "position": null
+    },
+    "2026-11-02": {
+     "clics": 0,
+     "complete": false,
      "impressions": 0,
      "position": null
     }
@@ -324,8 +336,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 1,
-      "position": 39.0
+      "impressions": 3,
+      "position": 19.0
      }
     }
    },
@@ -436,8 +448,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 69,
-      "position": 45.3
+      "impressions": 76,
+      "position": 45.1
      }
     },
     "web": {
@@ -546,8 +558,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 49,
-      "position": 16.1
+      "impressions": 57,
+      "position": 17.7
      }
     }
    }
