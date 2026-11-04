@@ -2,9 +2,7 @@ Je verse mes photos sur Wikimedia Commons. Rassemble les fichiers ORIGINAUX des 
 
 Les photos (numéro Pexels → nom à donner au fichier) :
 - 23414382 → Niort - la ville et les flèches de Saint-André - 2024.jpg
-- 13263155 → Laval - viaduc sur la Mayenne - 2022.jpg
 - 39228273 → Buzy - église - 2026.jpg
-- 12976374 → Nancy - basilique Saint-Epvre - 2022.jpg
 
 Méthode :
 1. Trouve où mon application Telepex garde ses données (par exemple dans ~/Library/Application Support/ ou ~/Library/Containers/, ou dans ses réglages) et lis-les sans rien y modifier. Pour chaque numéro Pexels, retrouve le fichier original sur mon Mac : son chemin ou son nom de fichier d'appareil. Si Telepex ne garde pas ce lien, cherche dans mes dossiers de photos d'après la date de publication et le titre que Telepex donne pour ce numéro, et montre-moi les fichiers candidats avant de choisir.
