@@ -33,9 +33,9 @@
    },
    "2026-11-02": {
     "clics_photos": 1,
-    "clics_suivre": 0,
+    "clics_suivre": 1,
     "complete": false,
-    "visites": 8
+    "visites": 11
    }
   }
  },
@@ -336,8 +336,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 3,
-      "position": 19.0
+      "impressions": 6,
+      "position": 12.0
      }
     }
    },
@@ -448,8 +448,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 76,
-      "position": 45.1
+      "impressions": 100,
+      "position": 46.9
      }
     },
     "web": {
@@ -558,8 +558,8 @@
      "2026-11-02": {
       "clics": 0,
       "complete": false,
-      "impressions": 57,
-      "position": 17.7
+      "impressions": 72,
+      "position": 16.2
      }
     }
    }
