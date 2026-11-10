@@ -333,7 +333,7 @@ h1 {
 .cliche img { width: auto; max-width: 100%; max-height: 84vh; }
 /* Le bouton de téléchargement posé sur la photo : sur un grand écran, celui du dessous
    n'apparaît qu'en faisant défiler la page. */
-.sur-photo {
+.telecharger-photo {
   position: absolute;
   right: 16px;
   bottom: 16px;
@@ -348,10 +348,10 @@ h1 {
   box-shadow: 0 2px 14px rgba(0, 0, 0, .35);
   transition: transform .15s ease;
 }
-.cliche a:hover .sur-photo, .cliche a:focus-visible .sur-photo { transform: scale(1.04); }
+.cliche a:hover .telecharger-photo, .cliche a:focus-visible .telecharger-photo { transform: scale(1.04); }
 /* Sur un téléphone, le bouton du dessous se voit déjà sans défiler : pas de doublon. */
-@media (max-width: 600px) { .sur-photo { display: none; } }
-@media (prefers-reduced-motion: reduce) { .sur-photo { transition: none; } }
+@media (max-width: 600px) { .telecharger-photo { display: none; } }
+@media (prefers-reduced-motion: reduce) { .telecharger-photo { transition: none; } }
 
 .legende { max-width: 46rem; margin: 28px auto 0; text-align: center; display: grid; gap: 14px; justify-items: center; }
 .legende h1 { font-size: clamp(24px, 3vw, 36px); }

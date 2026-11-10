@@ -2496,7 +2496,7 @@ def page_photo(g, photo, langue, precedente, suivante, galeries_photo, series_ph
         f'sizes="(max-width: 1440px) 100vw, 1440px" width="{photo["largeur"]}" height="{photo["hauteur"]}" '
         f'alt="{e(titre)}" fetchpriority="high" style="background-color:{e(photo["couleur"])}">'
         # Le bouton de téléchargement, posé sur la photo : visible sans faire défiler la page.
-        f'<span class="sur-photo">{t["telecharger"]}<span aria-hidden="true"> ↗</span></span></a></figure>'
+        f'<span class="telecharger-photo">{t["telecharger"]}<span aria-hidden="true"> ↗</span></span></a></figure>'
         f'<div class="legende">{ariane}<h1>{e(titre)}</h1>'
         f'<p><a class="bouton" href="{e(page_pexels)}" data-goatcounter-click="pexels-{photo["id"]}" '
         f'data-goatcounter-title="{e(titre)}">{t["telecharger"]}</a></p>{usage}'
