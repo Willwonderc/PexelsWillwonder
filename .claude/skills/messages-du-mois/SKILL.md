@@ -131,18 +131,42 @@ cette langue. Instagram reste en français (règle de Karl).
 
 ## 4. Photos, une par jour et par réseau
 
-- **Bluesky** : les jours de défi, une photo du site qui répond vraiment au thème (cherche
-  dans les titres et les mots-clés, fonction `lire_photos` de `reseaux/photo_du_jour.py`) ;
-  sinon, le jour reste hors défi.
-- **Mastodon** : les jours à thème, le samedi un chat (`#Caturday`, `#CatsOfMastodon` ;
-  galerie `[chats]` de `vitrine/galeries.ini`, ou le mot-clé « chat »), le lundi du noir
-  et blanc (`#MonochromeMonday`), le vendredi une fenêtre si une photo s'y prête
-  (`#FensterFreitag`). Pas de `#SilentSunday`, qui veut des photos sans texte.
-- **Les autres jours**, sur chaque réseau : choisis pour l'audience, parmi les photos
-  jamais publiées sur ce réseau, d'abord les sujets qui ont le mieux marché (bilan) et les
-  photos de circonstance (rendez-vous). L'ordre de
+Règles d'audience, resserrées par Karl le 10 novembre 2026 d'après le bilan d'octobre
+(`reseaux/audience.md`) : elles priment sur le nombre de vues Pexels, qui ne dit rien du
+public des réseaux. Seul un bilan qui les contredit, chiffres à l'appui, permet d'y
+déroger, et tu le dis alors en tête de la pull request.
+
+- **Bluesky : le défi du jour, tous les jours où une photo du site répond vraiment au
+  thème** (cherche dans les titres et les mots-clés, fonction `lire_photos` de
+  `reseaux/photo_du_jour.py`) : c'est lui qui porte les messages (médiane 7 « j'aime »,
+  contre 4,5 hors défi). Cherche large avant de renoncer : un thème se prend aussi au
+  figuré ou par la couleur, tant que le texte le dit sans tricher. Un jour sans photo
+  possible part hors défi avec une communauté (`#FleurisTonFil` pour des fleurs,
+  `#NoirEtBlanc` pour du noir et blanc) et un sujet qui a marché : animaux, Niort « chez
+  moi », cuisine, mer, noir et blanc. **Jamais un monument ou un bâtiment officiel seul**
+  (hôtel de ville, préfecture, façade), ni défi ni hors défi.
+- **Mastodon : aucune ville, aucun monument, aucun phare, aucun portrait**, quel que soit
+  le jour (0 à 5 favoris, médiane 1, contre 8 à 14 pour les sujets ci-dessous). Les deux
+  seules exceptions : le vendredi, une fenêtre, un balcon ou un vitrail cadré serré
+  (`#FensterFreitag`), et un jour marquant qui a sa photo (11 Novembre, par exemple).
+  Chaque jour de la semaine a son sujet :
+  - samedi, un chat (`#Caturday`, `#CatsOfMastodon` ; galerie `[chats]` de
+    `vitrine/galeries.ini`, ou le mot-clé « chat ») ;
+  - lundi, du noir et blanc (`#MonochromeMonday`), de préférence nature, animal ou objet ;
+  - vendredi, une fenêtre (`#FensterFreitag`) ; à défaut, des champignons ou des fleurs ;
+  - dimanche, le sujet le plus sûr qui reste : un animal ou des fleurs (pas de
+    `#SilentSunday`, qui veut des photos sans texte) ;
+  - les autres jours, dans cet ordre : oiseaux (`#BirdsOfMastodon`), fleurs, autres
+    animaux, arbres et forêts, eau et paysages sans bâtiment, ciel et astronomie.
+- **Les autres jours** de Bluesky, et à sujet égal sur Mastodon : parmi les photos jamais
+  publiées sur ce réseau, d'abord les sujets qui ont le mieux marché (bilan) et les photos
+  de circonstance (rendez-vous). L'ordre de
   `python3 reseaux/photo_du_jour.py --a-venir 80 --reseau bluesky --jour AAAA-MM-01` (ou
-  `--reseau mastodon`), des plus vues sur Pexels aux moins vues, départage.
+  `--reseau mastodon`), des plus vues sur Pexels aux moins vues, ne sert qu'à départager
+  deux photos du même sujet.
+- Au bilan (étape 1), classe chaque message de Karl par sujet (chat, oiseau, autre animal,
+  fleurs, noir et blanc, fenêtre, paysage, ciel, ville ou monument, portrait, cuisine) et
+  donne la médiane de chacun : c'est ce tableau qui confirme ou corrige ces règles.
 - Varie les sujets et les lieux : jamais deux fois le même sujet deux jours de suite sur
   un réseau. L'homme à lunettes des portraits n'est jamais nommé.
 - Regarde chaque photo en petite taille avant d'écrire, une à une ou en planches de
@@ -189,6 +213,9 @@ Mastodon de la même photo à quelques jours d'écart.
 
 ## 7. Vérifier
 
+0. Relis la colonne `photo` de chaque ligne Mastodon de la période : aucune ville, aucun
+   monument, aucun phare, aucun portrait hors des deux exceptions de l'étape 4 ; et chaque
+   jour de défi Bluesky a sa photo, ou la raison de son absence en tête de la pull request.
 1. `python3 reseaux/photo_du_jour.py --calendrier --jour AAAA-MM-JJ`, avec la date de
    demain, doit finir par « Calendrier prêt. ». Pars de demain : la ligne du jour est
    partie ou part dans la journée, et le contrôle la signalerait « déjà parue » une fois
