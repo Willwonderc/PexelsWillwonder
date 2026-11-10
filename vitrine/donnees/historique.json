@@ -80,7 +80,7 @@
     },
     "2026-11-02": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 0,
      "position": null
     }
@@ -118,7 +118,7 @@
     },
     "2026-11-02": {
      "clics": 0,
-     "complete": false,
+     "complete": true,
      "impressions": 0,
      "position": null
     }
@@ -354,7 +354,7 @@
      "2026-11-09": {
       "clics": 0,
       "complete": false,
-      "impressions": 24,
+      "impressions": 25,
       "position": 6.6
      }
     }
