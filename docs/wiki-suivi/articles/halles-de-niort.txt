@@ -1,0 +1,64 @@
+{{Infobox Monument}}
+
+Les '''halles de Niort''' sont un [[marché couvert]] situé place des Halles, à [[Niort]], dans les [[Deux-Sèvres]]. Construites de 1868 à 1871 sur les plans de l'ingénieur Simon Durand, elles associent un soubassement voûté en pierre et un pavillon de fer et de verre. Elles sont inscrites au titre des [[Monument historique (France)|monuments historiques]] depuis 1987<ref name="mérimée">{{Base Mérimée|PA00101285|Halles}}.</ref>.
+
+== Les halles précédentes ==
+[[Fichier:Rue Victor Hugo, Niort (2).jpg|vignette|La rue Victor-Hugo, à l'emplacement des halles médiévales.]]
+Niort a des halles depuis le {{s-|XIII}}. Entre 1255 et 1261, [[Alphonse de Poitiers]] fait bâtir un marché couvert sur un terrain qui lui appartient, au centre de la ville, près du port et du château ; il remplace le marché en plein air de la place Chanzy, près de l'[[Église Saint-André de Niort|église Saint-André]]<ref name="NR-150" /><ref name="NR-hist" />. En 1354, le roi [[Jean II le Bon]] les qualifie de « plus belle cohue du royaume de France »<ref name="VaN" />. Endommagées par une tempête en 1377<ref name="NR-hist" />, elles sont reconstruites à la fin du {{s-|XIV}} et au début du {{s-|XV}} aux frais du [[Jean de Berry|duc de Berry]]<ref name="Briquet" />. Longues de {{unité|156|mètres}} et larges de 24<ref name="NR-hist" />, les nouvelles halles comptent trois rangées de piliers d'environ trois mètres de haut, qui forment deux larges allées<ref name="Briquet" />. En 1412, le duc de Berry transfère de [[Fontenay-le-Comte]] à Niort les droits sur le commerce de la [[Sèvre Niortaise|Sèvre]] et de la [[Vendée (rivière)|Vendée]]<ref name="Briquet" />. L'historien niortais [[Hilaire-Alexandre Briquet]] les décrit comme les plus grandes et les plus commodes de France à cette époque<ref name="Briquet" />.
+
+Les halles sont démontées en 1793 pour faciliter la circulation<ref name="VaN" />. La rue ouverte à leur place, d'abord appelée rue de l'Unité, devient la rue des Halles en 1825, puis la rue [[Victor Hugo|Victor-Hugo]] en 1885<ref name="NR-hist" /> ; des pavés noirs y dessinent encore leur emprise<ref name="NMP" />.
+
+En 1803, à l'initiative du maire Thomas Brisson, de nouvelles halles ouvrent sur un terrain vague au bord de la Sèvre, presque à l'emplacement actuel<ref name="NR-hist" /><ref name="VaN" />. Elles abritent notamment un grenier à grains, des épiciers, des poissonniers, des bouchers et un abattoir<ref name="revue" />. Les marchands comme les habitants s'en plaignent, en particulier de l'insalubrité causée par les déchets de l'abattoir rejetés dans la rivière<ref name="NR-hist" />. Dès 1834, le conseil municipal souhaite les remplacer, sans en avoir les moyens<ref name="NR-150" />. Elles sont démolies en 1863, après l'effondrement partiel de leur toiture<ref name="VaN" />.
+
+== Les halles actuelles ==
+=== Construction ===
+En juillet 1866, le conseil municipal et le maire [[Alfred Monnet]] lancent un concours pour de nouvelles halles<ref name="NR-150" /><ref name="mérimée" />. L'ingénieur civil Simon Durand le remporte avec un projet en deux parties : un soubassement voûté en pierre et, au-dessus, un pavillon de métal et de verre<ref name="VaN" /><ref name="mérimée" />. Il s'inspire des pavillons de [[Victor Baltard]] aux [[halles de Paris]]<ref name="NMP" />, et emploie pour la charpente le système de fermes de [[Camille Polonceau]]<ref name="VaN" />. L'entreprise Aubert frères réalise les parties en pierre, Bataille et Périsset la structure métallique<ref name="VaN" />. Les travaux durent de 1868 à 1871<ref name="mérimée" /> et coûtent {{nombre|280000|francs}}<ref name="NR-hist" />. Les halles sont inaugurées le {{date-|1er septembre 1871}} et ouvertes au public le lendemain<ref name="NR-150" />.
+
+=== Architecture ===
+[[Fichier:Fronton et Horloge Ouest Halles de Niort en soirée (juin 2023).JPG|vignette|Le fronton de l'entrée ouest, avec l'horloge entre Mercure et Cérès.]]
+Le soubassement en pierre servait à l'origine au stockage et à la vente des grains et des farines<ref name="NR-hist" /> ; il abrite aujourd'hui des commerces<ref name="VaN" />.
+
+Le pavillon de fer et de verre forme un grand vaisseau rectangulaire de {{unité|72|mètres}} sur 26, sous une couverture à deux pentes surmontée d'un [[Lanterne (architecture)|lanterneau]] ; comme une église, il est divisé en trois nefs<ref name="mérimée" /><ref name="NR-hist" />. Quatre-vingts piliers en forment le pourtour et vingt autres soutiennent la toiture à l'intérieur<ref name="NR-hist" />. Les colonnes, creuses, recueillent l'eau de pluie, et le toit est en partie transparent<ref name="VaN" />. Bâties près de la Sèvre, les halles reposent sur des pilotis de {{unité|12|mètres}}, et l'humidité a été au cœur de leur conception<ref name="NMP" />.
+
+Les portes d'accès sont ornées de colonnes et d'un fronton triangulaire<ref name="mérimée" />. Sur la façade, l'horloge est encadrée par [[Mercure (mythologie)|Mercure]], dieu du commerce, et [[Cérès]], déesse de l'agriculture<ref name="NMP" />. Les auvents latéraux, qui abritent les marchands de plein air, sont ajoutés à la fin des années 1920<ref name="VaN" /><ref group="note">Les sources donnent 1927 (Ville de Niort), 1928 (base Mérimée) et « aux alentours des années 1929 » (office de tourisme).</ref>, et le bâtiment reçoit l'électricité en 1950<ref name="NR-150" />.
+
+=== Protection ===
+Les halles, « constituées d'une partie métallique et d'un soubassement en pierre », sont inscrites au titre des monuments historiques par arrêté du {{date-|14 mai 1987}}. Elles appartiennent à la commune<ref name="mérimée" />.
+
+=== Le marché ===
+[[Fichier:Halles de Niort morning market, May 2023.jpg|vignette|Le marché du jeudi en mai 2023.]]
+Une soixantaine de commerçants occupent la halle. Les jours de grand marché sont le jeudi, le samedi et le dimanche<ref name="NMP" />.
+
+En 2019, le concours « Votre plus beau marché de France », organisé par [[TF1]], classe les halles premières de Poitou-Charentes et neuvièmes de France<ref name="NR-150" />. Elles le remportent le {{date-|27 juin 2024}}, en succédant au marché de [[La Réole]]<ref name="ozap" />. Pour leurs 150 ans, en 2021, la Ville de Niort et la société d'économie mixte des Halles organisent un concours photographique<ref name="concours" />, et les commerçants sont invités à porter des costumes des années 1870<ref name="NR-150" />.
+
+== Notes et références ==
+=== Notes ===
+{{Références|groupe=note}}
+
+=== Références ===
+{{Traduction/Référence|en|Halles de Niort|1344232137}}
+{{Références|références=
+<ref name="NR-150">{{Article |prénom1=Xavier |nom1=Le Roux |titre=Les Halles de Niort célèbrent leurs 150 ans en cette année 2021 |périodique=[[La Nouvelle République (France)|La Nouvelle République]] |date=16 juillet 2021 |lire en ligne=https://www.lanouvellerepublique.fr/niort/les-halles-de-niort-celebrent-leur-150-ans-en-cette-annee-2021 |archive-url=https://web.archive.org/web/20231003040336/https://www.lanouvellerepublique.fr/niort/les-halles-de-niort-celebrent-leur-150-ans-en-cette-annee-2021 |archive-date=3 octobre 2023 |consulté le=3 octobre 2023}}.</ref>
+<ref name="NR-hist">{{Article |titre=Chaque dimanche, écoutez la vraie histoire des halles |périodique=[[La Nouvelle République (France)|La Nouvelle République]] |date=22 juillet 2017 |lire en ligne=https://www.lanouvellerepublique.fr/niort/chaque-dimanche-ecoutez-la-vraie-histoire-des-halles |archive-url=https://web.archive.org/web/20231003071022/https://www.lanouvellerepublique.fr/niort/chaque-dimanche-ecoutez-la-vraie-histoire-des-halles |archive-date=3 octobre 2023 |consulté le=3 octobre 2023}}.</ref>
+<ref name="VaN">{{Lien web |titre=Les Halles de Niort, un peu d'histoire |url=https://www.vivre-a-niort.com/actualites/dernieres-infos/les-halles-de-niort-un-peu-dhistoire-8723/ |site=Vivre à Niort |éditeur=Ville de Niort |date=13 juin 2019 |consulté le=13 novembre 2026}}.</ref>
+<ref name="NMP">{{Lien web |titre=Les Halles de Niort |url=https://www.niortmaraispoitevin.com/wp/en/explorer-la-destination/niort/les-halles-de-niort/ |site=Niort Marais Poitevin Tourisme |consulté le=13 novembre 2026}}.</ref>
+<ref name="Briquet">{{Ouvrage |prénom1=Hilaire-Alexandre |nom1=Briquet |titre=Histoire de la ville de Niort |lieu=Niort |éditeur=Robin |année=1832 |passage=82-83 |lire en ligne=https://books.google.com/books?id=eDpBAAAAYAAJ}}.</ref>
+<ref name="revue">{{Article |prénom1=Prosper |nom1=Casimir |titre=Les Halles de Niort |périodique=Revue de l'Aunis, de la Saintonge et du Poitou |année=1863 |pages=23-29 |lire en ligne=https://books.google.com/books?id=-r-rcTb-ZiYC}}.</ref>
+<ref name="ozap">{{Lien web |auteur=Noëlle Binet |titre="Votre plus beau marché de France" 2024 : Quelle ville a gagné le concours de Marie-Sophie Lacarrau sur TF1 ? |url=https://www.ozap.com/actu/-votre-plus-beau-marche-de-france-2024-quelle-ville-a-gagne-le-concours-de-marie-sophie-lacarrau-sur-tf1/644649 |site=Ozap |date=28 juin 2024 |consulté le=13 novembre 2026}}.</ref>
+<ref name="concours">{{Lien web |titre=Règlement du concours photo « Les Halles de Niort ont 150 ans » |url=https://www.vivre-a-niort.com/fileadmin/concours/Re__glement_du_concours_photo_Halles_de_Niort.pdf |format=pdf |éditeur=Ville de Niort |année=2021 |consulté le=13 novembre 2026}}.</ref>
+}}
+
+== Annexes ==
+{{Autres projets|commons=Category:Halles de Niort}}
+
+=== Articles connexes ===
+* [[Liste des monuments historiques de Niort]]
+* [[Donjon de Niort]]
+
+{{Portail|architecture et urbanisme|Deux-Sèvres|monuments historiques}}
+
+[[Catégorie:Monument historique à Niort]]
+[[Catégorie:Monument historique inscrit en 1987]]
+[[Catégorie:Halle monument historique en France]]
+[[Catégorie:Marché couvert en France]]
+[[Catégorie:Édifice construit en 1871]]
