@@ -409,9 +409,10 @@ INTRO_DEMANDER = {
 
 
 INTRO_CREER = {
-    "Prêt à publier": ("Prêts à publier", "L’article est écrit, sourcé et rendu sans erreur par Wikipédia "
-                       "(docs/wiki-suivi/articles/) : Karl le relit, crée la page par le lien, colle le texte et "
-                       "publie, puis relie la page à son élément Wikidata."),
+    "Prêt à publier": ("Prêts à publier", "Le texte est écrit, sourcé et rendu sans erreur par Wikipédia "
+                       "(docs/wiki-suivi/articles/) : Karl le relit, ouvre le lien (« Créer la page » pour un "
+                       "article neuf, « Modifier la partie » pour une partie ajoutée), colle le texte et publie ; "
+                       "un article neuf se relie ensuite à son élément Wikidata."),
     "À écrire": ("Articles à écrire", "L’article manque : une session l’écrit, sourcé (bases officielles, article "
                  "d’une autre langue traduit et cité dans le résumé de modification), Karl le relit et le publie."),
     "À enrichir": ("Articles à compléter", "L’article existe mais tient en quelques lignes, et Wikipédia demande "
@@ -428,6 +429,10 @@ def carte_creation(c, images):
     article = c["article"]
     if c["statut"] == "À enrichir":
         article = f'<a href="{e(lien_article(c["wiki"], c["article"]))}">{e(c["article"])}</a>'
+    elif c["statut"] == "Prêt à publier" and c.get("section"):
+        partie = lien_article(c["wiki"], c["article"], c["section"])
+        article = (f'<a href="{e(lien_article(c["wiki"], c["article"]))}">{e(c["article"])}</a> · '
+                   f'<a href="{e(partie)}">Modifier la partie</a>')
     elif c["statut"] == "Prêt à publier":
         creation = lien_article(c["wiki"], c["article"]).replace("/wiki/", "/w/index.php?title=") + "&action=edit"
         article = f'{e(c["article"])} · <a href="{e(creation)}">Créer la page</a>'

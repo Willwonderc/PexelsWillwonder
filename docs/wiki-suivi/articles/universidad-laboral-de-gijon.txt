@@ -1,0 +1,63 @@
+{{Infobox Monument}}
+
+L''''Universidad Laboral de Gijón''', aujourd'hui '''Laboral Ciudad de la Cultura''', est un vaste ensemble architectural situé dans la paroisse de Cabueñes, à quatre kilomètres environ à l'est du centre de [[Gijón]], dans les [[Asturies]], en [[Espagne]]<ref name="boe" />. Bâtie de 1948 à 1955 sous le [[franquisme]], sur les plans de l'architecte [[Luis Moya Blanco]], pour former les orphelins de la mine puis les enfants des ouvriers, c'est le plus grand édifice d'Espagne, avec {{unité|270000|m2}} de surface<ref name="diaz193" />. Réhabilitée au début du {{s-|XXI}}, elle abrite des établissements culturels et d'enseignement. Elle est protégée comme [[bien d'intérêt culturel]] depuis 2016<ref name="boe" />.
+
+== Histoire ==
+=== Un orphelinat pour les enfants de la mine ===
+En 1945, alors que les accidents mortels se succèdent dans les mines asturiennes, naît l'idée d'une fondation de bienfaisance et d'enseignement pour les orphelins de mineurs<ref name="boe" />. Le ministre du Travail [[José Antonio Girón de Velasco]], phalangiste convaincu, s'en saisit après un très grave accident au puits San Jorge de Moreda, qui fait neuf morts<ref name="diaz195" />. La fondation « José Antonio Girón » est enregistrée à Gijón le {{date-|6 octobre 1945}}<ref name="diaz195" />. Un décret du {{date-|5 avril 1946}} déclare urgente la construction de l'orphelinat minier, qui lui est confiée : une école-internat pour un millier d'enfants, avec ateliers industriels, ferme-école, installations sportives, jardins et champs<ref name="boe" /><ref name="diaz195" />.
+
+La fondation choisit l'architecte madrilène Luis Moya Blanco. Il travaille avec son frère Ramiro Moya, Pedro Alonso de la Puente et Enrique Huidobro, bientôt remplacé par José Díez Canteli, qui dirige le chantier ; Juana Ontañón et Manuel López Mateos signent le paraninfo<ref name="boe" />. Les travaux commencent en 1948 par la ferme agronomique de Somió<ref name="boe" />.
+
+=== L'Universidad Laboral ===
+Le coût de la construction dépasse vite les prévisions, et la fondation ne peut plus l'assumer<ref name="diaz196" />. Au début des années 1950, le projet change de nature : l'orphelinat devient une Universidad Laboral, la première et le modèle d'un réseau voulu par Girón pour « niveler les classes sociales par la culture », ouvert à tous les enfants d'ouvriers, de préférence aux orphelins<ref name="boe" /><ref name="diaz196" />. Les caisses d'épargne et les mutuelles du travail en assument le coût<ref name="diaz196" />.
+
+La première promotion, d'internes et d'externes, entre le {{date-|1er novembre 1955}}. L'enseignement et la direction sont confiés à la [[Compagnie de Jésus]], l'intendance à une communauté de [[Clarisses|clarisses]] venue de Zamora, l'infirmerie aux Servantes de Jésus<ref name="boe" />. Les enfants y entrent internes à dix ans, séparés de leur famille pendant des semaines, voire des mois<ref name="diaz202" />.
+
+En novembre 1978, un décret royal transfère les universidades laborales du ministère du Travail à celui de l'Éducation, qui en fait bientôt des établissements publics d'enseignement secondaire. Commence alors un lent déclin, avec un premier abandon partiel en 1981<ref name="diaz192" />. Les clarisses quittent leur couvent la nuit de Noël 1996<ref name="diaz192" />.
+
+=== La cité de la culture ===
+L'étiquette de grand monument franquiste et les changements d'institutions, de programmes, de direction et de propriétaire dégradent l'ensemble jusqu'à la fin du {{s-|XX}}<ref name="boe" />. À partir de 2001, le gouvernement des Asturies entreprend de lui donner de nouveaux usages<ref name="diaz193" />. Le plan stratégique des architectes Xerardo Estévez et Alberto García, présenté fin 2001, est suivi en 2002 d'un concours de projets. Les travaux, commencés en 2005, aboutissent en 2007 pour les espaces principaux<ref name="boe" />. Le théâtre devient une salle de spectacle moderne ; le grand mural d'Enrique Segura, au-dessus de la scène, est consolidé et caché derrière la nouvelle structure. Les anciens ateliers accueillent un centre d'art et un centre de formation professionnelle, le couvent des clarisses la radio-télévision publique des Asturies, et la tour est restaurée<ref name="boe" />.
+
+L'ensemble est déclaré bien d'intérêt culturel, dans la catégorie des monuments, par décret du {{date-|19 mai 2016}}<ref name="boe" />.
+
+== Architecture ==
+[[Fichier:Gijón - Universidad Laboral, tour et église - 2026.jpg|vignette|upright|La tour et l'église en 2026.]]
+Pour l'historienne de l'art María del Mar Díaz González, l'Universidad Laboral est, avec le ministère de l'Air à Madrid et la basilique du [[Valle de los Caídos]], l'un des emblèmes les plus significatifs de l'autarcie franquiste : une architecture historiciste et éclectique, qui tourne le dos au rationalisme du [[mouvement moderne]]<ref name="diaz202" /><ref name="diaz203" />.
+
+Moya la conçoit comme une cité idéale, à partir du classicisme et de la tradition architecturale espagnole : une citadelle isolée de l'extérieur, organisée autour d'une grande place sur laquelle donnent les principales institutions. L'ensemble tourne le dos à la ville, sur un axe ouest-est, avec l'entrée à l'est : le visiteur doit en faire le tour, ce qui renforce son caractère monumental<ref name="boe" />.
+
+[[Fichier:Hall (17945285125).jpg|vignette|L'atrium corinthien, à l'entrée.]]
+On y entre par un arc de triomphe, qui ouvre sur un atrium corinthien d'inspiration vitruvienne<ref name="boe" />. La cour centrale, grand-place rectangulaire bordée d'arcades, est fermée par des façades uniformes, que rompent les édifices principaux : l'église, la direction, le patronage et le théâtre. L'église, de plan ovale, s'avance dans la cour au bout de l'axe de l'entrée. Des galeries à colonnes, sur deux étages, la relient à la zone résidentielle et à la tour, haute de {{unité|129.25|mètres}}, repère de tout l'ensemble<ref name="boe" />.
+
+Hors de la citadelle se trouvent le couvent des clarisses, de plan circulaire, ajouté au projet de Moya, et les ateliers, six nefs parallèles couvertes de voûtes en dents de scie<ref name="boe" />. Le paraninfo de Juana Ontañón et Manuel López Mateos, en forme de proue de navire, est un exemple remarquable d'architecture moderne asturienne<ref name="boe" />.
+
+== Usages actuels ==
+[[Fichier:Church of Universidad Laboral de Gijón.jpg|vignette|La cour centrale et l'église.]]
+Devenue Laboral Ciudad de la Cultura, l'ancienne Universidad Laboral est l'un des principaux centres culturels des Asturies<ref name="boe" />. Elle abrite un centre d'art (LABoral Centro de Arte y Creación Industrial), un centre de formation professionnelle, l'école d'art dramatique, le conservatoire professionnel de musique et de danse, la faculté de commerce et de tourisme de l'[[université d'Oviedo]] et, dans l'ancien couvent, la radio-télévision publique des Asturies ; la tour est ouverte aux visiteurs<ref name="diaz193" />.
+
+== Notes et références ==
+{{Références|références=
+<ref name="boe">{{Article |langue=es |titre=Decreto 19/2016, de 19 de mayo, por el que se declara bien de interés cultural, con la categoría de monumento, la Universidad Laboral de Gijón |périodique=Boletín Oficial del Estado |numéro=167 |date=12 juillet 2016 |pages=48772-48779 |lire en ligne=https://www.boe.es/boe/dias/2016/07/12/pdfs/BOE-A-2016-6689.pdf |format électronique=pdf |consulté le=13 novembre 2026}}.</ref>
+<ref name="diaz192">{{Harvsp|Díaz González|2017|p=192}}.</ref>
+<ref name="diaz193">{{Harvsp|Díaz González|2017|p=193}}.</ref>
+<ref name="diaz195">{{Harvsp|Díaz González|2017|p=195}}.</ref>
+<ref name="diaz196">{{Harvsp|Díaz González|2017|p=196}}.</ref>
+<ref name="diaz202">{{Harvsp|Díaz González|2017|p=202}}.</ref>
+<ref name="diaz203">{{Harvsp|Díaz González|2017|p=203}}.</ref>
+}}
+
+== Annexes ==
+=== Bibliographie ===
+* {{Article |langue=es |id=Díaz González2017 |prénom1=María del Mar |nom1=Díaz González |titre=La Universidad Laboral de Gijón (Asturias). El primer gran proyecto filantrópico gironiano al servicio de la patria: 1945-1978 |périodique=Hispania Nova |numéro=15 |année=2017 |pages=191-216 |doi=10.20318/hn.2017.3486 |lire en ligne=https://e-revistas.uc3m.es/index.php/HISPNOV/article/view/3486/2122}}
+
+{{Autres projets|commons=Category:Universidad Laboral de Gijón}}
+
+=== Articles connexes ===
+* [[Luis Moya Blanco]]
+* [[Gijón]]
+
+{{Portail|architecture et urbanisme|Asturies}}
+
+[[Catégorie:Monument dans les Asturies]]
+[[Catégorie:Gijón]]
+[[Catégorie:Bien d'intérêt culturel dans les Asturies]]
