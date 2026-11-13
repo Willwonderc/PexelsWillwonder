@@ -409,6 +409,9 @@ INTRO_DEMANDER = {
 
 
 INTRO_CREER = {
+    "Prêt à publier": ("Prêts à publier", "L’article est écrit, sourcé et rendu sans erreur par Wikipédia "
+                       "(docs/wiki-suivi/articles/) : Karl le relit, crée la page par le lien, colle le texte et "
+                       "publie, puis relie la page à son élément Wikidata."),
     "À écrire": ("Articles à écrire", "L’article manque : une session l’écrit, sourcé (bases officielles, article "
                  "d’une autre langue traduit et cité dans le résumé de modification), Karl le relit et le publie."),
     "À enrichir": ("Articles à compléter", "L’article existe mais tient en quelques lignes, et Wikipédia demande "
@@ -425,6 +428,9 @@ def carte_creation(c, images):
     article = c["article"]
     if c["statut"] == "À enrichir":
         article = f'<a href="{e(lien_article(c["wiki"], c["article"]))}">{e(c["article"])}</a>'
+    elif c["statut"] == "Prêt à publier":
+        creation = lien_article(c["wiki"], c["article"]).replace("/wiki/", "/w/index.php?title=") + "&action=edit"
+        article = f'{e(c["article"])} · <a href="{e(creation)}">Créer la page</a>'
     else:
         article = e(article)
     corps = [f'<p class="sujet">{e(c["sujet"])}</p>',
@@ -470,7 +476,8 @@ def page(toutes, texte_consigne, verifie="", creations=()):
     <div class="sens">{len(par["À ajouter"])} à ajouter (déjà sur Commons), {len(par["Prête"])} prêtes à verser, {len(par["À vérifier"])} à vérifier,
     {len(par["À identifier"])} à identifier, {len(par["En attente"])} en attente.</div></a>
   <a class="creer" href="#creer"><div class="nombre">{len(creations)}</div><div class="nom">À créer</div>
-    <div class="sens">{compte(len(par_c["À écrire"]), "article à écrire", "articles à écrire")},
+    <div class="sens">{compte(len(par_c["Prêt à publier"]), "article prêt à publier", "articles prêts à publier")},
+    {len(par_c["À écrire"])} à écrire,
     {len(par_c["À enrichir"])} à compléter, {compte(len(par_c["Photo à prendre"]), "monument", "monuments")}
     à photographier.</div></a>
 </div>

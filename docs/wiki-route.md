@@ -192,8 +192,17 @@ manquent : `docs/wiki-suivi/creations.csv`, partie « À créer » du PDF.
   ligne éditoriale du dépôt vaut aussi (l'Universidad Laboral de Gijón présentée par sa
   destination ouvrière, en rappelant qu'elle fut bâtie par le régime franquiste).
 - **Qui fait quoi** : la session écrit l'article entier en wikicode, avec ses références,
-  sa boîte d'information et les photos de Karl déjà sur Commons ; Karl le relit et le
-  publie. Une traduction le dit dans le résumé de modification (« Traduction de l'article
+  sa boîte d'information et les photos de Karl déjà sur Commons, le range dans
+  `docs/wiki-suivi/articles/` et le fait rendre à l'essai par l'API de Wikipédia
+  (`action=parse`, sans rien enregistrer) pour vérifier modèles, liens et catégories ; Karl
+  le relit, crée la page, colle le texte et publie. La page se relie ensuite à son élément
+  Wikidata (menu « Langues », « Ajouter des liens interlangues »), qui remplit la boîte
+  d'information « Infobox Monument » (photo, coordonnées, protection). Avant d'écrire,
+  vérifier qu'aucun article n'existe dans aucune langue sous un autre nom : les liens de
+  l'élément Wikidata, et une recherche dans la Wikipédia visée (les halles de Niort
+  n'avaient d'article qu'en anglais ; l'hôtel de ville de Bilbao en a un en français,
+  « Mairie de Bilbao »). Une source se lit avant d'être reprise : l'article anglais sur les
+  halles prenait les 12 mètres des pilotis pour la hauteur du toit. Une traduction le dit dans le résumé de modification (« Traduction de l'article
   « … » de Wikipédia en espagnol » ; en anglais : « Content in this edit is translated
   from the existing French Wikipedia article at [[:fr:…]]; see its history for
   attribution. »), et, en français, par `{{Traduction/Référence|es|Titre|numéro de
