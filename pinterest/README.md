@@ -108,6 +108,10 @@ galeries.
 | Architecture and heritage | 96 | `https://photos.karlforterre.fr/en/galleries/architecture-patrimoine/feed.xml` | oui |
 | Churches and cathedrals | 44 | `https://photos.karlforterre.fr/en/galleries/eglises-cathedrales/feed.xml` | oui |
 | Cities and street scenes | 62 | `https://photos.karlforterre.fr/en/galleries/villes-et-rues/feed.xml` | oui |
+| Statues and sculptures | 30 | `https://photos.karlforterre.fr/en/galleries/statues-et-sculptures/feed.xml` | non |
+| Doors and stained glass | 24 | `https://photos.karlforterre.fr/en/galleries/portes-et-vitraux/feed.xml` | non |
+| Reflections | 32 | `https://photos.karlforterre.fr/en/galleries/reflets/feed.xml` | non |
+| Winter and Christmas | 20 | `https://photos.karlforterre.fr/en/galleries/hiver-et-noel/feed.xml` | non |
 | Transport | 11 | `https://photos.karlforterre.fr/en/galleries/transports/feed.xml` | oui |
 | Portraits | 48 | `https://photos.karlforterre.fr/en/galleries/portraits/feed.xml` | oui |
 | Everyday life | 51 | `https://photos.karlforterre.fr/en/galleries/scenes-de-vie/feed.xml` | oui |
@@ -122,6 +126,7 @@ galeries.
 | Black and white | 68 | `https://photos.karlforterre.fr/en/galleries/noir-et-blanc/feed.xml` | oui |
 | Abstract backgrounds | 43 | `https://photos.karlforterre.fr/en/galleries/fonds-abstraits/feed.xml` | oui |
 | Basque Country | 13 | `https://photos.karlforterre.fr/en/galleries/pays-basque/feed.xml` | oui |
+| Bilbao | 24 | `https://photos.karlforterre.fr/en/galleries/bilbao/feed.xml` | non |
 | Asturias | 11 | `https://photos.karlforterre.fr/en/galleries/asturies/feed.xml` | oui |
 | Galicia | 29 | `https://photos.karlforterre.fr/en/galleries/galice/feed.xml` | oui |
 | Camino de Santiago | 15 | `https://photos.karlforterre.fr/en/galleries/chemin-saint-jacques/feed.xml` | oui |
