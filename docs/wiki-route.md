@@ -158,20 +158,53 @@ L'exemple de l'hôtel de ville de Niort (29 octobre 2026) :
 ## Le tableau de suivi
 
 `docs/wiki-suivi/` tient le suivi de toutes les photos, une ligne par photo et par
-article : `suivi-wikipedia.xlsx` (onglets Suivi, Bilan, À rassembler), tiré par
-`fabriquer.py` de `vitrine/wikipedia.csv` (les photos en ligne) et de `pistes.csv` (les
-photos prêtes, à vérifier, à identifier, en attente, refusées ou écartées, avec la raison ;
-« refusée » : retirée d'un article par un autre contributeur, à ne jamais y remettre).
+article : `suivi-wikipedia.xlsx` (onglets Suivi, Bilan, À rassembler, À créer), tiré par
+`fabriquer.py` de `vitrine/wikipedia.csv` (les photos en ligne), de `pistes.csv` (les
+photos à ajouter, prêtes, à vérifier, à identifier, en attente, refusées ou écartées, avec
+la raison ; « à ajouter » : déjà sur Commons, il ne reste qu'à modifier l'article ;
+« refusée » : retirée d'un article par un autre contributeur, à ne jamais y remettre) et de
+`creations.csv` (articles à écrire ou à compléter, monuments à photographier ; voir
+« Créer ou compléter un article »).
 Le même programme écrit `vos-photos-dans-wikipedia.pdf`, le suivi à lire, avec la vignette
 de chaque photo, en trois parties demandées par Karl le 2 novembre 2026 : les photos
 déposées (dans un article), refusées (retirées, ou écartées d'avance) et à demander
-(prêtes, à vérifier, à identifier, en attente). À chaque ajout, la session met à jour
+(à ajouter, prêtes, à vérifier, à identifier, en attente) ; une quatrième partie, « À
+créer », depuis le 13 novembre. À chaque ajout, la session met à jour
 `wikipedia.csv` et `pistes.csv`, relance `python3 docs/wiki-suivi/fabriquer.py` (il demande
 openpyxl, curl et Chromium, outils de session ; `--verifie-le AAAA-MM-JJ` après le
 contrôle de l'étape 6, que le PDF mentionne alors), recalcule le classeur avec LibreOffice
 pour que les totaux s'affichent partout, et envoie le PDF et le tableau à Karl.
 `consigne-rassemblement.txt` est la consigne que Karl colle dans Claude sur son Mac pour
 rassembler d'un coup les originaux des photos prêtes, avant de les verser sur Commons.
+
+## Créer ou compléter un article
+
+Depuis le 13 novembre 2026, à la demande de Karl, la route cherche aussi les articles qui
+manquent : `docs/wiki-suivi/creations.csv`, partie « À créer » du PDF.
+
+- **Ce qu'on choisit** : un sujet que Karl a photographié et que Wikipédia admet d'office
+  (monument historique en France, bien d'intérêt culturel en Espagne), sans article dans
+  une langue, ou réduit à une ébauche que Wikipédia elle-même demande de compléter
+  (`{{Expand French}}`, `{{Expand Spanish}}`). Jamais d'article sur Karl, ses sites ou ses
+  photos, ni de lien vers ses sites.
+- **Les sources** : la base Mérimée (pop.culture.gouv.fr), les articles des autres langues
+  et leurs propres sources. Un article ne dit que ce que ses sources publiées disent ; la
+  ligne éditoriale du dépôt vaut aussi (l'Universidad Laboral de Gijón présentée par sa
+  destination ouvrière, en rappelant qu'elle fut bâtie par le régime franquiste).
+- **Qui fait quoi** : la session écrit l'article entier en wikicode, avec ses références,
+  sa boîte d'information et les photos de Karl déjà sur Commons ; Karl le relit et le
+  publie. Une traduction le dit dans le résumé de modification (« Traduction de l'article
+  « … » de Wikipédia en espagnol » ; en anglais : « Content in this edit is translated
+  from the existing French Wikipedia article at [[:fr:…]]; see its history for
+  attribution. »), et, en français, par `{{Traduction/Référence|es|Titre|numéro de
+  version}}` en page de discussion.
+- **Wikipédia en anglais** ne laisse créer un article qu'aux comptes « autoconfirmés » :
+  4 jours et 10 modifications. Karl en avait 6 le 13 novembre. Sinon, un brouillon
+  relu par des bénévoles (*Articles for Creation*), qui prend des semaines.
+- **Monuments à photographier** : les monuments historiques de Niort dont l'élément
+  Wikidata n'a pas d'image (requête SPARQL sur les éléments à identifiant Mérimée de la
+  commune 79191, `query.wikidata.org`). Une photo de Karl, versée sur Commons, devient
+  l'image de l'élément (propriété P18), puis celle d'un futur article.
 
 ## Où en est la route (30 octobre 2026)
 
