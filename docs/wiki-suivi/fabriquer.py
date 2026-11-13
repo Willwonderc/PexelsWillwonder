@@ -6,7 +6,9 @@ Outil de session, à relancer après chaque ajout : il lit les photos déjà dan
 - suivi-wikipedia.xlsx, le tableau de suivi (onglets Suivi, Bilan, À rassembler) ;
 - vos-photos-dans-wikipedia.pdf, le même suivi à lire, en trois parties : les photos
   déposées (dans un article), refusées (retirées par un contributeur ou écartées d'avance)
-  et à demander (prêtes, à vérifier, à identifier, en attente), avec leur vignette ;
+  et à demander (à ajouter, prêtes, à vérifier, à identifier, en attente), avec leur
+  vignette ; puis les articles à créer ou à compléter et les monuments à photographier
+  (creations.csv, à côté de ce fichier) ;
 - consigne-rassemblement.txt, la consigne que Karl colle dans Claude sur son Mac pour
   rassembler les originaux des photos prêtes avant de les verser sur Commons.
 
@@ -50,6 +52,7 @@ LANGUES = {"fr": "français", "en": "anglais", "es": "espagnol", "eu": "basque",
            "br": "breton", "pt": "portugais"}
 # Ordre d'affichage et couleur de chaque statut.
 STATUTS = {
+    "À ajouter": "FFE699",       # déjà sur Commons : il ne reste qu'à l'ajouter à l'article
     "Prête": "FFF2CC",           # case préparée : verser la photo sur Commons, puis l'article
     "À vérifier": "DDEBF7",      # sujet identifié, article à vérifier par la session
     "À identifier": "EDE7F6",    # Karl doit dire ce que montre la photo
@@ -59,6 +62,8 @@ STATUTS = {
     "Écartée": "FBE5D6",         # jamais proposée ; raison dans la colonne Remarques
 }
 APRES = ("Refusée", "Écartée")   # statuts rangés après les photos en ligne
+PRETES = ("À ajouter", "Prête")  # une case est préparée : la ligne de la photo et le lien de la partie
+SUR_COMMONS = ("Dans l'article", "À ajouter", "Refusée", "En attente")  # fichier déjà versé
 POLICE = "Arial"
 UA = "KarlForterre-session/1.0 (contact@karlforterre.fr)"
 CACHE = Path(tempfile.gettempdir()) / "wiki-suivi-vignettes"
@@ -128,14 +133,14 @@ def feuille_suivi(classeur, toutes):
     for l in toutes:
         f.append([int(l["photo"]) if l["photo"].isdigit() else "", l["sujet"], l["statut"],
                   LANGUES.get(l["wiki"], l["wiki"]), l["article"], l["partie"], l["legende"], l["fichier"],
-                  l["date"], "Modifier la partie" if l["statut"] == "Prête" and l["section"] != "" else "",
+                  l["date"], "Modifier la partie" if l["statut"] in PRETES and l["section"] != "" else "",
                   l["remarques"]])
         n = f.max_row
         if l["photo"].isdigit():
             f.cell(n, 1).hyperlink = f"https://www.pexels.com/photo/{l['photo']}/"
         if l["article"] and l["wiki"]:
             f.cell(n, 5).hyperlink = lien_article(l["wiki"], l["article"])
-        if l["fichier"] and l["statut"] in ("Dans l'article", "En attente", "Refusée"):
+        if l["fichier"] and l["statut"] in SUR_COMMONS:
             f.cell(n, 8).hyperlink = lien_commons(l["fichier"])
         if f.cell(n, 10).value:
             f.cell(n, 10).hyperlink = lien_article(l["wiki"], l["article"], l["section"])
@@ -166,6 +171,7 @@ def feuille_bilan(classeur, nombre):
     f = classeur.create_sheet("Bilan")
     f.append(["Statut", "Photos", "Ce que cela veut dire"])
     sens = {
+        "À ajouter": "Déjà sur Commons : il ne reste qu'à ajouter la photo à l'article, avec la case de la session.",
         "Prête": "Case préparée : la photo est à verser sur Commons, puis à ajouter à l'article.",
         "À vérifier": "Sujet identifié : la session vérifie l'article et prépare la case.",
         "À identifier": "Karl doit dire ce que montre la photo.",
@@ -187,6 +193,21 @@ def feuille_bilan(classeur, nombre):
             if cellule.column == 1 and cellule.value in STATUTS:
                 cellule.fill = PatternFill("solid", fgColor=STATUTS[cellule.value])
     for c, largeur in zip("ABC", (16, 10, 80)):
+        f.column_dimensions[c].width = largeur
+
+
+def feuille_creer(classeur, creations):
+    f = classeur.create_sheet("À créer")
+    entetes = ["Statut", "Wikipédia", "Article", "Sujet", "Photos (n° Pexels)", "Sources", "Remarques"]
+    f.append(entetes)
+    for c in creations:
+        f.append([c["statut"], LANGUES.get(c["wiki"], c["wiki"]), c["article"], c["sujet"], c["photos"],
+                  c["sources"], c["remarques"]])
+    for ligne in f.iter_rows():
+        for cellule in ligne:
+            cellule.font = Font(name=POLICE, size=10, bold=cellule.row == 1)
+            cellule.alignment = Alignment(vertical="top", wrap_text=True)
+    for c, largeur in zip("ABCDEFG", (14, 11, 30, 40, 22, 40, 80)):
         f.column_dimensions[c].width = largeur
 
 
@@ -260,6 +281,9 @@ def vignette(l, images, hauteur):
 
 
 def ligne_photo(p, tailles):
+    if "galer" in p["partie"].lower() or "gallery" in p["partie"].lower():
+        # Dans une galerie (<gallery>), une ligne « Fichier:Nom.jpg|Légende ».
+        return f"{PREFIXES.get(p['wiki'], 'File')}:{p['fichier']}|{p['legende']}"
     largeur, hauteur = tailles.get(p["photo"], (4, 3))
     options = [VIGNETTES.get(p["wiki"], "thumb")] + (["upright"] if hauteur > largeur else [])
     return f"[[{PREFIXES.get(p['wiki'], 'File')}:{p['fichier']}|{'|'.join(options)}|{p['legende']}]]"
@@ -284,9 +308,9 @@ def carte(l, images, tailles, classe=""):
     corps = [f'<p class="sujet">{e(l["sujet"])}</p>']
     if ou(l):
         corps.append(f'<p class="ou">{ou(l)}</p>')
-    if l["legende"] and l["statut"] != "Prête":
+    if l["legende"] and l["statut"] not in PRETES:
         corps.append(f'<p class="legende">« {e(l["legende"])} »</p>')
-    if l["statut"] == "Prête":
+    if l["statut"] in PRETES:
         corps.append('<p class="etiquette">Ligne de la photo (la case entière est redonnée le jour même) :</p>'
                      f'<p class="code">{e(ligne_photo(l, tailles))}</p>')
         if l["section"] != "":
@@ -294,7 +318,7 @@ def carte(l, images, tailles, classe=""):
                          "Lien de modification de la partie</a></p>")
     details = []
     if l["fichier"]:
-        if l["statut"] in ("Dans l'article", "Refusée", "En attente"):
+        if l["statut"] in SUR_COMMONS:
             details.append(f'Commons : <a href="{e(lien_commons(l["fichier"]))}">{e(l["fichier"])}</a>')
         else:
             details.append(f"Nom à donner sur Commons : {e(l['fichier'])}")
@@ -314,7 +338,7 @@ STYLE = """
 @page { size: A4; margin: 15mm 14mm 16mm; }
 :root { --encre: #1d1d1b; --doux: #64625c; --trait: #dedad2; --lien: #0b57a0;
         --vert: #2e6b34; --vert-fond: #e2efda; --rouge: #a3261f; --rouge-fond: #f4cccc;
-        --ambre: #8a6100; --ambre-fond: #fff2cc; }
+        --ambre: #8a6100; --ambre-fond: #fff2cc; --bleu: #24527a; --bleu-fond: #e3ecf6; }
 * { box-sizing: border-box; }
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 body { margin: 0; font-family: "Archivo", "Inter", "DejaVu Sans", sans-serif; font-size: 9.6pt;
@@ -323,7 +347,7 @@ a { color: var(--lien); text-decoration: none; }
 p { margin: 0; }
 h1 { font-size: 27pt; font-weight: 800; letter-spacing: -0.015em; line-height: 1.05; margin: 0 0 5pt; }
 .chapeau { color: var(--doux); font-size: 11pt; margin-bottom: 16pt; }
-.bilan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9pt; margin-bottom: 14pt; }
+.bilan { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8pt; margin-bottom: 14pt; }
 .bilan a { color: inherit; display: block; border-radius: 7pt; padding: 11pt 12pt 12pt; }
 .bilan .nombre { font-size: 30pt; font-weight: 800; line-height: 1; }
 .bilan .nom { font-size: 12.5pt; font-weight: 700; margin: 3pt 0 4pt; }
@@ -331,11 +355,14 @@ h1 { font-size: 27pt; font-weight: 800; letter-spacing: -0.015em; line-height: 1
 .bilan .deposees { background: var(--vert-fond); }
 .bilan .refusees { background: var(--rouge-fond); }
 .bilan .demander { background: var(--ambre-fond); }
+.bilan .creer { background: var(--bleu-fond); }
 .commons { font-size: 9pt; color: var(--doux); margin-bottom: 4pt; }
 h2 { font-size: 18pt; font-weight: 800; margin: 0 0 4pt; padding-bottom: 4pt; border-bottom: 2.2pt solid; }
 h2.deposees { color: var(--vert); }
 h2.refusees { color: var(--rouge); break-before: page; }
 h2.demander { color: var(--ambre); break-before: page; }
+h2.creer { color: var(--bleu); break-before: page; }
+.creer .remarque { border-left-color: var(--bleu); }
 .partie { margin-top: 18pt; }
 .intro { color: var(--doux); margin: 4pt 0 6pt; }
 h3 { font-size: 12pt; font-weight: 700; margin: 14pt 0 3pt; break-after: avoid; }
@@ -368,6 +395,8 @@ h3 + .intro { margin-top: 0; }
 """
 
 INTRO_DEMANDER = {
+    "À ajouter": ("Déjà sur Commons, prêtes à ajouter", "À faire par Karl : rien à verser. Demander à une session "
+                  "la case à coller, relue le jour même, puis l’ajouter à l’article par le lien de la partie."),
     "Prête": ("Prêtes à verser", "À faire par Karl : rassembler les originaux (consigne en fin de document), "
               "les verser sur Commons sous le nom indiqué, avec le modèle {{Permission pending}}, et ajouter ces "
               "noms au courriel d’autorisation ; puis demander à une session la case à coller, relue le jour même."),
@@ -379,15 +408,49 @@ INTRO_DEMANDER = {
 }
 
 
-def page(toutes, texte_consigne, verifie=""):
+INTRO_CREER = {
+    "À écrire": ("Articles à écrire", "L’article manque : une session l’écrit, sourcé (bases officielles, article "
+                 "d’une autre langue traduit et cité dans le résumé de modification), Karl le relit et le publie."),
+    "À enrichir": ("Articles à compléter", "L’article existe mais tient en quelques lignes, et Wikipédia demande "
+                   "lui-même de le compléter : une session écrit la partie qui manque, avec ses sources."),
+    "Photo à prendre": ("Monuments à photographier", "Aucune photo de ces monuments sur Wikidata ni d’article : "
+                        "une photo de Karl, versée sur Commons, serait la première."),
+}
+
+
+def carte_creation(c, images):
+    premiere = c["photos"].split()[0] if c["photos"] else ""
+    image = vignette({"photo": premiere, "fichier": ""}, images, 180) if premiere else ""
+    image = f'<img src="{image}" alt="">' if image else '<div class="sans-image">photo à prendre</div>'
+    article = c["article"]
+    if c["statut"] == "À enrichir":
+        article = f'<a href="{e(lien_article(c["wiki"], c["article"]))}">{e(c["article"])}</a>'
+    else:
+        article = e(article)
+    corps = [f'<p class="sujet">{e(c["sujet"])}</p>',
+             f'<p class="ou">Wikipédia en {e(LANGUES.get(c["wiki"], c["wiki"]))} · {article}</p>']
+    details = []
+    if c["photos"]:
+        details.append("Photos : " + ", ".join(
+            f'<a href="https://www.pexels.com/photo/{e(n)}/">n° {e(n)}</a>' for n in c["photos"].split()))
+    if c["sources"]:
+        details.append(f"Sources : {e(c['sources'])}")
+    if details:
+        corps.append(f'<p class="detail">{" · ".join(details)}</p>')
+    if c["remarques"]:
+        corps.append(f'<p class="remarque">{e(c["remarques"])}</p>')
+    return f'<div class="carte"><div class="image">{image}</div><div class="texte">{"".join(corps)}</div></div>'
+
+
+def page(toutes, texte_consigne, verifie="", creations=()):
     images, tailles = fiches_pexels()
     par = {s: [l for l in toutes if l["statut"] == s] for s in STATUTS}
     deposees, refusees, ecartees = par["Dans l'article"], par["Refusée"], par["Écartée"]
     a_demander = [l for s in INTRO_DEMANDER for l in par[s]]
     articles = {(l["wiki"], l["article"]) for l in deposees}
     wikis = {l["wiki"] for l in deposees}
-    sur_commons = {l["fichier"] for l in deposees} | {
-        l["fichier"] for l in toutes if l["statut"] in ("Refusée", "En attente") and l["fichier"]}
+    sur_commons = {l["fichier"] for l in toutes if l["statut"] in SUR_COMMONS and l["fichier"]}
+    par_c = {s: [c for c in creations if c["statut"] == s] for s in INTRO_CREER}
     aujourd_hui = date_fr(date.today().isoformat())
     controle = f" ; toutes relues dans leur article le {e(date_fr(verifie))}" if verifie else ""
 
@@ -395,7 +458,7 @@ def page(toutes, texte_consigne, verifie=""):
         return f"{n} {un if n == 1 else plusieurs}"
 
     morceaux = [f"""<h1>Vos photos dans Wikipédia</h1>
-<p class="chapeau">Déposées, refusées, à demander · point au {aujourd_hui}</p>
+<p class="chapeau">Déposées, refusées, à demander, à créer · point au {aujourd_hui}</p>
 <div class="bilan">
   <a class="deposees" href="#deposees"><div class="nombre">{len(deposees)}</div><div class="nom">Déposées</div>
     <div class="sens">Dans un article : {compte(len(articles), "article", "articles")},
@@ -404,8 +467,12 @@ def page(toutes, texte_consigne, verifie=""):
     <div class="sens">{compte(len(refusees), "retirée", "retirées")} d’un article par un autre contributeur,
     {compte(len(ecartees), "écartée", "écartées")} d’avance (droits, doublons, personnes reconnaissables).</div></a>
   <a class="demander" href="#demander"><div class="nombre">{len(a_demander)}</div><div class="nom">À demander</div>
-    <div class="sens">{len(par["Prête"])} prêtes à verser, {len(par["À vérifier"])} à vérifier,
+    <div class="sens">{len(par["À ajouter"])} à ajouter (déjà sur Commons), {len(par["Prête"])} prêtes à verser, {len(par["À vérifier"])} à vérifier,
     {len(par["À identifier"])} à identifier, {len(par["En attente"])} en attente.</div></a>
+  <a class="creer" href="#creer"><div class="nombre">{len(creations)}</div><div class="nom">À créer</div>
+    <div class="sens">{compte(len(par_c["À écrire"]), "article à écrire", "articles à écrire")},
+    {len(par_c["À enrichir"])} à compléter, {compte(len(par_c["Photo à prendre"]), "monument", "monuments")}
+    à photographier.</div></a>
 </div>
 <p class="commons">{compte(len(sur_commons), "fichier versé", "fichiers versés")} sur Wikimedia Commons sous le compte
 « Karl Forterre ». Mode d’emploi complet : docs/wiki-route.md (dépôt PexelsWillwonder).</p>"""]
@@ -441,8 +508,20 @@ une guerre d’édition. On lit sa raison et on en tient compte pour les suivant
                         f'tableau).</p><pre>{e(texte_consigne)}</pre></div>')
     demander.append("</section>")
     morceaux.append("".join(demander))
+    if creations:
+        creer = ['<section class="partie creer" id="creer"><h2 class="creer">À créer</h2>'
+                 '<p class="intro">Les articles qui manquent ou restent à compléter, où les photos de Karl ont leur '
+                 'place, et les monuments qu’aucune photo ne montre encore. Jamais d’article sur Karl lui-même ni de '
+                 'lien vers ses sites ; un article ne dit que ce que ses sources publiées disent.</p>']
+        for statut, (titre, intro) in INTRO_CREER.items():
+            if par_c[statut]:
+                creer.append(f'<h3>{e(titre)} <span class="compte">({len(par_c[statut])})</span></h3>'
+                             f'<p class="intro">{e(intro)}</p>')
+                creer.extend(carte_creation(c, images) for c in par_c[statut])
+        creer.append("</section>")
+        morceaux.append("".join(creer))
     morceaux.append(f"""<p class="pied">Écrit le {aujourd_hui} par docs/wiki-suivi/fabriquer.py, d’après
-vitrine/wikipedia.csv et docs/wiki-suivi/pistes.csv (dépôt PexelsWillwonder). Vignettes : photos de Karl Forterre,
+vitrine/wikipedia.csv, docs/wiki-suivi/pistes.csv et creations.csv (dépôt PexelsWillwonder). Vignettes : photos de Karl Forterre,
 <a href="https://www.pexels.com">Photos provided by Pexels</a> ; la vue de face de l’hôtel de ville de Niort vient de
 Wikimedia Commons.</p>""")
     corps = "".join(morceaux)
@@ -492,11 +571,13 @@ def main():
     feuille_suivi(classeur, toutes)
     feuille_bilan(classeur, len(toutes))
     feuille_rassembler(classeur, pretes, texte)
+    creations = lire(ICI / "creations.csv") if (ICI / "creations.csv").exists() else []
+    feuille_creer(classeur, creations)
     classeur.calculation.fullCalcOnLoad = True
     classeur.save(ICI / "suivi-wikipedia.xlsx")
     (ICI / "consigne-rassemblement.txt").write_text(texte, encoding="utf-8")
     verifie = sys.argv[sys.argv.index("--verifie-le") + 1] if "--verifie-le" in sys.argv else ""
-    pdf = ecrire_pdf(page(toutes, texte, verifie), ICI / "vos-photos-dans-wikipedia.pdf")
+    pdf = ecrire_pdf(page(toutes, texte, verifie, creations), ICI / "vos-photos-dans-wikipedia.pdf")
     print(f"{len(toutes)} lignes, dont {len(pretes)} photos prêtes : suivi-wikipedia.xlsx, "
           f"consigne-rassemblement.txt{' et vos-photos-dans-wikipedia.pdf' if pdf else ''} écrits.")
 
