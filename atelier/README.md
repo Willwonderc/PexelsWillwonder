@@ -98,6 +98,16 @@ Part des photos retenues par galerie du site (toutes fiches confondues) :
   (le 23 juillet 2026, 16 vues des jardins de Villandry titrées : toutes retenues) ;
   les 4 refusées ce jour-là étaient en « Free stock photo of… ».
 
+### Confirmation du 13 novembre 2026
+
+Relevé Telepex du 9 novembre : sur les photos importées en 2026, les 63 qui avaient un titre
+descriptif et au moins 20 mots-clés à l'import ont toutes été retenues ; les 250 importées
+sans titre (« Free stock photo of… »), dont les 77 de fin septembre à novembre, aucune.
+Une session avait conclu le 10 novembre que Pexels réécrivait lui-même le titre des photos
+qu'il retient, et que la fiche ne jouait donc pas : c'était faux, et contredit par ces
+chiffres. La fiche préparée par l'atelier reste le premier levier ; le sujet ne départage
+qu'ensuite (Villandry, littoral, portraits posés, ciels de nuit en tête).
+
 ### Conseils pour chaque import
 
 1. **Passer chaque lot par l'atelier avant l'import.** Aucune photo sans titre ni

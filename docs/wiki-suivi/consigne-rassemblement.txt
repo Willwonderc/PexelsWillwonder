@@ -1,6 +1,7 @@
 Je verse mes photos sur Wikimedia Commons. Rassemble les fichiers ORIGINAUX des photos ci-dessous dans le dossier ~/Downloads/Commons à verser/ (crée-le s'il n'existe pas).
 
 Les photos (numéro Pexels → nom à donner au fichier) :
+- 40949842 → Niort - place Saint-Jean sous le givre - 2026.jpg
 - 23414382 → Niort - la ville et les flèches de Saint-André - 2024.jpg
 - 39228273 → Buzy - église - 2026.jpg
 
