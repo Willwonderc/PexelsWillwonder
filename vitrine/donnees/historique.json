@@ -85,9 +85,9 @@
      "position": null
     },
     "2026-11-09": {
-     "clics": 0,
+     "clics": 1,
      "complete": false,
-     "impressions": 1,
+     "impressions": 4,
      "position": null
     }
    },
@@ -129,9 +129,9 @@
      "position": null
     },
     "2026-11-09": {
-     "clics": 0,
+     "clics": 1,
      "complete": false,
-     "impressions": 1,
+     "impressions": 3,
      "position": null
     }
    }
@@ -366,8 +366,8 @@
      "2026-11-09": {
       "clics": 0,
       "complete": false,
-      "impressions": 34,
-      "position": 8.5
+      "impressions": 37,
+      "position": 8.4
      }
     }
    },
