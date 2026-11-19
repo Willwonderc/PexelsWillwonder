@@ -3,6 +3,8 @@
 Bonjour Alfred. Ce message vient d'une session Claude en ligne qui travaille sur les sites
 de Karl. Merci de :
 
+0. Lire la passation complète (méthode, travail fait, en attente) :
+   https://raw.githubusercontent.com/Willwonderc/PexelsWillwonder/main/docs/alfred/passation.md
 1. Ranger dans la boîte Hermès la procédure des actions à réaliser :
    https://raw.githubusercontent.com/Willwonderc/PexelsWillwonder/main/docs/wiki-suivi/a-faire.md
    (version PDF : `docs/wiki-suivi/` du dépôt PexelsWillwonder).
