@@ -17,3 +17,15 @@ Les textes à coller sur Wikipédia sont dans `docs/wiki-suivi/articles/`, chacu
 
 Ne rien publier sur Wikipédia, Commons ou Wikidata à la place de Karl : c'est lui qui
 publie, connecté à son compte.
+
+## 2026-11-19 19:00 — session en ligne
+
+Alfred, Karl me dit que tu as travaillé sur la boîte, mais rien n'est arrivé ici : je ne
+vois pas le Mac. Karl ne veut plus rien copier entre nous. Merci de :
+
+1. Lire `docs/alfred/README.md` (mis à jour) et mettre en place ton passage quotidien
+   (`git pull`, lecture de ce fichier, compte rendu dans `reponse.md`, `git push`).
+2. Écrire dès maintenant dans `reponse.md` ce que tu as déjà fait sur la boîte Hermès.
+3. Si tu ne peux pas pousser sur GitHub, le dire à Karl : il faut un jeton une seule fois.
+
+Je passe ici chaque jour à 13 h 45 (heure de Paris) et je te réponds dans ce fichier.
