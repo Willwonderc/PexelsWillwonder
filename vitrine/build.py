@@ -1591,6 +1591,9 @@ class Gabarit:
         self.reseaux = lire_reseaux()
         self.usages = {}
         self.wikipedia = []
+        # Image de partage des pages qui n'ont pas la leur (À propos, questions, pages légales) :
+        # la première photo de la sélection de l'accueil.
+        self.image_partage = None
         empreinte = hashlib.md5()
         for nom in ("style.css", "site.js"):
             empreinte.update((ICI / "statique" / nom).read_bytes())
@@ -1729,6 +1732,7 @@ class Gabarit:
         if langue in LANGUES_FLUX:
             tete.append(f'<link rel="alternate" type="application/rss+xml" title="{e(t["flux"])}" '
                         f'href="{flux or adr.chemin(langue, "flux")}">')
+        image = image or self.image_partage
         if image:
             tete += [
                 f'<meta property="og:image" content="{url_image(image, 1200)}">',
@@ -3215,6 +3219,8 @@ def ecrire_plan(adr, entrees, journal):
                 bloc += f"<lastmod>{journal[chemins[langue]][1]}</lastmod>"
             for autre in LANGUES:
                 bloc += f'<xhtml:link rel="alternate" hreflang="{HREFLANG[autre]}" href="{adr.absolue(chemins[autre])}"/>'
+            # Comme dans les pages : la version française par défaut (x-default).
+            bloc += f'<xhtml:link rel="alternate" hreflang="x-default" href="{adr.absolue(chemins["fr"])}"/>'
             if image:
                 bloc += f"<image:image><image:loc>{e(image)}</image:loc></image:image>"
             blocs.append(bloc + "</url>")
@@ -5016,6 +5022,7 @@ def main():
         shutil.rmtree(SORTIE)
     shutil.copytree(ICI / "statique", SORTIE / "statique")
     g = Gabarit(reglages, adr, preuve)
+    g.image_partage = (selection or photos or [None])[0]
     publiees = {p["id"] for p in photos}
     g.usages = {i: u for i, u in lire_usages().items() if i in publiees}
     wikipedia = lire_wikipedia()
