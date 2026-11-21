@@ -251,8 +251,8 @@ en regardant chaque photo retenue et les articles visés. Leçons :
   Sèvre, pour l'article italien « Niort », sans photo dans son texte ; 13263155, viaduc de
   Laval en noir et blanc, pour « Viaduc de Laval » (partie Description : neuf arches de
   granite). 39228273, d'abord prise pour l'église de Buzy, ne l'est pas (comparée le
-  21 novembre 2026 à la seule vue de Saint-Saturnin sur Commons) : lieu à retrouver par la
-  position GPS de l'original.
+  21 novembre 2026 à la seule vue de Saint-Saturnin sur Commons) : c'est l'église Saint-Lizier de
+  Bescat, la commune voisine (identifiée le 21 novembre).
 - **À identifier par Karl** : 32053231 (église néogothique d'Angers), 39517000 (façade
   plateresque en Espagne), 35104307 et 35104310 (remparts médiévaux, peut-être Fougères),
   35168742 (campanile en Mayenne), 19047674 (réplique de la statue de la Liberté),
