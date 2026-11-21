@@ -1,0 +1,26 @@
+{{Infobox Monument}}
+
+L''''immeuble du 64, rue Saint-Gelais''' est une maison de [[Niort]], dans les [[Deux-Sèvres]]. Bâtie pour l'essentiel dans la seconde moitié du {{s-|XIX}}, elle garde une aile du {{s-|XVIII}}. Son salon du rez-de-chaussée, avec son décor, est inscrit au titre des [[Monument historique (France)|monuments historiques]] depuis 1995<ref name="mérimée">{{Base Mérimée|PA00135592|Immeuble}}.</ref>.
+
+== Description ==
+La maison suit un plan en U, très proche de celui que montre le cadastre napoléonien. On y entre par un passage couvert qui mène à une cour intérieure<ref name="mérimée" />.
+
+L'ensemble date du {{s-|XIX}}, sauf l'aile sud, seul reste d'un état plus ancien : sa façade a été reculée, mais elle garde son caractère du {{s-|XVIII}}, avec de larges fenêtres en plein cintre et une balustrade de pierre<ref name="mérimée" />.
+
+Le corps de logis central abrite, du côté du jardin, un grand salon aux boiseries du {{s-|XIX}} ornées de stuc. Ces boiseries pourraient venir d'une autre demeure et avoir été remontées à cet endroit. Une aile en retour d'équerre, vers l'est, abrite une serre ou une orangerie et se prolonge jusqu'au bas du jardin<ref name="mérimée" />.
+
+== Protection ==
+Le salon du rez-de-chaussée et son décor sont inscrits au titre des monuments historiques par arrêté du 4 décembre 1995. La maison, propriété privée, se trouve dans le site inscrit de la colline Saint-André (arrêté du 7 novembre 1979)<ref name="mérimée" />.
+
+== Notes et références ==
+{{Références}}
+
+== Annexes ==
+=== Articles connexes ===
+* [[Liste des monuments historiques de Niort]]
+* [[Maison de la Vierge (Niort)]]
+
+{{Portail|architecture et urbanisme|Deux-Sèvres|monuments historiques}}
+
+[[Catégorie:Monument historique à Niort]]
+[[Catégorie:Monument historique inscrit en 1995]]

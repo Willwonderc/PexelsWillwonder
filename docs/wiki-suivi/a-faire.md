@@ -79,7 +79,8 @@ depuis, demander une case relue à une session.
    introduction de l'article italien « Cité internationale de la bande dessinée et de
    l'image » (case prête : `articles/case-angouleme-it.txt`).
 4. La photo d'église « de Buzy » (n° 39228273) n'est pas l'église Saint-Saturnin de Buzy :
-   la consigne lit seulement sa position GPS, pour retrouver la commune. Ne pas la verser.
+   ne pas la verser. Pour retrouver la commune, demander à Claude, sur le Mac, la date et la
+   position GPS de l'original (exiftool), puis les donner à une session.
 
 ## 4. Trois petites corrections
 

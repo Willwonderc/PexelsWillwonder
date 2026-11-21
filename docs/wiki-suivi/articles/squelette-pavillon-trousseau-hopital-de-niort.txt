@@ -1,0 +1,26 @@
+{{Infobox Monument}}
+
+Le '''pavillon Trousseau''' est un bâtiment de l'hôpital de [[Niort]], dans les [[Deux-Sèvres]], situé au 40, avenue Charles-de-Gaulle. Construit de 1935 à 1938 sur les plans de l'architecte André Laborie (1899-1979)<ref name="shag">{{Lien web |titre=André Laborie |site=Société historique et archéologique du Giennois |url=https://gien-histoire-patrimoine.fr/andre-laborie/ |consulté le=21 novembre 2026}}.</ref> pour recevoir les enfants malades, il est inscrit au titre des [[Monument historique (France)|monuments historiques]] depuis 2003<ref name="mérimée">{{Base Mérimée|PA79000025|Hôpital de Niort}}.</ref>.
+
+== Histoire ==
+L'hôpital de Niort est fondé en 1665<ref name="mérimée" />.
+
+De 1930 à 1940, l'architecte André Laborie le rebâtit sur le modèle de l'hôpital pavillonnaire : chaque pavillon reçoit une catégorie de malades ou de maladies. Le projet applique les principes hygiénistes de son temps : le plus d'air et de lumière possible, ni excès de chaleur ni excès de froid, pas de bruit. L'hôpital devient une maison de santé, ouverte à tous. La notice des monuments historiques y voit le prototype du centre hospitalier de province<ref name="mérimée" />.
+
+Les travaux se font en trois tranches. La première, en 1930, donne le sanatorium et la centrale thermique. La deuxième, jusqu'en 1934, le pavillon des hommes. La troisième, de 1935 à 1938, le pavillon des femmes, avec la maternité, le pavillon Trousseau, le pavillon de consultation et le logement du médecin-chef. Les bâtiments anciens sont modernisés en même temps : eau chaude et égouts<ref name="mérimée" />.
+
+== Protection ==
+Le pavillon Trousseau est inscrit en totalité au titre des monuments historiques par arrêté du 9 juillet 2003. Il appartient au centre hospitalier de Niort<ref name="mérimée" />.
+
+== Notes et références ==
+{{Références}}
+
+== Annexes ==
+=== Articles connexes ===
+* [[Liste des monuments historiques de Niort]]
+
+{{Portail|architecture et urbanisme|Deux-Sèvres|monuments historiques|médecine}}
+
+[[Catégorie:Monument historique à Niort]]
+[[Catégorie:Monument historique inscrit en 2003]]
+[[Catégorie:Hôpital monument historique en France]]
