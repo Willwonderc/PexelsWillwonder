@@ -250,9 +250,9 @@ en regardant chaque photo retenue et les articles visés. Leçons :
 - **Pistes vérifiées, à confirmer par Karl** : 23414382, Saint-André au-dessus de la
   Sèvre, pour l'article italien « Niort », sans photo dans son texte ; 13263155, viaduc de
   Laval en noir et blanc, pour « Viaduc de Laval » (partie Description : neuf arches de
-  granite) ; 39228273, l'église de Buzy, pour l'article basque « Buzy », sans aucune photo
-  (nom de l'église à confirmer : Saint-Saturnin, de la fin du XVIIIe siècle, n'est pas
-  romane).
+  granite). 39228273, d'abord prise pour l'église de Buzy, ne l'est pas (comparée le
+  21 novembre 2026 à la seule vue de Saint-Saturnin sur Commons) : lieu à retrouver par la
+  position GPS de l'original.
 - **À identifier par Karl** : 32053231 (église néogothique d'Angers), 39517000 (façade
   plateresque en Espagne), 35104307 et 35104310 (remparts médiévaux, peut-être Fougères),
   35168742 (campanile en Mayenne), 19047674 (réplique de la statue de la Liberté),

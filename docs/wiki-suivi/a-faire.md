@@ -65,7 +65,7 @@ lien, sa case entière et son résumé.
 Les cases reprennent le texte des articles lu le 13 novembre : si un article a changé
 depuis, demander une case relue à une session.
 
-## 3. Verser trois photos sur Commons, puis les placer
+## 3. Verser deux photos sur Commons, puis les placer
 
 1. Rassembler les originaux avec la consigne `docs/wiki-suivi/consigne-rassemblement.txt`,
    à coller dans Claude sur le Mac.
@@ -73,10 +73,14 @@ depuis, demander une case relue à une session.
    - `Niort - place Saint-Jean sous le givre - 2026.jpg` (version recadrée sur les pins,
      sans l'enseigne ni les plots, envoyée le 13 novembre ; année à confirmer par la date de
      l'appareil) ;
-   - `Niort - la ville et les flèches de Saint-André - 2024.jpg` ;
-   - `Buzy - église - 2026.jpg`.
+   - `Angoulême - musée de la bande dessinée, anciens chais - 2022.jpg` (les anciens chais
+     où sont le musée et la librairie de la Cité de la bande dessinée).
 3. Demander à une session les cases du jour : partie « Climat » de l'article « Niort »,
-   partie « Storia » de l'article italien « Niort », article basque « Buzy ».
+   introduction de l'article italien « Cité internationale de la bande dessinée et de
+   l'image » (case prête : `articles/case-angouleme-it.txt`).
+4. La photo d'église « de Buzy » (n° 39228273) n'est pas l'église Saint-Saturnin de Buzy :
+   ne pas la verser. Pour retrouver la commune, demander à Claude, sur le Mac, la date et la
+   position GPS de l'original (exiftool), puis les donner à une session.
 
 ## 4. Trois petites corrections
 
