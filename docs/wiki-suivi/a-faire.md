@@ -78,9 +78,9 @@ depuis, demander une case relue à une session.
 3. Demander à une session les cases du jour : partie « Climat » de l'article « Niort »,
    introduction de l'article italien « Cité internationale de la bande dessinée et de
    l'image » (case prête : `articles/case-angouleme-it.txt`).
-4. La photo d'église « de Buzy » (n° 39228273) n'est pas l'église Saint-Saturnin de Buzy :
-   ne pas la verser. Pour retrouver la commune, demander à Claude, sur le Mac, la date et la
-   position GPS de l'original (exiftool), puis les donner à une session.
+4. La photo d'église « de Buzy » (n° 39228273) montre en fait l'église Saint-Lizier de Bescat :
+   ne pas la verser sous le nom « Buzy ». Une session cherche sa place dans les articles
+   sur Bescat ; elle se versera alors sous « Bescat - église Saint-Lizier - 2026.jpg ».
 
 ## 4. Trois petites corrections
 
