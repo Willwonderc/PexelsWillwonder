@@ -13,9 +13,8 @@ poussière de capteur est effacée dans le ciel.
 ==============================================================================
 
 Nom : Pic de Ger - versant nord au téléobjectif - 2026.jpg
-Fichier à télécharger (6000 px de large) :
-https://raw.githubusercontent.com/Willwonderc/PexelsWillwonder/main/docs/wiki-suivi/fichiers/pic-de-ger-versant-nord-2026-6000px.jpg
-(taille d'origine du recadrage, 3333 px : même adresse, en remplaçant 6000px par 3333px)
+Fichier à télécharger (3333 × 2800 px, pleine définition du recadrage) :
+https://raw.githubusercontent.com/Willwonderc/PexelsWillwonder/main/docs/wiki-suivi/fichiers/pic-de-ger-versant-nord-2026-3333px.jpg
 
 Un recadrage important se verse comme un nouveau fichier, relié à l'original (règle
 COM:OVERWRITE). Lien : https://commons.wikimedia.org/wiki/Special:Upload
