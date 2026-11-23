@@ -1,0 +1,106 @@
+Pic de Ger : la photo retouchée, à verser puis à placer dans trois articles
+Préparé le 23 novembre 2026. Articles relus le même jour.
+
+La première version (« Pic de Ger - 2026.jpg ») a été retirée de l'article français
+« Pic de Ger » le 9 novembre (« photo floue ») : on ne la remet pas dans cet article. La
+photo n'est pas vraiment floue : prise à 300 mm (450 mm en équivalent 24×36) à travers une
+brume de chaleur, elle était voilée de bleu, avec des feuilles floues au premier plan. La
+version retouchée est recadrée sur le sommet, sans les feuilles, le voile est atténué et une
+poussière de capteur est effacée dans le ciel.
+
+==============================================================================
+1. Verser la version retouchée sur Commons (nouveau fichier)
+==============================================================================
+
+Nom : Pic de Ger - versant nord au téléobjectif - 2026.jpg
+
+Un recadrage important se verse comme un nouveau fichier, relié à l'original (règle
+COM:OVERWRITE). Lien : https://commons.wikimedia.org/wiki/Special:Upload
+Coller dans la case de description :
+
+== {{int:filedesc}} ==
+{{Information
+|description={{fr|1=Le pic de Ger (Pyrénées-Atlantiques, France), vu du nord au téléobjectif, en août 2026. Version recadrée de [[:File:Pic de Ger - 2026.jpg]] : voile de chaleur atténué, poussière de capteur effacée.}}{{en|1=The Pic de Ger (Pyrénées-Atlantiques, France), seen from the north through a telephoto lens in August 2026. Cropped version of [[:File:Pic de Ger - 2026.jpg]]: heat haze reduced, sensor dust removed.}}
+|date=2026-08-18
+|source={{own}}, derived from [[:File:Pic de Ger - 2026.jpg]]
+|author=[[User:Karl Forterre|Karl Forterre]]
+|permission={{Permission pending}}
+|other versions=[[:File:Pic de Ger - 2026.jpg]]
+}}
+{{Retouched picture|cropped, haze reduced, sensor dust removed|editor=Karl Forterre|orig=Pic de Ger - 2026.jpg}}
+
+== {{int:license-header}} ==
+{{cc-by-4.0}}
+
+[[Category:Pic de Ger]]
+
+Puis ajouter ce nom au courriel à l'équipe VRT (dossier 2026092910011941), avec
+« Pic de Ger - 2026.jpg », encore en attente d'autorisation depuis le 5 novembre : sans
+réponse, Commons peut le supprimer vers le 5 décembre.
+
+==============================================================================
+2. Wikipédia en anglais · Pic de Ger · partie « Topography »
+==============================================================================
+
+Lien : https://en.wikipedia.org/w/index.php?title=Pic_de_Ger&action=edit&section=2
+(il n'ouvre que la partie « Topography »)
+
+Case entière :
+
+== Topography ==
+[[File:Pic de Ger - versant nord au téléobjectif - 2026.jpg|thumb|upright|The Pic de Ger seen from the north, August 2026]]
+It lies between the [[Col d'Aubisque]] and the [[Pic du Midi d'Ossau]].
+
+Résumé : Added a photo of the Pic de Ger seen from the north (own work, Commons)
+
+==============================================================================
+3. Wikipédia en basque · Pic de Ger · introduction
+==============================================================================
+
+Lien : https://eu.wikipedia.org/w/index.php?title=Pic_de_Ger&action=edit&section=0
+(il n'ouvre que l'introduction)
+
+Case entière :
+
+{{Mendi infotaula automatikoa| kodea2 = Pirinioak}}
+[[Fitxategi:Pic de Ger - versant nord au téléobjectif - 2026.jpg|thumb|upright|Pic de Ger iparraldetik ikusita, 2026ko abuztuan.]]
+'''Pic de Ger''' Mendebaldeko [[Pirinioak|Pirinioetan]] dagoen mendia da, [[Ossau]] haranean kokatutakoa. Tontorra 2.613 metrotatara dago. [[Col d'Aubisque]] eta [[Midi d'Ossau]] artean dago.
+
+Résumé : Argazkia gehitu da: Pic de Ger iparraldetik (norberaren lana)
+
+==============================================================================
+4. Wikipédia en polonais · Pic de Ger · introduction
+==============================================================================
+
+Lien : https://pl.wikipedia.org/w/index.php?title=Pic_de_Ger&action=edit&section=0
+(il n'ouvre que l'introduction, avec la boîte d'information)
+
+Case entière :
+
+{{Góra infobox
+ |nazwa                 = Pic de Ger
+ |nazwa oryginalna      = 
+ |grafika               = 044 le pic du ger.jpg
+ |opis grafiki          = 
+ |państwo               = FRA
+ |położenie             = 
+ |pasmo                 = [[Pireneje]]
+ |wysokość              = 2613
+ |wybitność             = 
+ |współrzędne           = 42°56′12″N 0°21′15″W
+ |commons               = 
+}}
+[[Plik:Pic de Ger - versant nord au téléobjectif - 2026.jpg|mały|Pic de Ger widziany od północy (sierpień 2026)]]
+'''Pic de Ger''' – szczyt w [[Pireneje|Pirenejach]]. Leży w południowej [[Francja|Francji]], w departamencie [[Pireneje Atlantyckie]], blisko granicy z [[Hiszpania|Hiszpanią]]. Należy do [[Pireneje Zachodnie|Pirenejów Zachodnich]].
+
+Résumé : Dodano zdjęcie: Pic de Ger widziany od północy (praca własna)
+
+==============================================================================
+Plus tard, pas maintenant
+==============================================================================
+
+Article français « Massif de Ger », partie « Géologie » (le massif est entièrement
+calcaire : la photo en montre les dalles) : seulement après un mot aimable à Gemini1980,
+qui suit cet article et a retiré la première version, pour lui présenter la version
+retouchée et lui demander son avis. Légende possible : « Les dalles calcaires du versant
+nord du pic de Ger, au téléobjectif (août 2026). »
