@@ -46,8 +46,14 @@
    "2026-11-16": {
     "clics_photos": 0,
     "clics_suivre": 0,
+    "complete": true,
+    "visites": 20
+   },
+   "2026-11-23": {
+    "clics_photos": 0,
+    "clics_suivre": 0,
     "complete": false,
-    "visites": 13
+    "visites": 4
    }
   }
  },
@@ -274,8 +280,8 @@
      "2026-11-16": {
       "clics": 0,
       "complete": false,
-      "impressions": 4,
-      "position": 50.5
+      "impressions": 5,
+      "position": 43.6
      }
     },
     "web": {
