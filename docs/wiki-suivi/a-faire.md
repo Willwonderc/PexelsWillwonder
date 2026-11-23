@@ -22,6 +22,13 @@ Chacun s'ouvre aussi en texte brut, sans compte GitHub, à l'adresse
 Règle d'or : **une case de partie ne se colle que dans le lien de cette partie.** Collée
 dans l'éditeur de la page entière, elle efface le reste de l'article.
 
+**Fait le 23 novembre 2026** (vérifié) : étape 1.2 (partie « Architecture » de « Mairie de
+Bilbao », avec la Justice et la Loi) et étape 2 (les quatre photos déjà sur Commons). Restent
+1.1, 1.3 et les étapes 3 à 6.
+
+Attention : la photo du pic de Ger a été retirée de l'article « Pic de Ger » le 9 novembre,
+vingt minutes après son ajout, par un autre contributeur (« photo floue ») : ne pas la remettre.
+
 ## 1. Publier trois textes prêts
 
 ### 1.1 Article « Halles de Niort » (article neuf)
