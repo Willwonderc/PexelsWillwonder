@@ -107,6 +107,13 @@ vaut « 22 » (an 22). « Modifier » → la remplacer par `22 juillet 2025` →
 
 ## 5. Courriel à l'équipe VRT de Commons
 
+**Urgent (vérifié le 23 novembre)** : sept fichiers portent encore `{{Permission pending}}`
+sans ticket ; les trois vues de Villandry depuis le 29 octobre, soit 30 jours le
+28 novembre, délai après lequel Commons peut les supprimer. Ajouter aussi
+`Îles Chausey - phare du Loup dans la brume - 2025.jpg`, publiée sur Pexels mais sans modèle
+ni ticket, et, une fois versées, `Poitiers - hôtel de ville - 2021.jpg` et les photos de
+l'étape 3.
+
 Répondre au courriel de l'équipe VRT (dossier n° 2026092910011941, l'autorisation du
 29 septembre) en ajoutant les noms des fichiers déjà sur Pexels versés depuis, encore marqués
 `{{Permission pending}}` :
@@ -123,6 +130,20 @@ Répondre au courriel de l'équipe VRT (dossier n° 2026092910011941, l'autorisa
 - et, une fois versées, les trois photos de l'étape 3.
 
 Sans cette confirmation, Commons peut supprimer un fichier au bout d'un mois environ.
+
+## 5 bis. Hôtel de ville de Poitiers : proposer une photo plus récente
+
+Karl veut remplacer l'image de l'infobox et de Wikidata (photo de 2014) par sa vue de 2021
+(n° 10327809). Verser la photo, proposer le changement en page de discussion, attendre une
+semaine, puis changer l'article et Wikidata : étapes et message dans
+`articles/poitiers-hotel-de-ville.txt`.
+
+## 5 ter. Photos demandées par Baidax (page de discussion de l'hôtel de ville de Niort)
+
+Le 9 novembre, Baidax a demandé des photos de détail de l'hôtel de ville de Niort
+(« représentations du commerce, des beaux-arts, des sciences, de l'agriculture, de la devise
+nationale, du millésime, des fenêtres ») et de l'hôtel de la Caisse d'épargne de Niort, qui
+n'a aucune image sur Commons. À photographier lors d'un passage à Niort, puis à verser.
 
 ## 6. Pinterest : relier les flux des dix nouvelles galeries
 

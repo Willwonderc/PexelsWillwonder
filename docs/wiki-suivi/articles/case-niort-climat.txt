@@ -1,0 +1,160 @@
+=== Climat ===
+{{Article général|Climat de la Nouvelle-Aquitaine|Climat des Deux-Sèvres}}
+[[Fichier:Niort - place Saint-Jean sous le givre - 2026.jpg|vignette|La place Saint-Jean sous le givre et le brouillard, en hiver.]]
+Plusieurs études ont été menées afin de caractériser les types climatiques auxquels est exposé le territoire national. Les zonages obtenus diffèrent selon les méthodes utilisées, la nature et le nombre des paramètres pris en compte, le maillage territorial des données et la période de référence. En 2010, le climat de la commune était ainsi de type [[Climat de la France#2010-T5|climat océanique franc]], selon une étude du [[Centre national de la recherche scientifique]] (CNRS) s'appuyant sur une méthode combinant données climatiques et facteurs de milieu (topographie, occupation des sols{{etc.}}) et des données couvrant la [[normale climatique|période 1971-2000]]<ref name=Joly>{{Article |auteur1=Daniel Joly, Thierry Brossard, Hervé Cardot, Jean Cavailhes, Mohamed Hilal et Pierre Wavresky |titre=Les types de climats en France, une construction spatiale |périodique=Cybergéo, revue européenne de géographie - European Journal of Geography |numéro=501 |date=18 juin 2010 |doi=10.4000/cybergeo.23155 }}.</ref>. En 2020, le climat prédominant est classé Cfa, selon la [[classification de Köppen|classification de Köppen-Geiger]], pour la période 1988-2017, à savoir un climat tempéré à été chaud sans saison sèche<ref>{{Article |auteur1=Vincent Dubreuil |titre=Le changement climatique en France illustré par la classification de Köppen |périodique=La Météorologie |numéro=116 |date=février 2022 |doi= 10.37053/lameteorologie-2022-0012 |consulté le=3 novembre 2025}}.</ref>. Par ailleurs [[Météo-France]] publie en 2020 une nouvelle typologie des [[Climat de la France|climats de la France métropolitaine]] dans laquelle la commune est exposée à un [[Climat de la France#MF-T1|climat océanique]]<ref>{{Lien web |titre=Le climat en France hexagonale et Corse. |url=https://meteofrance.com/comprendre-climat/france/le-climat-en-france-metropolitaine |site =meteofrance.com |consulté le=3 novembre 2025}}.</ref> et est dans la région climatique [[Climat de la France#MF-R14| Poitou-Charentes]], caractérisée par un bon ensoleillement, particulièrement en été et des vents modérés<ref>{{Lien web |url=https://archive.wikiwix.com/cache/index2.php?url=http%3A%2F%2Fpluiesextremes.meteo.fr%2Ffrance-metropole%2FUn-peu-de-geographie.html#federation=archive.wikiwix.com&tab=url|titre=Zonages climatiques en France métropolitaine.|site =pluiesextremes.meteo.fr |consulté le=3 novembre 2025}}.</ref>. Elle est en outre dans la [[Climat de la France#Zonage climatique 2020, support de la RE 2020|zone H2b]] au titre de la [[réglementation environnementale 2020]] des constructions neuves<ref>{{Lien web|titre=Réglementation environnementale RE2020 |url=https://www.ecologie.gouv.fr/politiques-publiques/reglementation-environnementale-re2020 |site=ecologie.gouv.fr |date=18 novembre 2020 |consulté le=5 octobre 2025}}.</ref>{{,}}<ref>{{Lien web|titre=Répartition des départements par zone climatique |url=https://www.ecologie.gouv.fr/sites/default/files/documents/La%20r%C3%A9partition%20des%20d%C3%A9partements%20par%20zone%20climatique.pdf |format=pdf |site=ecologie.gouv.fr |consulté le=3 novembre 2025}}</ref>.
+
+Pour la période 1971-2000, la température annuelle moyenne est de {{tmp|12.2| °C }}, avec une [[amplitude thermique]] annuelle de {{tmp|14.3| °C }}. Le cumul annuel moyen de précipitations est de {{Unité|855 mm}}, avec {{nobr|12,1 jours}} de précipitations en janvier et {{nobr|6,7 jours}} en juillet<ref name=Joly/>. Pour la période 1991-2020, la température moyenne annuelle observée sur la station météorologique installée sur la commune est de {{tmp|12.8| °C }} et le cumul annuel moyen de précipitations est de {{Unité|846.6|mm}}<ref>{{Lien web |url=https://object.files.data.gouv.fr/meteofrance/data/synchro_ftp/REF_STATION/FICHECLIM_79191005.pdf |titre= Station Météo-France « Niort » - fiche climatologique - période 1991-2020.|site=object.files.data.gouv.fr/meteofrance/|consulté le=3 novembre 2025}}.</ref>{{,}}<ref>{{Lien web |url=https://donneespubliques.meteofrance.fr/metadonnees_publiques/fiches/fiche_79191005.pdf|titre= Station Météo-France « Niort » - fiche de métadonnées.|site=donneespubliques.meteofrance.fr|consulté le=3 novembre 2025}}.</ref>. {{StationMétéo|79191005}}.<!-- Un tableau météorologique est affiché pour toutes les communes :
+* disposant sur leur territoire d'une station météorologique en activité ;
+* de plus de 2000 habitants et dont une station météorologique est située dans une commune à moins de 5 km (les distances étant mesurées de chef-lieu à chef-lieu et non de chef-lieu à station météo) ;
+* de statut préfecture ou sous-préfecture ou de plus de 5000 habitants et dont une station météorologique est située dans une commune à moins de 10 km. -->
+<!-- Ce tableau peut être actualisé à la main à partir de https://meteofrancetoclimat.toolforge.org avec l'identifiant 79191005.
+
+Éviter de le modifier, excepté dans le cas où la station météorologique n'est pas cohérente avec la réalité climatique de la commune (cas des zones de montagne essentiellement). Mentionner alors la modification dans la page de discussion de l'article.-->
+{{Climat
+|titre=Statistiques  1991-2020  et  records station NIORT (79)       {{abréviation discrète|- alt|- altitude}} : {{Unité|57|m}}, situation : <span style="filter: brightness(0) invert(1);">[https://geohack.toolforge.org/geohack.php?pagename=Station_M%C3%A9t%C3%A9o&params=46.315556_N_0.4_W_scale:300000 lat : 46°18'56"N, lon : 0°24'00"O]</span><br><small>Records établis sur la période du {{date|01-07-1958}} au {{date|20-09-2026}}</small>
+|source={{Lien web|url=https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/REF_STATION/FICHECLIM_79191005.pdf|titre=Fiche 79191005|site=meteofrance.s3.sbg.io.cloud.ovh.net/data|date=édité le : 06/10/2026 dans l'état de la base|format=pdf}}
+|Charte=commune|diagramme=oui
+|tmin-jan=2.8
+|tmin-fev=2.4
+|tmin-mar=4.3
+|tmin-avr=6.1
+|tmin-mai=9.6
+|tmin-jui=12.8
+|tmin-jul=14.6
+|tmin-aou=14.4
+|tmin-sep=11.8
+|tmin-oct=9.5
+|tmin-nov=5.6
+|tmin-dec=3.2
+|tmin-ann=8.1
+|tmoy-jan=5.9
+|tmoy-fev=6.4
+|tmoy-mar=9.1
+|tmoy-avr=11.4
+|tmoy-mai=15
+|tmoy-jui=18.4
+|tmoy-jul=20.4
+|tmoy-aou=20.4
+|tmoy-sep=17.4
+|tmoy-oct=13.8
+|tmoy-nov=9.1
+|tmoy-dec=6.3
+|tmoy-ann=12.8
+|tmax-jan=8.9
+|tmax-fev=10.3
+|tmax-mar=13.8
+|tmax-avr=16.7
+|tmax-mai=20.4
+|tmax-jui=24
+|tmax-jul=26.3
+|tmax-aou=26.4
+|tmax-sep=23
+|tmax-oct=18.1
+|tmax-nov=12.7
+|tmax-dec=9.5
+|tmax-ann=17.5
+|prec-jan=81.9
+|prec-fev=64.1
+|prec-mar=63.4
+|prec-avr=66.7
+|prec-mai=66.5
+|prec-jui=58.8
+|prec-jul=52
+|prec-aou=53.4
+|prec-sep=61.7
+|prec-oct=88.4
+|prec-nov=92.3
+|prec-dec=97.4
+|prec-ann=846.6
+|tmax-record-jan=17 | tmax-record-date-jan=<small>31.1.1966</small>
+|tmax-record-fev=24.3 | tmax-record-date-fev=<small>27.2.2019</small>
+|tmax-record-mar=25.5 | tmax-record-date-mar=<small>20.3.2005</small>
+|tmax-record-avr=29.8 | tmax-record-date-avr=<small>30.4.2005</small>
+|tmax-record-mai=36.1 | tmax-record-date-mai=<small>28.5.2026</small>
+|tmax-record-jui=42.7 | tmax-record-date-jui=<small>23.6.2026</small>
+|tmax-record-jul=41 | tmax-record-date-jul=<small>18.7.2022</small>
+|tmax-record-aou=40.1 | tmax-record-date-aou=<small>9.8.2003</small>
+|tmax-record-sep=36.6 | tmax-record-date-sep=<small>4.9.2023</small>
+|tmax-record-oct=31.1 | tmax-record-date-oct=<small>1.10.2023</small>
+|tmax-record-nov=22.9 | tmax-record-date-nov=<small>8.11.2015</small>
+|tmax-record-dec=19.2 | tmax-record-date-dec=<small>16.12.1989</small>
+|tmax-record-ann=42.7 | tmax-record-date-ann=<small>2026</small>
+|tmin-record-jan=-16 | tmin-record-date-jan=<small>17.1.1987</small>
+|tmin-record-fev=-13.3 | tmin-record-date-fev=<small>5.2.1963</small>
+|tmin-record-mar=-10.7 | tmin-record-date-mar=<small>1.3.2005</small>
+|tmin-record-avr=-4.8 | tmin-record-date-avr=<small>7.4.2008</small>
+|tmin-record-mai=-1.6 | tmin-record-date-mai=<small>3.5.1979</small>
+|tmin-record-jui=3.1 | tmin-record-date-jui=<small>4.6.1975</small>
+|tmin-record-jul=5.1 | tmin-record-date-jul=<small>6.7.1965</small>
+|tmin-record-aou=4.4 | tmin-record-date-aou=<small>30.8.1986</small>
+|tmin-record-sep=2.5 | tmin-record-date-sep=<small>21.9.1960</small>
+|tmin-record-oct=-3.3 | tmin-record-date-oct=<small>30.10.1997</small>
+|tmin-record-nov=-7 | tmin-record-date-nov=<small>21.11.1993</small>
+|tmin-record-dec=-10.5 | tmin-record-date-dec=<small>31.12.1996</small>
+|tmin-record-ann=-16 | tmin-record-date-ann=<small>1987</small>
+|pluie-record-jan=52.4 | pluie-record-date-jan=<small>21.1.1995</small>
+|pluie-record-fev=38 | pluie-record-date-fev=<small>8.2.1966</small>
+|pluie-record-mar=30 | pluie-record-date-mar=<small>1.3.2007</small>
+|pluie-record-avr=55.1 | pluie-record-date-avr=<small>12.4.2018</small>
+|pluie-record-mai=76.2 | pluie-record-date-mai=<small>19.5.2014</small>
+|pluie-record-jui=87.2 | pluie-record-date-jui=<small>11.6.1988</small>
+|pluie-record-jul=49.2 | pluie-record-date-jul=<small>9.7.1981</small>
+|pluie-record-aou=64.8 | pluie-record-date-aou=<small>31.8.2015</small>
+|pluie-record-sep=73 | pluie-record-date-sep=<small>3.9.1964</small>
+|pluie-record-oct=45.8 | pluie-record-date-oct=<small>10.10.2000</small>
+|pluie-record-nov=56 | pluie-record-date-nov=<small>30.11.2003</small>
+|pluie-record-dec=51.5 | pluie-record-date-dec=<small>19.12.1982</small>
+|pluie-record-ann=87.2 | pluie-record-date-ann=<small>1988</small>
+|soleil-jan=76
+|soleil-fev=108.3
+|soleil-mar=159.5
+|soleil-avr=187.4
+|soleil-mai=219.1
+|soleil-jui=240.7
+|soleil-jul=257.2
+|soleil-aou=247.8
+|soleil-sep=206.5
+|soleil-oct=133.6
+|soleil-nov=92.7
+|soleil-dec=77.2
+|soleil-ann=2005.8
+|pluie-jour+1mm-jan=11.8
+|pluie-jour+1mm-fev=10.4
+|pluie-jour+1mm-mar=10.3
+|pluie-jour+1mm-avr=10.0
+|pluie-jour+1mm-mai=10.0
+|pluie-jour+1mm-jui=8.1
+|pluie-jour+1mm-jul=7.3
+|pluie-jour+1mm-aou=6.8
+|pluie-jour+1mm-sep=7.6
+|pluie-jour+1mm-oct=11.1
+|pluie-jour+1mm-nov=12.3
+|pluie-jour+1mm-dec=12.3
+|pluie-jour+1mm-ann=117.9
+|pluie-jour+5mm-jan=5.8
+|pluie-jour+5mm-fev=4.4
+|pluie-jour+5mm-mar=4.3
+|pluie-jour+5mm-avr=4.6
+|pluie-jour+5mm-mai=3.9
+|pluie-jour+5mm-jui=3.7
+|pluie-jour+5mm-jul=3.1
+|pluie-jour+5mm-aou=3.1
+|pluie-jour+5mm-sep=4.0
+|pluie-jour+5mm-oct=5.6
+|pluie-jour+5mm-nov=6.0
+|pluie-jour+5mm-dec=6.6
+|pluie-jour+5mm-ann=55.0
+|pluie-jour+10mm-jan=2.4
+|pluie-jour+10mm-fev=1.8
+|pluie-jour+10mm-mar=1.6
+|pluie-jour+10mm-avr=1.9
+|pluie-jour+10mm-mai=2.1
+|pluie-jour+10mm-jui=1.9
+|pluie-jour+10mm-jul=1.5
+|pluie-jour+10mm-aou=1.9
+|pluie-jour+10mm-sep=2.0
+|pluie-jour+10mm-oct=2.9
+|pluie-jour+10mm-nov=2.8
+|pluie-jour+10mm-dec=3.4
+|pluie-jour+10mm-ann=26.1
+}}
