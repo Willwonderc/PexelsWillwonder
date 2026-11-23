@@ -578,11 +578,20 @@ def ecrire_pdf(contenu, sortie):
 def main():
     toutes = lignes()
     pretes = [l for l in toutes if l["statut"] == "Prête"]
-    texte = consigne(pretes)
+    # La consigne de rassemblement ne garde qu'une ligne par fichier, et laisse de côté les
+    # fichiers retouchés que la session fournit elle-même (remarque « fichier fourni par la
+    # session ») : il n'y a pas d'original à copier sous ce nom.
+    vus, a_rassembler = set(), []
+    for l in pretes:
+        if l["fichier"] in vus or "fichier fourni par la session" in l.get("remarques", ""):
+            continue
+        vus.add(l["fichier"])
+        a_rassembler.append(l)
+    texte = consigne(a_rassembler)
     classeur = Workbook()
     feuille_suivi(classeur, toutes)
     feuille_bilan(classeur, len(toutes))
-    feuille_rassembler(classeur, pretes, texte)
+    feuille_rassembler(classeur, a_rassembler, texte)
     creations = lire(ICI / "creations.csv") if (ICI / "creations.csv").exists() else []
     feuille_creer(classeur, creations)
     classeur.calculation.fullCalcOnLoad = True

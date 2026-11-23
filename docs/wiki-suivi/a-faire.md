@@ -113,7 +113,9 @@ Répondre au courriel de l'équipe VRT (dossier n° 2026092910011941, l'autorisa
 
 - les trois vues de Villandry versées le 29 octobre (`Villandry - jardin d'ornement, Amour passionné - 2026.jpg`,
   `Villandry - potager décoratif vu d'en haut - 2026.jpg`, `Villandry - jardin d'eau et château - 2026.jpg`) ;
-- `Pic de Ger - 2026.jpg` ;
+- `Pic de Ger - 2026.jpg` et, une fois versée, sa version retouchée
+  `Pic de Ger - versant nord au téléobjectif - 2026.jpg` (étapes et cases :
+  `articles/cases-pic-de-ger.txt`) ;
 - `Îles Chausey - phare du Loup dans la brume - 2025.jpg` ;
 - `Laval - viaduc, arches et passerelle - 2022.jpg` ;
 - `Nancy - basilique Saint-Epvre, façade - 2022.jpg` ;
