@@ -107,6 +107,12 @@ vaut « 22 » (an 22). « Modifier » → la remplacer par `22 juillet 2025` →
 
 ## 5. Courriel à l'équipe VRT de Commons
 
+**Envoyé le 23 novembre 2026** par Karl (réponse au dossier 2026092910011941, à
+permissions-fr@wikimedia.org) pour les sept fichiers en attente et le phare du Loup, en
+demandant que l'autorisation couvre aussi les prochains versements de son profil Pexels.
+Reste à vérifier, dans quelques jours, que l'équipe a remplacé « Permission pending » par le
+ticket sur chaque fichier. Les photos versées après le 23 novembre suivront la même voie.
+
 **Urgent (vérifié le 23 novembre)** : sept fichiers portent encore `{{Permission pending}}`
 sans ticket ; les trois vues de Villandry depuis le 29 octobre, soit 30 jours le
 28 novembre, délai après lequel Commons peut les supprimer. Ajouter aussi
