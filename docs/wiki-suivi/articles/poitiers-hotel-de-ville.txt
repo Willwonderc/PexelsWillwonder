@@ -1,0 +1,65 @@
+Hôtel de ville de Poitiers : proposer une photo plus récente (infobox et Wikidata)
+Préparé le 23 novembre 2026, à la demande de Karl. Article et Wikidata relus le même jour.
+
+État actuel
+- Article français « Hôtel de ville de Poitiers » (révision 240215412) : l'infobox donne
+  l'image directement, « | image = Hôtel de ville – Poitiers (2).JPG » ; ce paramètre
+  passe avant Wikidata.
+- Wikidata Q3146172, propriété image (P18) : le même fichier, daté du 26 juillet 2014.
+- Ce fichier est de Jules78120 (2014, 6000 × 4000, CC BY-SA 4.0).
+
+Pourquoi passer par la page de discussion
+Remplacer l'image d'un autre photographe par la sienne se fait mieux après avoir
+demandé : c'est ainsi que la façade de l'hôtel de ville de Niort est entrée dans
+l'infobox, avec l'accord de Baidax. Un échange de quelques jours évite une annulation.
+
+Attention à la photo
+La photo n° 10327809 (2021) est très retouchée : ciel bleu très foncé, contraste et
+saturation forts, passants et bancs colorés au premier plan. Pour une infobox, une version
+plus sobre (moins de saturation et de « clarté ») a plus de chances d'être acceptée : si
+l'original est sur le Mac, en tirer une version plus neutre avant de la verser.
+
+==============================================================================
+1. Verser la photo sur Commons
+==============================================================================
+
+Nom : Poitiers - hôtel de ville - 2021.jpg
+Avec {{Permission pending}}, puis ajouter le nom au courriel à l'équipe VRT.
+Catégories : [[Category:Hôtel de Ville de Poitiers]]
+Description : {{fr|1=La façade de l'hôtel de ville de Poitiers, place du Maréchal-Leclerc, en 2021.}}{{en|1=The façade of Poitiers town hall, Place du Maréchal-Leclerc, in 2021.}}
+Ajouter aussi {{Mérimée|PA00105619}} sous la description.
+
+==============================================================================
+2. Proposer le remplacement sur la page de discussion de l'article
+==============================================================================
+
+Lien : https://fr.wikipedia.org/w/index.php?title=Discussion:H%C3%B4tel_de_ville_de_Poitiers&action=edit&section=new
+
+Sujet : Photo plus récente de la façade pour l'infobox
+
+Message :
+
+Bonjour, je propose de remplacer l'image de l'infobox, prise en 2014, par une vue plus récente de la façade, prise en 2021 :
+
+[[Fichier:Poitiers - hôtel de ville - 2021.jpg|vignette|néant|Proposition pour l'infobox]]
+
+Elle montre la façade et la place dans leur état actuel. J'en suis l'auteur : c'est pourquoi je préfère vous demander votre avis avant de la changer dans l'article et sur Wikidata. S'il n'y a pas d'objection d'ici une semaine, je ferai le remplacement. Merci ! ~~~~
+
+==============================================================================
+3. Une semaine plus tard, sans objection
+==============================================================================
+
+a) Article : https://fr.wikipedia.org/w/index.php?title=H%C3%B4tel_de_ville_de_Poitiers&action=edit&section=0
+   Remplacer seulement la ligne
+     | image = Hôtel de ville – Poitiers (2).JPG
+   par
+     | image = Poitiers - hôtel de ville - 2021.jpg
+   Résumé : Image de l'infobox : vue plus récente de la façade (2021), voir la page de discussion
+
+b) Wikidata : https://www.wikidata.org/wiki/Q3146172
+   Propriété « image » → « modifier » → remplacer le fichier par
+   « Poitiers - hôtel de ville - 2021.jpg », et la date jointe (« date ») par 2021 →
+   publier.
+
+Puis dire « c'est fait » à une session : elle vérifie et met la photo dans le panneau
+« Mes photos dans Wikipédia » du site.
