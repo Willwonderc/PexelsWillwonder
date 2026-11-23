@@ -122,7 +122,7 @@ Répondre au courriel de l'équipe VRT (dossier n° 2026092910011941, l'autorisa
 
 Sans cette confirmation, Commons peut supprimer un fichier au bout d'un mois environ.
 
-## 6. Pinterest : relier les flux des cinq nouvelles galeries
+## 6. Pinterest : relier les flux des dix nouvelles galeries
 
 Paramètres → Importer du contenu → Publication automatique → coller l'adresse d'un flux,
 choisir (ou créer) son tableau, enregistrer. Un flux par tableau :
@@ -134,6 +134,11 @@ choisir (ou créer) son tableau, enregistrer. Un flux par tableau :
 | Reflections | `https://photos.karlforterre.fr/en/galleries/reflets/feed.xml` |
 | Winter and Christmas | `https://photos.karlforterre.fr/en/galleries/hiver-et-noel/feed.xml` |
 | Doors and stained glass | `https://photos.karlforterre.fr/en/galleries/portes-et-vitraux/feed.xml` |
+| Chausey Islands | `https://photos.karlforterre.fr/en/galleries/iles-chausey/feed.xml` |
+| Town halls | `https://photos.karlforterre.fr/en/galleries/hotels-de-ville/feed.xml` |
+| Parks and gardens | `https://photos.karlforterre.fr/en/galleries/parcs-et-jardins/feed.xml` |
+| Spring | `https://photos.karlforterre.fr/en/galleries/printemps/feed.xml` |
+| Summer | `https://photos.karlforterre.fr/en/galleries/ete/feed.xml` |
 
 Mode d'emploi complet : `pinterest/README.md`.
 
