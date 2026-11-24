@@ -45,6 +45,16 @@ jobs:
             *) exit 0 ;;
           esac
           attente=$(( $(date -u -d "today $heure" +%s) - $(date -u +%s) ))
+          # Un passage de la veille, que GitHub lance après minuit (le passage de 15 h 47 l'a
+          # fait le 24 novembre 2026 à 2 h 35), croirait devoir attendre l'heure du jour même
+          # et bloquerait les passages suivants jusqu'à sa limite de temps. L'attente utile
+          # la plus longue étant de 5 h 30 (1 h 17 → 6 h 47), au-delà de 6 heures il s'arrête :
+          # les passages du jour feront la publication.
+          if [ "$attente" -gt 21600 ]; then
+            echo "Passage de la veille, arrivé après minuit : rien à faire."
+            echo "PASSAGE_PERIME=1" >> "$GITHUB_ENV"
+            exit 0
+          fi
           if [ "$attente" -gt 0 ]; then
             echo "En avance : attente de $(( attente / 60 )) minutes, jusqu'à $heure UTC."
             sleep "$attente"
@@ -52,10 +62,12 @@ jobs:
 
       # Toujours la dernière version de main, qui contient le journal du passage précédent.
       - uses: actions/checkout@v4
+        if: env.PASSAGE_PERIME != '1'
         with:
           ref: main
 
       - name: Publier la photo du jour
+        if: env.PASSAGE_PERIME != '1'
         env:
           BLUESKY_IDENTIFIANT: ${{ secrets.BLUESKY_IDENTIFIANT }}
           BLUESKY_MOT_DE_PASSE_APPLI: ${{ secrets.BLUESKY_MOT_DE_PASSE_APPLI }}
@@ -74,7 +86,7 @@ jobs:
 
       # Même si un réseau a échoué, garder la trace de ce que les autres ont publié.
       - name: Enregistrer le journal des publications
-        if: always()
+        if: always() && env.PASSAGE_PERIME != '1'
         run: |
           if [ -n "$(git status --porcelain reseaux/photo-du-jour.json)" ]; then
             git config user.name "github-actions[bot]"
