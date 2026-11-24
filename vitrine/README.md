@@ -337,6 +337,7 @@ article est décrite dans `docs/wiki-route.md`. Une ligne par article illustré 
 - `article` et `partie` : le titre exact de l'article et de la partie où se trouve la
   photo ; sans partie, la photo est l'image de l'infobox, en tête de l'article ;
 - `legende` : la légende écrite dans l'article, mot pour mot (vide s'il n'y en a pas) ;
+  l'italique de Wikipédia (`''chais''`) y est recopié tel quel, et le site le met en italique ;
 - `fichier` : le nom du fichier sur Commons, sans « File: » ;
 - `ajoutee_le` : la date de l'ajout dans l'article (AAAA-MM-JJ) ;
 - `lon`, `lat` : les coordonnées du lieu, pour la carte ;

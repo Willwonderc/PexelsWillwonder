@@ -1938,6 +1938,13 @@ def date_longue(jour, langue):
     return f"{'1er' if d.day == 1 else d.day} {MOIS['fr'][d.month - 1]} {d.year}"
 
 
+def legende_wiki(texte):
+    """Légende recopiée de l'article, échappée, avec l'italique de Wikipédia
+    (''chais'') rendu en <i>chais</i>."""
+    morceaux = re.split(r"''(.+?)''", texte)
+    return "".join(f"<i>{e(m)}</i>" if i % 2 else e(m) for i, m in enumerate(morceaux))
+
+
 def langues_wikipedia(entrees, langue):
     """« en français, en basque et en asturien », « in French, Basque and Asturian »,
     « 法语、巴斯克语和阿斯图里亚斯语 » : les Wikipédias du panneau, la plus fournie d'abord."""
@@ -1981,7 +1988,7 @@ def panneau_wikipedia(g, langue):
         langue_article = f'lang="{w["wiki"]}"'
         partie = (e(t["wp_partie"]).format(partie=f'<span {langue_article}>{e(w["partie"])}</span>')
                   if w["partie"] else e(t["wp_en_tete"]))
-        legende = (f'<p class="wp-legende" {langue_article}>{e(w["legende"])}</p>' if w["legende"]
+        legende = (f'<p class="wp-legende" {langue_article}>{legende_wiki(w["legende"])}</p>' if w["legende"]
                    else f'<p class="wp-sans-legende">{e(t["wp_sans_legende"])}</p>')
         commons = f'<a href="{e(lien_commons(w))}">{e(t["wp_commons"])}</a>'
         licence = t["wp_licence"] if w["date"] else t["wp_licence"].split(" · ")[0]
