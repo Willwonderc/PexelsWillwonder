@@ -20,6 +20,37 @@ Méthode, en lecture seule et sans compte :
 
 Ne jamais aimer, suivre ni répondre par programme : on mesure, on ne touche à rien.
 
+## 24 novembre 2026 (point intermédiaire, avant le bilan du 26)
+
+Relevé en lecture seule des fils publics, du 1er au 23 novembre (le message du 24 est
+écarté, trop récent), à la demande de Karl.
+
+- **Bluesky : ça monte.** 21 abonnés (13 le 26 octobre, 21 déjà le 19 novembre).
+  23 photos du jour, « j'aime » en médiane 12 (7,5 en octobre, 4 fin septembre), moyenne
+  14,8, 341 au total, 11 partages. Les jours de défi #Photovember (médiane 12) font
+  deux fois mieux que le seul jour hors défi (glycine, 20 novembre : 6). Mieux reçus :
+  « Pluie » (35, 13 novembre), le cheval bai pour « Marron » (31), « Couleur(s) de
+  saison » (30), « Ciel d'automne » et « Laine » (21), « Cosy » (19) ; moins bien :
+  « Boisson chaude » et « Champignon » (4). Presque aucune conversation : une seule réponse
+  d'un autre compte depuis l'ouverture (les autres réponses sont les liens de Karl). Le
+  message écrit à la main le 22 novembre (« Merci à tous… », sans photo) : 0.
+- **Mastodon : ça stagne.** 6 abonnés depuis octobre ; Karl ne suit qu'un compte.
+  23 messages, favoris en médiane 3 (3 en octobre, 6 fin septembre), moyenne 4,3, 98 au
+  total, 14 partages. Toujours le même partage : chats (#Caturday, médiane 13), fleurs (8),
+  oiseaux (8), noir et blanc (5,5), puis architecture (3,5), et les lieux et les côtes à 0
+  ou 1 (cormorans de Chausey, Ribadeo, maison en forêt, rive). Novembre a eu beaucoup de
+  lieux. Le message du 3 novembre nomme « Pic du Midi d'Ossau » la photo 39212543, qui
+  montre le pic de Ger.
+- **Heures : en novembre, aucun message à l'heure** (octobre, depuis le 14 : presque tous).
+  Retard médian 1 h 14 sur Bluesky et 2 h 27 sur Mastodon, jusqu'à 4 h 11 et 6 h 26 :
+  GitHub lance les passages avancés plus tard qu'en octobre. Le 24 novembre, le passage
+  Mastodon de la veille, lancé à 2 h 35, a attendu 15 h 47 du jour même et bloqué la file
+  jusqu'à 8 h 31 ; corrigé le même jour dans `photo-du-jour.yml` (un passage de la veille
+  s'arrête). En octobre, l'heure n'avait pas d'effet visible sur les réactions.
+- **Pour décembre :** sur Bluesky, garder une photo pour chaque défi du mois ; sur
+  Mastodon, plus de chats (#Caturday le samedi), de fleurs et d'oiseaux, le noir et blanc
+  le lundi, moins de villes et de côtes.
+
 ## 26 octobre 2026
 
 ### Correction du bilan de septembre
