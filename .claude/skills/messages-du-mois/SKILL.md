@@ -154,8 +154,13 @@ déroger, et tu le dis alors en tête de la pull request.
     `vitrine/galeries.ini`, ou le mot-clé « chat ») ;
   - lundi, du noir et blanc (`#MonochromeMonday`), de préférence nature, animal ou objet ;
   - vendredi, une fenêtre (`#FensterFreitag`) ; à défaut, des champignons ou des fleurs ;
-  - dimanche, le sujet le plus sûr qui reste : un animal ou des fleurs (pas de
-    `#SilentSunday`, qui veut des photos sans texte) ;
+  - dimanche, `#SilentSunday` : la photo seule, sans phrase. La colonne `texte` ne
+    contient que trois ou quatre hashtags, `#SilentSunday` en tête (le programme ajoute le
+    lien) ; la colonne `alt` est indispensable. Sujet : un animal, des fleurs, un ciel ou
+    un paysage sans bâtiment. Essai décidé le 24 novembre 2026 : les dimanches faisaient
+    0,5 favori en médiane, et `#SilentSunday` est l'un des hashtags photo les plus actifs
+    de mastodon.social (environ 170 messages par jour en moyenne sur une semaine) ; le
+    bilan compare ;
   - les autres jours, dans cet ordre : oiseaux (`#BirdsOfMastodon`), fleurs, autres
     animaux, arbres et forêts, eau et paysages sans bâtiment, ciel et astronomie.
 - **Les autres jours** de Bluesky, et à sujet égal sur Mastodon : parmi les photos jamais
@@ -196,6 +201,12 @@ et où, puis une touche (image, jeu de mots, formule). Les lignes déjà écrite
 - **Mastodon** : le texte, ligne vide, quatre ou cinq hashtags parmi les plus suivis
   (`reseaux/audience.md`). Le programme insère le lien avant les hashtags ; 500 caractères
   au plus avec lui.
+- **Pas d'appel à réagir** : ni question posée pour obtenir des réponses, ni « dites-moi »,
+  « aimez », « partagez ». Mesuré le 24 novembre 2026 (`reseaux/audience.md`) : chez les
+  participants de #UnJourUnePhoto (450 messages) comme dans #photography sur mastodon.social
+  (313 messages), les messages qui posent une question n'ont ni plus de réponses ni plus de
+  réactions. Ce qui a fait répondre chez Karl, c'est une touche personnelle, à la première
+  personne (la barque aux feuilles mortes, le chat qui fixe l'objectif) : la garder.
 - **Colonne `alt`** : ce que montre l'image, pour qui ne la voit pas, en une ou deux
   phrases factuelles dans la langue du message, sans hashtag ni « photo de » (sur Mastodon,
   beaucoup ne partagent que les images décrites).

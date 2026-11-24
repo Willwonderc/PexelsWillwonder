@@ -50,6 +50,23 @@ Relevé en lecture seule des fils publics, du 1er au 23 novembre (le message du 
 - **Pour décembre :** sur Bluesky, garder une photo pour chaque défi du mois ; sur
   Mastodon, plus de chats (#Caturday le samedi), de fleurs et d'oiseaux, le noir et blanc
   le lundi, moins de villes et de côtes.
+- **Appeler aux réponses ne sert pas.** Chez 51 participants de #UnJourUnePhoto et
+  #Photovember (450 messages du 8 au 21 novembre), 5 messages posaient une question :
+  0,6 réponse en moyenne, contre 1,3 sans question ; « j'aime » en médiane 20 contre 24.
+  Dans #photography sur mastodon.social (313 messages avec image de comptes du serveur, du
+  20 au 22 novembre) : 0,29 réponse avec question, 0,37 sans ; favoris 5 contre 6.
+- **Ce qui compte, c'est le public de chacun.** Sur Mastodon, favoris en médiane selon les
+  abonnés de l'auteur : 1 (moins de 50), 5 (50 à 200), 9 (200 à 1 000), 14 (plus de 1 000).
+  Avec 6 abonnés, Karl (médiane 3) fait déjà mieux que sa tranche. Les participants de
+  #UnJourUnePhoto ont en médiane 729 abonnés et suivent 410 comptes ; Karl en suit 6 sur
+  Bluesky et 1 sur Mastodon. Le texte alternatif aide aussi (favoris 9 quand toutes les
+  images en ont un, 5 sinon), comme trois à dix hashtags (7,5 à 8,5) plutôt que deux ou
+  moins (4).
+- **Réglages du compte Mastodon :** « discoverable » et « indexable » sont désactivés : le
+  compte n'est proposé nulle part et ses messages n'apparaissent pas dans la recherche.
+  À activer par Karl (Préférences → Profil public → Confidentialité et portée).
+- **Essai #SilentSunday** sur Mastodon à partir du 29 novembre (dimanches : la photo et
+  trois ou quatre hashtags, sans phrase), à comparer aux dimanches d'octobre et novembre.
 
 ## 26 octobre 2026
 
