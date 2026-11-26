@@ -20,6 +20,152 @@ Méthode, en lecture seule et sans compte :
 
 Ne jamais aimer, suivre ni répondre par programme : on mesure, on ne touche à rien.
 
+## 26 novembre 2026
+
+Bilan du mois écoulé depuis celui du 26 octobre : messages de Karl du 27 octobre au
+24 novembre sur Bluesky, du 26 octobre au 24 novembre sur Mastodon (ceux du 25, trop
+récents, sont écartés). Il reprend et complète le point intermédiaire du 24 novembre
+(section suivante). Le message Bluesky du 31 octobre a été supprimé : il manque au relevé.
+
+### Bluesky : les messages de Karl, du 27 octobre au 24 novembre
+
+28 messages en français, 21 abonnés. « J'aime » : médiane 12, moyenne 14,9, 418 en tout ;
+15 partages ; 3 vraies réponses (les autres réponses sont les liens de Karl).
+
+| | Messages | « J'aime » (médiane) | Écart |
+|---|---:|---:|---|
+| Tous | 28 | 12 | 4 à 35 |
+| Jours de défi (#PhotoOctober, #Photovember) | 27 | 12 | 4 à 35 |
+| Hors défi (glycine, 20 novembre) | 1 | 6 | |
+| Autre animal (cheval bai, « Marron ») | 1 | 31 | |
+| Niort « chez moi » (parc aux couleurs d'automne) | 1 | 30 | |
+| Chats | 2 | 20 | 19 à 21 |
+| Ville la nuit, pluie | 3 | 17 | 13 à 35 |
+| Fleurs | 2 | 14 | 6 à 22 |
+| Objets (bougies, escalier, coucou, porte) | 4 | 13,5 | 10 à 18 |
+| Ciel | 3 | 12 | 11 à 21 |
+| Plantes, arbres, feuilles | 6 | 12 | 10 à 12 |
+| Jardin, paysage | 2 | 11,5 | 7 à 16 |
+| Portrait | 1 | 9 | |
+| Cuisine | 3 | 4 | 4 à 17 |
+
+Par jour : samedi 30 en médiane (3 messages), mercredi 17, jeudi 17,5, les autres jours
+10 à 12,5. Retard médian 1 h 10 sur 6 h 47 UTC (jusqu'à 4 h 11).
+
+### Bluesky : les hashtags (100 derniers messages de chacun, 26 novembre)
+
+| Hashtag | Messages par jour | « J'aime » (médiane) | En français |
+|---|---:|---:|---:|
+| #UnJourUnePhoto | 83 | 14 | 92 % |
+| #Photovember (défi de novembre) | 50 | 16 | 90 % |
+| #Photocember (défi de décembre, pas encore lancé ; surtout décembre 2025) | | 24 | 95 % |
+| #FleurisTonFil | 6,9 | 13 | 95 % |
+| #NoirEtBlanc | 8,4 | 15 | 43 % |
+| #Photographie | 59 | 5 | 71 % |
+| #Noël | 9,9 | 0 | 67 % |
+| #Hiver | 1,6 | 0 | 49 % |
+| #Photography | 2 400 | 2 | 7 % |
+| #PhotoOfTheDay | 98 | 4 | 12 % |
+| #MonochromeMonday | 70 | 14 | 1 % |
+| #Caturday | 39 | 6,5 | 0 % |
+
+La liste des défis de décembre a paru le 19 novembre (@elisabethlaffay.bsky.social) :
+#Photocember, trente et un thèmes en « D », de « Déjà ! » à « Décembre ! ».
+
+### Mastodon : les messages de Karl, du 26 octobre au 24 novembre
+
+30 messages en anglais, 6 abonnés, tous avec un texte alternatif. Favoris : médiane 2,
+moyenne 3,7, 111 en tout ; 16 partages ; 7 réponses.
+
+| | Messages | Favoris (médiane) | Écart |
+|---|---:|---:|---|
+| Chats (#Caturday) | 4 | 13 | 4 à 19 |
+| Fleurs | 3 | 4 | 2 à 15 |
+| Fenêtres, vitraux (#FensterFreitag) | 3 | 3 | 2 à 4 |
+| Ciel (Léonides, pleine lune) | 2 | 3 | 2 à 4 |
+| Autre animal (border collie) | 1 | 3 | |
+| Oiseaux | 3 | 2 | 1 à 3 |
+| Arbres, feuilles | 2 | 1,5 | 1 à 2 |
+| Noir et blanc (#MonochromeMonday) | 5 | 1 | 0 à 6 |
+| Jardin, paysage | 2 | 0,5 | 0 à 1 |
+| Villes, monuments, côtes | 5 | 0 | 0 à 1 |
+
+Par jour : samedi 13, dimanche 3,5 (0,5 en octobre : des fleurs et un chien au lieu des
+villes ; « As de pique », une fleur, 15), vendredi 2,5, les autres jours 1 à 2. Retard
+médian 2 h 15 sur 15 h 47 UTC (jusqu'à 6 h 26) ; avant 17 h 30 UTC, médiane 1
+(11 messages), après, 2 (19 messages) : l'heure ne départage rien. Le noir et blanc du
+lundi s'est effondré (1, contre 14 en octobre) : sujets plus faibles (villes, cormorans,
+maison), et quatre messages sur cinq partis entre 20 h 30 et 22 h 13 UTC.
+
+### Mastodon : les hashtags (mastodon.social, moyenne sur 6 jours, du 20 au 25 novembre)
+
+| Hashtag | Usages par jour | Comptes par jour |
+|---|---:|---:|
+| #photography | 1 020 | 626 |
+| #nature | 404 | 248 |
+| #catsofmastodon | 182 | 131 |
+| #silentsunday (921 le dimanche) | 169 | 149 |
+| #photo | 160 | 98 |
+| #caturday (652 le samedi) | 142 | 123 |
+| #birds | 135 | 101 |
+| #blackandwhite | 126 | 101 |
+| #christmas | 96 | 67 |
+| #landscape | 90 | 69 |
+| #astronomy | 87 | 44 |
+| #dogsofmastodon | 76 | 62 |
+| #winter | 67 | 59 |
+| #dogs | 57 | 43 |
+| #moon | 51 | 44 |
+| #sky | 49 | 33 |
+| #trees | 49 | 39 |
+| #flowers | 47 | 38 |
+| #fensterfreitag (255 le vendredi) | 45 | 41 |
+| #birdsofmastodon | 32 | 20 |
+| #snow | 28 | 22 |
+| #monochromemonday (112 le lundi) | 22 | 21 |
+| #mushrooms | 22 | 16 |
+| #frost | 17 | 16 |
+| #fullmoon | 11 | 10 |
+| #fungifriday | 6 | 5 |
+| #fireworks | 3 | 2 |
+| #newyear | 1,7 | 1,7 |
+| #solstice | 0,8 | 0,8 |
+| #geminids | 0,2 | 0,2 |
+
+### Leçons
+
+- **Bluesky** : le défi porte tout (médiane 12, contre 7 en octobre). Les animaux, Niort
+  « chez moi », les chats et la ville la nuit ou sous la pluie font le plus ; la cuisine
+  reste faible, sauf un plat d'automne (17). Presque aucune conversation.
+- **Mastodon** : seuls les chats du samedi décollent ; tout le reste fait 0 à 4, et les
+  lieux 0. Le contenu n'explique plus grand-chose : le plafond vient du public (6 abonnés,
+  compte non proposé et absent de la recherche, voir le 24 novembre). Le 24 novembre,
+  Karl a validé les gestes à faire à la main : message de présentation #Introduction,
+  comptes à suivre, bio corrigée.
+- **Heures** : retards dus à GitHub, sans effet visible sur les réactions.
+
+### Choix pour décembre 2026 (et du 1er au 7 janvier 2027)
+
+- **Bluesky : français.** #Photocember 29 jours sur 31. « Dix » (10) et « Douze » (12)
+  n'ont aucune photo qui y réponde vraiment : hors défi, des fleurs (#FleurisTonFil) et une
+  charolaise. « Dé » se prend au figuré (des dominos), « Dalle » au sens familier (avoir
+  la dalle), « Déchiré » avec un drapeau effiloché, « Diner » avec un chaton à sa gamelle
+  le jour de Noël. #NoirEtBlanc trois fois, #FleurisTonFil cinq fois, des animaux neuf
+  fois en cinq semaines, Niort trois fois. Du 1er au 7 janvier, hors défi : la liste de janvier n'a pas
+  encore paru (la session du 26 décembre pourra réécrire ces jours).
+- **Mastodon : anglais.** Un chat chaque samedi, #SilentSunday chaque dimanche (ciel
+  étoilé pour les Géminides le 13, nuit du 13 au 14, et pour les Quadrantides le 3 janvier,
+  nuit du 3 au 4 ; American Meteor Society), noir et blanc le lundi avec des sujets plus
+  forts (barque, maraîchines, bouledogue, chat), vitraux le vendredi. Jours marquants :
+  solstice le 21 (20 h 50 UTC) et pleine lune le 24 (1 h 28 UTC), d'après timeanddate ;
+  Noël le 25 ; feu d'artifice de Foz le 31 ; vitrail blanc le 1er janvier, un vendredi.
+  Le lundi 7 décembre, les jardins de Villandry et leur église cèdent la place à une barque
+  en noir et blanc.
+- **Instagram : français.** 29 légendes ajoutées : les 45 prochaines photos ont la leur.
+  La photo 39228273, titrée « à Buzy » sur le site, montre l'église Saint-Lizier de Bescat
+  (Karl, 24 novembre) : sa légende dit Bescat ; le titre du site reste à corriger.
+- **Heures** : inchangées (Bluesky et Instagram à 6 h 47 UTC, Mastodon à 15 h 47 UTC).
+
 ## 24 novembre 2026 (point intermédiaire, avant le bilan du 26)
 
 Relevé en lecture seule des fils publics, du 1er au 23 novembre (le message du 24 est
