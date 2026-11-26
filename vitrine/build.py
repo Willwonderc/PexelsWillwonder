@@ -566,6 +566,7 @@ WIKIPEDIAS = {
     "de": ("allemand", "German", "德语"),
     "it": ("italien", "Italian", "意大利语"),
     "pt": ("portugais", "Portuguese", "葡萄牙语"),
+    "pl": ("polonais", "Polish", "波兰语"),
 }
 
 
