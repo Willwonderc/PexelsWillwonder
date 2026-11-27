@@ -111,7 +111,7 @@
     "2026-11-23": {
      "clics": 0,
      "complete": false,
-     "impressions": 0,
+     "impressions": 1,
      "position": null
     }
    },
@@ -167,7 +167,7 @@
     "2026-11-23": {
      "clics": 0,
      "complete": false,
-     "impressions": 0,
+     "impressions": 1,
      "position": null
     }
    }
@@ -426,8 +426,8 @@
      "2026-11-23": {
       "clics": 1,
       "complete": false,
-      "impressions": 2,
-      "position": 4.5
+      "impressions": 8,
+      "position": 38.6
      }
     }
    },
