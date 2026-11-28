@@ -45,4 +45,4 @@ est aussi déclarée, servie par le site.
 - Sur chaque fiche, le globe s'approche du lieu de prise de vue.
 - Corps de texte en Newsreader, à empattement.
 - Bouton « Son » retiré : le son synthétisé reste coupé.
-- Téléphone, index : le globe ne se fait plus glisser ; une démonstration continue va d’N lieu à l’utre (3,6 s chacun), s’en approche, n’llume que ses arcs et ne nomme que lui.
+- Téléphone, index : le globe ne se fait plus glisser ; une démonstration continue va d’un lieu à l’autre (3,6 s chacun), s’en approche, n’allume que ses arcs et ne nomme que lui.
