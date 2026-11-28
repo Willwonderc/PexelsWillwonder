@@ -1,0 +1,55 @@
+/* Rubrique, socle commun aux deux propositions (version 3).
+   Mouvement : référentiel du LAB du 28 nov. 2026. Courbes « sortie » .2,.8,.2,1 et « aller » .4,0,.2,1 ; survol 240 ms, entrée 400 ms. */
+:root{--c-sortie:cubic-bezier(.2,.8,.2,1);--c-aller:cubic-bezier(.4,0,.2,1)}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#monde{position:fixed;inset:0;z-index:50;overflow-y:auto;overscroll-behavior:contain;background:var(--fond);color:var(--texte);opacity:0;transition:opacity .22s ease;
+  scrollbar-color:var(--filet-fort) transparent}
+#monde.visible,#monde.instant{opacity:1}
+#monde.instant{transition:none}
+#monde ::selection{background:var(--encre);color:var(--fond)}
+.barre{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--marge);background:var(--barre-fond);border-bottom:1px solid var(--filet);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.barre-titre{min-width:0;font-size:19px;font-weight:560;font-stretch:68%;line-height:1.1;text-decoration:none;color:var(--encre);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barre-titre:hover{text-decoration:underline;text-underline-offset:.2em}
+.barre-actions{display:flex;align-items:center;gap:8px;flex:none}
+.pilule{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:10px 20px;border:0;border-radius:999px;box-shadow:inset 0 0 0 1px var(--encre);background:transparent;color:var(--encre);font-size:15px;font-weight:600;font-stretch:108%;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color .24s var(--c-sortie),color .24s var(--c-sortie)}
+.pilule:hover{background:var(--encre);color:var(--fond)}
+.pilule--douce{box-shadow:inset 0 0 0 1px var(--filet-fort);font-weight:500;font-size:14px;padding:10px 16px}
+.fermer{flex:none}
+.croix{position:relative;width:12px;height:12px}
+.croix::before,.croix::after{content:"";position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;transform:rotate(45deg)}
+.croix::after{transform:rotate(-45deg)}
+.son-icone{width:14px;height:12px;background:currentColor;-webkit-mask:var(--haut-parleur) center/contain no-repeat;mask:var(--haut-parleur) center/contain no-repeat}
+#son[aria-pressed="false"] .son-icone{opacity:.55}
+:root{--haut-parleur:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M0 4h3l4-4v12L3 8H0z'/%3E%3Cpath d='M9 3.5c1 .7 1.5 1.5 1.5 2.5S10 7.8 9 8.5M11 1.5c1.6 1.2 2.4 2.7 2.4 4.5s-.8 3.3-2.4 4.5' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E")}
+#monde :focus-visible{outline:2px solid var(--encre);outline-offset:3px}
+#scene h1:focus,#scene [tabindex="-1"]:focus{outline:none}
+/* Notice : le nom d'abord, puis le support, le rôle de la photo, le titre original, le lien large dont le rond devient flèche */
+.notice-nom{margin:0;font-size:clamp(30px,3.2vw,46px);font-weight:400;font-stretch:68%;letter-spacing:-.012em;line-height:1;color:var(--encre)}
+.notice-support{margin:8px 0 0;font-size:12px;font-weight:600;font-stretch:125%;letter-spacing:.14em;text-transform:uppercase;color:var(--doux)}
+.notice-texte{margin:14px 0 0;max-width:40rem;font-size:17px;line-height:1.5}
+.notice-titre{margin:12px 0 0;max-width:40rem;font-size:15px;line-height:1.4;color:var(--doux)}
+.notice-titre .date{white-space:nowrap}
+.notice-lien{display:flex;align-items:center;gap:14px;min-height:56px;margin-top:16px;padding:10px 0;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);color:var(--encre);text-decoration:none;font-weight:600;font-stretch:108%}
+.lien-libelle{flex:1 1 auto}
+.lien-hote{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;font-stretch:100%;font-size:13px;color:var(--doux)}
+.notice-lien:hover .lien-libelle,.notice-lien:focus-visible .lien-libelle{text-decoration:underline;text-underline-offset:.22em}
+.fleche{position:relative;flex:none;width:38px;height:14px}
+.fleche::before{content:"";position:absolute;right:0;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:7px;background:var(--encre);transition:width .24s var(--c-sortie),height .24s var(--c-sortie),margin-top .24s var(--c-sortie),border-radius .24s var(--c-sortie)}
+.fleche::after{content:"";position:absolute;right:1px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-top:2px solid var(--encre);border-right:2px solid var(--encre);transform:rotate(45deg) scale(0);transition:transform .24s var(--c-sortie)}
+.notice-lien:hover .fleche::before,.notice-lien:focus-visible .fleche::before{width:38px;height:2px;margin-top:-1px;border-radius:0}
+.notice-lien:hover .fleche::after,.notice-lien:focus-visible .fleche::after{transform:rotate(45deg) scale(1)}
+@media (hover:none){.fleche::before{width:38px;height:2px;margin-top:-1px;border-radius:0}.fleche::after{transform:rotate(45deg) scale(1)}}
+.credit{margin:10px 0 0;font-size:13px;color:var(--doux)}
+.credit a{color:var(--encre);text-underline-offset:.2em}
+.suite{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;padding-top:18px;border-top:1px solid var(--filet)}
+.suite a{display:flex;flex-direction:column;gap:6px;min-height:44px;font-size:20px;font-stretch:68%;line-height:1.1;text-decoration:none;color:var(--encre)}
+.suite a[rel=next]{text-align:right}
+.suite small{font-size:12px;font-weight:600;font-stretch:110%;color:var(--doux)}
+.suite a:hover{text-decoration:underline;text-underline-offset:.2em}
+@media (max-width:620px){.barre-titre{font-size:16px}.pilule--douce .son-texte{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}#son{padding:10px 14px}#passer{font-size:13px;padding:8px 12px}.lien-hote{display:none}.suite{grid-template-columns:1fr}.suite a[rel=next]{text-align:left}}
+@media (prefers-reduced-motion:reduce){#monde,#monde *,.entree{transition:none!important;animation:none!important}}
+
+/* Newsreader (SIL Open Font License), servie par le site : noms des médias, chiffres du compteur */
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:400 600;font-display:swap;src:url("/statique/newsreader.woff2") format("woff2")}
+/* Sur le site, rien ne cache d'office les éléments [hidden] mis en forme : la rubrique s'en charge pour ses propres éléments */
+#voile[hidden],#monde[hidden],#monde [hidden]{display:none!important}

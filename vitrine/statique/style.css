@@ -1255,3 +1255,24 @@ html:not(.wp-js) .wp-photo { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .wp *, .wp *::before, .wp *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Rubrique « Mes photos utilisées dans le monde » (vitrine/rubrique-monde/) : bouton d'entrée de la page des galeries */
+.h-entree { --h-fond: #fff; --h-encre: #121212; --h-doux: #6b6b70; margin: 48px 0; }
+.entree:focus-visible { outline: 2px solid var(--h-encre); outline-offset: 3px; }
+/* Ce que la page d'essai du paquet donnait à la rubrique : police héritée par les boutons, largeurs d'Archivo */
+#entree, #monde button { font: inherit; color: inherit; }
+#monde { font-family: var(--police); }
+.entree-titre, #monde .barre-titre, #monde #scene h1, #monde .notice-nom, #monde .suite a, #monde .vue-nom, #monde .rep-nom { font-stretch: 68%; letter-spacing: -.012em; }
+#monde .surtitre, #monde .notice-support, #monde .suite small, #monde .fiche-texte h2, #monde .aussi h2, #monde .legende, #monde .vitrine small { font-stretch: 125%; }
+/* Bouton d'entrée de la rubrique, à ajouter à la feuille de style du site (chargé avec la page).
+   Variables attendues du site : --police, --h-fond, --h-encre, --h-doux ; --bande : l'image de la bande (sur la section). */
+/* Bouton d'entrée : un rectangle de la largeur de la grille ; sa bande de photographie s'ouvre */
+.entree{display:grid;grid-template-columns:1fr minmax(96px,30%);width:100%;min-height:clamp(120px,13vw,190px);padding:0;border:0;box-shadow:inset 0 0 0 1px var(--h-encre);background:var(--h-fond);color:var(--h-encre);text-align:left;cursor:pointer;overflow:hidden;transition:grid-template-columns .45s cubic-bezier(.2,.7,.2,1)}
+.entree:hover,.entree:focus-visible{grid-template-columns:1fr minmax(96px,42%)}
+.entree-texte{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:22px clamp(16px,3vw,40px)}
+.entree-titre{font-size:clamp(30px,5.6vw,84px);font-weight:400;line-height:.98}
+.entree-detail{display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.35;color:var(--h-doux)}
+.pt{flex:none;display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--h-encre)}
+.entree-bande{background-image:var(--bande);background-size:cover;background-position:center}
+#voile{position:fixed;inset:0;z-index:40;background-image:var(--bande);background-size:cover;background-position:center;cursor:pointer}
+.entree[aria-busy="true"]{cursor:progress}

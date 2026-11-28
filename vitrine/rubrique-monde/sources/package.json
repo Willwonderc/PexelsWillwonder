@@ -1,0 +1,9 @@
+{
+  "name": "rubrique-monde-4a",
+  "private": true,
+  "description": "Rubrique « Mes photos utilisées dans le monde » (version 4A) pour photos.karlforterre.fr/galeries/",
+  "type": "module",
+  "scripts": { "construire": "node construire.mjs" },
+  "dependencies": { "three": "0.187.0", "motion": "14.14.0" },
+  "devDependencies": { "esbuild": "0.24.0" }
+}

@@ -1,0 +1,189 @@
+/* Rubrique, socle commun aux deux propositions (version 3).
+   Mouvement : référentiel du LAB du 28 nov. 2026. Courbes « sortie » .2,.8,.2,1 et « aller » .4,0,.2,1 ; survol 240 ms, entrée 400 ms. */
+:root{--c-sortie:cubic-bezier(.2,.8,.2,1);--c-aller:cubic-bezier(.4,0,.2,1)}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#monde{position:fixed;inset:0;z-index:50;overflow-y:auto;overscroll-behavior:contain;background:var(--fond);color:var(--texte);opacity:0;transition:opacity .22s ease;
+  scrollbar-color:var(--filet-fort) transparent}
+#monde.visible,#monde.instant{opacity:1}
+#monde.instant{transition:none}
+#monde ::selection{background:var(--encre);color:var(--fond)}
+.barre{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--marge);background:var(--barre-fond);border-bottom:1px solid var(--filet);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.barre-titre{min-width:0;font-size:19px;font-weight:560;font-stretch:68%;line-height:1.1;text-decoration:none;color:var(--encre);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barre-titre:hover{text-decoration:underline;text-underline-offset:.2em}
+.barre-actions{display:flex;align-items:center;gap:8px;flex:none}
+.pilule{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:10px 20px;border:0;border-radius:999px;box-shadow:inset 0 0 0 1px var(--encre);background:transparent;color:var(--encre);font-size:15px;font-weight:600;font-stretch:108%;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color .24s var(--c-sortie),color .24s var(--c-sortie)}
+.pilule:hover{background:var(--encre);color:var(--fond)}
+.pilule--douce{box-shadow:inset 0 0 0 1px var(--filet-fort);font-weight:500;font-size:14px;padding:10px 16px}
+.fermer{flex:none}
+.croix{position:relative;width:12px;height:12px}
+.croix::before,.croix::after{content:"";position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;transform:rotate(45deg)}
+.croix::after{transform:rotate(-45deg)}
+.son-icone{width:14px;height:12px;background:currentColor;-webkit-mask:var(--haut-parleur) center/contain no-repeat;mask:var(--haut-parleur) center/contain no-repeat}
+#son[aria-pressed="false"] .son-icone{opacity:.55}
+:root{--haut-parleur:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M0 4h3l4-4v12L3 8H0z'/%3E%3Cpath d='M9 3.5c1 .7 1.5 1.5 1.5 2.5S10 7.8 9 8.5M11 1.5c1.6 1.2 2.4 2.7 2.4 4.5s-.8 3.3-2.4 4.5' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E")}
+#monde :focus-visible{outline:2px solid var(--encre);outline-offset:3px}
+#scene h1:focus,#scene [tabindex="-1"]:focus{outline:none}
+/* Notice : le nom d'abord, puis le support, le rôle de la photo, le titre original, le lien large dont le rond devient flèche */
+.notice-nom{margin:0;font-size:clamp(30px,3.2vw,46px);font-weight:400;font-stretch:68%;letter-spacing:-.012em;line-height:1;color:var(--encre)}
+.notice-support{margin:8px 0 0;font-size:12px;font-weight:600;font-stretch:125%;letter-spacing:.14em;text-transform:uppercase;color:var(--doux)}
+.notice-texte{margin:14px 0 0;max-width:40rem;font-size:17px;line-height:1.5}
+.notice-titre{margin:12px 0 0;max-width:40rem;font-size:15px;line-height:1.4;color:var(--doux)}
+.notice-titre .date{white-space:nowrap}
+.notice-lien{display:flex;align-items:center;gap:14px;min-height:56px;margin-top:16px;padding:10px 0;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);color:var(--encre);text-decoration:none;font-weight:600;font-stretch:108%}
+.lien-libelle{flex:1 1 auto}
+.lien-hote{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;font-stretch:100%;font-size:13px;color:var(--doux)}
+.notice-lien:hover .lien-libelle,.notice-lien:focus-visible .lien-libelle{text-decoration:underline;text-underline-offset:.22em}
+.fleche{position:relative;flex:none;width:38px;height:14px}
+.fleche::before{content:"";position:absolute;right:0;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:7px;background:var(--encre);transition:width .24s var(--c-sortie),height .24s var(--c-sortie),margin-top .24s var(--c-sortie),border-radius .24s var(--c-sortie)}
+.fleche::after{content:"";position:absolute;right:1px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-top:2px solid var(--encre);border-right:2px solid var(--encre);transform:rotate(45deg) scale(0);transition:transform .24s var(--c-sortie)}
+.notice-lien:hover .fleche::before,.notice-lien:focus-visible .fleche::before{width:38px;height:2px;margin-top:-1px;border-radius:0}
+.notice-lien:hover .fleche::after,.notice-lien:focus-visible .fleche::after{transform:rotate(45deg) scale(1)}
+@media (hover:none){.fleche::before{width:38px;height:2px;margin-top:-1px;border-radius:0}.fleche::after{transform:rotate(45deg) scale(1)}}
+.credit{margin:10px 0 0;font-size:13px;color:var(--doux)}
+.credit a{color:var(--encre);text-underline-offset:.2em}
+.suite{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;padding-top:18px;border-top:1px solid var(--filet)}
+.suite a{display:flex;flex-direction:column;gap:6px;min-height:44px;font-size:20px;font-stretch:68%;line-height:1.1;text-decoration:none;color:var(--encre)}
+.suite a[rel=next]{text-align:right}
+.suite small{font-size:12px;font-weight:600;font-stretch:110%;color:var(--doux)}
+.suite a:hover{text-decoration:underline;text-underline-offset:.2em}
+@media (max-width:620px){.barre-titre{font-size:16px}.pilule--douce .son-texte{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}#son{padding:10px 14px}#passer{font-size:13px;padding:8px 12px}.lien-hote{display:none}.suite{grid-template-columns:1fr}.suite a[rel=next]{text-align:left}}
+@media (prefers-reduced-motion:reduce){#monde,#monde *,.entree{transition:none!important;animation:none!important}}
+
+/* Newsreader (SIL Open Font License), servie par le site : noms des médias, chiffres du compteur */
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:400 600;font-display:swap;src:url("/statique/newsreader.woff2") format("woff2")}
+/* Sur le site, rien ne cache d'office les éléments [hidden] mis en forme : la rubrique s'en charge pour ses propres éléments */
+#voile[hidden],#monde[hidden],#monde [hidden]{display:none!important}
+
+/* Affiche « <lieu>, une photographie qui voyage » (version 4), inspirée de la maquette de Karl, sans la recopier.
+   Les couleurs --p0..--p3 sont tirées de chaque photo par construire.py ; --s0..--s3 est l'encre lisible posée dessus. */
+.eclat{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.eclat .tri{transform-box:fill-box;transform-origin:center}
+.affiche-tete{position:relative;isolation:isolate;min-height:clamp(220px,27vw,330px);display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px}
+.titre-affiche{position:relative;z-index:1;margin:0;padding-left:clamp(4px,1vw,14px);color:var(--s0);line-height:.86;font-weight:640;font-stretch:84%;letter-spacing:-.025em;text-wrap:balance}
+.titre-affiche > span{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:.02em;align-items:end}
+.initiale{grid-row:1/3;font-size:clamp(150px,17vw,250px);line-height:.74;font-weight:780;font-stretch:96%;color:var(--fond-affiche);-webkit-text-stroke:0;margin-left:-.06em}
+.reste{font-size:clamp(46px,5.4vw,78px);align-self:end}
+.sous{font-size:clamp(26px,2.9vw,42px);line-height:.95;font-weight:600;padding-bottom:.18em}
+.compteur{position:relative;z-index:1;flex:none;display:grid;justify-items:end;gap:2px;margin:0;padding:10px 0 10px 18px;text-align:right;color:var(--encre)}
+.compteur b{font-family:"Newsreader",Georgia,serif;font-size:clamp(48px,5vw,72px);font-weight:400;line-height:.9;color:var(--encre)}
+.compteur span{font-size:12px;font-weight:700;font-stretch:118%;letter-spacing:.12em;text-transform:uppercase}
+.compteur small{padding-top:6px;border-top:2px solid var(--p0);font-size:11px;font-weight:600;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--doux)}
+.regards-titre{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px;margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid var(--encre);font-size:13px;font-weight:700;font-stretch:118%;letter-spacing:.12em;text-transform:uppercase;color:var(--encre)}
+.regards-titre small{font-family:"Newsreader",Georgia,serif;font-size:17px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--doux)}
+.regard{position:relative;margin:0 0 16px;padding:16px 18px 14px;background:var(--carte);border:1.5px solid var(--encre);border-radius:16px;overflow:hidden;box-shadow:none}
+.regard::after{content:"";position:absolute;top:0;right:22px;width:62px;height:34px;background:var(--c);clip-path:polygon(0 0,100% 0,50% 100%)}
+.regard-tete{margin:0 70px 8px 0;font-size:11.5px;font-weight:700;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--encre)}
+.regard-num{font-variant-numeric:tabular-nums}
+.regard .notice-nom{padding-bottom:8px;border-bottom:1px solid var(--filet-fort);font-family:"Newsreader",Georgia,serif;font-size:clamp(25px,2.2vw,32px);font-weight:420;font-stretch:100%;letter-spacing:-.005em;line-height:1.05}
+.regard .notice-lieu{margin:8px 0 0}
+.regard .notice-texte{margin-top:10px;font-size:15.5px;line-height:1.5}
+.regard .notice-titre{font-size:14px}
+.regard .notice-lien{display:flex;margin-top:14px;min-height:44px;padding:8px 18px;border:0;border-radius:999px;background:var(--c);color:var(--s);font-size:14.5px;font-weight:700;font-stretch:108%}
+.regard .lien-hote{color:inherit;opacity:.8;text-transform:none;letter-spacing:0}
+.regard .fleche::before{background:var(--s)}
+.regard .fleche::after{border-color:var(--s)}
+.regard .notice-lien:hover .lien-libelle,.regard .notice-lien:focus-visible .lien-libelle{text-decoration:underline;text-underline-offset:.22em}
+.regard .notice-lien:focus-visible{outline:2px solid var(--encre);outline-offset:3px}
+.photo-nom{display:block;font-family:"Newsreader",Georgia,serif;font-size:21px;line-height:1.15;color:var(--encre)}
+
+/* Version 4A · Une photographie qui voyage. L'index reste la nuit du globe (v3) ; chaque fiche est une affiche claire, aux couleurs de sa photo. */
+#monde{--fond:#0b0b0b;--texte:#e9e9e9;--encre:#f4f4f4;--doux:rgba(244,244,244,.68);--filet:rgba(244,244,244,.16);--filet-fort:rgba(244,244,244,.42);--barre-fond:rgba(11,11,11,.72);
+  display:flex;flex-direction:column}
+.barre{order:0}
+#decor{order:1;position:fixed;inset:0;z-index:0}
+#decor canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+#decor canvas:active{cursor:grabbing}
+#decor.sans-3d::after{content:"Le globe demande WebGL : la liste et les fiches restent complètes.";position:absolute;right:var(--marge);bottom:24px;font-size:13px;color:var(--doux)}
+#iris{position:fixed;inset:0;z-index:15;background:var(--bande) center/cover;pointer-events:none}
+#scene{order:2;position:relative;z-index:2;flex:1 0 auto;width:100%;max-width:none;margin:0;padding:0 var(--marge) 72px;pointer-events:none}
+#scene > *{pointer-events:auto}
+/* Étiquettes du globe */
+.etiquettes{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.etq{position:absolute;left:0;top:0;display:flex;flex-direction:column;max-width:15rem;padding:2px 0;color:var(--encre);transition:opacity .24s var(--c-sortie);text-shadow:0 1px 10px #0b0b0b,0 0 2px #0b0b0b}
+.etq b{font-size:21px;font-weight:450;font-stretch:68%;line-height:1;letter-spacing:-.005em}
+.etq span{margin-top:3px;font-size:11px;font-weight:600;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--doux)}
+.etq--pays b{font-size:28px}
+.etq--origine b{font-size:24px}
+.etq--raconte b,.etq--couronne b{font-size:18px}
+.etq--raconte span,.etq--couronne span{letter-spacing:.06em}
+/* Signes (légende, notices) : anneau = lieu de prise ; rond = média situé ; couronne = en ligne ; carré = lieu raconté */
+.sg{flex:none;display:inline-block;width:11px;height:11px;margin-right:10px;vertical-align:-1px}
+.sg--plein{border-radius:50%;background:var(--encre)}
+.sg--anneau{border-radius:50%;box-shadow:inset 0 0 0 2.5px var(--encre)}
+.sg--couronne{border-radius:50%;border:1.5px dashed var(--encre)}
+.sg--carre{width:9px;height:9px;background:var(--encre)}
+/* Index : colonne de lecture, le globe à droite */
+.colonne{width:min(36rem,40vw);padding-top:clamp(28px,6vh,72px)}
+.tete h1{margin:0;font-size:clamp(46px,5.6vw,92px);font-weight:400;font-stretch:68%;letter-spacing:-.015em;line-height:.94;color:var(--encre)}
+.tete .ligne{display:inline-block}
+.chapo{margin:22px 0 0;max-width:34rem;font-size:17px;line-height:1.5}
+.legende{display:grid;gap:8px;margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--filet);list-style:none;font-size:14px;color:var(--doux)}
+.legende li{display:flex;align-items:center}
+.source{margin:14px 0 0;font-size:13px;color:var(--doux)}
+.liste-titre{margin:40px 0 10px;font-size:24px;font-weight:450;font-stretch:68%;color:var(--encre)}
+.liste{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.vue{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:72px;padding:8px 6px 8px 0;border-bottom:1px solid var(--filet);color:var(--texte);text-decoration:none;transition:background-color .24s var(--c-sortie)}
+.vue img{width:64px;height:48px;object-fit:cover;filter:saturate(.9)}
+.vue-texte{display:flex;flex-direction:column;gap:3px;min-width:0}
+.vue-nom{font-size:18px;font-stretch:72%;line-height:1.12;color:var(--encre)}
+.vue-trajet{font-size:12.5px;color:var(--doux)}
+.vue-compte{display:flex;gap:4px}
+.vue-compte i{width:8px;height:8px;border-radius:50%;background:var(--encre)}
+.vue:hover,.vue:focus-visible{background:rgba(244,244,244,.07)}
+.vue:hover .vue-nom{text-decoration:underline;text-underline-offset:.18em}
+/* Fiche : le globe à gauche, le panneau à droite */
+.panneau{width:min(34rem,44vw);margin:0 0 0 auto;padding:22px 0 0}
+.retour{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:var(--doux)}
+.titre-photo{margin:22px 0 0;font-size:clamp(28px,2.8vw,40px);font-weight:450;font-stretch:72%;line-height:1.04;color:var(--encre);text-wrap:balance}
+.photo{margin:18px 0 0;background:#151515}
+.photo img{width:100%;max-height:30vh;object-fit:cover;aspect-ratio:var(--r)}
+.trajet{margin:16px 0 4px;padding:12px 0;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);font-size:15px;color:var(--texte)}
+.notice-lieu{display:flex;align-items:center;margin:0 0 10px;font-size:12px;font-weight:600;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--doux)}
+.notice-raconte{display:flex;align-items:center;margin:10px 0 0;font-size:14px;color:var(--texte)}
+.notice-raconte .sg{width:8px;height:8px}
+@media (max-width:899px){
+  #decor{position:relative;inset:auto;height:38vh;min-height:260px;flex:none}
+
+  #scene{padding-bottom:48px}
+  .colonne,.panneau{width:auto;padding-top:8px}
+  .tete h1{font-size:clamp(40px,11vw,64px)}
+  .etq b{font-size:17px}.etq--pays b{font-size:21px}.etq span{font-size:10px}
+}
+
+/* L'affiche de la fiche */
+.etq[style] b::before{content:"";display:inline-block;width:12px;height:10px;margin-right:7px;background:var(--c);clip-path:polygon(0 0,100% 0,50% 100%);vertical-align:.12em}
+.affiche{--fond-affiche:#fbfaf6;--carte:#fffdf9;--texte:#1c1c1c;--encre:#121212;--doux:#55555a;--filet:rgba(18,18,18,.14);--filet-fort:rgba(18,18,18,.4);
+  width:min(54rem,61vw);margin:0 calc(-1 * var(--marge)) 0 auto;padding:16px var(--marge) 48px;background:var(--fond-affiche);color:var(--texte);min-height:calc(100vh - 64px);box-shadow:-24px 0 48px -24px rgba(0,0,0,.6)}
+.affiche .retour{color:var(--doux)}
+.affiche-corps{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:28px;margin-top:22px}
+.affiche .photo{margin:0;background:none;position:sticky;top:84px;align-self:start}
+.affiche .photo img{width:100%;max-height:none;object-fit:cover;box-shadow:14px 14px 0 var(--p2)}
+.affiche figcaption{display:grid;gap:6px;margin-top:26px}
+.affiche .credit{margin:0;color:var(--doux)}
+.affiche .credit a{color:var(--encre)}
+.affiche .trajet{margin:4px 0 0;padding:8px 0 0;border-top:1px solid var(--filet);border-bottom:0;font-size:13.5px;color:var(--texte)}
+.affiche .sg--plein{background:var(--encre)}.affiche .sg--couronne{border-color:var(--encre)}.affiche .sg--carre{background:var(--encre)}
+.affiche .notice-lieu{color:var(--doux)}
+.affiche .suite{border-color:var(--filet)}
+@media (max-width:899px){
+  #monde:has(#scene[data-vue="fiche"]) #decor{height:30vh;min-height:230px}
+  .affiche{width:auto;margin:0 calc(-1 * var(--marge));padding:10px var(--marge) 40px;box-shadow:none;min-height:0}
+  .affiche-tete{min-height:158px;margin-top:6px}
+  .initiale{font-size:118px}.reste{font-size:38px}.sous{font-size:21px}
+  .compteur{padding-left:4px}.compteur b{font-size:40px}.compteur span{font-size:10px;letter-spacing:.08em}.compteur small{display:none}
+  .regards-titre small{display:none}.regards-titre{margin-bottom:10px}
+  .affiche-corps{grid-template-columns:1fr;gap:16px;margin-top:10px}
+  .affiche .photo{position:static;display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:start}
+  .affiche .photo img{aspect-ratio:1/1!important;box-shadow:7px 7px 0 var(--p2)}
+  .affiche figcaption{margin-top:0;gap:3px}.photo-nom{font-size:15px}.affiche .credit{font-size:12px}.affiche .trajet{display:none}
+  .regard{padding:14px 14px 12px}
+  /* Téléphone : un globe plus grand, qui dit seulement les lieux, en plus gros */
+  #monde:has(#scene[data-vue="fiche"]) .etq b{font-size:22px}
+  #monde:has(#scene[data-vue="fiche"]) .etq--origine b{font-size:25px}
+}
+/* Navigation entre les photos, en tête de fiche */
+.pas{display:flex;align-items:center;gap:10px}
+.pas-lien{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--filet-fort);border-radius:50%;color:var(--encre);font-size:18px;text-decoration:none}
+.pas > span{white-space:nowrap}
+@media (max-width:899px){.pas{gap:6px}.pas > span{font-size:12px}.pas-lien{width:40px;height:40px}}
+.pas-lien:hover,.pas-lien:focus-visible{background:var(--encre);color:var(--fond-affiche)}

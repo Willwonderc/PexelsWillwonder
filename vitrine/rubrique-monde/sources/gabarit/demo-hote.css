@@ -1,0 +1,54 @@
+/* Page hôte simulée pour la démonstration seulement (relevé de photos.karlforterre.fr/galeries, 28 nov. 2026). Ne pas intégrer au site. */
+/* Socle commun. Jetons relevés sur photos.karlforterre.fr (28 novembre 2026) : Archivo, encre #121212, doux #6b6b70,
+   trait #e6e6e6, marge clamp(16px, 3.2vw, 44px), enveloppe de 1560 px, surtitres en capitales larges, noms en Archivo étroit. */
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --police:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --h-fond:#fff;--h-encre:#121212;--h-doux:#6b6b70;--h-trait:#e6e6e6;
+  --marge:clamp(16px,3.2vw,44px);
+}
+html{-webkit-text-size-adjust:100%}
+html.verrou{overflow:hidden}
+body{margin:0;background:var(--h-fond);color:var(--h-encre);font:400 16px/1.55 var(--police)}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus,#121212);outline-offset:3px}
+[hidden]{display:none!important}
+/* Les deux voix de la police : le nom (étroit) et le surtitre (large) */
+.h-marque,.h-bandeau h1,.h-nom,.entree-titre,.barre-titre,#scene h1,.notice-nom,.suite a,.vue-nom,.rep-nom{font-stretch:68%;letter-spacing:-.012em}
+.h-sur,.surtitre,.notice-support,.suite small,.fiche-texte h2,.aussi h2,.legende,.vitrine small{font-stretch:125%}
+
+/* Page hôte simulée : la page Galeries, autour de l'emplacement de la rubrique */
+.ruban{margin:0;padding:7px var(--marge);background:#121212;color:#f2f2f2;font-size:12px;line-height:1.4;text-align:center}
+.h-enveloppe{max-width:1560px;margin:0 auto;padding:0 var(--marge)}
+.h-tete{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 24px;padding:16px var(--marge)}
+.h-marque{font-size:22px;font-weight:560;text-decoration:none}
+.h-tete nav{display:flex;flex-wrap:wrap;gap:4px 22px;font-size:15px}
+.h-tete nav a{padding:4px 0;text-decoration:none;color:var(--h-doux)}
+.h-tete nav a[aria-current]{color:var(--h-encre);box-shadow:0 1px 0 var(--h-encre)}
+.h-bandeau{display:flex;align-items:flex-end;min-height:clamp(150px,22vw,260px);padding:24px var(--marge);background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.55)),var(--bande) center/cover;color:#fff}
+.h-bandeau h1{margin:0;font-size:clamp(30px,5vw,56px);font-weight:560;line-height:1}
+.h-sur{margin:0 0 16px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--h-doux)}
+.h-usages{background:#0b0b0b;color:#f2f2f2;padding-top:clamp(30px,5vw,64px);padding-bottom:clamp(26px,4vw,52px)}
+.h-usages-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px;margin-bottom:clamp(14px,2.4vw,28px)}
+.h-usages-tete .h-sur{margin:0;color:rgba(242,242,242,.72)}
+.h-usages-tete p{margin:0;font-size:13px;color:rgba(242,242,242,.6)}
+.h-usages ol{list-style:none;margin:0;padding:0 0 1px;border-bottom:1px solid rgba(242,242,242,.16)}
+.h-usages li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,clamp(10rem,22vw,19rem));align-items:center;gap:4px 32px;padding:clamp(8px,1vw,14px) 0;border-top:1px solid rgba(242,242,242,.16)}
+.h-nom{font-size:clamp(28px,5.4vw,84px);line-height:.98}
+.h-nom i{font-style:normal;color:rgba(242,242,242,.6)}
+.h-infos{font-size:13px;line-height:1.35;text-align:right;color:rgba(242,242,242,.6)}
+.h-usages-suite{margin:clamp(18px,2.6vw,32px) 0 0;font-size:15px}
+.h-usages-suite span{display:inline-block;padding:12px 22px;border-radius:999px;font-weight:600;font-stretch:108%;box-shadow:inset 0 0 0 1px rgba(242,242,242,.55)}
+.h-corps{padding-top:clamp(32px,4.5vw,56px);padding-bottom:64px}
+.h-bloc{margin-top:clamp(36px,5vw,64px)}
+.h-galeries{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:28px 20px}
+.h-galerie{display:grid;gap:4px}
+.h-galerie span:first-child{display:block;aspect-ratio:4/3;overflow:hidden;margin-bottom:8px;background:#ddd}
+.h-galerie img{width:100%;height:100%;object-fit:cover}
+.h-galerie b{font-size:17px;font-weight:600;font-stretch:104%;line-height:1.25}
+.h-galerie small{font-size:13px;color:var(--h-doux)}
+.h-pied{padding:22px var(--marge);border-top:1px solid var(--h-trait);color:var(--h-doux);font-size:13px;text-align:center}
+
+

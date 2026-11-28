@@ -1,0 +1,101 @@
+/* Version 4A · Une photographie qui voyage. L'index reste la nuit du globe (v3) ; chaque fiche est une affiche claire, aux couleurs de sa photo. */
+#monde{--fond:#0b0b0b;--texte:#e9e9e9;--encre:#f4f4f4;--doux:rgba(244,244,244,.68);--filet:rgba(244,244,244,.16);--filet-fort:rgba(244,244,244,.42);--barre-fond:rgba(11,11,11,.72);
+  display:flex;flex-direction:column}
+.barre{order:0}
+#decor{order:1;position:fixed;inset:0;z-index:0}
+#decor canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+#decor canvas:active{cursor:grabbing}
+#decor.sans-3d::after{content:"Le globe demande WebGL : la liste et les fiches restent complètes.";position:absolute;right:var(--marge);bottom:24px;font-size:13px;color:var(--doux)}
+#iris{position:fixed;inset:0;z-index:15;background:var(--bande) center/cover;pointer-events:none}
+#scene{order:2;position:relative;z-index:2;flex:1 0 auto;width:100%;max-width:none;margin:0;padding:0 var(--marge) 72px;pointer-events:none}
+#scene > *{pointer-events:auto}
+/* Étiquettes du globe */
+.etiquettes{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.etq{position:absolute;left:0;top:0;display:flex;flex-direction:column;max-width:15rem;padding:2px 0;color:var(--encre);transition:opacity .24s var(--c-sortie);text-shadow:0 1px 10px #0b0b0b,0 0 2px #0b0b0b}
+.etq b{font-size:21px;font-weight:450;font-stretch:68%;line-height:1;letter-spacing:-.005em}
+.etq span{margin-top:3px;font-size:11px;font-weight:600;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--doux)}
+.etq--pays b{font-size:28px}
+.etq--origine b{font-size:24px}
+.etq--raconte b,.etq--couronne b{font-size:18px}
+.etq--raconte span,.etq--couronne span{letter-spacing:.06em}
+/* Signes (légende, notices) : anneau = lieu de prise ; rond = média situé ; couronne = en ligne ; carré = lieu raconté */
+.sg{flex:none;display:inline-block;width:11px;height:11px;margin-right:10px;vertical-align:-1px}
+.sg--plein{border-radius:50%;background:var(--encre)}
+.sg--anneau{border-radius:50%;box-shadow:inset 0 0 0 2.5px var(--encre)}
+.sg--couronne{border-radius:50%;border:1.5px dashed var(--encre)}
+.sg--carre{width:9px;height:9px;background:var(--encre)}
+/* Index : colonne de lecture, le globe à droite */
+.colonne{width:min(36rem,40vw);padding-top:clamp(28px,6vh,72px)}
+.tete h1{margin:0;font-size:clamp(46px,5.6vw,92px);font-weight:400;font-stretch:68%;letter-spacing:-.015em;line-height:.94;color:var(--encre)}
+.tete .ligne{display:inline-block}
+.chapo{margin:22px 0 0;max-width:34rem;font-size:17px;line-height:1.5}
+.legende{display:grid;gap:8px;margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--filet);list-style:none;font-size:14px;color:var(--doux)}
+.legende li{display:flex;align-items:center}
+.source{margin:14px 0 0;font-size:13px;color:var(--doux)}
+.liste-titre{margin:40px 0 10px;font-size:24px;font-weight:450;font-stretch:68%;color:var(--encre)}
+.liste{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.vue{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:72px;padding:8px 6px 8px 0;border-bottom:1px solid var(--filet);color:var(--texte);text-decoration:none;transition:background-color .24s var(--c-sortie)}
+.vue img{width:64px;height:48px;object-fit:cover;filter:saturate(.9)}
+.vue-texte{display:flex;flex-direction:column;gap:3px;min-width:0}
+.vue-nom{font-size:18px;font-stretch:72%;line-height:1.12;color:var(--encre)}
+.vue-trajet{font-size:12.5px;color:var(--doux)}
+.vue-compte{display:flex;gap:4px}
+.vue-compte i{width:8px;height:8px;border-radius:50%;background:var(--encre)}
+.vue:hover,.vue:focus-visible{background:rgba(244,244,244,.07)}
+.vue:hover .vue-nom{text-decoration:underline;text-underline-offset:.18em}
+/* Fiche : le globe à gauche, le panneau à droite */
+.panneau{width:min(34rem,44vw);margin:0 0 0 auto;padding:22px 0 0}
+.retour{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:var(--doux)}
+.titre-photo{margin:22px 0 0;font-size:clamp(28px,2.8vw,40px);font-weight:450;font-stretch:72%;line-height:1.04;color:var(--encre);text-wrap:balance}
+.photo{margin:18px 0 0;background:#151515}
+.photo img{width:100%;max-height:30vh;object-fit:cover;aspect-ratio:var(--r)}
+.trajet{margin:16px 0 4px;padding:12px 0;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);font-size:15px;color:var(--texte)}
+.notice-lieu{display:flex;align-items:center;margin:0 0 10px;font-size:12px;font-weight:600;font-stretch:118%;letter-spacing:.1em;text-transform:uppercase;color:var(--doux)}
+.notice-raconte{display:flex;align-items:center;margin:10px 0 0;font-size:14px;color:var(--texte)}
+.notice-raconte .sg{width:8px;height:8px}
+@media (max-width:899px){
+  #decor{position:relative;inset:auto;height:38vh;min-height:260px;flex:none}
+
+  #scene{padding-bottom:48px}
+  .colonne,.panneau{width:auto;padding-top:8px}
+  .tete h1{font-size:clamp(40px,11vw,64px)}
+  .etq b{font-size:17px}.etq--pays b{font-size:21px}.etq span{font-size:10px}
+}
+
+/* L'affiche de la fiche */
+.etq[style] b::before{content:"";display:inline-block;width:12px;height:10px;margin-right:7px;background:var(--c);clip-path:polygon(0 0,100% 0,50% 100%);vertical-align:.12em}
+.affiche{--fond-affiche:#fbfaf6;--carte:#fffdf9;--texte:#1c1c1c;--encre:#121212;--doux:#55555a;--filet:rgba(18,18,18,.14);--filet-fort:rgba(18,18,18,.4);
+  width:min(54rem,61vw);margin:0 calc(-1 * var(--marge)) 0 auto;padding:16px var(--marge) 48px;background:var(--fond-affiche);color:var(--texte);min-height:calc(100vh - 64px);box-shadow:-24px 0 48px -24px rgba(0,0,0,.6)}
+.affiche .retour{color:var(--doux)}
+.affiche-corps{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:28px;margin-top:22px}
+.affiche .photo{margin:0;background:none;position:sticky;top:84px;align-self:start}
+.affiche .photo img{width:100%;max-height:none;object-fit:cover;box-shadow:14px 14px 0 var(--p2)}
+.affiche figcaption{display:grid;gap:6px;margin-top:26px}
+.affiche .credit{margin:0;color:var(--doux)}
+.affiche .credit a{color:var(--encre)}
+.affiche .trajet{margin:4px 0 0;padding:8px 0 0;border-top:1px solid var(--filet);border-bottom:0;font-size:13.5px;color:var(--texte)}
+.affiche .sg--plein{background:var(--encre)}.affiche .sg--couronne{border-color:var(--encre)}.affiche .sg--carre{background:var(--encre)}
+.affiche .notice-lieu{color:var(--doux)}
+.affiche .suite{border-color:var(--filet)}
+@media (max-width:899px){
+  #monde:has(#scene[data-vue="fiche"]) #decor{height:30vh;min-height:230px}
+  .affiche{width:auto;margin:0 calc(-1 * var(--marge));padding:10px var(--marge) 40px;box-shadow:none;min-height:0}
+  .affiche-tete{min-height:158px;margin-top:6px}
+  .initiale{font-size:118px}.reste{font-size:38px}.sous{font-size:21px}
+  .compteur{padding-left:4px}.compteur b{font-size:40px}.compteur span{font-size:10px;letter-spacing:.08em}.compteur small{display:none}
+  .regards-titre small{display:none}.regards-titre{margin-bottom:10px}
+  .affiche-corps{grid-template-columns:1fr;gap:16px;margin-top:10px}
+  .affiche .photo{position:static;display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:start}
+  .affiche .photo img{aspect-ratio:1/1!important;box-shadow:7px 7px 0 var(--p2)}
+  .affiche figcaption{margin-top:0;gap:3px}.photo-nom{font-size:15px}.affiche .credit{font-size:12px}.affiche .trajet{display:none}
+  .regard{padding:14px 14px 12px}
+  /* Téléphone : un globe plus grand, qui dit seulement les lieux, en plus gros */
+  #monde:has(#scene[data-vue="fiche"]) .etq b{font-size:22px}
+  #monde:has(#scene[data-vue="fiche"]) .etq--origine b{font-size:25px}
+}
+/* Navigation entre les photos, en tête de fiche */
+.pas{display:flex;align-items:center;gap:10px}
+.pas-lien{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--filet-fort);border-radius:50%;color:var(--encre);font-size:18px;text-decoration:none}
+.pas > span{white-space:nowrap}
+@media (max-width:899px){.pas{gap:6px}.pas > span{font-size:12px}.pas-lien{width:40px;height:40px}}
+.pas-lien:hover,.pas-lien:focus-visible{background:var(--encre);color:var(--fond-affiche)}
