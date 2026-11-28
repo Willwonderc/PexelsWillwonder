@@ -98,6 +98,7 @@
 .barre{order:0}
 #decor{order:1;position:fixed;inset:0;z-index:0}
 #decor canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+@media (max-width:899px){#decor canvas{cursor:default}}
 #decor canvas:active{cursor:grabbing}
 #decor.sans-3d::after{content:"Le globe demande WebGL : la liste et les fiches restent complètes.";position:absolute;right:var(--marge);bottom:24px;font-size:13px;color:var(--doux)}
 #iris{position:fixed;inset:0;z-index:15;background:var(--bande) center/cover;pointer-events:none}
@@ -186,6 +187,9 @@
   /* Téléphone : un globe plus grand, qui dit seulement les lieux, en plus gros */
   #monde:has(#scene[data-vue="fiche"]) .etq b{font-size:22px}
   #monde:has(#scene[data-vue="fiche"]) .etq--origine b{font-size:25px}
+  /* Démonstration de l'index : un seul lieu nommé à la fois, en grand */
+  #monde:has(#scene[data-vue="index"]) .etq b{font-size:28px}
+  #monde:has(#scene[data-vue="index"]) .etq span{font-size:11.5px}
 }
 /* Navigation entre les photos, en tête de fiche */
 .pas{display:flex;align-items:center;gap:10px}
