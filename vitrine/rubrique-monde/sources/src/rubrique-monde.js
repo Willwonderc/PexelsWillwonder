@@ -135,6 +135,7 @@ function construire3D() {
   new ResizeObserver(cadrer).observe(decor);
   // Glisser pour tourner le globe (souris, doigt) ; la molette reste au défilement.
   renderer.domElement.addEventListener('pointerdown', (e) => {
+    if (etroit.matches) return; // téléphone : pas de glisser, la démonstration tourne seule
     glisse = { x: e.clientX, y: e.clientY, lat: vise.lat, lon: vise.lon, id: e.pointerId }; ambiance = false;
     renderer.domElement.setPointerCapture(e.pointerId);
   });
@@ -157,7 +158,7 @@ function cadrer() {
   if (!large) { vise.cx = W / 2; vise.cy = H / 2 + 6; vise.rpx = Math.min(W, H) * 0.3; }
   else if (vueCourante === 'fiche') { const pan = $('.panneau') ? $('.panneau').offsetWidth + 48 : W * 0.42; vise.cx = (W - pan) / 2 + 12; vise.cy = barre + (H - barre) / 2; vise.rpx = Math.min(W - pan, H - barre) * 0.33; }
   else { const col = $('.colonne') ? $('.colonne').getBoundingClientRect().right : W * 0.42; vise.cx = col + (W - col) / 2; vise.cy = barre + (H - barre) / 2; vise.rpx = Math.min(W - col, H - barre) * 0.33; }
-  if (vueCourante === 'fiche') vise.rpx *= zoom;
+  if (vueCourante === 'fiche' || (!large && demo)) vise.rpx *= zoom;
   // la caméra reste hors du globe
   vise.rpx = Math.min(vise.rpx, 0.7 * (H / 2) / Math.tan(camera.fov * RAD / 2));
   etat.echelle.value = H;
@@ -335,6 +336,35 @@ function etiquettesFiche(p) {
   return l;
 }
 
+/* Téléphone, index : démonstration continue. Le globe va d'un lieu à l'autre (pays, sites en ligne,
+   lieux racontés), s'en approche, n'allume que ses arcs et ne nomme que lui ; pas de glisser à faire. */
+let demo = null;
+function arreterDemo() { if (demo) { clearTimeout(demo.t); demo = null; } }
+function lancerDemo() {
+  arreterDemo();
+  if (!ok3d || !etroit.matches || calme.matches) return;
+  const etapes = lots.slice();
+  if (!etapes.length) return;
+  demo = { k: -1, t: 0 };
+  const pas = () => {
+    if (!demo || vueCourante !== 'index') { arreterDemo(); return; }
+    demo.k = (demo.k + 1) % etapes.length;
+    const l = etapes[demo.k];
+    const v = (l.type === 'couronne' ? FRANCE : l.v).clone().normalize();
+    vise.lat = Math.max(-60, Math.min(75, Math.asin(v.y) / RAD)); vise.lon = Math.atan2(v.x, v.z) / RAD;
+    ambiance = false;
+    zoom = l.type === 'couronne' ? 1.15 : 1.7; cadrer();
+    const dedans = l.type === 'couronne' ? (x) => !!x.sat : l.type === 'raconte' ? (x) => !!x.c && x.u.raconte.nom === l.nom : (x) => x.groupe === l.nom;
+    surbrillance = dedans;
+    lots.forEach((m) => { m.montre = m === l; });
+    const t = horloge.getElapsed();
+    usages.filter(dedans).forEach((x) => { const m = l.type === 'raconte' ? x.mc : x.mb; if (m) { m.allume = 1; m.t0 = t + 0.5; } });
+    demo.t = setTimeout(pas, 3600);
+  };
+  demo.t = setTimeout(pas, 2400);
+}
+etroit.addEventListener('change', () => { if (vueCourante === 'index') { if (etroit.matches) lancerDemo(); else { arreterDemo(); zoom = 1; ambiance = true; surbrillance = null; lots.forEach((m) => { m.montre = true; }); cadrer(); } } });
+
 function montrerArcs(filtre, cascade) {
   // Cascade par groupe de destination (6 groupes au plus) : pas de 80 ms, total ≤ 600 ms (référentiel, § 5).
   arcs.forEach((a) => {
@@ -353,7 +383,7 @@ const vue = {
   afficher(r, ctx, o) {
     const scene = ctx.scene, monde = ctx.monde, p = r.photo && parId[r.photo];
     if (!boucle && ok3d) { horloge.update(); tour(); }
-    surbrillance = null;
+    surbrillance = null; arreterDemo();
     if (p) {
       if (scene.dataset.vue === 'index') posIndex = monde.scrollTop;
       vueCourante = 'fiche'; scene.dataset.vue = 'fiche'; scene.innerHTML = ficheHTML(p); repere = p.id;
@@ -384,6 +414,7 @@ const vue = {
       arcs.forEach((a) => { a.mesh.material.color.set('#ffffff'); });
       montrerArcs(() => true, o.premier ? null : { delai: 0 });
       if (o.premier) { cur.cx = vise.cx; cur.cy = vise.cy; cur.rpx = vise.rpx; cur.lat = vise.lat; cur.lon = vise.lon; }
+      lancerDemo();
     }
     const cible = repere && scene.querySelector('[data-cle="' + repere + '"]');
     if (cible) { if (posPour === repere) monde.scrollTop = posIndex; else cible.scrollIntoView({ block: 'center' }); cible.focus({ preventScroll: true }); }
@@ -432,7 +463,7 @@ const vue = {
       },
     };
   },
-  fermer() { cancelAnimationFrame(boucle); boucle = 0; repere = null; posPour = null; posIndex = 0; },
+  fermer() { arreterDemo(); cancelAnimationFrame(boucle); boucle = 0; repere = null; posPour = null; posIndex = 0; },
   touche(e, ctx) {
     if (ctx.scene.dataset.vue !== 'fiche') return;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
