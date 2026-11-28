@@ -214,6 +214,8 @@ function poserEtiquettes(liste) {
 }
 const vtmp = new THREE.Vector3();
 function placerEtiquettes(W, H) {
+  // Téléphone, fiche : les étiquettes sont cachées (le trajet se lit sous le globe) ; rien à placer.
+  if (!etiquettes.offsetWidth) { lots.forEach((l) => { l.el.style.opacity = 0; }); return; }
   const places = [];
   lots.forEach((l) => {
     vtmp.copy(l.v).applyEuler(globe.rotation);
@@ -284,7 +286,7 @@ function noticeHTML(u) {
 function ficheHTML(p) {
   const n = D.photos.length, i = D.photos.indexOf(p), prec = D.photos[(i - 1 + n) % n], suiv = D.photos[(i + 1) % n];
   return '<article class="panneau affiche" data-cle="' + p.id + '" style="' + couleurs(p) + '">' +
-    '<nav class="retour" aria-label="Rubrique"><a href="#monde" class="pilule pilule--douce">← Toutes les photos</a><span>Photo ' + (i + 1) + ' sur ' + n + '</span></nav>' +
+    '<nav class="retour" aria-label="Rubrique"><a href="#monde" class="pilule pilule--douce">← Toutes les photos</a><span class="pas"><a class="pas-lien" href="#monde/photo-' + prec.id + '" aria-label="Photo précédente : ' + esc(prec.libelle) + '">←</a><span>Photo ' + (i + 1) + ' sur ' + n + '</span><a class="pas-lien" href="#monde/photo-' + suiv.id + '" aria-label="Photo suivante : ' + esc(suiv.libelle) + '">→</a></span></nav>' +
     '<header class="affiche-tete">' + eclatSVG(p.palette, graineDe(p.id), { reserve: [0.8, 0.22, 0.8] }) + titreAffiche(p) + compteur(p) + '</header>' +
     '<div class="affiche-corps"><figure class="photo"><img src="' + p.grande + '" alt="' + esc(p.libelle) + '" style="aspect-ratio:' + p.ratio + '">' +
     '<figcaption><span class="photo-nom">' + esc(p.libelle) + '</span><span class="credit">' + credit(p) + '</span><span class="trajet">' + phraseTrajet(p) + '</span></figcaption></figure>' +
@@ -294,6 +296,7 @@ function ficheHTML(p) {
     '<a rel="next" href="#monde/photo-' + suiv.id + '"><small>Photo suivante →</small>' + esc(suiv.libelle) + '</a></nav></article>';
 }
 
+const etroit = matchMedia('(max-width:899px)');
 function etiquettesIndex() {
   const l = [];
   const parGroupe = {};
@@ -306,6 +309,16 @@ function etiquettesIndex() {
 }
 function etiquettesFiche(p) {
   const l = [{ type: 'origine', nom: p.origine.inconnu ? 'Prise en France' : p.origine.nom, sous: p.origine.inconnu ? 'lieu non indiqué' : 'prise de vue', v: vec(p.origine.lat, p.origine.lon) }];
+  if (etroit.matches) {
+    // Téléphone : le globe dit où l'on est (lieu de prise, puis pays d'arrivée, une fois chacun) ; les médias se lisent dans la fiche.
+    const vus = [];
+    usages.filter((x) => x.p === p).forEach((x) => {
+      const nom = x.sat ? 'En ligne' : (pays(x.u) || x.u.lieu.nom);
+      if (vus.includes(nom)) return; vus.push(nom);
+      l.push({ type: x.sat ? 'couronne' : 'pays', nom, sous: '', v: x.b, couleur: p.palette[p.usages.indexOf(x.u) % 4].c });
+    });
+    return l;
+  }
   usages.filter((x) => x.p === p).forEach((x) => {
     l.push({ type: x.sat ? 'couronne' : 'media', nom: x.u.nom, sous: x.sat ? 'en ligne · lieu non établi' : x.u.lieu.nom, v: x.b, usage: x.u.id, couleur: p.palette[p.usages.indexOf(x.u) % 4].c });
     if (x.c) l.push({ type: 'raconte', nom: x.u.raconte.nom, sous: 'lieu raconté', v: x.c, usage: x.u.id });

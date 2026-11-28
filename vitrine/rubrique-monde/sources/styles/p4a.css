@@ -78,7 +78,7 @@
 .affiche .notice-lieu{color:var(--doux)}
 .affiche .suite{border-color:var(--filet)}
 @media (max-width:899px){
-  #monde:has(#scene[data-vue="fiche"]) #decor{height:22vh;min-height:170px}
+  #monde:has(#scene[data-vue="fiche"]) #decor{height:30vh;min-height:230px}
   .affiche{width:auto;margin:0 calc(-1 * var(--marge));padding:10px var(--marge) 40px;box-shadow:none;min-height:0}
   .affiche-tete{min-height:158px;margin-top:6px}
   .initiale{font-size:118px}.reste{font-size:38px}.sous{font-size:21px}
@@ -89,4 +89,13 @@
   .affiche .photo img{aspect-ratio:1/1!important;box-shadow:7px 7px 0 var(--p2)}
   .affiche figcaption{margin-top:0;gap:3px}.photo-nom{font-size:15px}.affiche .credit{font-size:12px}.affiche .trajet{display:none}
   .regard{padding:14px 14px 12px}
+  /* Téléphone : un globe plus grand, qui dit seulement les lieux, en plus gros */
+  #monde:has(#scene[data-vue="fiche"]) .etq b{font-size:22px}
+  #monde:has(#scene[data-vue="fiche"]) .etq--origine b{font-size:25px}
 }
+/* Navigation entre les photos, en tête de fiche */
+.pas{display:flex;align-items:center;gap:10px}
+.pas-lien{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--filet-fort);border-radius:50%;color:var(--encre);font-size:18px;text-decoration:none}
+.pas > span{white-space:nowrap}
+@media (max-width:899px){.pas{gap:6px}.pas > span{font-size:12px}.pas-lien{width:40px;height:40px}}
+.pas-lien:hover,.pas-lien:focus-visible{background:var(--encre);color:var(--fond-affiche)}
