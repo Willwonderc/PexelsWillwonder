@@ -1,0 +1,1250 @@
+{
+ "_note": "Rubrique « Mes photos utilisées dans le monde », version 4A. Parutions confirmées (statut « confirme », tiers) du registre de traçabilité, regroupées par photo Pexels. Lieux des médias et titres courts : voir A-VERIFIER.md. Les images sont servies par Pexels.",
+ "date": "27 novembre 2026",
+ "total": 23,
+ "pays": [
+  "Brésil",
+  "Espagne",
+  "France",
+  "Lituanie",
+  "États-Unis"
+ ],
+ "en_ligne": 6,
+ "repertoire": [
+  {
+   "nom": "Anto.info",
+   "support": "Agenda culturel",
+   "parutions": [
+    {
+     "usage": "USE-004",
+     "photo": "23414381"
+    }
+   ],
+   "lettre": "A"
+  },
+  {
+   "nom": "DailyAstroAI",
+   "support": "Site d’astrologie",
+   "parutions": [
+    {
+     "usage": "USE-001",
+     "photo": "13102252"
+    }
+   ],
+   "lettre": "D"
+  },
+  {
+   "nom": "Edenight",
+   "support": "Plateforme de réservation",
+   "parutions": [
+    {
+     "usage": "USE-009",
+     "photo": "23414382"
+    }
+   ],
+   "lettre": "E"
+  },
+  {
+   "nom": "Edvenn · LinkedIn",
+   "support": "Organisme de formation",
+   "parutions": [
+    {
+     "usage": "USE-003",
+     "photo": "38536479"
+    }
+   ],
+   "lettre": "E"
+  },
+  {
+   "nom": "Fédération des élus des entreprises publiques locales",
+   "support": "Fédération professionnelle",
+   "parutions": [
+    {
+     "usage": "USE-016",
+     "photo": "23414382"
+    }
+   ],
+   "lettre": "F"
+  },
+  {
+   "nom": "Flore du Vexin-Thelle",
+   "support": "Herbier en ligne",
+   "parutions": [
+    {
+     "usage": "USE-007",
+     "photo": "35086239"
+    }
+   ],
+   "lettre": "F"
+  },
+  {
+   "nom": "Idealista/news",
+   "support": "Média immobilier",
+   "parutions": [
+    {
+     "usage": "USE-017",
+     "photo": "23414381"
+    },
+    {
+     "usage": "USE-019",
+     "photo": "19047688"
+    }
+   ],
+   "lettre": "I"
+  },
+  {
+   "nom": "iMean AI",
+   "support": "Guide touristique",
+   "parutions": [
+    {
+     "usage": "USE-018",
+     "photo": "34500384"
+    }
+   ],
+   "lettre": "I"
+  },
+  {
+   "nom": "Integrative Creative Therapy",
+   "support": "Cabinet de thérapie",
+   "parutions": [
+    {
+     "usage": "USE-008",
+     "photo": "38536476"
+    }
+   ],
+   "lettre": "I"
+  },
+  {
+   "nom": "Manogarantijos.lt",
+   "support": "Site d’information",
+   "parutions": [
+    {
+     "usage": "USE-013",
+     "photo": "34500384"
+    }
+   ],
+   "lettre": "M"
+  },
+  {
+   "nom": "Merca2",
+   "support": "Presse économique",
+   "parutions": [
+    {
+     "usage": "USE-006",
+     "photo": "19047681"
+    }
+   ],
+   "lettre": "M"
+  },
+  {
+   "nom": "Mexens",
+   "support": "Entreprise",
+   "parutions": [
+    {
+     "usage": "USE-005",
+     "photo": "34500384"
+    }
+   ],
+   "lettre": "M"
+  },
+  {
+   "nom": "Nipuni Dissanayake · LinkedIn",
+   "support": "Article professionnel",
+   "parutions": [
+    {
+     "usage": "USE-023",
+     "photo": "38694057"
+    }
+   ],
+   "lettre": "N"
+  },
+  {
+   "nom": "Off We Gooo",
+   "support": "Guide touristique",
+   "parutions": [
+    {
+     "usage": "USE-022",
+     "photo": "38694055"
+    }
+   ],
+   "lettre": "O"
+  },
+  {
+   "nom": "Plutonic Planes",
+   "support": "Site d’astrologie",
+   "parutions": [
+    {
+     "usage": "USE-011",
+     "photo": "27116682"
+    }
+   ],
+   "lettre": "P"
+  },
+  {
+   "nom": "Les pros de la petite enfance",
+   "support": "Presse spécialisée",
+   "parutions": [
+    {
+     "usage": "USE-002",
+     "photo": "34500384"
+    }
+   ],
+   "lettre": "P"
+  },
+  {
+   "nom": "R&D Patrimoine",
+   "support": "Cabinet de gestion de patrimoine",
+   "parutions": [
+    {
+     "usage": "USE-014",
+     "photo": "23414382"
+    }
+   ],
+   "lettre": "R"
+  },
+  {
+   "nom": "La Rose des Templiers",
+   "support": "Location de vacances",
+   "parutions": [
+    {
+     "usage": "USE-012",
+     "photo": "13087478"
+    }
+   ],
+   "lettre": "R"
+  },
+  {
+   "nom": "Torre Eiffel",
+   "support": "Guide touristique",
+   "parutions": [
+    {
+     "usage": "USE-021",
+     "photo": "38694055"
+    }
+   ],
+   "lettre": "T"
+  },
+  {
+   "nom": "Vesper",
+   "support": "Média d’actualité",
+   "parutions": [
+    {
+     "usage": "USE-020",
+     "photo": "19047681"
+    }
+   ],
+   "lettre": "V"
+  },
+  {
+   "nom": "Wrimos",
+   "support": "Magazine en ligne",
+   "parutions": [
+    {
+     "usage": "USE-010",
+     "photo": "19047688"
+    }
+   ],
+   "lettre": "W"
+  },
+  {
+   "nom": "Zaplo Studio",
+   "support": "Agence web",
+   "parutions": [
+    {
+     "usage": "USE-015",
+     "photo": "34354424"
+    }
+   ],
+   "lettre": "Z"
+  }
+ ],
+ "photos": [
+  {
+   "id": "34500384",
+   "libelle": "Mairie historique de Cognac, drapeau français et jardins sous un ciel bleu",
+   "titre": "Cognac",
+   "ratio": 0.6667,
+   "vignette": "https://images.pexels.com/photos/34500384/pexels-photo-34500384.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/34500384/pexels-photo-34500384.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/34500384/",
+   "site": "https://photos.karlforterre.fr/photo/34500384/",
+   "origine": {
+    "nom": "Cognac",
+    "lat": 45.696,
+    "lon": -0.329,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#3b89f7",
+     "sur": "#121212",
+     "contraste": 5.45
+    },
+    {
+     "c": "#71d20b",
+     "sur": "#121212",
+     "contraste": 9.75
+    },
+    {
+     "c": "#33a527",
+     "sur": "#121212",
+     "contraste": 5.85
+    },
+    {
+     "c": "#d8ba5a",
+     "sur": "#121212",
+     "contraste": 9.89
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-002",
+     "nom": "Les pros de la petite enfance",
+     "support": "Presse spécialisée",
+     "texte": "Site d’information sur les métiers, les politiques et les pratiques de la petite enfance. Illustration d’un article sur un guide destiné aux élus locaux pour la petite enfance.",
+     "titre": "Enfance : Sarah El Haïry présente un guide pratique très synthétique pour les élus locaux",
+     "date": "21 novembre 2025",
+     "url": "https://www.lesprosdelapetiteenfance.fr/petite-enfance-sarah-el-hairy-presente-un-guide-pratique-tres-synthetique-pour-les-elus-locaux/",
+     "hote": "lesprosdelapetiteenfance.fr",
+     "lien": "Lire l’article des Pros de la petite enfance",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "site en français sur les politiques publiques françaises"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-005",
+     "nom": "Mexens",
+     "support": "Entreprise",
+     "texte": "Développe et exploite des projets d’énergies renouvelables. Bandeau de la page commerciale de Mexens destinée aux collectivités.",
+     "titre": "Vous êtes une collectivité",
+     "date": "",
+     "url": "https://mexens.com/vous-etes/collectivite/",
+     "hote": "mexens.com",
+     "lien": "Voir la page de Mexens",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "projets pour les collectivités françaises, en français"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-013",
+     "nom": "Manogarantijos.lt",
+     "support": "Site d’information",
+     "texte": "Site en lituanien qui publie des articles pratiques et d’actualité, notamment sur les aides publiques. Photo de tête d’un article sur les usages de l’intelligence artificielle par les institutions publiques lituaniennes.",
+     "titre": "Kaip Lietuvos valstybės institucijos naudoja dirbtinį intelektą: kas jau veikia ir ko dar laukiame",
+     "date": "",
+     "url": "https://www.manogarantijos.lt/kaip-lietuvos-valstybes-institucijos-naudoja-dirbtini-intelekta-kas-jau-veikia-ir-ko-dar-laukiame-6/",
+     "hote": "manogarantijos.lt",
+     "lien": "Lire l’article de Manogarantijos.lt",
+     "lieu": {
+      "nom": "Lituanie",
+      "lat": 55.2,
+      "lon": 23.9,
+      "indice": "site en lituanien, domaine .lt (registre)"
+     },
+     "raconte": null,
+     "langue": "lt"
+    },
+    {
+     "id": "USE-018",
+     "nom": "iMean AI",
+     "support": "Guide touristique",
+     "texte": "Plateforme de découverte de lieux et de planification de voyages. Photo de l’hôtel de ville de Cognac affichée dans la galerie d’une fiche de bowling.",
+     "titre": "Cognac Bowling",
+     "date": "",
+     "url": "https://www.imean.ai/attraction/Cognac-Bowling-10636803",
+     "hote": "imean.ai",
+     "lien": "Lire le guide d’iMean AI",
+     "lieu": null,
+     "raconte": null,
+     "langue": "en"
+    }
+   ]
+  },
+  {
+   "id": "23414382",
+   "libelle": "Vue de l’église Saint-André de Niort avec la Sèvre niortaise au premier plan",
+   "titre": "Niort",
+   "ratio": 1.4975,
+   "vignette": "https://images.pexels.com/photos/23414382/pexels-photo-23414382.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/23414382/pexels-photo-23414382.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/23414382/",
+   "site": "https://photos.karlforterre.fr/photo/23414382/",
+   "origine": {
+    "nom": "Niort",
+    "lat": 46.323,
+    "lon": -0.464,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#3b84f7",
+     "sur": "#121212",
+     "contraste": 5.2
+    },
+    {
+     "c": "#78af1d",
+     "sur": "#121212",
+     "contraste": 7.09
+    },
+    {
+     "c": "#27a56e",
+     "sur": "#121212",
+     "contraste": 5.97
+    },
+    {
+     "c": "#ada028",
+     "sur": "#121212",
+     "contraste": 6.99
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-009",
+     "nom": "Edenight",
+     "support": "Plateforme de réservation",
+     "texte": "Plateforme française de réservation d’hébergements pour les couples. Image définie pour l’aperçu de partage de la page des Deux-Sèvres. Emplacement dans le corps de page non établi.",
+     "titre": "Love room dans les Deux-Sèvres",
+     "date": "",
+     "url": "https://www.edenight.com/destinations/nouvelle-aquitaine/deux-sevres/",
+     "hote": "edenight.com",
+     "lien": "Voir la page d’Edenight",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "« plateforme française » (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-014",
+     "nom": "R&D Patrimoine",
+     "support": "Cabinet de gestion de patrimoine",
+     "texte": "Cabinet de conseil en patrimoine à La Rochelle. Vue de Niort en tête d’un article sur l’investissement locatif dans la ville.",
+     "titre": "Niort : une ville à fort potentiel pour l’investissement locatif",
+     "date": "14 avril 2025",
+     "url": "https://rdpatrimoine.com/niort-une-ville-a-fort-potentiel-pour-linvestissement-locatif/",
+     "hote": "rdpatrimoine.com",
+     "lien": "Lire l’article de R&D Patrimoine",
+     "lieu": {
+      "nom": "La Rochelle",
+      "lat": 46.16,
+      "lon": -1.15,
+      "indice": "« cabinet de conseil en patrimoine à La Rochelle » (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-016",
+     "nom": "Fédération des élus des entreprises publiques locales",
+     "support": "Fédération professionnelle",
+     "texte": "Association représentant les entreprises publiques locales et leurs élus. Photo intégrée à un entretien sur la SEMIE et le logement à Niort.",
+     "titre": "La SEMIE, un levier stratégique pour l’habitat et la revitalisation urbaine à Niort",
+     "date": "19 septembre 2025",
+     "url": "https://www.lesepl.fr/epl-en-action/la-semie-un-levier-strategique-pour-lhabitat-et-la-revitalisation-urbaine-a-niort/",
+     "hote": "lesepl.fr",
+     "lien": "Lire l’article de la Fédération des élus des EPL",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "fédération des entreprises publiques locales françaises"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "23414381",
+   "libelle": "Vue majestueuse des flèches néogothiques de l’église Saint-André au-dessus de Niort",
+   "titre": "Niort",
+   "ratio": 1.4976,
+   "vignette": "https://images.pexels.com/photos/23414381/pexels-photo-23414381.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/23414381/pexels-photo-23414381.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/23414381/",
+   "site": "https://photos.karlforterre.fr/photo/23414381/",
+   "origine": {
+    "nom": "Niort",
+    "lat": 46.323,
+    "lon": -0.464,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#3b81f7",
+     "sur": "#121212",
+     "contraste": 5.06
+    },
+    {
+     "c": "#5aa527",
+     "sur": "#121212",
+     "contraste": 6.11
+    },
+    {
+     "c": "#063789",
+     "sur": "#ffffff",
+     "contraste": 10.96
+    },
+    {
+     "c": "#76a7f9",
+     "sur": "#121212",
+     "contraste": 7.73
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-004",
+     "nom": "Anto.info",
+     "support": "Agenda culturel",
+     "texte": "Guide en ligne qui répertorie des événements par département. Photographie en en-tête du guide départemental des Deux-Sèvres.",
+     "titre": "Événements culturels dans les Deux-Sèvres",
+     "date": "",
+     "url": "https://guide.anto.info/fr/departements/deux-sevres/",
+     "hote": "guide.anto.info",
+     "lien": "Voir la page d’Anto.info",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "guide des départements français, en français"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-017",
+     "nom": "Idealista/news",
+     "support": "Média immobilier",
+     "texte": "Publication d’actualité immobilière de la plateforme Idealista. Vue de Niort illustrant une section sur les prix du logement.",
+     "titre": "Immobilier : les grandes métropoles françaises enregistrent plus de départs que d’arrivées",
+     "date": "18 novembre 2026",
+     "url": "https://www.idealista.fr/news/immobilier/logement/2026/11/18/919-immobilier-les-grandes-metropoles-francaises-enregistrent-plus-de-departs-que-d-arrivees",
+     "hote": "idealista.fr",
+     "lien": "Lire l’article d’Idealista/news",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "édition française (idealista.fr) d'un groupe immobilier"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "19047681",
+   "libelle": "Vue aérienne en noir et blanc d’un train en gare, symbole du transport urbain",
+   "titre": "Poitiers",
+   "ratio": 1.5,
+   "vignette": "https://images.pexels.com/photos/19047681/pexels-photo-19047681.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/19047681/pexels-photo-19047681.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/19047681/",
+   "site": "https://photos.karlforterre.fr/photo/19047681/",
+   "origine": {
+    "nom": "Poitiers",
+    "lat": 46.58,
+    "lon": 0.34,
+    "indice": "galerie « Poitiers et son pays pictave »"
+   },
+   "palette": [
+    {
+     "c": "#1c1c1c",
+     "sur": "#ffffff",
+     "contraste": 17.04
+    },
+    {
+     "c": "#545454",
+     "sur": "#ffffff",
+     "contraste": 7.57
+    },
+    {
+     "c": "#969696",
+     "sur": "#121212",
+     "contraste": 6.33
+    },
+    {
+     "c": "#cdcdcd",
+     "sur": "#121212",
+     "contraste": 11.78
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-006",
+     "nom": "Merca2",
+     "support": "Presse économique",
+     "texte": "Média numérique espagnol d’actualité économique et d’entreprises. Image de tête d’un article en espagnol sur la reconstruction de la ligne Madrid–Séville.",
+     "titre": "Adif ya puede reconstruir la línea Madrid-Sevilla: la jueza del siniestro de Urda da luz verde",
+     "date": "20 novembre 2026",
+     "url": "https://www.merca2.es/2026/11/20/adif-linea-madrid-sevilla-reconstruccion-2512824/",
+     "hote": "merca2.es",
+     "lien": "Lire l’article de Merca2",
+     "lieu": {
+      "nom": "Espagne",
+      "lat": 40.2,
+      "lon": -3.7,
+      "indice": "« média numérique espagnol » (registre)"
+     },
+     "raconte": {
+      "nom": "Ligne Madrid–Séville",
+      "lat": 38.9,
+      "lon": -4.6,
+      "indice": "article sur la reconstruction de la ligne (registre)"
+     },
+     "langue": "es"
+    },
+    {
+     "id": "USE-020",
+     "nom": "Vesper",
+     "support": "Média d’actualité",
+     "texte": "Site multilingue publiant des synthèses d’actualité internationale assistées par intelligence artificielle. Train en noir et blanc illustrant un résumé d’un article de Nikkei Asia sur le ferroviaire au Vietnam.",
+     "titre": "Vietnam’s Vingroup signs $1bn bullet train deal with Siemens",
+     "date": "23 septembre 2026",
+     "url": "https://www.vespernews.com/en/news/f8616d4d-cd9b-453a-86b7-446ba0994a4d",
+     "hote": "vespernews.com",
+     "lien": "Lire l’article de Vesper",
+     "lieu": null,
+     "raconte": {
+      "nom": "Viêt Nam",
+      "lat": 16.0,
+      "lon": 107.5,
+      "indice": "résumé d'un article sur le ferroviaire au Vietnam (registre)"
+     },
+     "langue": "en"
+    }
+   ]
+  },
+  {
+   "id": "19047688",
+   "libelle": "Une rue animée de Poitiers, entre architecture moderne et classique",
+   "titre": "Poitiers",
+   "ratio": 1.5,
+   "vignette": "https://images.pexels.com/photos/19047688/pexels-photo-19047688.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/19047688/pexels-photo-19047688.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/19047688/",
+   "site": "https://photos.karlforterre.fr/photo/19047688/",
+   "origine": {
+    "nom": "Poitiers",
+    "lat": 46.58,
+    "lon": 0.34,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#d3a141",
+     "sur": "#121212",
+     "contraste": 7.98
+    },
+    {
+     "c": "#57a527",
+     "sur": "#121212",
+     "contraste": 6.08
+    },
+    {
+     "c": "#2dc140",
+     "sur": "#121212",
+     "contraste": 7.86
+    },
+    {
+     "c": "#bcd85a",
+     "sur": "#121212",
+     "contraste": 11.69
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-010",
+     "nom": "Wrimos",
+     "support": "Magazine en ligne",
+     "texte": "Magazine français consacré à l’entreprise, à la finance, au marketing et à l’immobilier. Vue de Poitiers chargée dans l’article, sous le titre « Poitiers s’est dynamisé ».",
+     "titre": "Les villes où il fait bon d’investir en France",
+     "date": "",
+     "url": "https://wrimos.fr/villes-ou-il-fait-bon-investir-france/",
+     "hote": "wrimos.fr",
+     "lien": "Lire l’article de Wrimos",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "« magazine français » (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-019",
+     "nom": "Idealista/news",
+     "support": "Média immobilier",
+     "texte": "Publication d’actualité immobilière de la plateforme Idealista. Vue près de la gare de Poitiers dans une section consacrée au logement étudiant.",
+     "titre": "Logement étudiant : la galère gagne les villes moyennes",
+     "date": "3 septembre 2026",
+     "url": "https://www.idealista.fr/news/immobilier/logement/2026/09/03/635-logement-etudiant-la-galere-gagne-les-villes-moyennes",
+     "hote": "idealista.fr",
+     "lien": "Lire l’article d’Idealista/news",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "édition française (idealista.fr) d'un groupe immobilier"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "38694055",
+   "libelle": "Vue aérienne des jardins aux motifs soignés du château de Villandry",
+   "titre": "Villandry",
+   "ratio": 1.5002,
+   "vignette": "https://images.pexels.com/photos/38694055/pexels-photo-38694055.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/38694055/pexels-photo-38694055.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/38694055/",
+   "site": "https://photos.karlforterre.fr/photo/38694055/",
+   "origine": {
+    "nom": "Villandry",
+    "lat": 47.34,
+    "lon": 0.514,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#85c408",
+     "sur": "#121212",
+     "contraste": 8.83
+    },
+    {
+     "c": "#daa358",
+     "sur": "#121212",
+     "contraste": 8.35
+    },
+    {
+     "c": "#537a05",
+     "sur": "#ffffff",
+     "contraste": 5.06
+    },
+    {
+     "c": "#cdf976",
+     "sur": "#121212",
+     "contraste": 15.53
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-021",
+     "nom": "Torre Eiffel",
+     "support": "Guide touristique",
+     "texte": "Ce guide multilingue emploie la photo dans le passage consacré à Villandry de son article sur les châteaux de la Loire. Ses traductions comptent comme une même parution.",
+     "titre": "Châteaux de la Loire : Chambord 31 € et accès depuis Paris",
+     "date": "",
+     "url": "https://torreeiffel.com.br/fr/chateaux-de-la-loire/",
+     "hote": "torreeiffel.com.br",
+     "lien": "Lire le guide de Torre Eiffel",
+     "lieu": {
+      "nom": "Brésil",
+      "lat": -14.2,
+      "lon": -51.9,
+      "indice": "domaine .com.br"
+     },
+     "raconte": null,
+     "langue": "fr"
+    },
+    {
+     "id": "USE-022",
+     "nom": "Off We Gooo",
+     "support": "Guide touristique",
+     "texte": "Cette photo illustre l’étape « Jardins de Villandry » d’un guide pratique du Val de Loire. Le texte aide les voyageurs à organiser leur visite.",
+     "titre": "Val de Loire : quand partir et budget",
+     "date": "",
+     "url": "https://offwegooo.com/fr/destinations/val-de-loire",
+     "hote": "offwegooo.com",
+     "lien": "Lire le guide d’Off We Gooo",
+     "lieu": null,
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "13102252",
+   "libelle": "Croissant de lune dans un ciel crépusculaire aux dégradés sereins",
+   "titre": "La lune",
+   "ratio": 1.4842,
+   "vignette": "https://images.pexels.com/photos/13102252/pexels-photo-13102252.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/13102252/pexels-photo-13102252.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/13102252/",
+   "site": "https://photos.karlforterre.fr/photo/13102252/",
+   "origine": {
+    "nom": "France, lieu non indiqué",
+    "lat": 46.6,
+    "lon": 2.4,
+    "indice": "la page de la photo ne donne pas de lieu",
+    "inconnu": true
+   },
+   "palette": [
+    {
+     "c": "#0841c4",
+     "sur": "#ffffff",
+     "contraste": 8.19
+    },
+    {
+     "c": "#f5872d",
+     "sur": "#121212",
+     "contraste": 7.48
+    },
+    {
+     "c": "#f7d83b",
+     "sur": "#121212",
+     "contraste": 13.24
+    },
+    {
+     "c": "#769ef9",
+     "sur": "#121212",
+     "contraste": 7.16
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-001",
+     "nom": "DailyAstroAI",
+     "support": "Site d’astrologie",
+     "texte": "Site anglophone d’horoscopes, de guides et de thèmes astrologiques. Image d’illustration en tête d’un article astrologique. Ne constitue pas une observation astronomique datée du 17 juin.",
+     "titre": "Moon Meets Venus: The Rare Sky Sign for Love, Beauty and Emotional Healing — June 17, 2026",
+     "date": "16 juin 2026",
+     "url": "https://www.dailyastroai.com/blog/moon-meets-venus-the-rare-sky-sign-for-love-beauty-and-emotional-healing-june-17-2026",
+     "hote": "dailyastroai.com",
+     "lien": "Voir la page de DailyAstroAI",
+     "lieu": null,
+     "raconte": {
+      "nom": "Le ciel du 17 juin",
+      "lat": null,
+      "lon": null,
+      "indice": "article astrologique (registre)"
+     },
+     "langue": "en"
+    }
+   ]
+  },
+  {
+   "id": "38536479",
+   "libelle": "Portrait d’un homme assuré, lunettes et barbe, souriant en extérieur",
+   "titre": "Un portrait",
+   "ratio": 0.6667,
+   "vignette": "https://images.pexels.com/photos/38536479/pexels-photo-38536479.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/38536479/pexels-photo-38536479.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/38536479/",
+   "site": "https://photos.karlforterre.fr/photo/38536479/",
+   "origine": {
+    "nom": "France, lieu non indiqué",
+    "lat": 46.6,
+    "lon": 2.4,
+    "indice": "la page de la photo ne donne pas de lieu",
+    "inconnu": true
+   },
+   "palette": [
+    {
+     "c": "#e7664b",
+     "sur": "#121212",
+     "contraste": 5.71
+    },
+    {
+     "c": "#615ad8",
+     "sur": "#ffffff",
+     "contraste": 5.3
+    },
+    {
+     "c": "#b95ad8",
+     "sur": "#121212",
+     "contraste": 4.92
+    },
+    {
+     "c": "#ee9481",
+     "sur": "#121212",
+     "contraste": 8.2
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-003",
+     "nom": "Edvenn · LinkedIn",
+     "support": "Organisme de formation",
+     "texte": "Organisme français qui accompagne la formation et la reconversion professionnelles. Illustration d’une publication du compte Edvenn sur le bilan de positionnement et la reconversion. Aucune identité du modèle déduite.",
+     "titre": "Publication Edvenn sur l’orientation et la reconversion professionnelle",
+     "date": "",
+     "url": "https://www.linkedin.com/posts/reconversionprofessionnelle-reclassement-share-7483059616759754752-5omj/",
+     "hote": "linkedin.com",
+     "lien": "Voir la publication d’Edvenn",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "« organisme français » (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "35086239",
+   "libelle": "Champ de fleurs sauvages blanches et jaunes en pleine floraison",
+   "titre": "Fleurs des champs",
+   "ratio": 1.5,
+   "vignette": "https://images.pexels.com/photos/35086239/pexels-photo-35086239.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/35086239/pexels-photo-35086239.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/35086239/",
+   "site": "https://photos.karlforterre.fr/photo/35086239/",
+   "origine": {
+    "nom": "France, lieu non indiqué",
+    "lat": 46.6,
+    "lon": 2.4,
+    "indice": "la page de la photo ne donne pas de lieu",
+    "inconnu": true
+   },
+   "palette": [
+    {
+     "c": "#7ac408",
+     "sur": "#121212",
+     "contraste": 8.68
+    },
+    {
+     "c": "#a59627",
+     "sur": "#121212",
+     "contraste": 6.24
+    },
+    {
+     "c": "#4c7a05",
+     "sur": "#ffffff",
+     "contraste": 5.13
+    },
+    {
+     "c": "#c6f976",
+     "sur": "#121212",
+     "contraste": 15.36
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-007",
+     "nom": "Flore du Vexin-Thelle",
+     "support": "Herbier en ligne",
+     "texte": "Herbier photographique des fleurs sauvages du Vexin et du pays de Thelle. Vignette de la rubrique « Fleurs blanches » de l’herbier.",
+     "titre": "Un herbier de terrain, fleur par fleur",
+     "date": "",
+     "url": "https://flore-chaumont-vexin-thelle.fr/",
+     "hote": "flore-chaumont-vexin-thelle.fr",
+     "lien": "Voir la page de Flore du Vexin-Thelle",
+     "lieu": {
+      "nom": "Vexin, Oise",
+      "lat": 49.26,
+      "lon": 1.88,
+      "indice": "herbier du Vexin et du pays de Thelle (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "38536476",
+   "libelle": "Un homme détendu savoure un instant dans un café en ville",
+   "titre": "Au café",
+   "ratio": 0.6668,
+   "vignette": "https://images.pexels.com/photos/38536476/pexels-photo-38536476.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/38536476/pexels-photo-38536476.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/38536476/",
+   "site": "https://photos.karlforterre.fr/photo/38536476/",
+   "origine": {
+    "nom": "France, lieu non indiqué",
+    "lat": 46.6,
+    "lon": 2.4,
+    "indice": "la page de la photo ne donne pas de lieu",
+    "inconnu": true
+   },
+   "palette": [
+    {
+     "c": "#b44118",
+     "sur": "#ffffff",
+     "contraste": 5.66
+    },
+    {
+     "c": "#605ad8",
+     "sur": "#ffffff",
+     "contraste": 5.31
+    },
+    {
+     "c": "#5589d7",
+     "sur": "#121212",
+     "contraste": 5.3
+    },
+    {
+     "c": "#d85a92",
+     "sur": "#121212",
+     "contraste": 5.17
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-008",
+     "nom": "Integrative Creative Therapy",
+     "support": "Cabinet de thérapie",
+     "texte": "Cabinet qui présente ses services de thérapie au Texas et à New York. Portrait intégré à une page de présentation des consultations EMDR à Dallas.",
+     "titre": "EMDR Therapists in Dallas, Texas",
+     "date": "",
+     "url": "https://integrativecreativetherapy.com/emdr-therapy-dallas-texas/",
+     "hote": "integrativecreativetherapy.com",
+     "lien": "Voir la page d’Integrative Creative Therapy",
+     "lieu": {
+      "nom": "Dallas, Texas",
+      "lat": 32.78,
+      "lon": -96.8,
+      "indice": "« services de thérapie au Texas et à New York » (registre)"
+     },
+     "raconte": null,
+     "langue": "en"
+    }
+   ]
+  },
+  {
+   "id": "27116682",
+   "libelle": "Un ciel nocturne sombre et immense, empli d’innombrables étoiles et de la voie lactée",
+   "titre": "La voie lactée",
+   "ratio": 1.5,
+   "vignette": "https://images.pexels.com/photos/27116682/pexels-photo-27116682.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/27116682/pexels-photo-27116682.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/27116682/",
+   "site": "https://photos.karlforterre.fr/photo/27116682/",
+   "origine": {
+    "nom": "France, lieu non indiqué",
+    "lat": 46.6,
+    "lon": 2.4,
+    "indice": "la page de la photo ne donne pas de lieu",
+    "inconnu": true
+   },
+   "palette": [
+    {
+     "c": "#1c1c1c",
+     "sur": "#ffffff",
+     "contraste": 17.04
+    },
+    {
+     "c": "#545454",
+     "sur": "#ffffff",
+     "contraste": 7.57
+    },
+    {
+     "c": "#969696",
+     "sur": "#121212",
+     "contraste": 6.33
+    },
+    {
+     "c": "#cdcdcd",
+     "sur": "#121212",
+     "contraste": 11.78
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-011",
+     "nom": "Plutonic Planes",
+     "support": "Site d’astrologie",
+     "texte": "Site de consultations et de coaching en astrologie, en anglais. Ciel étoilé en arrière-plan de l’introduction aux consultations astrologiques.",
+     "titre": "Astrology Readings",
+     "date": "",
+     "url": "https://www.plutonicplanes.com/astrology-readings",
+     "hote": "plutonicplanes.com",
+     "lien": "Voir la page de Plutonic Planes",
+     "lieu": null,
+     "raconte": null,
+     "langue": "en"
+    }
+   ]
+  },
+  {
+   "id": "13087478",
+   "libelle": "Chemin de terre bordé d’arbres à Moyemont, un été idyllique",
+   "titre": "Moyemont",
+   "ratio": 1.5,
+   "vignette": "https://images.pexels.com/photos/13087478/pexels-photo-13087478.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/13087478/pexels-photo-13087478.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/13087478/",
+   "site": "https://photos.karlforterre.fr/photo/13087478/",
+   "origine": {
+    "nom": "Moyemont, Vosges",
+    "lat": 48.354,
+    "lon": 6.508,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#27a53b",
+     "sur": "#121212",
+     "contraste": 5.83
+    },
+    {
+     "c": "#7fd85a",
+     "sur": "#121212",
+     "contraste": 10.59
+    },
+    {
+     "c": "#1b7429",
+     "sur": "#ffffff",
+     "contraste": 5.87
+    },
+    {
+     "c": "#8be49a",
+     "sur": "#121212",
+     "contraste": 12.19
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-012",
+     "nom": "La Rose des Templiers",
+     "support": "Location de vacances",
+     "texte": "Site de présentation d’une maison de vacances dans les Deux-Sèvres. Photo du chemin boisé intégrée à la présentation des activités locales.",
+     "titre": "Une région riche en découvertes",
+     "date": "",
+     "url": "https://www.grande-maison-vacances-la-rose-des-templiers.com/activites-locales",
+     "hote": "grande-maison-vacances-la-rose-des-templiers.com",
+     "lien": "Voir la page de La Rose des Templiers",
+     "lieu": {
+      "nom": "Deux-Sèvres",
+      "lat": 46.55,
+      "lon": -0.3,
+      "indice": "maison de vacances dans les Deux-Sèvres (registre)"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "34354424",
+   "libelle": "Parc pittoresque à Niort aux couleurs d’automne, avec les flèches de l’église Saint-André",
+   "titre": "Niort",
+   "ratio": 0.7487,
+   "vignette": "https://images.pexels.com/photos/34354424/pexels-photo-34354424.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/34354424/pexels-photo-34354424.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/34354424/",
+   "site": "https://photos.karlforterre.fr/photo/34354424/",
+   "origine": {
+    "nom": "Niort",
+    "lat": 46.323,
+    "lon": -0.464,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#c47e08",
+     "sur": "#121212",
+     "contraste": 5.65
+    },
+    {
+     "c": "#5a9dd8",
+     "sur": "#121212",
+     "contraste": 6.47
+    },
+    {
+     "c": "#895806",
+     "sur": "#ffffff",
+     "contraste": 6.07
+    },
+    {
+     "c": "#f9c876",
+     "sur": "#121212",
+     "contraste": 12.09
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-015",
+     "nom": "Zaplo Studio",
+     "support": "Agence web",
+     "texte": "Agence de création de sites, de référencement et d’automatisation pour les entreprises. Vue du parc et de la cathédrale de Niort dans la galerie de présentation locale.",
+     "titre": "Agence IA à Niort",
+     "date": "",
+     "url": "https://zaplostudio.com/implantations/agence-ia-niort",
+     "hote": "zaplostudio.com",
+     "lien": "Voir la page de Zaplo Studio",
+     "lieu": {
+      "nom": "France",
+      "lat": 46.6,
+      "lon": 2.4,
+      "indice": "agence présentée par ses implantations en France, en français"
+     },
+     "raconte": null,
+     "langue": "fr"
+    }
+   ]
+  },
+  {
+   "id": "38694057",
+   "libelle": "Vue aérienne des parterres élaborés des jardins de Villandry",
+   "titre": "Villandry",
+   "ratio": 1.5002,
+   "vignette": "https://images.pexels.com/photos/38694057/pexels-photo-38694057.jpeg?auto=compress&cs=tinysrgb&w=600",
+   "grande": "https://images.pexels.com/photos/38694057/pexels-photo-38694057.jpeg?auto=compress&cs=tinysrgb&w=1300",
+   "pexels": "https://www.pexels.com/photo/38694057/",
+   "site": "https://photos.karlforterre.fr/photo/38694057/",
+   "origine": {
+    "nom": "Villandry",
+    "lat": 47.34,
+    "lon": 0.514,
+    "indice": "titre de la photo"
+   },
+   "palette": [
+    {
+     "c": "#65b913",
+     "sur": "#121212",
+     "contraste": 7.58
+    },
+    {
+     "c": "#1ab272",
+     "sur": "#121212",
+     "contraste": 6.83
+    },
+    {
+     "c": "#d8a45a",
+     "sur": "#121212",
+     "contraste": 8.37
+    },
+    {
+     "c": "#30a527",
+     "sur": "#121212",
+     "contraste": 5.83
+    }
+   ],
+   "usages": [
+    {
+     "id": "USE-023",
+     "nom": "Nipuni Dissanayake · LinkedIn",
+     "support": "Article professionnel",
+     "texte": "L’autrice utilise une version recadrée de cette vue en couverture de son article. Elle y examine la manière dont les organisations changent de stratégie.",
+     "titre": "The Cost of Mistaking Reactivity for Agility",
+     "date": "30 juillet 2026",
+     "url": "https://www.linkedin.com/pulse/cost-mistaking-reactivity-agility-nipuni-dissanayake-ldgre",
+     "hote": "linkedin.com",
+     "lien": "Lire l’article de Nipuni Dissanayake",
+     "lieu": null,
+     "raconte": null,
+     "langue": "en"
+    }
+   ]
+  }
+ ]
+}

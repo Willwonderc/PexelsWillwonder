@@ -2079,13 +2079,24 @@ def ligne_wikipedia(g, photo, langue):
     return f'<p class="usage wp-ligne">{" ".join(phrases)} {lien}</p>'
 
 
+def rubrique_monde(langue):
+    """Bouton « Mes photos utilisées dans le monde » (vitrine/rubrique-monde/, paquet 4A) :
+    page française des galeries seulement, entre « Utilisées dans des projets » et
+    « Thèmes ». Le globe, les données et les styles (statique/rubrique-monde/) ne se
+    chargent qu'au premier clic ; la rubrique est écrite en français."""
+    fragment = ICI / "rubrique-monde" / "fragment-galeries.html"
+    if langue != "fr" or not fragment.exists():
+        return ""
+    return re.sub(r"<!--.*?-->\s*", "", fragment.read_text(encoding="utf-8"), flags=re.S)
+
+
 def page_galeries(g, galeries, series, couleurs, langue, par_id=None):
     adr = g.adr
     t = TEXTES[langue]
     chemins = {l: adr.chemin(l, "galeries") for l in LANGUES}
     ariane, donnees_ariane = fil_ariane(adr, langue, [], (t["galeries"], chemins[langue]))
     index = index_usages(g, par_id or {}, langue)
-    suite = (cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
+    suite = (rubrique_monde(langue) + cartes(galeries, langue, adr, "theme") + cartes(galeries, langue, adr, "lieu")
              + pastilles(couleurs, galeries, langue, adr) + panneau_wikipedia(g, langue))
     if galeries:
         contenu = (bandeau(g, bandeau_index(galeries), langue, t["galeries"], e(t["galeries_intro"]), ariane)

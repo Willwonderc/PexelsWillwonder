@@ -1,0 +1,12 @@
+/* Bouton d'entrée de la rubrique, à ajouter à la feuille de style du site (chargé avec la page).
+   Variables attendues du site : --police, --h-fond, --h-encre, --h-doux ; --bande : l'image de la bande (sur la section). */
+/* Bouton d'entrée : un rectangle de la largeur de la grille ; sa bande de photographie s'ouvre */
+.entree{display:grid;grid-template-columns:1fr minmax(96px,30%);width:100%;min-height:clamp(120px,13vw,190px);padding:0;border:0;box-shadow:inset 0 0 0 1px var(--h-encre);background:var(--h-fond);color:var(--h-encre);text-align:left;cursor:pointer;overflow:hidden;transition:grid-template-columns .45s cubic-bezier(.2,.7,.2,1)}
+.entree:hover,.entree:focus-visible{grid-template-columns:1fr minmax(96px,42%)}
+.entree-texte{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:22px clamp(16px,3vw,40px)}
+.entree-titre{font-size:clamp(30px,5.6vw,84px);font-weight:400;line-height:.98}
+.entree-detail{display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.35;color:var(--h-doux)}
+.pt{flex:none;display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--h-encre)}
+.entree-bande{background-image:var(--bande);background-size:cover;background-position:center}
+#voile{position:fixed;inset:0;z-index:40;background-image:var(--bande);background-size:cover;background-position:center;cursor:pointer}
+.entree[aria-busy="true"]{cursor:progress}
