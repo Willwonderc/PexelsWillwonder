@@ -38,3 +38,10 @@ La démonstration du paquet cachait tout élément `[hidden]` ; le site, non. Le
 fermé restait donc posé sur la page et captait les clics. `sources/styles/rubrique.css` cache
 désormais lui-même `#voile`, `#monde` et leurs éléments `[hidden]`. La police Newsreader y
 est aussi déclarée, servie par le site.
+
+## Retouches demandées par Karl (28 novembre 2026)
+
+- Téléphone : le globe ne montre que le lieu de prise de vue et les pays ; flèches entre les photos en tête de fiche.
+- Sur chaque fiche, le globe s'approche du lieu de prise de vue.
+- Corps de texte en Newsreader, à empattement.
+- Bouton « Son » retiré : le son synthétisé reste coupé.

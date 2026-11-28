@@ -7,7 +7,6 @@ if (!document.getElementById('monde')) {
     '<div id="decor" aria-hidden="true"></div>' +
     '<div class="barre"><a class="barre-titre" href="#monde">Mes photos utilisées dans le monde</a><div class="barre-actions">' +
     '<button type="button" id="passer" class="pilule pilule--douce" hidden>Passer l’ouverture</button>' +
-    '<button type="button" id="son" class="pilule pilule--douce" aria-pressed="false"><span class="son-icone" aria-hidden="true"></span><span class="son-texte">Son coupé</span></button>' +
     '<button type="button" id="fermer" class="pilule fermer"><span id="fermer-texte">Fermer</span><span class="croix" aria-hidden="true"></span></button>' +
     '</div></div><main id="scene"></main><p id="annonce" class="vh" aria-live="polite"></p></div>');
 }

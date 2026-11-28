@@ -29,7 +29,7 @@ export function lienNotice(u) {
     '<span class="lien-libelle">' + esc(u.lien) + '</span><span class="lien-hote">' + esc(u.hote) + '</span><span class="fleche" aria-hidden="true"></span></a>';
 }
 
-/* Son facultatif, coupé par défaut, synthétisé (aucun fichier) */
+/* Son synthétisé : bouton retiré à la demande de Karl (28 novembre 2026), le son reste donc coupé */
 let audio = null, sonActif = false;
 export function son(type) {
   if (!sonActif) return;
@@ -65,7 +65,7 @@ export function son(type) {
 export function demarrer(vue) {
   const D = window.MONDE;
   const monde = $('#monde'), scene = $('#scene'), entree = $('#entree'), fermer = $('#fermer'),
-    fermerTexte = $('#fermer-texte'), voile = $('#voile'), bande = $('.entree-bande'), passer = $('#passer'), btnSon = $('#son'), annonce = $('#annonce');
+    fermerTexte = $('#fermer-texte'), voile = $('#voile'), bande = $('.entree-bande'), passer = $('#passer'), annonce = $('#annonce');
   const parId = {}; D.photos.forEach((p) => { parId[p.id] = p; });
   const RUBRIQUE = 'Mes photos utilisées dans le monde', titreHote = document.title;
   // Tout le reste de la page devient inerte pendant que la rubrique est ouverte (dialogue modal).
@@ -74,10 +74,6 @@ export function demarrer(vue) {
   let direct = false, anim = null, prepare = false, sequence = null, premier = true;
   const ctx = { D, parId, scene, monde, voile, M, son, annoncer: (t) => { annonce.textContent = t; }, enOuverture: () => !!sequence, rubrique: RUBRIQUE };
 
-  try { sonActif = localStorage.getItem('monde-son') === '1'; } catch (e) { sonActif = false; }
-  const majSon = () => { btnSon.setAttribute('aria-pressed', sonActif ? 'true' : 'false'); $('.son-texte', btnSon).textContent = sonActif ? 'Son actif' : 'Son coupé'; };
-  majSon();
-  btnSon.addEventListener('click', () => { sonActif = !sonActif; majSon(); try { localStorage.setItem('monde-son', sonActif ? '1' : '0'); } catch (e) {} son('grave'); });
 
   const rognure = (b) => 'inset(' + b.top + 'px ' + (innerWidth - b.right) + 'px ' + (innerHeight - b.bottom) + 'px ' + b.left + 'px)';
   const lire = () => { const m = location.hash.match(/^#monde(?:\/photo-(\d+))?$/); return m ? { photo: m[1] || null } : null; };
