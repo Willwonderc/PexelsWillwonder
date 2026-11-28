@@ -53,3 +53,9 @@
 @font-face{font-family:"Newsreader";font-style:normal;font-weight:400 600;font-display:swap;src:url("/statique/newsreader.woff2") format("woff2")}
 /* Sur le site, rien ne cache d'office les éléments [hidden] mis en forme : la rubrique s'en charge pour ses propres éléments */
 #voile[hidden],#monde[hidden],#monde [hidden]{display:none!important}
+/* Corps de texte en Newsreader, à empattement (demande de Karl, 28 novembre 2026) ; étiquettes et repères restent en Archivo. */
+#monde .chapo,#monde .notice-texte,#monde .notice-titre{font-family:"Newsreader",Georgia,serif;font-weight:400;font-stretch:100%;letter-spacing:0}
+#monde .chapo{font-size:19px;line-height:1.45}
+#monde .notice-texte{font-size:18.5px;line-height:1.45}
+#monde .regard .notice-texte{font-size:17.5px}
+#monde .regard .notice-titre{font-size:16px}
