@@ -157,6 +157,9 @@ function cadrer() {
   if (!large) { vise.cx = W / 2; vise.cy = H / 2 + 6; vise.rpx = Math.min(W, H) * 0.3; }
   else if (vueCourante === 'fiche') { const pan = $('.panneau') ? $('.panneau').offsetWidth + 48 : W * 0.42; vise.cx = (W - pan) / 2 + 12; vise.cy = barre + (H - barre) / 2; vise.rpx = Math.min(W - pan, H - barre) * 0.33; }
   else { const col = $('.colonne') ? $('.colonne').getBoundingClientRect().right : W * 0.42; vise.cx = col + (W - col) / 2; vise.cy = barre + (H - barre) / 2; vise.rpx = Math.min(W - col, H - barre) * 0.33; }
+  if (vueCourante === 'fiche') vise.rpx *= zoom;
+  // la caméra reste hors du globe
+  vise.rpx = Math.min(vise.rpx, 0.7 * (H / 2) / Math.tan(camera.fov * RAD / 2));
   etat.echelle.value = H;
   // Zone permise aux étiquettes : jamais sous la colonne de texte, jamais hors de l'écran.
   if (!large) zone = { x0: 6, x1: W - 6, y0: 6, y1: H - 6 };
@@ -165,9 +168,15 @@ function cadrer() {
 }
 let zone = { x0: 0, x1: 99999, y0: 0, y1: 99999 };
 function orienter(points) {
-  const s = new THREE.Vector3(); points.forEach((v) => s.add(v.clone().normalize())); s.normalize();
+  // Le globe se tourne vers le lieu de prise de vue (premier point) et s'en approche (× 2 à × 3,2) :
+  // on voit clairement où l'on est ; les lieux proches restent dans le cadre, les lointains en sortent.
+  const s = points[0].clone().normalize();
   vise.lat = Math.asin(s.y) / RAD; vise.lon = Math.atan2(s.x, s.z) / RAD;
+  const sol = points.filter((v) => v.length() < 1.1);
+  const ecart = Math.max(0.05, ...sol.map((v) => (v.clone().normalize().angleTo(s) < 0.6 ? Math.sin(v.clone().normalize().angleTo(s)) : 0)));
+  zoom = Math.max(2, Math.min(3.2, 0.8 / ecart)); cadrer();
 }
+let zoom = 1;
 
 /* Boucle : le temps fait avancer le mouvement, jamais le nombre d'images (référentiel, § 1 et § 8) */
 const amortir = (a, b, dt, tau) => a + (b - a) * (1 - Math.exp(-dt / tau));
@@ -367,6 +376,7 @@ const vue = {
       son('grave');
       return;
     }
+    zoom = 1;
     vueCourante = 'index'; scene.dataset.vue = 'index'; scene.innerHTML = indexHTML();
     if (ok3d) {
       cadrer(); ambiance = true; vise.lat = 38; vise.lon = 2.4;
